@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "nombre": "Distribuciones El Buen Precio",
+    "logo": "/img/iniciobanner.jpg",
+    "descripcion": "Especialistas en productos de aseo y hogar.",
+    "color": "#E8F5E9",
+    "banner": "/img/iniciobanner.jpg",
+    "bannerTexto": "Promoción especial para tenderos – Descuentos hoy"
+  },
+  
+  {
+    "id": 2,
+    "nombre": "Laboratorios Salud Total",
+    "logo": "/img/banner.jpeg",
+    "descripcion": "Medicamentos y productos de cuidado personal.",
+    "color": "#E3F2FD",
+    "banner": "/img/logo.png",
+    "bannerTexto": "Promoción especial para tenderos – Descuentos hoy"
+  },
+  
+  {
+    "id": 3,
+    "nombre": "Super Alimentos del Cauca",
+    "logo": "/img/bianchi.jpg",
+    "descripcion": "Snacks, bebidas y productos comestibles.",
+    "color": "#FFF3E0",
+    "banner":"/img/iniciobanner.jpg",
+    "bannerTexto": "Promoción especial para tenderos – Descuentos hoy"
+  },
+  {
+    "id": 4,
+    "nombre": "Desco tiendas",
+    "logo": "/img/logo.png",
+    "descripcion": "Snacks, bebidas y productos comestibles.",
+    "color": "#FFF3E0",
+    "banner":"/img/banner.jpeg",
+    "bannerTexto": "Promoción especial para tenderos – Descuentos hoy"
+  }
+
+]

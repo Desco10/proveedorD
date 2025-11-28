@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "nombre": "Advil Gripa Max",
+    "precio": "$15.000",
+    "descripcion": "Tabletas para dolor y fiebre",
+    "imagen": "/img/advilgripamax.jpg",
+    "badge": "🔥 Oferta",
+    "proveedorId": 1
+  },
+  {
+    "id": 2,
+    "nombre": "Alcohol Medicinal 500ml",
+    "precio": "$8.500",
+    "descripcion": "Alcohol para limpieza y desinfección",
+    "imagen": "/img/alcoholmedi.jpg",
+    "badge": "💧 Destacado",
+    "proveedorId": 1
+  },
+  {
+    "id": 3,
+    "nombre": "Aceite de Almendras",
+    "precio": "$12.000",
+    "descripcion": "Aceite nutritivo para la piel",
+    "imagen": "/img/ACEITEALMENDRAS.jpg",
+    "badge": "🌿 Natural",
+    "proveedorId": 1
+  },
+
+  {
+    "id": 4,
+    "nombre": "Acetaminofen ",
+    "precio": "$10.000",
+    "descripcion": "Analgésico y antiinflamatorio",
+    "imagen": "img/ACETAMINOFEN.jpg",
+    "badge": "🔥 Oferta"
+  },
+  {
+    "id": 5,
+    "nombre": "ApronaxL ",
+    "precio": "$18.000",
+    "descripcion": "Crema para el cuidado de la piel",
+    "imagen": "img/apronax.jpg",
+    "badge": "💧 Destacado"
+  },
+  {
+    "id": 6,
+    "nombre": "Advil max ",
+    "precio": "$22.000",
+    "descripcion": "Probiótico para la salud intestinal",
+    "imagen": "img/Advimax.jpg",
+    "badge": "🌿 Natural"
+  }
+]
+
+

@@ -1,0 +1,114 @@
+[
+   {
+  "id": 1,
+  "nombre": "Advil Max",
+  "precio": "$20.000 (sobre x10)",
+  "imagen": "images/advilmax.jpg",
+  "descripcion": "Analgésico...",
+  "oferta": true,
+  "proveedorId": 3
+},
+
+  {
+    "id": 2,
+    "nombre": "Bonfiest",
+    "precio": "$3.297 unidad",
+    "imagen": "images/bonfiest.png",
+    "descripcion": "Tabletas efervescentes para aliviar el malestar estomacal y la acidez.",
+    "oferta": false,
+    "proveedorId": 3
+  },
+  {
+    "id": 3,
+    "nombre": "Sevedol Extra",
+    "precio": "$13.200 (sobre x12)",
+    "imagen": "images/sevedolrojo.jpg",
+    "descripcion": "Alivia dolores fuertes y fiebre. Ideal para tenderos con alta demanda en analgésicos.",
+    "oferta": false,
+    "proveedorId": 3
+    
+  },
+  {
+    "id": 4,
+    "nombre": "Advil Fem",
+    "precio": "$22.300 (sobre x10)",
+    "imagen": "images/advilfem.jpeg",
+    "descripcion": "Especial para aliviar cólicos menstruales y dolores femeninos.",
+    "oferta": true,
+    "proveedorId": 3
+  },
+  {
+    "id": 5,
+    "nombre": "Advil Gripa Max",
+    "precio": "$23.170 (sobre x10)",
+    "imagen": "images/advilgripamax.jpg",
+    "descripcion": "Analgésico y descongestionante. Ideal para temporadas de gripa.",
+    "oferta": true,
+    "proveedorId": 3
+  },
+  {
+    "id": 6,
+    "nombre": "Agua Oxigenada",
+    "precio": "$2.179 unidad",
+    "imagen": "images/aguaoxigenada.jpg",
+    "descripcion": "Antiséptico para el cuidado de heridas y limpieza de superficies.",
+    "oferta": false,
+    "proveedorId": 3
+  },
+  {
+    "id": 7,
+    "nombre": "Xraydol",
+    "precio": "$12.000 unidad",
+    "imagen": "images/xraydol.jpg",
+    "descripcion": "Antiinflamatorio y analgésico de uso común en droguerías.",
+    "oferta": false,
+    "proveedorId": 3
+  },
+  {
+    "id": 8,
+    "nombre": "Pax Bebida Caliente Noche",
+    "precio": "$9.000 sobre x10",
+    "imagen": "images/pax.jpg",
+    "descripcion": "Bebida relajante que alivia los síntomas de gripa nocturna.",
+    "oferta": true,
+    "proveedorId": 3
+  },
+  {
+    "id": 9,
+    "nombre": "Vitamina C Efervescente",
+    "precio": "$8.500 tubo x10",
+    "imagen": "images/vitaminac.jpg",
+    "descripcion": "Suplemento efervescente que refuerza el sistema inmune.",
+    "oferta": false,
+    "proveedorId": 3
+  },
+  {
+    "id": 10,
+    "nombre": "Acetaminofén 500mg",
+    "precio": "$5.800 caja x10",
+    "imagen": "images/acetaminofen.jpg",
+    "descripcion": "Analgesico y antipirético para fiebre y dolores leves.",
+    "oferta": false,
+    "proveedorId": 3
+  },
+  {
+    "id": 11,
+    "nombre": "Ibuprofeno 400mg",
+    "precio": "$7.900 caja x10",
+    "imagen": "images/ibuprofeno.jpg",
+    "descripcion": "Alivia dolor, inflamación y fiebre. Producto de alta rotación.",
+    "oferta": true,
+    "proveedorId": 3
+  },
+  {
+    "id": 12,
+    "nombre": "Panadol Niños",
+    "precio": "$12.500 frasco x120ml",
+    "imagen": "images/panadolninos.jpg",
+    "descripcion": "Jarabe suave para aliviar fiebre y dolor en niños.",
+    "oferta": false,
+    "proveedorId": 3
+  }
+]
+
+

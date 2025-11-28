@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Catálogo de Proveedor - DescoApp</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+<header class="logo-header">
+  <div class="banner-con-logo">
+    <img src="img/tiendafrente.jpg" alt="Banner Desco" class="banner-img">
+    <img src="img/logo.png" alt="Logo Desco" class="logo">
+  </div>
+</header>
+
+<section class="proveedores catalogo">
+  <div class="container">
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+      <h1 id="nombreProveedor">Catálogo</h1>
+      <div id="infoProveedor" style="text-align:right; color:#666;"></div>
+    </div>
+
+    <div id="productos" class="contenedor-productos" style="margin-top:12px;"></div>
+
+    <div class="paginacion" id="paginacion" style="margin-top:18px;">
+      <button id="btnPrev">⏪ Anterior</button>
+      <span id="paginaActual">Página 1</span>
+      <button id="btnNext">Siguiente ⏩</button>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="social-icons">
+    <a href="https://facebook.com/desco.si" target="_blank"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://wa.me/573143416441" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    <a href="https://instagram.com/desco_col" target="_blank"><i class="fab fa-instagram"></i></a>
+  </div>
+  <p>&copy; 2025 Desco Marketplace. Todos los derechos reservados.</p>
+</footer>
+
+<!-- Script: carga dinámica del catálogo según ?id= -->
+<script>
+  // Parámetro ?id=PROVEEDOR (ej: proveedor.html?id=1)
+  const urlParams = new URLSearchParams(window.location.search);
+  const proveedorId = urlParams.get('id') || urlParams.get('proveedor') || null;
+
+  const contenedor = document.getElementById('productos');
+  const nombreProveedorEl = document.getElementById('nombreProveedor');
+  const infoProveedorEl = document.getElementById('infoProveedor');
+  const paginaActualEl = document.getElementById('paginaActual');
+  const btnPrev = document.getElementById('btnPrev');
+  const btnNext = document.getElementById('btnNext');
+
+  let productos = [];
+  let pagina = 1;
+  const productosPorPagina = 12;
+
+  async function cargarProveedorYProductos() {
+    if (!proveedorId) {
+      nombreProveedorEl.textContent = "Nuestros Proveedores";
+      contenedor.innerHTML = "<p>Proveedor no especificado. Selecciona un proveedor desde la página principal.</p>";
+      document.getElementById('paginacion').style.display = 'none';
+      return;
+    }
+
+    try {
+      // Intentamos leer proveedores.json para mostrar el nombre del proveedor
+      const provRes = await fetch('./data/proveedores.json');
+      let proveedorNombre = 'Proveedor';
+      if (provRes.ok) {
+        const provs = await provRes.json();
+        const prov = provs.find(p => String(p.id) === String(proveedorId));
+        if (prov) {
+          proveedorNombre = prov.nombre || `Proveedor ${proveedorId}`;
+          // si proveedor tiene descripción u otro dato:
+          infoProveedorEl.innerHTML = prov.info ? prov.info : '';
+        }
+      }
+
+      nombreProveedorEl.textContent = `Catálogo de ${proveedorNombre}`;
+
+      // Cargar JSON de productos del proveedor:
+      const productosRes = await fetch(`./data/productos_proveedor_${proveedorId}.json`);
+      if (!productosRes.ok) {
+        throw new Error('No existe: data/productos_proveedor_' + proveedorId + '.json (status ' + productosRes.status + ')');
+      }
+
+      productos = await productosRes.json();
+      if (!Array.isArray(productos) || productos.length === 0) {
+        contenedor.innerHTML = "<p>No hay productos para este proveedor.</p>";
+        document.getElementById('paginacion').style.display = 'none';
+        return;
+      }
+
+      pagina = 1;
+      mostrarPagina(pagina);
+    } catch (err) {
+      console.error('Error al cargar productos del proveedor:', err);
+      contenedor.innerHTML = "<p>Error al cargar productos del proveedor.</p>";
+      document.getElementById('paginacion').style.display = 'none';
+    }
+  }
+
+  function mostrarPagina(num) {
+    contenedor.innerHTML = "";
+    const inicio = (num - 1) * productosPorPagina;
+    const fin = inicio + productosPorPagina;
+    const subset = productos.slice(inicio, fin);
+
+    subset.forEach(prod => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <img src="${prod.imagen}" alt="${prod.nombre}">
+        <h3>${prod.nombre}</h3>
+        <p class="precio">${prod.precio || ''}</p>
+        <div class="card-actions">
+          <a class="btn-wsp" href="https://wa.me/573143416441?text=${encodeURIComponent('Hola, quiero comprar: ' + prod.nombre + ' - ' + (prod.precio || ''))}" target="_blank">
+            <i class="fab fa-whatsapp"></i> Comprar
+          </a>
+          <a class="btn-outline" href="producto.html?id=${encodeURIComponent(prod.id)}">Ver detalle</a>
+        </div>
+      `;
+      contenedor.appendChild(card);
+    });
+
+    const totalPaginas = Math.max(1, Math.ceil(productos.length / productosPorPagina));
+    paginaActualEl.textContent = `Página ${pagina} / ${totalPaginas}`;
+    document.getElementById('paginacion').style.display = totalPaginas > 1 ? 'flex' : 'none';
+  }
+
+  function siguientePagina() {
+    const total = Math.ceil(productos.length / productosPorPagina);
+    if (pagina < total) { pagina++; mostrarPagina(pagina); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  }
+  function anteriorPagina() {
+    if (pagina > 1) { pagina--; mostrarPagina(pagina); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  }
+
+  window.siguientePagina = siguientePagina;
+  window.anteriorPagina = anteriorPagina;
+
+  // Iniciar carga
+  cargarProveedorYProductos();
+</script>
+
+</body>
+</html>

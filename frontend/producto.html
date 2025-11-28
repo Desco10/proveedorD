@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title id="pageTitle">Producto - DescoApp</title>
+
+  <!-- Metadatos dinámicos -->
+  <meta property="og:title" content="" id="metaTitle">
+  <meta property="og:description" content="" id="metaDescription">
+  <meta property="og:image" content="" id="metaImage">
+  <meta property="og:url" content="" id="metaUrl">
+  <meta property="og:type" content="product">
+
+  <link rel="icon" href="img/logo.png" type="image/png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="logo-header">
+    <img src="img/logo.png" class="logo" alt="DescoApp Logo">
+  </header>
+
+  <main id="detalleProducto" class="producto-detalle">
+    <p>Cargando producto...</p>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 DescoApp Marketplace. Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    // Obtiene el ID del producto desde la URL (por ejemplo ?id=advilmax)
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+
+    async function cargarProducto() {
+      const res = await fetch('data/productos.json');
+      const productos = await res.json();
+      const producto = productos.find(p => p.id === id);
+
+      if (!producto) {
+        document.getElementById("detalleProducto").innerHTML = "<h2>Producto no encontrado</h2>";
+        return;
+      }
+
+      // Actualiza contenido en la página
+      document.title = producto.nombre + " - DescoApp";
+      document.getElementById("detalleProducto").innerHTML = `
+        <img src="${producto.imagen}" alt="${producto.nombre}" class="producto-img">
+        <h1>${producto.nombre}</h1>
+        <p>${producto.descripcion}</p>
+        <p class="precio">${producto.precio}</p>
+        <a href="https://wa.me/573143416441?text=Hola, quiero comprar este producto: ${producto.nombre}%0AValor: ${producto.precio}%0A${window.location.href}"
+           target="_blank" class="btn-wsp">
+          <i class="fab fa-whatsapp"></i> Comprar por WhatsApp
+        </a>
+      `;
+
+      // Actualiza metadatos dinámicos (para compartir)
+      document.getElementById("metaTitle").setAttribute("content", producto.nombre);
+      document.getElementById("metaDescription").setAttribute("content", producto.descripcion);
+      document.getElementById("metaImage").setAttribute("content", window.location.origin + "/" + producto.imagen);
+      document.getElementById("metaUrl").setAttribute("content", window.location.href);
+    }
+
+    cargarProducto();
+  </script>
+
+</body>
+</html>

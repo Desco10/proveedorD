@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Base Local de Clientes</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #222;
+      color: white;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .acciones {
+      text-align: right;
+      margin-top: 15px;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>📋 Base Local de Clientes</h1>
+  
+  <table id="tablaClientes">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Cédula</th>
+        <th>Teléfono</th>
+        <th>Fecha de Registro</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Aquí se cargarán los datos -->
+    </tbody>
+  </table>
+
+  <div class="acciones">
+    <button onclick="exportarCSV()">⬇ Exportar a CSV</button>
+    <button onclick="limpiarBase()">🗑 Limpiar Base</button>
+    <button onclick="volverInicio()">🏠 Volver</button>
+  </div>
+
+  <script>
+    // Cargar base local de clientes
+    function cargarClientes() {
+      const base = JSON.parse(localStorage.getItem("baseClientes")) || [];
+      const tbody = document.querySelector("#tablaClientes tbody");
+      tbody.innerHTML = "";
+
+      if (base.length === 0) {
+        tbody.innerHTML = "<tr><td colspan='5' style='text-align:center;'>No hay clientes registrados</td></tr>";
+        return;
+      }
+
+      base.forEach(cliente => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${cliente.nombre}</td>
+          <td>${cliente.apellido}</td>
+          <td>${cliente.cedula}</td>
+          <td>${cliente.telefono}</td>
+          <td>${cliente.fechaRegistro}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    // Exportar a CSV
+    function exportarCSV() {
+      const base = JSON.parse(localStorage.getItem("baseClientes")) || [];
+      if (base.length === 0) return alert("No hay datos para exportar");
+
+      const encabezados = Object.keys(base[0]).join(",");
+      const filas = base.map(c => Object.values(c).join(",")).join("\n");
+      const csvContent = "data:text/csv;charset=utf-8," + encabezados + "\n" + filas;
+
+      const link = document.createElement("a");
+      link.href = encodeURI(csvContent);
+      link.download = "base_clientes.csv";
+      link.click();
+    }
+
+    // Limpiar base local
+    function limpiarBase() {
+      if (confirm("¿Seguro que quieres borrar todos los registros?")) {
+        localStorage.removeItem("baseClientes");
+        cargarClientes();
+      }
+    }
+
+    // Volver al inicio
+    function volverInicio() {
+      window.location.href = "index.html";
+    }
+
+    // Iniciar al cargar
+    document.addEventListener("DOMContentLoaded", cargarClientes);
+  </script>
+</body>
+</html>
