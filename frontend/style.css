@@ -164,7 +164,7 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 2px;
-  background: linear-gradient(135deg, #e68608, #daf703);
+  background: linear-gradient(135deg, #ff9102, #f10707);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
