@@ -135,6 +135,7 @@ async function abrirProveedor(id, nombre) {
     if (tituloEl) {
       const logoHtml = proveedorData && proveedorData.logo ? `<img src="${proveedorData.logo}" alt="${nombre}" class="catalogo-logo" />` : "";
       const bannerHtml = proveedorData && proveedorData.banner ? `<div class="catalogo-banner"><img src="${proveedorData.banner}" alt="Banner ${nombre}" /></div>` : "";
+      const detallesHtml = proveedorData && proveedorData.detalles ? `<div class="catalogo-detalles">${proveedorData.detalles}</div>` : "";
 
       tituloEl.innerHTML = `
         <div class="header-catalogo">
@@ -146,6 +147,7 @@ async function abrirProveedor(id, nombre) {
           </div>
         </div>
         ${bannerHtml}
+         ${detallesHtml}
       `;
 
       const inputBuscar = document.getElementById("buscarCatalogo");
@@ -327,6 +329,7 @@ function siguientePagina() {
   if (paginaActual < totalPaginas) {
     paginaActual++;
     mostrarProductos();
+     document.querySelector(".catalogo")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 }
 
@@ -335,6 +338,7 @@ function anteriorPagina() {
   if (paginaActual > 1) {
     paginaActual--;
     mostrarProductos();
+     document.querySelector(".catalogo")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 }
 

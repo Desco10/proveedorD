@@ -1257,7 +1257,7 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
 }
 
 /* **OPCIONAL**: Texto encima del banner */
-.catalogo-banner .banner-texto {
+.catalogo-banner .detalles {
     position: absolute;
     top: 0;
     left: 0;

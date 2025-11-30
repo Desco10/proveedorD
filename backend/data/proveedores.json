@@ -6,7 +6,7 @@
     "descripcion": "Especialistas en productos de aseo y hogar.",
     "color": "#E8F5E9",
     "banner": "/img/iniciobanner.jpg",
-    "bannerTexto": "Promoción especial para tenderos – Descuentos hoy"
+    "detalles": "Promoción especial para tenderos – Descuentos hoy"
   },
   
   {
@@ -16,7 +16,7 @@
     "descripcion": "Medicamentos y productos de cuidado personal.",
     "color": "#E3F2FD",
     "banner": "/img/logo.png",
-    "bannerTexto": "Promoción especial para tenderos – Descuentos hoy"
+    "detalles": "Promoción especial para tenderos – Descuentos hoy"
   },
   
   {
@@ -26,7 +26,7 @@
     "descripcion": "Snacks, bebidas y productos comestibles.",
     "color": "#FFF3E0",
     "banner":"/img/iniciobanner.jpg",
-    "bannerTexto": "Promoción especial para tenderos – Descuentos hoy"
+    "detalles": "Promoción especial para tenderos – Descuentos hoy"
   },
   {
     "id": 4,
@@ -35,7 +35,7 @@
     "descripcion": "Snacks, bebidas y productos comestibles.",
     "color": "#FFF3E0",
     "banner":"/img/banner.jpeg",
-    "bannerTexto": "Promoción especial para tenderos – Descuentos hoy"
+    "detalles": "Promoción especial para tenderos – Descuentos hoy"
   }
 
 ]
