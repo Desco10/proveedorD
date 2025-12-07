@@ -9,27 +9,30 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// RUTA ABSOLUTA DEL FRONTEND
-const FRONTEND_PATH = path.join(__dirname, "..", "frontend");
+// Inicializar conexión MySQL
+require("./config/db");
 
-// RUTA ABSOLUTA DE LOS JSON
+// Rutas
+const clientesRoutes = require("./routes/clientes");
+app.use("/api/clientes", clientesRoutes);
+
+// Paths del proyecto
+const FRONTEND_PATH = path.join(__dirname, "..", "frontend");
 const DATA_PATH = path.join(__dirname, "data");
 
-// ⚠️ IMPORTANTE: Servir los JSON ANTES del frontend
+// Servir JSON desde backend/data
 app.use("/data", express.static(DATA_PATH));
 
-// Servir archivos estáticos del frontend (CSS, JS, imágenes, videos)
+// Servir frontend
 app.use(express.static(FRONTEND_PATH));
 
-// Ruta principal - DEBE IR AL FINAL
+// Ruta principal
 app.get("/", (req, res) => {
   res.sendFile(path.join(FRONTEND_PATH, "index.html"));
 });
 
-// Ruta catch-all para SPA - sirve index.html para cualquier ruta no encontrada
-// PERO solo si no es una petición a /data
+// Catch-all para SPA
 app.get("*", (req, res) => {
-  // Si la ruta comienza con /data, devolver 404 en lugar de index.html
   if (req.path.startsWith("/data")) {
     return res.status(404).json({ error: "Archivo no encontrado" });
   }
@@ -38,7 +41,6 @@ app.get("*", (req, res) => {
 
 // Puerto
 const PORT = process.env.PORT || 3000;
-
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
   console.log(`📁 Frontend: ${FRONTEND_PATH}`);
