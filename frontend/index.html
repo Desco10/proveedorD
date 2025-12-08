@@ -30,10 +30,13 @@
         <p id="mensajeBienvenida" class="mensaje-bienvenida"></p>
 
       </div>
+      <div id="mensajeBienvenida"></div>
+<button id="btnCerrarSesion" class="btn-cerrar">Cerrar sesión</button>
+
     </div>
   </header>
 
-  <!-- ====== CARRUSEL DE VIDEOS ====== -->
+  
  <!-- ====== CARRUSEL DE VIDEOS PROFESIONAL ====== -->
 <section class="video-stories">
   <div class="video-player-wrap">
@@ -148,13 +151,25 @@
         </form>
 
         <form id="formRegistro">
-          <h3>Registrarme</h3>
-          <input type="text" id="nombre" placeholder="Nombre" required>
-          <input type="text" id="apellido" placeholder="Apellido" required>
-          <input type="text" id="cedula" placeholder="Cédula" required>
-          <input type="text" id="telefono" placeholder="Teléfono" required>
-          <button type="submit" class="btn">Registrar</button>
-        </form>
+  <h3>Registrarme</h3>
+
+  <input type="text" id="nombre" placeholder="Nombre" required>
+  <input type="text" id="apellido" placeholder="Apellido" required>
+
+  <input type="text" id="cedula" placeholder="Cédula" required>
+  <input type="text" id="telefono" placeholder="Teléfono" required>
+
+  <input type="text" id="direccion" placeholder="Dirección">
+
+  <select id="genero" required>
+    <option value="">Selecciona tu género</option>
+    <option value="M">Masculino</option>
+    <option value="F">Femenino</option>
+  </select>
+
+  <button type="submit" class="btn">Registrar</button>
+</form>
+
       </div>
     </div>
   </div>

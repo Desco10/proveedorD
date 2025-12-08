@@ -1,48 +1,85 @@
 const db = require("../config/db");
 
-// Registrar cliente
-exports.registrarCliente = (req, res) => {
-  const { nombre, cedula, telefono } = req.body;
+exports.registrarCliente = async (req, res) => {
+  try {
+    const { nombre, apellido, cedula, telefono, direccion, genero } = req.body;
 
-  if (!nombre || !cedula) {
-    return res.status(400).json({ error: "Nombre y cédula son obligatorios" });
-  }
-
-  const sql = `
-      INSERT INTO clientes (nombre, cedula, telefono)
-      VALUES (?, ?, ?)
-  `;
-
-  db.query(sql, [nombre, cedula, telefono], (err, result) => {
-    if (err) {
-      console.error("Error registrando cliente:", err);
-      return res.status(500).json({ error: "Error registrando cliente" });
+    if (!nombre || !cedula) {
+      return res.json({ ok: false, msg: "Nombre y cédula obligatorios" });
     }
 
-    res.json({ ok: true, message: "Cliente registrado correctamente", id: result.insertId });
-  });
+    // Verificar duplicados
+    const [exist] = await db.query(
+      "SELECT id FROM clientes WHERE cedula = ?",
+      [cedula]
+    );
+
+    if (exist.length > 0) {
+      return res.json({
+        ok: false,
+        msg: "La cédula ya está registrada"
+      });
+    }
+
+    // INSERT correcto
+    const [result] = await db.query(
+      `INSERT INTO clientes 
+        (nombre, apellido, cedula, telefono, direccion, genero, fecha_registro)
+       VALUES (?, ?, ?, ?, ?, ?, NOW())`,
+      [
+        nombre,
+        apellido || "",
+        cedula,
+        telefono || "",
+        direccion || "",
+        genero || ""
+      ]
+    );
+
+    const [rows] = await db.query(
+      "SELECT * FROM clientes WHERE id = ?",
+      [result.insertId]
+    );
+
+    return res.json({
+      ok: true,
+      cliente: rows[0]
+    });
+
+  } catch (error) {
+    console.error("❌ Error registro:", error);
+    return res.json({ ok: false, msg: "Error interno" });
+  }
 };
 
-// Validar cédula
-exports.validarCedula = (req, res) => {
-  const { cedula } = req.body;
 
-  if (!cedula) {
-    return res.status(400).json({ error: "La cédula es obligatoria" });
+exports.validarCedula = async (req, res) => {
+  try {
+    const { cedula } = req.body;
+
+    if (!cedula) {
+      return res.status(400).json({ error: "La cédula es obligatoria" });
+    }
+
+    const [rows] = await db.query(
+      "SELECT * FROM clientes WHERE cedula = ?",
+      [cedula]
+    );
+
+    if (rows.length === 0) {
+      return res.json({
+        ok: false,
+        message: "Cliente no encontrado"
+      });
+    }
+
+    return res.json({
+      ok: true,
+      cliente: rows[0]
+    });
+
+  } catch (error) {
+    console.error("Error validando cédula:", error);
+    return res.status(500).json({ error: "Error validando cédula" });
   }
-
-  const sql = `SELECT * FROM clientes WHERE cedula = ?`;
-
-  db.query(sql, [cedula], (err, results) => {
-    if (err) {
-      console.error("Error validando cédula:", err);
-      return res.status(500).json({ error: "Error validando cédula" });
-    }
-
-    if (results.length === 0) {
-      return res.json({ ok: false, message: "Cliente no encontrado" });
-    }
-
-    res.json({ ok: true, cliente: results[0] });
-  });
 };

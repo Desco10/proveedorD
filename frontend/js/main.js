@@ -1,6 +1,6 @@
-// ============================
+
 // CONFIGURACIÓN GLOBAL
-// ============================
+
 const contenedorProveedores = document.getElementById("listaProveedores");
 const contenedorProductos = document.getElementById("productos");
 const contenedorCarrusel = document.getElementById("carrusel");
@@ -9,6 +9,12 @@ const formRegistro = document.getElementById("formRegistro");
 const formLogin = document.getElementById("formLogin");
 const mensajeBienvenida = document.getElementById("mensajeBienvenida");
 const paginacion = document.querySelector(".paginacion");
+const btnCerrar = document.getElementById("btnCerrarSesion");
+
+if (btnCerrar) {
+  btnCerrar.addEventListener("click", cerrarSesion);
+}
+
 
 let productos = [];
 let paginaActual = 1;
@@ -16,9 +22,25 @@ const productosPorPagina = 12;
 let usuarioActual = null;
 let proveedorActual = null;
 
-// ============================
+
+function mostrarModalSiNoHayUsuario() {
+  const usuario = JSON.parse(localStorage.getItem("usuario"));
+
+  console.log("usuarioActual:", usuario);
+  console.log("storage:", localStorage.getItem("usuario"));
+
+  if (!usuario) {
+    console.log("❗ No hay usuario → abrir modal");
+    modalAuth.style.display = "flex";
+  } else {
+    usuarioActual = usuario;
+    actualizarMensajeBienvenida();
+  }
+}
+
+
 // UTIL: PAUSAR / RESTAURAR VIDEOS
-// ============================
+
 function aggressivePauseAllMedia({ resetTime = true, mute = true } = {}) {
   document.querySelectorAll("video, audio").forEach((m) => {
     try {
@@ -60,9 +82,9 @@ async function restoreAllMedia({ unmute = false, tryPlay = true } = {}) {
   window.dispatchEvent(new Event("app:videos-resume"));
 }
 
-// ============================
+
 // BASE LOCAL DE CLIENTES
-// ============================
+
 function guardarClienteBase(usuario) {
   let base = JSON.parse(localStorage.getItem("baseClientes")) || [];
   const existe = base.some(c => c.cedula === usuario.cedula);
@@ -78,9 +100,11 @@ function verBaseClientes() {
   return JSON.parse(localStorage.getItem("baseClientes")) || [];
 }
 
-// ============================
+
+
+
 // CARGAR PROVEEDORES
-// ============================
+
 async function cargarProveedores() {
   try {
     const res = await fetch("/data/proveedores.json");
@@ -109,9 +133,9 @@ async function cargarProveedores() {
   }
 }
 
-// ============================
-// ABRIR CATÁLOGO DE PROVEEDOR//
-// ============================
+
+// ABRIR CATÁLOGO DE PROVEEDOR
+
 async function abrirProveedor(id, nombre) {
   try {
     aggressivePauseAllMedia({ resetTime: true, mute: true });
@@ -182,9 +206,9 @@ async function abrirProveedor(id, nombre) {
 }
 window.abrirProveedor = abrirProveedor;
 
-// ============================
+
 // VOLVER A PROVEEDORES
-// ============================
+
 function volverAProveedores() {
   contenedorProductos.innerHTML = "";
   const tituloEl = document.getElementById("tituloCatalogo");
@@ -214,9 +238,9 @@ function volverAProveedores() {
   }, 200);
 }
 
-// ============================
+
 // FILTRAR CATALOGO
-// ============================
+
 function filtrarCatalogo(texto) {
   const q = (texto || "").toLowerCase().trim();
 
@@ -275,9 +299,9 @@ function filtrarCatalogo(texto) {
   }
 }
 
-// ============================
+
 // MOSTRAR PRODUCTOS
-// ============================
+
 function mostrarProductos(animar = true) {
   if (!productos.length) {
     contenedorProductos.innerHTML = "<p>No hay productos disponibles.</p>";
@@ -320,9 +344,9 @@ function mostrarProductos(animar = true) {
   }, animar ? 200 : 0);
 }
 
-// ============================
+
 // PAGINACION
-// ============================
+
 function siguientePagina() {
   if (!proveedorActual) return;
   const totalPaginas = Math.ceil(productos.length / productosPorPagina);
@@ -349,23 +373,55 @@ function ocultarPaginacion() {
   if (paginacion) paginacion.style.display = "none";
 }
 
-// ============================
-// COMPRAR PRODUCTO
-// ============================
-function comprarProducto(idProducto) {
-  const producto = productos.find(p => p.id === idProducto);
-  if (!producto) return;
 
-  if (!usuarioActual) {
-    abrirModalAuth(producto);
-    return;
+// COMPRAR PRODUCTO
+function comprarProducto(idProducto) {
+  try {
+    const producto = productos.find(p => p.id === idProducto);
+
+    if (!producto) {
+      console.error("Producto no encontrado:", idProducto);
+      return;
+    }
+
+    // Verificar si hay usuario autenticado (localStorage o variable global)
+    const usuarioActual = JSON.parse(localStorage.getItem("cliente")) || null;
+
+    if (!usuarioActual) {
+      // Guardar el producto pendiente mientras inicia sesión
+      sessionStorage.setItem("productoPendiente", JSON.stringify(producto));
+
+      // Abrir modal de autenticación
+      abrirModalAuth(producto);
+      return;
+    }
+
+    // Usuario logueado → Enviar WhatsApp
+    enviarWhatsApp(producto);
+
+  } catch (error) {
+    console.error("Error al comprar producto:", error);
   }
-  enviarWhatsApp(producto);
 }
 
-// ============================
+
+function onLoginExitoso(cliente) {
+  localStorage.setItem("cliente", JSON.stringify(cliente));
+
+  const productoPendiente = JSON.parse(sessionStorage.getItem("productoPendiente"));
+
+  if (productoPendiente) {
+    enviarWhatsApp(productoPendiente);
+    sessionStorage.removeItem("productoPendiente");
+  }
+
+  cerrarModalAuth();
+}
+
+
+
 // ENVIAR WHATSAPP
-// ============================
+
 async function enviarWhatsApp(producto) {
   try {
     let nombreProveedor = producto.proveedorNombre || "";
@@ -424,31 +480,62 @@ ${window.location.origin}?producto=${encodeURIComponent(producto.nombre)}
 }
 
 // ============================
-// LOGIN Y REGISTRO
-// ============================
+// LOGIN Y REGISTRO detectar genero
 function detectarGenero(nombre) {
   if (!nombre) return "bienvenido";
-  const ultimo = nombre.trim().slice(-1).toLowerCase();
-  return (ultimo === "a") ? "bienvenida" : "bienvenido";
+
+  // Normalizar el nombre (quitar acentos y espacios)
+  const limpio = nombre
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")  // quita acentos
+    .trim()
+    .toLowerCase();
+
+  // Si termina en "a" → femenina
+  if (limpio.endsWith("a")) {
+    return "bienvenida";
+  }
+
+  // Si termina en "o" → masculino
+  if (limpio.endsWith("o")) {
+    return "bienvenido";
+  }
+
+  // Cualquier otro caso → neutro (masculino por defecto)
+  return "bienvenido";
 }
 
 function actualizarMensajeBienvenida() {
   if (!mensajeBienvenida || !usuarioActual) return;
 
-  const nombreMayus = usuarioActual.nombre.toUpperCase();
-  const genero = detectarGenero(usuarioActual.nombre);
+  const nombre = usuarioActual.nombre.toUpperCase();
+  const genero = usuarioActual.genero === "F" ? "Bienvenida" : "Bienvenido";
 
   mensajeBienvenida.innerHTML = `
-    ¡${genero === "bienvenida" ? "Bienvenida" : "Bienvenido"}, 
-    <b>${nombreMayus}</b>!
+    ¡${genero}, <b>${nombre}</b>!
   `;
 }
 
-// ============================
+function cerrarSesion() {
+  localStorage.removeItem("usuario");
+  usuarioActual = null;
+
+  // limpiar mensaje bienvenida
+  if (mensajeBienvenida) mensajeBienvenida.innerHTML = "";
+
+  // mostrar modal nuevamente
+  modalAuth.style.display = "flex";
+
+  console.log("✅ Sesión cerrada");
+}
+
+
 // REGISTRO
-// ============================
+
+// REGISTRO
+
 if (formRegistro) {
-  formRegistro.addEventListener("submit", (e) => {
+  formRegistro.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const datos = {
@@ -456,78 +543,112 @@ if (formRegistro) {
       apellido: document.getElementById("apellido").value.trim(),
       cedula: document.getElementById("cedula").value.trim(),
       telefono: document.getElementById("telefono").value.trim(),
-      fechaRegistro: new Date().toISOString()
+      direccion: document.getElementById("direccion").value.trim(),
+      genero: document.getElementById("genero").value
     };
 
-    const usuario = registrarUsuarioLocal(datos);
+    // Validaciones simples
+    if (!datos.nombre || !datos.cedula || !datos.genero) {
+      alert("Nombre, cédula y género son obligatorios.");
+      return;
+    }
 
-    if (!usuario) return;
+    // ✅ Enviar al backend (sin romper tu API actual)
+    const res = await fetch("http://localhost:3000/api/clientes/registrar", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        nombre: datos.nombre,
+        apellido: datos.apellido,
+        cedula: datos.cedula,
+        telefono: datos.telefono,
+        direccion: datos.direccion,
+        genero: datos.genero
+      })
+    });
 
+    const data = await res.json();
+
+    if (!data.ok) {
+      alert("No se pudo registrar el cliente.");
+      return;
+    }
+
+    // ✅ Usuario local (igual a tu estructura)
+    const usuario = {
+      id: data.id,
+      nombre: datos.nombre,
+      cedula: datos.cedula,
+      telefono: datos.telefono,
+      direccion: datos.direccion,
+      genero: datos.genero
+    };
+
+    // ✅ Guardar en memoria actual
     usuarioActual = usuario;
 
+    // ✅ Guardar en localStorage
+    localStorage.setItem("usuario", JSON.stringify(usuario));
+
+    // ✅ Mensaje bienvenida
     actualizarMensajeBienvenida();
 
+    // ✅ Cerrar modal
     modalAuth.style.display = "none";
 
+    // ✅ Si había producto pendiente → enviarlo
     const productoPendiente = JSON.parse(modalAuth?.dataset.producto || "null");
-
     if (productoPendiente) {
       enviarWhatsApp(productoPendiente);
     }
+
+    alert("Registro exitoso");
   });
 }
 
- 
-function registrarUsuarioLocal(datos) {
-  // Validación básica
-  if (!datos.cedula || !datos.nombre) {
-    alert("Datos incompletos.");
-    return null;
-  }
-
-  // Guardar en base local
-  guardarClienteBase(datos);
-
-  // Guardar usuario activo
-  localStorage.setItem("usuario", JSON.stringify(datos));
-
-  return datos;
-}
-
-
-
-// ============================
 // LOGIN
-// ============================
+
 if (formLogin) {
   formLogin.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const cedulaLogin = document.getElementById("cedulaLogin").value;
+    const cedulaLogin = document.getElementById("cedulaLogin").value.trim();
+
+    if (!cedulaLogin) {
+      alert("Debes ingresar una cédula.");
+      return;
+    }
 
     const resultado = await loginBackend(cedulaLogin);
 
     if (resultado.ok) {
+      // Guardar usuario activo
       usuarioActual = resultado.cliente;
 
       localStorage.setItem("usuario", JSON.stringify(usuarioActual));
 
+      // Mostrar mensaje de bienvenida
       actualizarMensajeBienvenida();
+
+      // Cerrar modal
       modalAuth.style.display = "none";
 
+      // Si había producto pendiente → enviar WhatsApp
       const productoPendiente = JSON.parse(modalAuth?.dataset.producto || "null");
       if (productoPendiente) enviarWhatsApp(productoPendiente);
 
     } else {
-      alert("Cédula no encontrada en el servidor.");
+      alert("Cédula no encontrada.");
     }
   });
 }
 
 
+// funcion  LOGINbackebd
+
 async function loginBackend(cedula) {
   try {
-    const res = await fetch("http://localhost:3000/api/clientes/login", {
+    const res = await fetch("http://localhost:3000/api/clientes/autologin", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ cedula })
@@ -544,9 +665,10 @@ async function loginBackend(cedula) {
 }
 
 
-// ============================
+
+
 // ABRIR MODAL DE AUTENTICACIÓN
-// ============================
+
 function abrirModalAuth(producto) {
   if (modalAuth) {
     modalAuth.style.display = "flex";
@@ -554,15 +676,7 @@ function abrirModalAuth(producto) {
   }
 }
 
-// ============================
-// CARRUSEL DE OFERTAS
-// ============================
 // CARRUSEL DE OFERTAS - SCROLL INFINITO REAL
-// ==========================================
-// ==========================================
-// CARRUSEL DE OFERTAS - SCROLL INFINITO REAL
-// ==========================================
-
 
 async function cargarOfertas() {
   try {
@@ -676,19 +790,53 @@ function enviarWhatsAppCarrusel(idProducto) {
 
 
 
-
-// ============================
 // INICIALIZACIÓN AL CARGAR LA PÁGINA
-// ============================
 window.addEventListener("DOMContentLoaded", () => {
   console.log("🟢 Iniciando aplicación...");
 
-  // 1. Autologin
+  // 1. Revisar usuario local
+  const local = JSON.parse(localStorage.getItem("usuario"));
+
+  if (!local) {
+    console.log("❗ No hay usuario → abrir modal");
+    modalAuth.style.display = "flex";
+  } else {
+    console.log("✅ Usuario encontrado en localStorage:", local);
+    usuarioActual = local;
+
+    // Mostrar bienvenida
+    actualizarMensajeBienvenida();
+  }
+
+  // 2. Validar en backend (autologin)
   autologinBackend();
 
+  // 3. Cargar proveedores
+  if (contenedorProveedores) {
+    console.log("🟢 Cargando proveedores...");
+    cargarProveedores();
+  }
+
+  // 4. Cargar ofertas
+  if (contenedorCarrusel) {
+    console.log("🟢 Cargando ofertas...");
+    cargarOfertas();
+  }
+
+  // 5. Ocultar catálogo al inicio
+  const seccionCatalogo = document.querySelector(".catalogo");
+  if (seccionCatalogo) {
+    seccionCatalogo.style.display = "none";
+  }
+
+  console.log("✅ Aplicación inicializada correctamente");
+});
 
 
-  async function autologinBackend() {
+// --------------------------------------
+// Autologin backend
+// --------------------------------------
+async function autologinBackend() {
   const local = JSON.parse(localStorage.getItem("usuario"));
 
   if (!local || !local.cedula) {
@@ -718,29 +866,5 @@ window.addEventListener("DOMContentLoaded", () => {
     console.error("❌ Error autologin backend:", error);
   }
 }
+ 
 
-
-  // 2. Cargar proveedores
-  if (contenedorProveedores) {
-    console.log("🟢 Cargando proveedores...");
-    cargarProveedores();
-  } else {
-    console.warn("⚠️ contenedorProveedores no encontrado");
-  }
-
-  // 3. Cargar ofertas
-  if (contenedorCarrusel) {
-    console.log("🟢 Cargando ofertas...");
-    cargarOfertas();
-  } else {
-    console.warn("⚠️ contenedorCarrusel no encontrado");
-  }
-
-  // 4. Ocultar catálogo al inicio
-  const seccionCatalogo = document.querySelector(".catalogo");
-  if (seccionCatalogo) {
-    seccionCatalogo.style.display = "none";
-  }
-
-  console.log("✅ Aplicación inicializada correctamente");
-});
