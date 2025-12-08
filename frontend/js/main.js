@@ -451,39 +451,65 @@ if (formRegistro) {
   formRegistro.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const nuevoUsuario = {
-      nombre: document.getElementById("nombre").value,
-      apellido: document.getElementById("apellido").value,
-      cedula: document.getElementById("cedula").value,
-      telefono: document.getElementById("telefono").value,
-      fechaRegistro: new Date().toLocaleString()
+    const datos = {
+      nombre: document.getElementById("nombre").value.trim(),
+      apellido: document.getElementById("apellido").value.trim(),
+      cedula: document.getElementById("cedula").value.trim(),
+      telefono: document.getElementById("telefono").value.trim(),
+      fechaRegistro: new Date().toISOString()
     };
 
-    localStorage.setItem("usuario", JSON.stringify(nuevoUsuario));
-    guardarClienteBase(nuevoUsuario);
-    usuarioActual = nuevoUsuario;
+    const usuario = registrarUsuarioLocal(datos);
+
+    if (!usuario) return;
+
+    usuarioActual = usuario;
 
     actualizarMensajeBienvenida();
+
     modalAuth.style.display = "none";
 
     const productoPendiente = JSON.parse(modalAuth?.dataset.producto || "null");
-    if (productoPendiente) enviarWhatsApp(productoPendiente);
+
+    if (productoPendiente) {
+      enviarWhatsApp(productoPendiente);
+    }
   });
 }
+
+ 
+function registrarUsuarioLocal(datos) {
+  // Validación básica
+  if (!datos.cedula || !datos.nombre) {
+    alert("Datos incompletos.");
+    return null;
+  }
+
+  // Guardar en base local
+  guardarClienteBase(datos);
+
+  // Guardar usuario activo
+  localStorage.setItem("usuario", JSON.stringify(datos));
+
+  return datos;
+}
+
+
 
 // ============================
 // LOGIN
 // ============================
 if (formLogin) {
-  formLogin.addEventListener("submit", (e) => {
+  formLogin.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const cedulaLogin = document.getElementById("cedulaLogin").value;
-    const base = JSON.parse(localStorage.getItem("baseClientes")) || [];
-    const usuarioGuardado = base.find(u => u.cedula === cedulaLogin);
 
-    if (usuarioGuardado) {
-      usuarioActual = usuarioGuardado;
+    const resultado = await loginBackend(cedulaLogin);
+
+    if (resultado.ok) {
+      usuarioActual = resultado.cliente;
+
       localStorage.setItem("usuario", JSON.stringify(usuarioActual));
 
       actualizarMensajeBienvenida();
@@ -491,11 +517,32 @@ if (formLogin) {
 
       const productoPendiente = JSON.parse(modalAuth?.dataset.producto || "null");
       if (productoPendiente) enviarWhatsApp(productoPendiente);
+
     } else {
-      alert("La cédula no está registrada. Por favor regístrate primero.");
+      alert("Cédula no encontrada en el servidor.");
     }
   });
 }
+
+
+async function loginBackend(cedula) {
+  try {
+    const res = await fetch("http://localhost:3000/api/clientes/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cedula })
+    });
+
+    const data = await res.json();
+
+    return data; // { ok:true, cliente:{...} }
+
+  } catch (error) {
+    console.error("❌ Error login backend:", error);
+    return { ok: false };
+  }
+}
+
 
 // ============================
 // ABRIR MODAL DE AUTENTICACIÓN
@@ -637,18 +684,41 @@ window.addEventListener("DOMContentLoaded", () => {
   console.log("🟢 Iniciando aplicación...");
 
   // 1. Autologin
-  try {
-    const user = JSON.parse(localStorage.getItem("usuario"));
-    if (user && user.cedula) {
-      usuarioActual = user;
-      actualizarMensajeBienvenida();
-      console.log("🟢 AUTOLOGIN exitoso:", user.nombre);
-    } else {
-      console.log("ℹ No hay usuario para autologin.");
-    }
-  } catch (err) {
-    console.warn("Error en autologin:", err);
+  autologinBackend();
+
+
+
+  async function autologinBackend() {
+  const local = JSON.parse(localStorage.getItem("usuario"));
+
+  if (!local || !local.cedula) {
+    return; // no hay usuario guardado
   }
+
+  try {
+    const res = await fetch("http://localhost:3000/api/clientes/autologin", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cedula: local.cedula })
+    });
+
+    const data = await res.json();
+
+    if (data.ok) {
+      usuarioActual = data.cliente;
+
+      localStorage.setItem("usuario", JSON.stringify(usuarioActual));
+
+      actualizarMensajeBienvenida();
+
+      console.log("✅ Autologin backend correcto");
+    }
+
+  } catch (error) {
+    console.error("❌ Error autologin backend:", error);
+  }
+}
+
 
   // 2. Cargar proveedores
   if (contenedorProveedores) {
