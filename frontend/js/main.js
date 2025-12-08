@@ -1,4 +1,6 @@
 
+// main.js - Versión corregida y unificada (DescoApp)
+
 // CONFIGURACIÓN GLOBAL
 
 const contenedorProveedores = document.getElementById("listaProveedores");
@@ -15,7 +17,35 @@ if (btnCerrar) {
   btnCerrar.addEventListener("click", cerrarSesion);
 }
 
+// Sesssion config
+const LOGIN_EXPIRATION_HOURS = 24;
 
+function isLoginVigente() {
+  const cliente = localStorage.getItem("cliente");
+  const loginTime = localStorage.getItem("loginTime");
+  if (!cliente || !loginTime) return false;
+  const diff = (Date.now() - Number(loginTime)) / (1000 * 60 * 60);
+  return diff < LOGIN_EXPIRATION_HOURS;
+}
+
+// Ejecuta callback si el usuario está logueado. Si no, abre modal y guarda la acción.
+function requireLogin(callback) {
+  const cliente = isLoginVigente() ? JSON.parse(localStorage.getItem("cliente")) : null;
+  if (cliente) {
+    // actualizar usuarioActual por si acaso
+    usuarioActual = cliente;
+    try { return callback(); } catch (err) { console.error("requireLogin callback error:", err); }
+    return;
+  }
+
+  // Guardar callback para ejecutarlo después del login
+  window.afterLogin = callback;
+
+  // abrir modal
+  if (modalAuth) modalAuth.style.display = "flex";
+}
+
+// Variables globales
 let productos = [];
 let paginaActual = 1;
 const productosPorPagina = 12;
@@ -23,20 +53,22 @@ let usuarioActual = null;
 let proveedorActual = null;
 
 
+// Mostrar modal si no hay usuario válido
 function mostrarModalSiNoHayUsuario() {
-  const usuario = JSON.parse(localStorage.getItem("usuario"));
+  const usuario = isLoginVigente() ? JSON.parse(localStorage.getItem("cliente")) : null;
 
   console.log("usuarioActual:", usuario);
-  console.log("storage:", localStorage.getItem("usuario"));
+  console.log("storage cliente:", localStorage.getItem("cliente"));
 
   if (!usuario) {
-    console.log("❗ No hay usuario → abrir modal");
-    modalAuth.style.display = "flex";
+    console.log("❗ No hay usuario o sesión expirada → abrir modal");
+    if (modalAuth) modalAuth.style.display = "flex";
   } else {
     usuarioActual = usuario;
     actualizarMensajeBienvenida();
   }
 }
+
 
 
 // UTIL: PAUSAR / RESTAURAR VIDEOS
@@ -262,7 +294,7 @@ function filtrarCatalogo(texto) {
     document.getElementById("productos").innerHTML = `
       <div class="mensaje-no-resultados">
         <p>Lo sentimos, por ahora no tenemos ese producto disponible.</p>
-        <p>Intenta con otro término o mira nuestro catálogo completo.</p>
+        <p>Intenta con otro producto o mira nuestro catálogo completo.</p>
       </div>
     `;
     ocultarPaginacion();
@@ -328,9 +360,10 @@ function mostrarProductos(animar = true) {
         <h3>${prod.nombre}</h3>
         <p>${prod.precio}</p>
 
-        <button class="btn-wsp" onclick='enviarWhatsApp(${JSON.stringify(prod)})'>
+        <button class="btn-wsp" onclick="comprarProducto(${prod.id})">
           <i class="fab fa-whatsapp"></i> COMPRAR
-        </button>
+         </button>
+
       `;
 
       contenedor.appendChild(card);
@@ -376,51 +409,81 @@ function ocultarPaginacion() {
 
 // COMPRAR PRODUCTO
 function comprarProducto(idProducto) {
-  try {
-    const producto = productos.find(p => p.id === idProducto);
-
-    if (!producto) {
-      console.error("Producto no encontrado:", idProducto);
-      return;
+  requireLogin(() => {
+    try {
+      const producto = productos.find(p => p.id === idProducto);
+      if (!producto) {
+        console.error("Producto no encontrado:", idProducto);
+        return;
+      }
+      // Usuario logueado → enviar WhatsApp
+      enviarWhatsApp(producto);
+    } catch (error) {
+      console.error("Error al comprar producto:", error);
     }
-
-    // Verificar si hay usuario autenticado (localStorage o variable global)
-    const usuarioActual = JSON.parse(localStorage.getItem("cliente")) || null;
-
-    if (!usuarioActual) {
-      // Guardar el producto pendiente mientras inicia sesión
-      sessionStorage.setItem("productoPendiente", JSON.stringify(producto));
-
-      // Abrir modal de autenticación
-      abrirModalAuth(producto);
-      return;
-    }
-
-    // Usuario logueado → Enviar WhatsApp
-    enviarWhatsApp(producto);
-
-  } catch (error) {
-    console.error("Error al comprar producto:", error);
-  }
+  });
 }
 
+
+
+function comprarProductoCarrusel(idProducto) {
+  requireLogin(() => {
+    // Ya logueado → enviar WhatsApp del carrusel
+    enviarWhatsAppCarrusel(idProducto);
+  });
+}
+
+
+// login exitoso
+
+function cerrarModalAuth() {
+  try {
+    if (modalAuth) modalAuth.style.display = "none";
+  } catch (e) {}
+}
 
 function onLoginExitoso(cliente) {
+  // Guardar usuario y marca de tiempo
   localStorage.setItem("cliente", JSON.stringify(cliente));
+  localStorage.setItem("loginTime", Date.now());
+  usuarioActual = cliente;
 
-  const productoPendiente = JSON.parse(sessionStorage.getItem("productoPendiente"));
-
-  if (productoPendiente) {
-    enviarWhatsApp(productoPendiente);
-    sessionStorage.removeItem("productoPendiente");
-  }
-
+  // Cerrar modal
   cerrarModalAuth();
+
+  // Actualizar UI de bienvenida
+  actualizarMensajeBienvenida();
+
+  // Si había una acción pendiente, ejecutarla
+  try {
+    if (typeof window.afterLogin === "function") {
+      const fn = window.afterLogin;
+      window.afterLogin = null;
+      try { fn(); } catch (err) { console.error("Error ejecutando afterLogin:", err); }
+    } else {
+      // Fallback: si guardabas productoPendiente en sessionStorage (por compatibilidad), manejarlo:
+      const productoPendiente = sessionStorage.getItem("productoPendiente");
+      if (productoPendiente) {
+        try {
+          const parsed = JSON.parse(productoPendiente);
+          if (parsed && parsed.nombre) {
+            enviarWhatsApp(parsed);
+          } else {
+            enviarWhatsAppCarrusel(Number(productoPendiente));
+          }
+        } catch (e) {
+          enviarWhatsAppCarrusel(Number(productoPendiente));
+        }
+        sessionStorage.removeItem("productoPendiente");
+      }
+    }
+  } catch (err) {
+    console.error("Error al ejecutar acción pendiente:", err);
+  }
 }
 
 
-
-// ENVIAR WHATSAPP
+// ENVIAR WHATSAPP (CATÁLOGO)
 
 async function enviarWhatsApp(producto) {
   try {
@@ -448,6 +511,11 @@ async function enviarWhatsApp(producto) {
     };
 
     const logoUrl = makeAbsolute(logoProveedor);
+
+    // Si no existe usuarioActual intentar leerlo del storage
+    if (!usuarioActual) {
+      usuarioActual = isLoginVigente() ? JSON.parse(localStorage.getItem("cliente")) : null;
+    }
 
     const nombreUsuario = usuarioActual?.nombre 
       ? `*${usuarioActual.nombre.toUpperCase()}*` 
@@ -479,6 +547,7 @@ ${window.location.origin}?producto=${encodeURIComponent(producto.nombre)}
   }
 }
 
+
 // ============================
 // LOGIN Y REGISTRO detectar genero
 function detectarGenero(nombre) {
@@ -506,9 +575,17 @@ function detectarGenero(nombre) {
 }
 
 function actualizarMensajeBienvenida() {
-  if (!mensajeBienvenida || !usuarioActual) return;
+  if (!mensajeBienvenida) return;
+  if (!usuarioActual) {
+    // intentar recuperar del storage
+    usuarioActual = isLoginVigente() ? JSON.parse(localStorage.getItem("cliente")) : null;
+  }
+  if (!usuarioActual) {
+    mensajeBienvenida.innerHTML = "";
+    return;
+  }
 
-  const nombre = usuarioActual.nombre.toUpperCase();
+  const nombre = (usuarioActual.nombre || "").toUpperCase();
   const genero = usuarioActual.genero === "F" ? "Bienvenida" : "Bienvenido";
 
   mensajeBienvenida.innerHTML = `
@@ -517,20 +594,22 @@ function actualizarMensajeBienvenida() {
 }
 
 function cerrarSesion() {
-  localStorage.removeItem("usuario");
+  localStorage.removeItem("cliente");
+  localStorage.removeItem("loginTime");
   usuarioActual = null;
+
+  // borrar cualquier afterLogin
+  window.afterLogin = null;
 
   // limpiar mensaje bienvenida
   if (mensajeBienvenida) mensajeBienvenida.innerHTML = "";
 
   // mostrar modal nuevamente
-  modalAuth.style.display = "flex";
+  if (modalAuth) modalAuth.style.display = "flex";
 
   console.log("✅ Sesión cerrada");
 }
 
-
-// REGISTRO
 
 // REGISTRO
 
@@ -553,56 +632,46 @@ if (formRegistro) {
       return;
     }
 
-    // ✅ Enviar al backend (sin romper tu API actual)
-    const res = await fetch("http://localhost:3000/api/clientes/registrar", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    try {
+      // ✅ Enviar al backend (sin romper tu API actual)
+      const res = await fetch("http://localhost:3000/api/clientes/registrar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nombre: datos.nombre,
+          apellido: datos.apellido,
+          cedula: datos.cedula,
+          telefono: datos.telefono,
+          direccion: datos.direccion,
+          genero: datos.genero
+        })
+      });
+
+      const data = await res.json();
+
+      if (!data.ok) {
+        alert("No se pudo registrar el cliente.");
+        return;
+      }
+
+      // ✅ Usuario local (igual a tu estructura)
+      const cliente = {
+        id: data.id,
         nombre: datos.nombre,
-        apellido: datos.apellido,
         cedula: datos.cedula,
         telefono: datos.telefono,
         direccion: datos.direccion,
         genero: datos.genero
-      })
-    });
+      };
 
-    const data = await res.json();
+      // Llamar al handler central de login exitoso (esto también ejecutará la acción pendiente)
+      onLoginExitoso(cliente);
 
-    if (!data.ok) {
-      alert("No se pudo registrar el cliente.");
-      return;
+      alert("Registro exitoso");
+    } catch (err) {
+      console.error("Error en registro:", err);
+      alert("Error al registrar cliente.");
     }
-
-    // ✅ Usuario local (igual a tu estructura)
-    const usuario = {
-      id: data.id,
-      nombre: datos.nombre,
-      cedula: datos.cedula,
-      telefono: datos.telefono,
-      direccion: datos.direccion,
-      genero: datos.genero
-    };
-
-    // ✅ Guardar en memoria actual
-    usuarioActual = usuario;
-
-    // ✅ Guardar en localStorage
-    localStorage.setItem("usuario", JSON.stringify(usuario));
-
-    // ✅ Mensaje bienvenida
-    actualizarMensajeBienvenida();
-
-    // ✅ Cerrar modal
-    modalAuth.style.display = "none";
-
-    // ✅ Si había producto pendiente → enviarlo
-    const productoPendiente = JSON.parse(modalAuth?.dataset.producto || "null");
-    if (productoPendiente) {
-      enviarWhatsApp(productoPendiente);
-    }
-
-    alert("Registro exitoso");
   });
 }
 
@@ -622,21 +691,8 @@ if (formLogin) {
     const resultado = await loginBackend(cedulaLogin);
 
     if (resultado.ok) {
-      // Guardar usuario activo
-      usuarioActual = resultado.cliente;
-
-      localStorage.setItem("usuario", JSON.stringify(usuarioActual));
-
-      // Mostrar mensaje de bienvenida
-      actualizarMensajeBienvenida();
-
-      // Cerrar modal
-      modalAuth.style.display = "none";
-
-      // Si había producto pendiente → enviar WhatsApp
-      const productoPendiente = JSON.parse(modalAuth?.dataset.producto || "null");
-      if (productoPendiente) enviarWhatsApp(productoPendiente);
-
+      // Usar handler central
+      onLoginExitoso(resultado.cliente);
     } else {
       alert("Cédula no encontrada.");
     }
@@ -672,9 +728,14 @@ async function loginBackend(cedula) {
 function abrirModalAuth(producto) {
   if (modalAuth) {
     modalAuth.style.display = "flex";
-    modalAuth.dataset.producto = JSON.stringify(producto);
+    try {
+      modalAuth.dataset.producto = JSON.stringify(producto);
+    } catch (e) {
+      modalAuth.dataset.producto = String(producto || "");
+    }
   }
 }
+
 
 // CARRUSEL DE OFERTAS - SCROLL INFINITO REAL
 
@@ -698,7 +759,7 @@ async function cargarOfertas() {
 
     // Render completo
     const html = ofertas.map(p => `
-      <div class="item" onclick="enviarWhatsAppCarrusel(${p.id})">
+     <div class="item" onclick="comprarProductoCarrusel(${p.id})">
         <div class="cinta">${p.badge || "Oferta"}</div>
 
         <img src="${p.imagen}" alt="${p.nombre}" loading="lazy">
@@ -736,14 +797,15 @@ async function cargarOfertas() {
 }
 
 
+
 function enviarWhatsAppCarrusel(idProducto) {
+  const cliente = isLoginVigente() ? JSON.parse(localStorage.getItem("cliente")) : null;
+
   fetch("/data/ofertas.json")
     .then(res => res.json())
     .then(async (ofertas) => {
       const producto = ofertas.find(p => p.id === idProducto);
       if (!producto) return;
-
-
 
       // buscar proveedor por proveedorId si existe
       let nombreProveedor = producto.proveedorNombre || "";
@@ -771,7 +833,7 @@ function enviarWhatsAppCarrusel(idProducto) {
       const imagenUrl = makeAbsolute(producto.imagen || "");
       const logoUrl = makeAbsolute(logoProveedor || "");
 
-      let mensajeTexto = `Hola ${usuarioActual?.nombre || ""}, quiero comprar este producto:\n\n`;
+      let mensajeTexto = `Hola ${cliente?.nombre || ""}, quiero comprar este producto:\n\n`;
       mensajeTexto += `*${producto.nombre}*\n`;
       if (producto.descripcion) mensajeTexto += `${producto.descripcion}\n`;
       mensajeTexto += `Precio: ${producto.precio}\n\n`;
@@ -790,16 +852,17 @@ function enviarWhatsAppCarrusel(idProducto) {
 
 
 
+
 // INICIALIZACIÓN AL CARGAR LA PÁGINA
 window.addEventListener("DOMContentLoaded", () => {
   console.log("🟢 Iniciando aplicación...");
 
   // 1. Revisar usuario local
-  const local = JSON.parse(localStorage.getItem("usuario"));
+  const local = JSON.parse(localStorage.getItem("cliente"));
 
   if (!local) {
     console.log("❗ No hay usuario → abrir modal");
-    modalAuth.style.display = "flex";
+    if (modalAuth) modalAuth.style.display = "flex";
   } else {
     console.log("✅ Usuario encontrado en localStorage:", local);
     usuarioActual = local;
@@ -837,7 +900,7 @@ window.addEventListener("DOMContentLoaded", () => {
 // Autologin backend
 // --------------------------------------
 async function autologinBackend() {
-  const local = JSON.parse(localStorage.getItem("usuario"));
+  const local = JSON.parse(localStorage.getItem("cliente"));
 
   if (!local || !local.cedula) {
     return; // no hay usuario guardado
@@ -855,7 +918,7 @@ async function autologinBackend() {
     if (data.ok) {
       usuarioActual = data.cliente;
 
-      localStorage.setItem("usuario", JSON.stringify(usuarioActual));
+      localStorage.setItem("cliente", JSON.stringify(usuarioActual));
 
       actualizarMensajeBienvenida();
 
@@ -866,5 +929,3 @@ async function autologinBackend() {
     console.error("❌ Error autologin backend:", error);
   }
 }
- 
-

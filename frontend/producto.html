@@ -30,38 +30,54 @@
   </footer>
 
   <script>
-    // Obtiene el ID del producto desde la URL (por ejemplo ?id=advilmax)
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
 
+    // Cargar producto desde tu JSON real
     async function cargarProducto() {
-      const res = await fetch('data/productos.json');
+      const res = await fetch('data/productos_proveedores.json');
       const productos = await res.json();
-      const producto = productos.find(p => p.id === id);
+
+      const producto = productos.find(p => p.id == id);
 
       if (!producto) {
         document.getElementById("detalleProducto").innerHTML = "<h2>Producto no encontrado</h2>";
         return;
       }
 
-      // Actualiza contenido en la página
-      document.title = producto.nombre + " - DescoApp";
+      // Construir mensaje con link para volver a comprar
+      const urlProducto = `${window.location.origin}/producto.html?id=${producto.id}`;
+      const mensajeWhatsApp = encodeURIComponent(
+        `Hola, quiero comprar este producto:\n${producto.nombre}\nPrecio: ${producto.precio}\n\nVolver a comprar: ${urlProducto}`
+      );
+
+      // WhatsApp del proveedor si existe; si no, usa uno central
+      const numeroWhatsApp = "573143416441";
+
+      // Renderizar detalle del producto
+      document.title = `${producto.nombre} - DescoApp`;
+
       document.getElementById("detalleProducto").innerHTML = `
         <img src="${producto.imagen}" alt="${producto.nombre}" class="producto-img">
         <h1>${producto.nombre}</h1>
-        <p>${producto.descripcion}</p>
         <p class="precio">${producto.precio}</p>
-        <a href="https://wa.me/573143416441?text=Hola, quiero comprar este producto: ${producto.nombre}%0AValor: ${producto.precio}%0A${window.location.href}"
+        <p>${producto.descripcion}</p>
+
+        <a href="https://wa.me/${numeroWhatsApp}?text=${mensajeWhatsApp}"
            target="_blank" class="btn-wsp">
-          <i class="fab fa-whatsapp"></i> Comprar por WhatsApp
+          Comprar por WhatsApp
+        </a>
+
+        <a href="index.html" class="btn-volver">
+          Volver al catálogo
         </a>
       `;
 
-      // Actualiza metadatos dinámicos (para compartir)
+      // Actualizar metadatos OG para compartir profesionalmente
       document.getElementById("metaTitle").setAttribute("content", producto.nombre);
       document.getElementById("metaDescription").setAttribute("content", producto.descripcion);
-      document.getElementById("metaImage").setAttribute("content", window.location.origin + "/" + producto.imagen);
-      document.getElementById("metaUrl").setAttribute("content", window.location.href);
+      document.getElementById("metaImage").setAttribute("content", window.location.origin + producto.imagen);
+      document.getElementById("metaUrl").setAttribute("content", urlProducto);
     }
 
     cargarProducto();
