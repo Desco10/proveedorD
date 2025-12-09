@@ -61,14 +61,6 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
 .paginacion button { padding:8px 12px; border:none; border-radius:8px; background:#0b99d9; color:#fff; cursor:pointer; }
 .paginacion span { font-weight:600; }
 
-/* Modal lateral (slide-in on small screens) */
-.modal-login { position:fixed; right:0; top:0; width:360px; max-width:95%; height:100%; transform:translateX(110%); transition:transform .36s cubic-bezier(.2,.9,.3,1); z-index:1200; }
-.modal-login.show { transform:translateX(0); }
-.modal-content { background:#fff; height:100%; box-shadow:-12px 0 40px rgba(3,12,30,0.12); padding:22px; display:flex; flex-direction:column; gap:12px; justify-content:center; }
-.modal-close { position:absolute; right:14px; top:8px; background:transparent; border:none; font-size:26px; cursor:pointer; }
-.form-panel { display:flex; flex-direction:column; gap:8px; }
-.form-panel input { padding:10px 12px; border-radius:8px; border:1px solid #e5e9f0; outline:none; }
-.form-panel .small { font-size:13px; color:#667; text-align:center; }
 
 /* Footer */
 .footer { margin-top:30px; background:#02142a; color:#fff; padding:22px 16px; text-align:center; }
@@ -81,65 +73,163 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
   .card img { height:140px; }
 }
 
-/* ====== MODAL LOGIN ====== */
+/* ========= MODAL PROFESIONAL MODERNO ========= */
+
 .modal-auth {
   display: none;
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.6);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 2000;
+  transition: opacity .3s ease;
 }
 
+.modal-auth.show {
+  display: flex;
+  opacity: 1;
+}
+
+/* ✅ NO tocar display, ni position, ni z-index de .modal-auth */
+
+/* Caja moderna */
 .modal-contenido {
-  background: #fff;
-  padding: 25px;
-  border-radius: 15px;
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-  position: relative;
-  animation: slideUp 0.4s ease;
+    background: rgba(255, 255, 255, 0.17);
+    backdrop-filter: blur(8px);
+    border-radius: 14px;
+    padding: 20px;
+    width: 380px;
+    max-width: 92%;
+    box-shadow: 0 12px 25px rgb(250, 248, 248);
+    animation: modalFadeIn .25s ease;
+    position: relative; /* necesario para botón cerrar */
 }
 
-.modal-contenido h3 {
-  margin-top: 10px;
-  color: #444;
+/* Animación suave */
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
+
+/* Botón cerrar elegante */
+.cerrar {
+    position: absolute;
+    right: 10px;
+    top: 6px;
+    font-size: 26px;
+    color: #666;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.cerrar:hover {
+    color: #f9f9f9;
+    transform: scale(1.1);
+}
+
+/* Título */
+.modal-contenido h2 {
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 14px;
+    color: #fcfcfc;
+}
+
 
 .modal-contenido input {
-  width: 90%;
-  margin: 8px 0;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+    color: #f4f4f5fb !important; /* color del texto */
 }
 
+.modal-contenido input::placeholder {
+    color: rgba(11, 61, 145, 0.55); /* color del placeholder */
+}
+
+.modal-contenido input:focus {
+    color: #050505 !important;
+    border-color: #4b7cff;
+    box-shadow: 0 0 8px rgba(75,124,255,0.35);
+}
+
+
+/* Inputs modernos */
+.modal-contenido input,
+.modal-contenido select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(26, 25, 25, 0);
+    background: rgba(255, 255, 255, 0.437);
+    margin-bottom: 8px;
+    color: #020202; /* <-- cambia este color por el que quierasDEL SELEC GENERO */
+}
+ 
+
+/* Botones */
 .modal-contenido .btn {
-  background: #27ae60;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  margin-top: 10px;
-  border-radius: 8px;
-  cursor: pointer;
+    width: 100%;
+    padding: 10px;
+    background: #4b7cff;
+    border: none;
+    color: white;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .2s;
 }
 
-.cerrar {
-  position: absolute;
-  right: 15px;
-  top: 10px;
-  font-size: 24px;
-  cursor: pointer;
-  color: #999;
+.modal-contenido .btn:hover {
+    background: #3bc6e9;
 }
 
-@keyframes slideUp {
-  from { transform: translateY(40px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+/* Logo centrado */
+.modal-logo {
+    width: 60px;
+    display: block;
+    border-radius: 80%;
+    object-fit: cover;
+    padding: 3px;
+    background: rgba(250, 248, 248, 0.963);
+    box-shadow: 0 0 10px rgba(75,124,255,0.4);
+    margin: 0 auto 12px auto;
 }
+
+
+
+.btn-cerrar {
+    padding: 8px 14px;
+    background: #4b7cff;
+    color: #fff;
+
+    border: none;
+    border-radius: 8px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+    display: inline-block; /* ✅ no ocupa todo el ancho */
+
+    transition: transform .15s ease, box-shadow .25s ease, background .25s ease;
+
+    box-shadow: 0 4px 10px rgba(75,124,255,0.35);
+}
+
+/* Hover moderno */
+.btn-cerrar:hover {
+    background: #3a6fe0;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(75,124,255,0.45);
+}
+
+/* Active */
+.btn-cerrar:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 8px rgba(75,124,255,0.25);
+}
+
 
 /* ============================ */
 /* 🎯 CARRUSEL DE OFERTAS - VERSIÓN PROFESIONAL AJUSTADA */

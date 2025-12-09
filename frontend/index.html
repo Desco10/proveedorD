@@ -22,6 +22,8 @@
   <header class="header">
     <div class="banner">
       <img src="/img/tiendafrente.jpg" alt="Banner Desco" class="banner-img">
+      <button id="btnCerrarSesion" class="btn-cerrar"> Cerrar sesión </button>
+
       <div class="overlay">
         <img src="/img/logo.png" alt="Logo DescoApp" class="logo">
         <h1>⭐ Bienvenido a DescoApp ⭐</h1>
@@ -30,8 +32,8 @@
         <p id="mensajeBienvenida" class="mensaje-bienvenida"></p>
 
       </div>
-      <div id="mensajeBienvenida"></div>
-<button id="btnCerrarSesion" class="btn-cerrar">Cerrar sesión</button>
+      
+     
 
     </div>
   </header>
@@ -141,7 +143,9 @@
   <div id="authModal" class="modal-auth">
     <div class="modal-contenido">
       <span class="cerrar" onclick="modalAuth.style.display='none'">&times;</span>
-      <h2>👤 Inicia sesión o regístrate</h2>
+      <img src="img/logo.png" class="modal-logo">
+      <h2> DescoApp</h2>
+      
 
       <div class="formularios">
         <form id="formLogin">
