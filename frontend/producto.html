@@ -2,86 +2,74 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title id="pageTitle">Producto - DescoApp</title>
 
-  <!-- Metadatos dinámicos -->
-  <meta property="og:title" content="" id="metaTitle">
-  <meta property="og:description" content="" id="metaDescription">
-  <meta property="og:image" content="" id="metaImage">
-  <meta property="og:url" content="" id="metaUrl">
-  <meta property="og:type" content="product">
+  <!-- SEO -->
+  <title>Producto | DESCO</title>
+  <meta name="description" content="Ficha completa del producto disponible en DescoApp para comprar rápido y fácil.">
 
-  <link rel="icon" href="img/logo.png" type="image/png">
-  <link rel="stylesheet" href="style.css">
+  <!-- OPEN GRAPH (para compartir en WhatsApp/Facebook) -->
+  <meta property="og:title" content="Producto disponible en DESCO">
+  <meta property="og:description" content="Haz clic para ver el producto completo y comprar por WhatsApp.">
+  <meta property="og:image" content="/img/logo.png">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="" id="og-url">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/producto.css">
 </head>
+
 <body>
 
-  <header class="logo-header">
-    <img src="img/logo.png" class="logo" alt="DescoApp Logo">
-  </header>
+  <div class="producto-container">
 
-  <main id="detalleProducto" class="producto-detalle">
-    <p>Cargando producto...</p>
-  </main>
+    <!-- LOGO CENTRAL -->
+    <div class="logo-app">
+      <img src="/img/logo.png" alt="DescoApp">
+    </div>
 
-  <footer class="footer">
-    <p>&copy; 2025 DescoApp Marketplace. Todos los derechos reservados.</p>
-  </footer>
+    <!-- TARJETA DEL PRODUCTO -->
+    <div class="producto-card" id="producto-card">
 
-  <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('id');
+      <div class="producto-img-container">
+        <img id="producto-imagen" src="" alt="Producto">
+      </div>
 
-    // Cargar producto desde tu JSON real
-    async function cargarProducto() {
-      const res = await fetch('data/productos_proveedores.json');
-      const productos = await res.json();
+      <div class="producto-info">
+        <h1 id="producto-nombre"></h1>
+        <p id="producto-descripcion"></p>
 
-      const producto = productos.find(p => p.id == id);
+        <div class="precio">
+          <span id="producto-precio"></span>
+        </div>
 
-      if (!producto) {
-        document.getElementById("detalleProducto").innerHTML = "<h2>Producto no encontrado</h2>";
-        return;
-      }
+        <div class="proveedor">
+          <img id="proveedor-logo" src="" alt="Proveedor">
+          <span id="proveedor-nombre"></span>
+        </div>
 
-      // Construir mensaje con link para volver a comprar
-      const urlProducto = `${window.location.origin}/producto.html?id=${producto.id}`;
-      const mensajeWhatsApp = encodeURIComponent(
-        `Hola, quiero comprar este producto:\n${producto.nombre}\nPrecio: ${producto.precio}\n\nVolver a comprar: ${urlProducto}`
-      );
+        <!-- Estrellas -->
+        <div class="rating">
+          <span class="star">★</span>
+          <span class="star">★</span>
+          <span class="star">★</span>
+          <span class="star">★</span>
+          <span class="star empty">★</span>
+          <span class="rating-text">4.0 / 5</span>
+        </div>
 
-      // WhatsApp del proveedor si existe; si no, usa uno central
-      const numeroWhatsApp = "573143416441";
+        <button class="btn-comprar" id="btn-comprar">Comprar por WhatsApp</button>
+      </div>
+    </div>
 
-      // Renderizar detalle del producto
-      document.title = `${producto.nombre} - DescoApp`;
+  </div>
 
-      document.getElementById("detalleProducto").innerHTML = `
-        <img src="${producto.imagen}" alt="${producto.nombre}" class="producto-img">
-        <h1>${producto.nombre}</h1>
-        <p class="precio">${producto.precio}</p>
-        <p>${producto.descripcion}</p>
+  <!-- BOTÓN FLOTANTE WHATSAPP -->
+  <a id="btn-ws-floating" class="btn-floating-ws">
+    <img src="/img/ws.png" alt="WhatsApp">
+  </a>
 
-        <a href="https://wa.me/${numeroWhatsApp}?text=${mensajeWhatsApp}"
-           target="_blank" class="btn-wsp">
-          Comprar por WhatsApp
-        </a>
-
-        <a href="index.html" class="btn-volver">
-          Volver al catálogo
-        </a>
-      `;
-
-      // Actualizar metadatos OG para compartir profesionalmente
-      document.getElementById("metaTitle").setAttribute("content", producto.nombre);
-      document.getElementById("metaDescription").setAttribute("content", producto.descripcion);
-      document.getElementById("metaImage").setAttribute("content", window.location.origin + producto.imagen);
-      document.getElementById("metaUrl").setAttribute("content", urlProducto);
-    }
-
-    cargarProducto();
-  </script>
+  <!-- Script -->
+  <script src="/js/producto.js"></script>
 
 </body>
 </html>

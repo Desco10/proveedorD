@@ -13,6 +13,10 @@ const mensajeBienvenida = document.getElementById("mensajeBienvenida");
 const paginacion = document.querySelector(".paginacion");
 const btnCerrar = document.getElementById("btnCerrarSesion");
 
+
+
+let ofertasGlobal = [];
+
 if (btnCerrar) {
   btnCerrar.addEventListener("click", cerrarSesion);
 }
@@ -408,6 +412,7 @@ function ocultarPaginacion() {
 
 
 // COMPRAR PRODUCTO
+// COMPRAR PRODUCTO
 function comprarProducto(idProducto) {
   requireLogin(() => {
     try {
@@ -416,8 +421,9 @@ function comprarProducto(idProducto) {
         console.error("Producto no encontrado:", idProducto);
         return;
       }
-      // Usuario logueado → enviar WhatsApp
-      enviarWhatsApp(producto);
+
+      enviarWhatsApp(producto); // <--- SOLO envío el producto
+
     } catch (error) {
       console.error("Error al comprar producto:", error);
     }
@@ -425,13 +431,20 @@ function comprarProducto(idProducto) {
 }
 
 
-
+// COMPRAR DESDE CARRUSEL
 function comprarProductoCarrusel(idProducto) {
   requireLogin(() => {
-    // Ya logueado → enviar WhatsApp del carrusel
-    enviarWhatsAppCarrusel(idProducto);
+
+    const producto = ofertasGlobal.find(p => p.id === idProducto);
+    if (!producto) {
+      console.error("Producto no encontrado en ofertas:", idProducto);
+      return;
+    }
+
+    enviarWhatsApp(producto); // usa la misma función normal
   });
 }
+
 
 
 // login exitoso
@@ -482,63 +495,79 @@ function onLoginExitoso(cliente) {
   }
 }
 
-
-// ENVIAR WHATSAPP (CATÁLOGO)
-
-async function enviarWhatsApp(producto) {
+// ---------------------------
+// ENVIAR WHATSAPP (CATÁLOGO) - VERSIÓN PROFESIONAL FINAL
+// ---------------------------
+async function enviarWhatsApp(producto, cliente = null, proveedor = null) {
   try {
-    let nombreProveedor = producto.proveedorNombre || "";
-    let logoProveedor = producto.proveedorLogo || "";
 
-    if ((!nombreProveedor || !logoProveedor) && producto.proveedorId) {
+    // 1. Obtener datos del cliente si no llegan
+    if (!cliente) {
+      cliente = isLoginVigente() ? JSON.parse(localStorage.getItem("cliente")) : null;
+    }
+
+    // Nombre del cliente en MAYÚSCULAS y NEGRILLA
+    const nombreCliente = cliente?.nombre 
+      ? `*${cliente.nombre.toUpperCase()}*`
+      : "*CLIENTE*";
+
+    // 2. Buscar proveedor si no llega
+    if (!proveedor && producto.proveedorId) {
       try {
         const resProv = await fetch("/data/proveedores.json");
         const provs = await resProv.json();
-        const provFound = provs.find(p => Number(p.id) === Number(producto.proveedorId));
-        if (provFound) {
-          nombreProveedor = nombreProveedor || provFound.nombre;
-          logoProveedor = logoProveedor || provFound.logo;
-        }
+        proveedor = provs.find(p => Number(p.id) === Number(producto.proveedorId)) || null;
       } catch (err) {
         console.warn("No se pudo leer proveedores.json:", err);
       }
     }
 
+    // Nombre proveedor en negrilla + mayúsculas
+    const nombreProveedor = proveedor?.nombre
+      ? `*${proveedor.nombre.toUpperCase()}*`
+      : producto.proveedorNombre
+        ? `*${producto.proveedorNombre.toUpperCase()}*`
+        : "*PROVEEDOR*";
+
+    // Logos
+    const logoProveedor = proveedor?.logo || producto.proveedorLogo || "";
     const makeAbsolute = (path) => {
       if (!path) return "";
       if (path.startsWith("http://") || path.startsWith("https://")) return path;
       return `${window.location.origin}/${path}`.replace(/([^:]\/)\/+/g, "$1");
     };
+    const logoProveedorUrl = makeAbsolute(logoProveedor);
 
-    const logoUrl = makeAbsolute(logoProveedor);
+    // Link profesional del producto
+    const urlProducto = `${window.location.origin}/producto.html?id=${encodeURIComponent(producto.id)}`;
 
-    // Si no existe usuarioActual intentar leerlo del storage
-    if (!usuarioActual) {
-      usuarioActual = isLoginVigente() ? JSON.parse(localStorage.getItem("cliente")) : null;
-    }
+    // 3. ESTILOS WHATSAPP
+    const nombreProducto = `🔥 *${producto.nombre.toUpperCase()}*`;
+    const precio = `*PRECIO:* *${producto.precio.toUpperCase ? producto.precio.toUpperCase() : producto.precio}*`;
 
-    const nombreUsuario = usuarioActual?.nombre 
-      ? `*${usuarioActual.nombre.toUpperCase()}*` 
+    const descripcion = producto.descripcion
+      ? producto.descripcion
       : "";
 
+    // 4. MENSAJE PROFESIONAL
     let mensaje = 
-`Hola, soy ${nombreUsuario} y quiero comprar este producto:
+`Hola, soy ${nombreCliente} y quiero comprar este producto:
 
-- *${producto.nombre}*
-${producto.descripcion || ""}
-- Precio: ${producto.precio}
+${nombreProducto}
+${descripcion}
+${precio}
 
-- Proveedor: *${nombreProveedor}*
+*PROVEEDOR:* ${nombreProveedor}
+${logoProveedorUrl ? `Logo: ${logoProveedorUrl}` : ""}
+
+🔗 Ver producto:
+${urlProducto}
 `;
 
-    if (logoUrl) mensaje += `• Logo: ${logoUrl}\n`;
+    // 5. Número destino
+    const numero = proveedor?.whatsapp || producto.whatsapp || "573143416441";
 
-    mensaje += `
-- Ver producto:
-${window.location.origin}?producto=${encodeURIComponent(producto.nombre)}
-`;
-
-    const numero = "573143416441";
+    // 6. Enviar
     const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, "_blank");
 
@@ -741,11 +770,12 @@ function abrirModalAuth(producto) {
 
 async function cargarOfertas() {
   try {
-    // Se fuerza caché OFF usando timestamp
     const res = await fetch(`/data/ofertas.json?cache=${Date.now()}`);
     const ofertas = await res.json();
 
-    console.log("OFERTAS LEÍDAS (REAL):", ofertas);
+    ofertasGlobal = ofertas; // <--- GUARDAMOS EL ARRAY EN GLOBAL
+
+    console.log("OFERTAS LEÍDAS:", ofertas);
 
     if (!Array.isArray(ofertas) || ofertas.length === 0) {
       console.warn("ofertas.json está vacío o no existe");
@@ -833,7 +863,7 @@ function enviarWhatsAppCarrusel(idProducto) {
       const imagenUrl = makeAbsolute(producto.imagen || "");
       const logoUrl = makeAbsolute(logoProveedor || "");
 
-      let mensajeTexto = `Hola ${cliente?.nombre || ""}, quiero comprar este producto:\n\n`;
+      let mensajeTexto = `Hola Soy ${cliente?.nombre || ""}, quiero comprar este producto:\n\n`;
       mensajeTexto += `*${producto.nombre}*\n`;
       if (producto.descripcion) mensajeTexto += `${producto.descripcion}\n`;
       mensajeTexto += `Precio: ${producto.precio}\n\n`;
