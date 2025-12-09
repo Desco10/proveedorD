@@ -412,7 +412,7 @@ function ocultarPaginacion() {
 
 
 // COMPRAR PRODUCTO
-// COMPRAR PRODUCTO
+
 function comprarProducto(idProducto) {
   requireLogin(() => {
     try {
@@ -447,6 +447,8 @@ function comprarProductoCarrusel(idProducto) {
 
 
 
+
+
 // login exitoso
 
 function cerrarModalAuth() {
@@ -464,17 +466,19 @@ function onLoginExitoso(cliente) {
   // Cerrar modal
   cerrarModalAuth();
 
-  // Actualizar UI de bienvenida
+  // UI bienvenida
   actualizarMensajeBienvenida();
 
-  // Si había una acción pendiente, ejecutarla
+  // Mostrar botón cerrar sesión
+  mostrarCerrarSesion();
+
+  // Ejecutar acción pendiente
   try {
     if (typeof window.afterLogin === "function") {
       const fn = window.afterLogin;
       window.afterLogin = null;
       try { fn(); } catch (err) { console.error("Error ejecutando afterLogin:", err); }
     } else {
-      // Fallback: si guardabas productoPendiente en sessionStorage (por compatibilidad), manejarlo:
       const productoPendiente = sessionStorage.getItem("productoPendiente");
       if (productoPendiente) {
         try {
@@ -494,6 +498,31 @@ function onLoginExitoso(cliente) {
     console.error("Error al ejecutar acción pendiente:", err);
   }
 }
+
+// --- Botón cerrar sesión ---
+const btnCerrarSesion = document.getElementById("btnCerrarSesion");
+
+function mostrarCerrarSesion() {
+  const btn = document.getElementById("btnCerrarSesion");
+  if (btn) {
+    btn.style.display = "inline-flex"; // compacto y consistente
+    btn.style.visibility = "visible";
+    btn.style.opacity = "1";
+    console.log("Botón mostrado");
+  }
+}
+
+function ocultarCerrarSesion() {
+  const btn = document.getElementById("btnCerrarSesion");
+  if (btn) {
+    btn.style.display = "none";
+    btn.style.visibility = "hidden";
+    btn.style.opacity = "0";
+    console.log("Botón ocultado");
+  }
+}
+
+
 
 // ---------------------------
 // ENVIAR WHATSAPP (CATÁLOGO) - VERSIÓN PROFESIONAL FINAL
@@ -622,22 +651,32 @@ function actualizarMensajeBienvenida() {
   `;
 }
 
+// CERRAR SESIÓN (reemplaza la versión anterior)
 function cerrarSesion() {
-  localStorage.removeItem("cliente");
-  localStorage.removeItem("loginTime");
-  usuarioActual = null;
+  try {
+    // Borrar todas las claves relacionadas con sesión que hemos usado
+    localStorage.removeItem("cliente");
+    localStorage.removeItem("usuario");
+    localStorage.removeItem("loginTime");
+    // Opcional: limpiar producto pendiente
+    sessionStorage.removeItem("productoPendiente");
 
-  // borrar cualquier afterLogin
-  window.afterLogin = null;
+    // Limpiar variable en memoria
+    usuarioActual = null;
 
-  // limpiar mensaje bienvenida
-  if (mensajeBienvenida) mensajeBienvenida.innerHTML = "";
+    // Ocultar UI de sesión
+    actualizarMensajeBienvenida(); // dejar mensaje en blanco si usa usuarioActual
+    ocultarCerrarSesion();
 
-  // mostrar modal nuevamente
-  if (modalAuth) modalAuth.style.display = "flex";
+    console.log("✅ Sesión cerrada: localStorage limpiado");
 
-  console.log("✅ Sesión cerrada");
+    // Si quieres forzar recarga para estado "limpio" descomenta la siguiente línea:
+    // location.reload();
+  } catch (err) {
+    console.error("Error en cerrarSesion:", err);
+  }
 }
+
 
 
 // REGISTRO
@@ -957,5 +996,45 @@ async function autologinBackend() {
 
   } catch (error) {
     console.error("❌ Error autologin backend:", error);
+  }
+}
+
+
+
+// Inicialización segura: ejecutar después de que DOM esté listo
+document.addEventListener("DOMContentLoaded", () => {
+
+  // Re-obtener el botón (por si fue definido antes de cargar el script)
+  const btn = document.getElementById("btnCerrarSesion");
+
+  // Si existe, conectar el evento de cerrar sesión
+  if (btn) {
+    // quitar listeners previos por seguridad
+    try { btn.replaceWith(btn.cloneNode(true)); } catch(e){ /* fallBack */ }
+    // volver a obtener
+    const btnFresh = document.getElementById("btnCerrarSesion");
+    if (btnFresh) btnFresh.addEventListener("click", cerrarSesion);
+  }
+
+  // Verificar estado de sesión al cargar y mostrar/ocultar botón
+  verificarLoginAlCargar(); // función que veremos abajo (si no existe, pega la versión siguiente)
+});
+
+function verificarLoginAlCargar() {
+  // Usa tu lógica de vencimiento si la tienes (isLoginVigente)
+  const vigente = (typeof isLoginVigente === "function") ? isLoginVigente() : !!localStorage.getItem("cliente") || !!localStorage.getItem("usuario");
+
+  if (vigente) {
+    // sincronizar usuarioActual desde storage si es necesario
+    const stored = localStorage.getItem("cliente") || localStorage.getItem("usuario");
+    if (stored) {
+      try { usuarioActual = JSON.parse(stored); } catch(e){ usuarioActual = null; }
+    }
+    actualizarMensajeBienvenida();
+    mostrarCerrarSesion();
+  } else {
+    usuarioActual = null;
+    actualizarMensajeBienvenida();
+    ocultarCerrarSesion();
   }
 }

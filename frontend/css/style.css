@@ -195,40 +195,36 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
     box-shadow: 0 0 10px rgba(75,124,255,0.4);
     margin: 0 auto 12px auto;
 }
-
-
-
 .btn-cerrar {
-    padding: 8px 14px;
-    background: #4b7cff;
-    color: #fff;
+    position: absolute;
+    top: 15px;
+    right: 15px;
 
-    border: none;
-    border-radius: 8px;
+    padding: 7px 14px;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(6px);
 
-    font-size: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 12px;
+
+    font-size: 13px;
     font-weight: 600;
+    color: #ffffff;
 
     cursor: pointer;
-    display: inline-block; /* ✅ no ocupa todo el ancho */
+    display: none; /* Solo aparece cuando se inicia sesión */
 
-    transition: transform .15s ease, box-shadow .25s ease, background .25s ease;
-
-    box-shadow: 0 4px 10px rgba(75,124,255,0.35);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    transition: all .25s ease;
+    z-index: 500;
 }
 
-/* Hover moderno */
 .btn-cerrar:hover {
-    background: #3a6fe0;
-    transform: translateY(-1px);
-    box-shadow: 0 8px 18px rgba(75,124,255,0.45);
+    background: rgba(255, 255, 255, 0.45);
+    color: #000;
+    transform: translateY(-2px);
 }
 
-/* Active */
-.btn-cerrar:active {
-    transform: translateY(0);
-    box-shadow: 0 3px 8px rgba(75,124,255,0.25);
-}
 
 
 /* ============================ */
