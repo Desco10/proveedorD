@@ -186,14 +186,14 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
 
 /* Logo centrado */
 .modal-logo {
-    width: 60px;
+    width: 70px;
     display: block;
-    border-radius: 80%;
+    border-radius: 60%;
     object-fit: cover;
-    padding: 3px;
-    background: rgba(250, 248, 248, 0.963);
-    box-shadow: 0 0 10px rgba(75,124,255,0.4);
-    margin: 0 auto 12px auto;
+    padding: 1px;
+    background: rgba(227, 220, 220, 0.741);
+    box-shadow: 0 0 30px rgba(75, 123, 255, 0.679);
+    margin: 0 auto 20px auto;
 }
 .btn-cerrar {
     position: absolute;
@@ -225,6 +225,75 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
     transform: translateY(-2px);
 }
 
+/* estilo para mensajes de error en login */
+/* Mensajes de error en formularios */
+/* ============================================
+   ANIMACIONES PARA MENSAJES DE ERROR
+   ============================================ */
+
+/* Animación de entrada */
+@keyframes slideDownFade {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animación de salida */
+@keyframes slideUpFade {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+/* Estilo base para mensajes de error */
+#loginErrorMsg,
+#registroErrorMsg {
+  display: none; /* Se activa desde JS */
+  background: rgba(255, 77, 77, 0.15);
+  color: #c62828;
+  border-left: 4px solid #e53935;
+  padding: 10px 14px;
+  margin-top: 10px;
+  font-size: 0.95rem;
+  border-radius: 6px;
+  backdrop-filter: blur(3px);
+
+  animation-duration: 0.45s;
+  animation-fill-mode: both;
+
+  /* Visibilidad prolongada */
+  transition: opacity 0.6s ease;
+}
+
+/* Animación al mostrarse */
+.error-show {
+  display: block;
+  animation-name: slideDownFade;
+}
+
+/* Animación al desaparecer */
+.error-hide {
+  animation-name: slideUpFade;
+  animation-duration: 0.45s;
+}
+
+/* Ícono SVG de advertencia */
+#loginErrorMsg::before,
+#registroErrorMsg::before {
+  content: "\26A0  "; /* Código del triángulo de advertencia */
+  font-weight: bold;
+  margin-right: 6px;
+}
 
 
 /* ============================ */

@@ -1,16 +1,19 @@
 const express = require("express");
 const router = express.Router();
-//const db = require("../config/db");
 
 const controller = require("../controllers/clientescontroller");
 
-// Registrar cliente
+// Registrar cliente con validaciones profesionales
 router.post("/registrar", controller.registrarCliente);
 
-// Autologin / validar cédula
+// Autologin / validar cédula (esto ya funciona)
 router.post("/autologin", controller.validarCedula);
 
+// Nueva validación profesional (opcional, pero recomendada)
+router.post("/validar-datos", controller.validarDatosCliente);
+
 module.exports = router;
+
 
 //router.post("/registro", async (req, res) => {
  // try {
