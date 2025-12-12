@@ -6,7 +6,7 @@
     "descripcion": "Especialistas en productos de aseo y hogar.",
     "color": "#E8F5E9",
     "banner": "/img/iniciobanner.jpg",
-    "detalles": "Promoción especial para tenderos – Descuentos hoy"
+    "detalles": "Nuestro tope de pedido es de $45.000 – Despachamos  en toda  la ciudad de Popayan "
   },
   
   {
@@ -16,7 +16,7 @@
     "descripcion": "Medicamentos y productos de cuidado personal.",
     "color": "#E3F2FD",
     "banner": "/img/logo.png",
-    "detalles": "Promoción especial para tenderos – Descuentos hoy"
+    "detalles": "Nuestro tope de pedido es de $ 100.000  – Despachamos  en todo el Departamento del Cauca "
   },
   
   {
@@ -26,7 +26,7 @@
     "descripcion": "Snacks, bebidas y productos comestibles.",
     "color": "#FFF3E0",
     "banner":"/img/iniciobanner.jpg",
-    "detalles": "Promoción especial para tenderos – Descuentos hoy"
+    "detalles": "Nuestro tope de pedido es de $ 100.000 – Descuentos hoy - estamos ubicados  en POPAYAN "
   },
   {
     "id": 4,
@@ -35,7 +35,9 @@
     "descripcion": "Snacks, bebidas y productos comestibles.",
     "color": "#FFF3E0",
     "banner":"/img/banner.jpeg",
-    "detalles": "Promoción especial para tenderos – Descuentos hoy"
+    "detalles": "Nuestro tope de pedido es de $ 100.000 – Descuentos hoy - estamos ubicados  en POPAYAN "
   }
+  
+
 
 ]

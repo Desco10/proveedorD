@@ -26,9 +26,17 @@
 
     <!-- BOTÓN CERRAR SESIÓN (arriba derecha, oculto por defecto) -->
     <button id="btnCerrarSesion" class="btn-cerrar">Cerrar sesión</button>
+    <div class="logo-container">
+    <img src="img/logo.png" class="logo" alt="Logo">
+
+  <div class="abierto-text">
+    ABIERTO
+  </div>
+</div>
+
 
     <div class="overlay">
-      <img src="/img/logo.png" alt="Logo DescoApp" class="logo">
+      
       <h1>⭐ Bienvenido a DescoApp ⭐</h1>
       <p>Compra rápido y fácil tus productos para tienda y droguería.</p>
 
@@ -115,72 +123,149 @@
   </section>
 
   <!-- BLOG -->
-  <section class="blog">
-    <h2> Noticias y Consejos</h2>
-    <article>
-      <h3>🛒 5 Tips para vender más en tu tienda</h3>
-      <ul>
-        <li>Aprovecha ofertas especiales</li>
-        <li>Haz exhibiciones atractivas</li>
-        <li>Ofrece una atención amable</li>
-        <li>Escucha las sugerencias de tus clientes</li>
-        <li>Mantén tu tienda limpia y organizada</li>
-      </ul>
-    </article>
-  </section>
+  <!-- BLOG -->
+<section class="blog">
+  <h2 class="blog-title">Noticias y Consejos</h2>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="social-icons">
-      <a href="https://facebook.com/desco.si" target="_blank"><i class="fab fa-facebook-f"></i></a>
-      <a href="https://wa.me/573143416441" target="_blank"><i class="fab fa-whatsapp"></i></a>
-      <a href="https://instagram.com/desco_col" target="_blank"><i class="fab fa-instagram"></i></a>
-    </div>
-    <p>&copy; 2025 DescoApp Marketplace. Todos los derechos reservados.</p>
-  </footer>
+  <!-- MENSAJE INSPIRADOR DIARIO -->
+  <div class="mensaje-diario" id="mensajeDiario">
+      <!-- Aquí aparece el mensaje bíblico -->
+  </div>
+
+  <article class="blog-card">
+    <h3>🛒 5 Tips para vender más en tu tienda</h3>
+    <ul>
+      <li>Aprovecha ofertas especiales</li>
+      <li>Haz exhibiciones atractivas</li>
+      <li>Ofrece una atención amable</li>
+      <li>Escucha las sugerencias de tus clientes</li>
+      <li>Mantén tu tienda limpia y organizada</li>
+    </ul>
+  </article>
+</section>
+
+
+ <footer>
+  <div class="social-icons">
+  <i class="fab fa-facebook"></i>
+  <i class="fab fa-instagram"></i>
+  <i class="fab fa-whatsapp"></i>
+</div>
+
+
+  <!-- MENSAJE DE TEMPORADA -->
+  <div class="mensaje-temporada" id="mensajeTemporada">
+    <p id="textoTemporada"></p>
+  </div>
+
+  <p>&copy; 2025 DescoApp Marketplace. Todos los derechos reservados.</p>
+</footer>
+
 
   <!-- MODAL LOGIN -->
-  <div id="authModal" class="modal-auth">
-    <div class="modal-contenido">
-      <span class="cerrar" onclick="modalAuth.style.display='none'">&times;</span>
-      <img src="img/logo.png" class="modal-logo">
-      <h2> DescoApp</h2>
-      
+  <!-- MODAL LOGIN (REEMPLAZAR TU SECCIÓN COMPLETA) -->
+<div id="authModal" class="modal-auth">
+  <div class="modal-contenido">
+    <span class="cerrar" id="cerrarModal">&times;</span>
+    <img src="img/logo.png" class="modal-logo">
+    <h2>DescoApp</h2>
+    
 
-      <div class="formularios">
-        <form id="formLogin">
-          <h3>Iniciar sesión</h3>
-          <input type="text" id="cedulaLogin" placeholder="Número de cédula" required>
-          <button type="submit" class="btn">Entrar</button>
-        </form>
+    <div class="formularios">
+      <!-- ========== FORMULARIO DE LOGIN ========== -->
+      <form id="formLogin">
+        <h3>Iniciar sesión</h3>
+        <input type="text" id="cedulaLogin" placeholder="Número de cédula" required>
+        
+        <!-- ✅ Caja profesional de mensaje con tus estilos -->
+        <div id="loginErrorMsg" class="error-box"></div>
+        
+        <button type="submit" class="btn">Entrar</button>
+      </form>
 
- <form id="formRegistro">
-  <h3>Registrarme</h3>
+      <!-- ========== FORMULARIO DE REGISTRO ========== -->
+      <form id="formRegistro">
+        <h3>Registrarme</h3>
 
-  <input type="text" id="nombre" placeholder="Nombre" required>
-  <input type="text" id="apellido" placeholder="Apellido" required>
+        <input type="text" id="nombre" placeholder="Nombre" required>
+        <input type="text" id="apellido" placeholder="Apellido" required>
 
-  <input type="text" id="cedula" placeholder="Cédula" required>
-  <input type="text" id="telefono" placeholder="Teléfono" required>
+        <input type="text" id="cedula" placeholder="Cédula" required>
+        <input type="text" id="telefono" placeholder="Teléfono" required>
 
-  <input type="text" id="direccion" placeholder="Dirección">
+        <input type="text" id="direccion" placeholder="Dirección">
 
-  <select id="genero" required>
-    <option value="">Selecciona tu género</option>
-    <option value="M">Masculino</option>
-    <option value="F">Femenino</option>
-  </select>
+        <select id="genero" required>
+          <option value="">Selecciona tu género</option>
+          <option value="M">Masculino</option>
+          <option value="F">Femenino</option>
+        </select>
 
-  <button type="submit" class="btn">Registrar</button>
-<!-- dentro de form id="formLogin", justo debajo de <input id="cedulaLogin"> -->
-  <div id="loginErrorMsg" class="login-error" style="display:none; margin-top:8px; color:#f7f7f7; font-size:14px;"></div>
+        <button type="submit" class="btn">Registrar</button>
 
+        <!-- ✅ Caja profesional de mensaje con tus estilos -->
+        <div id="registroErrorMsg" class="error-box"></div>
+      </form>
 
-</form>
-
-      </div>
     </div>
   </div>
+</div>
+
+<script>
+// Lista de mensajes diarios (NTV + RVR + enfoque reformado)
+const mensajesBiblicos = [
+  {
+    texto: "Pon en manos del Señor todo lo que haces, y tus planes tendrán éxito.",
+    cita: "Proverbios 16:3 (NTV)"
+  },
+  {
+    texto: "Encomienda a Jehová tu camino, y confía en Él; y Él hará.",
+    cita: "Salmo 37:5 (RVR1960)"
+  },
+  {
+    texto: "Así que no nos cansemos de hacer el bien; a su debido tiempo cosecharemos.",
+    cita: "Gálatas 6:9 (NTV)"
+  },
+  {
+    texto: "El Señor es mi pastor; nada me faltará.",
+    cita: "Salmo 23:1 (RVR1960)"
+  },
+  {
+    texto: "Busquen el reino de Dios por encima de todo lo demás.",
+    cita: "Mateo 6:33 (NTV)"
+  },
+  {
+    texto: "Todo lo puedo en Cristo que me fortalece.",
+    cita: "Filipenses 4:13 (RVR1960)"
+  },
+  {
+    texto: "El Señor dirige los pasos de los justos.",
+    cita: "Salmo 37:23 (NTV)"
+  }
+];
+
+// Calcula el día del año (1-365)
+function obtenerDiaDelAño() {
+  const hoy = new Date();
+  const inicio = new Date(hoy.getFullYear(), 0, 1);
+  const diferencia = hoy - inicio;
+  return Math.floor(diferencia / (1000 * 60 * 60 * 24));
+}
+
+// Carga mensaje diario según el día del año
+function cargarMensajeDiario() {
+  const dia = obtenerDiaDelAño();
+  const index = dia % mensajesBiblicos.length;
+  const mensaje = mensajesBiblicos[index];
+
+  document.getElementById("mensajeDiario").innerHTML = `
+      <p>"${mensaje.texto}"</p>
+      <span>${mensaje.cita}</span>
+  `;
+}
+
+document.addEventListener("DOMContentLoaded", cargarMensajeDiario);
+</script>
 
   <script src="/js/main.js"></script>
   <script src="/js/videos.js"></script>

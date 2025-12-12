@@ -1,4 +1,3 @@
-
 // main.js - Versión con validaciones integradas (DescoApp)
 
 // ============================================
@@ -78,42 +77,85 @@ function validarDireccion(direccion) {
 }
 
 // Mostrar error en formulario
-function mostrarErrorForm(mensaje, idError = 'loginErrorMsg', duracion = 10000) {
+function mostrarErrorForm(mensaje, idError = 'loginErrorMsg') {
   const errorEl = document.getElementById(idError);
-  if (!errorEl) return alert(mensaje);
-
-  errorEl.textContent = mensaje;
-  errorEl.style.display = 'block';
-  errorEl.style.color = '#ffffff';
-  errorEl.style.backgroundColor = '#e74d3c3b';
-  errorEl.style.padding = '12px 15px';
-  errorEl.style.marginTop = '10px';
-  errorEl.style.borderRadius = '8px';
-  errorEl.style.fontSize = '14px';
-  errorEl.style.fontWeight = '500';
-  errorEl.style.textAlign = 'center';
-  errorEl.style.boxShadow = '0 2px 8px rgba(231, 76, 60, 0.3)';
-  errorEl.style.animation = 'slideDown 0.3s ease-out';
-
-  // Auto-ocultar según duración
-  clearTimeout(errorEl._timeout);
-  errorEl._timeout = setTimeout(() => {
-    ocultarErrorForm(idError);
-  }, duracion);
+  if (errorEl) {
+    // Limpiar timeouts previos ESPECÍFICOS de este error
+    const timeoutKey = `errorTimeout_${idError}`;
+    if (window[timeoutKey]) {
+      clearTimeout(window[timeoutKey]);
+      window[timeoutKey] = null;
+    }
+    
+    // ✅ BLOQUEAR limpieza automática por 5 segundos (aumentado)
+    const blockKey = `errorBlocked_${idError}`;
+    window[blockKey] = true;
+    
+    // FORZAR DISPLAY CON INLINE STYLES
+    errorEl.style.display = 'flex';
+    errorEl.style.backgroundColor = '#fafaf916';
+    errorEl.style.color = 'white';
+    errorEl.style.padding = '6px 12px';
+    errorEl.style.borderRadius = '6px';
+    errorEl.style.marginTop = '10px';
+    errorEl.style.fontSize = '12px';
+    errorEl.style.alignItems = 'center';
+    errorEl.style.justifyContent = 'space-between';
+    errorEl.style.gap = '8px';
+    errorEl.style.opacity = '1';
+    errorEl.style.visibility = 'visible';
+    errorEl.style.animation = 'fadeIn 0.4s ease';
+    
+    // Agregar icono y botón de cerrar
+    errorEl.innerHTML = `
+      <span style="flex: 1;">⚠️ ${mensaje}</span>
+      <button onclick="ocultarErrorForm('${idError}')" style="background: transparent; border: none; color: white; cursor: pointer; font-size: 20px; padding: 4px 8px; margin: 0; line-height: 1; font-weight: bold;">&times;</button>
+    `;
+    
+    console.log(`✅ Error mostrado [${idError}]: "${mensaje}" - Durará 60 segundos`);
+    
+    // Desbloquear limpieza automática después de 5 segundos (aumentado)
+    setTimeout(() => {
+      window[blockKey] = false;
+      console.log(`🔓 Limpieza automática activada para [${idError}]`);
+    }, 5000);
+    
+    // Auto-ocultar después de 1 minuto (60000 ms = 60 segundos)
+    window[timeoutKey] = setTimeout(() => {
+      console.log(`⏰ 60 segundos cumplidos - Ocultando [${idError}]`);
+      ocultarErrorForm(idError);
+    }, 60000);
+    
+  } else {
+    console.error(`❌ No se encontró el elemento: ${idError}`);
+    alert(mensaje);
+  }
 }
 
 // Ocultar error
 function ocultarErrorForm(idError = 'loginErrorMsg') {
   const errorEl = document.getElementById(idError);
-  if (!errorEl) return;
-
-  errorEl.style.animation = 'slideUp 0.3s ease-out';
-
-  setTimeout(() => {
-    errorEl.textContent = '';
-    errorEl.style.display = 'none';
-  }, 300);
+  if (errorEl && errorEl.style.display === 'flex') {
+    console.log(`🔴 Ocultando error: [${idError}]`);
+    
+    // Cancelar timeout específico de este error
+    const timeoutKey = `errorTimeout_${idError}`;
+    if (window[timeoutKey]) {
+      clearTimeout(window[timeoutKey]);
+      window[timeoutKey] = null;
+    }
+    
+    // Ocultar con animación
+    errorEl.style.animation = 'fadeOut 0.4s ease';
+    
+    setTimeout(() => {
+      errorEl.style.display = 'none';
+      errorEl.innerHTML = '';
+      errorEl.style.opacity = '0';
+    }, 400);
+  }
 }
+
 
 // ============================================
 // CONFIGURACIÓN GLOBAL
@@ -1132,25 +1174,63 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // ✅ LIMPIAR ERRORES EN TIEMPO REAL AL ESCRIBIR
   
-  // Login - limpiar al escribir en cédula
+  // Login - limpiar SOLO el error de login al escribir en cédula
   const cedulaLoginInput = document.getElementById('cedulaLogin');
   if (cedulaLoginInput) {
     cedulaLoginInput.addEventListener('input', () => {
-      ocultarErrorForm('loginErrorMsg');
+      // Solo limpiar si han pasado 5 segundos desde que se mostró
+      if (!window.errorBlocked_loginErrorMsg) {
+        console.log('🧹 Usuario escribiendo en LOGIN - limpiando error de login');
+        ocultarErrorForm('loginErrorMsg');
+      } else {
+        console.log('⏸️ Error de login bloqueado - esperando 5 segundos');
+      }
     });
   }
   
-  // Registro - limpiar al escribir en cualquier campo
+  // Registro - limpiar SOLO el error de registro al escribir
   const camposRegistro = ['nombre', 'apellido', 'cedula', 'telefono', 'direccion', 'genero'];
   camposRegistro.forEach(campo => {
     const input = document.getElementById(campo);
     if (input) {
       input.addEventListener('input', () => {
-        ocultarErrorForm('registroErrorMsg');
+        if (!window.errorBlocked_registroErrorMsg) {
+          console.log('🧹 Usuario escribiendo en REGISTRO - limpiando error de registro');
+          ocultarErrorForm('registroErrorMsg');
+        } else {
+          console.log('⏸️ Error de registro bloqueado - esperando 5 segundos');
+        }
       });
       input.addEventListener('change', () => {
-        ocultarErrorForm('registroErrorMsg');
+        if (!window.errorBlocked_registroErrorMsg) {
+          ocultarErrorForm('registroErrorMsg');
+        }
       });
     }
   });
 });
+
+
+
+// ============================
+// MENSAJE DE TEMPORADA
+/// ============================
+// MENSAJE DE TEMPORADA
+// ============================
+
+// Activa o desactiva el mensaje
+const mensajeTemporadaActivo = true;  // true = mostrar, false = ocultar
+
+// Texto de temporada actual
+const textoDeTemporada = "¡Feliz Navidad y próspero Año Nuevo 2026!";
+
+// Si está activo, lo mostramos
+if (mensajeTemporadaActivo) {
+    const textoEl = document.getElementById("textoTemporada");
+    const contenedor = document.getElementById("mensajeTemporada");
+
+    if (textoEl && contenedor) {
+        textoEl.textContent = textoDeTemporada;
+        contenedor.classList.add("active");  // Activar efecto CSS
+    }
+}
