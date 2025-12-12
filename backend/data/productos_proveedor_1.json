@@ -1,20 +1,20 @@
 [
   {
   "id": 1,
-  "nombre": "Advil Max",
-  "precio": "$20.000 (sobre x10)",
-  "imagen": "/img/advimax.jpg",
-  "descripcion": "Analgésico...",
+  "nombre": "Aceite Bebe 100ml",
+  "precio": "$6897 (unidad)",
+  "imagen": "/img/p1/produc/ACEITEBEBE.jpg",
+  "descripcion": "suavecito con tu piel...",
   "oferta": true,
   "proveedorId": 1
 },
 
   {
     "id": 2,
-    "nombre": "Bonfiest",
-    "precio": "$3.297 unidad",
-    "imagen": "/img/bonfiest.png",
-    "descripcion": "Tabletas efervescentes para aliviar el malestar estomacal y la acidez.",
+    "nombre": "Acetaminofen tabletas 500mg",
+    "precio": "$8.700 caja x 100 unidades",
+    "imagen": "/img/p1/produc/ACETAMINOFEN.jpg",
+    "descripcion": "Tabletas para aliviar el malestar del dolor de cabeza .",
     "oferta": false,
     "proveedorId": 1
   },

@@ -2,10 +2,10 @@
   {
     "id": 1,
     "nombre": "Distribuciones El Buen Precio",
-    "logo": "/img/iniciobanner.jpg",
+    "logo": "/img/p1/logo/iniciobanner.jpg",
     "descripcion": "Especialistas en productos de aseo y hogar.",
     "color": "#E8F5E9",
-    "banner": "/img/iniciobanner.jpg",
+    "banner": "/img/p1/banner/iniciobanner.jpg",
     "detalles": "Nuestro tope de pedido es de $45.000 – Despachamos  en toda  la ciudad de Popayan "
   },
   
