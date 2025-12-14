@@ -170,6 +170,7 @@ const formLogin = document.getElementById("formLogin");
 const mensajeBienvenida = document.getElementById("mensajeBienvenida");
 const paginacion = document.querySelector(".paginacion");
 const btnCerrarSesion = document.getElementById("btnCerrarSesion"); // ÚNICA DECLARACIÓN
+
 const modalProducto = document.getElementById("modalProducto");
 const modalProductoImg = document.getElementById("modalProductoImg");
 const modalProductoDesc = document.getElementById("modalProductoDesc");
@@ -309,11 +310,11 @@ async function cargarProveedores() {
     }
 
     contenedorProveedores.innerHTML = proveedores.map(p => `
-      <div class="card-proveedor" onclick="abrirProveedor('${p.id}', '${p.nombre}')">
-        <img src="${p.logo}" alt="${p.nombre}">
-        <h3>${p.nombre}</h3>
-      </div>
-    `).join('');
+  <div class="card-proveedor" onclick="abrirProveedor('${p.id}', '${p.nombre}')">
+    <img src="${p.logo}" alt="${p.nombre}" loading="lazy">
+    <h3>${p.nombre}</h3>
+  </div>
+`).join('');
 
     proveedorActual = null;
     ocultarPaginacion();
@@ -470,15 +471,28 @@ function filtrarCatalogo(texto) {
     const card = document.createElement("div");
     card.className = "card";
 
-    card.innerHTML = `
-      <img src="${prod.imagen}" alt="${prod.nombre}">
-      <h3>${prod.nombre}</h3>
-      <p>${prod.precio}</p>
+   card.innerHTML = `
+  <div class="img-wrapper">
+    <img 
+      src="${prod.imagen}" 
+      alt="${prod.nombre}"
+      onclick="abrirModalProducto('${prod.imagen}', '${prod.descripcion}')"
+    />
+  </div>
 
-      <button class="btn-wsp" onclick="comprarProducto(${prod.id})">
-        <i class="fab fa-whatsapp"></i> COMPRAR
-      </button>
-    `;
+  <h3 class="producto-nombre">${prod.nombre}</h3>
+
+  <p class="producto-precio">${prod.precio}</p>
+
+  <div class="card-actions">
+    <button class="btn-wsp" onclick="comprarProducto(${prod.id})">
+      <i class="fab fa-whatsapp"></i> COMPRAR
+    </button>
+  </div>
+`;
+
+
+
     cont.appendChild(card);
   });
 
@@ -513,15 +527,25 @@ function mostrarProductos(animar = true) {
       card.className = "card animar-entrada";
 
       card.innerHTML = `
-        <img src="${prod.imagen}" alt="${prod.nombre}">
-        <h3>${prod.nombre}</h3>
-        <p>${prod.precio}</p>
+  <div class="img-wrapper">
+    <img 
+      src="${prod.imagen}" 
+      alt="${prod.nombre}"
+      onclick="abrirModalProducto('${prod.imagen}', '${prod.descripcion}')"
+    />
+  </div>
 
-        <button class="btn-wsp" onclick="comprarProducto(${prod.id})">
-          <i class="fab fa-whatsapp"></i> COMPRAR
-         </button>
+  <h3 class="producto-nombre">${prod.nombre}</h3>
 
-      `;
+  <p class="producto-precio">${prod.precio}</p>
+
+  <div class="card-actions">
+    <button class="btn-wsp" onclick="comprarProducto(${prod.id})">
+      <i class="fab fa-whatsapp"></i> COMPRAR
+    </button>
+  </div>
+`;
+
 
       contenedor.appendChild(card);
     });

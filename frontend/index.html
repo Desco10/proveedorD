@@ -112,24 +112,25 @@
   </section>
 
   <!-- CATÁLOGO -->
-  <section class="catalogo">
-    <h2 id="tituloCatalogo">Aquí se surte bien</h2>
-    <div id="productos" class="contenedor-productos"></div>
+<section class="catalogo">
+  <h2 id="tituloCatalogo">Aquí se surte bien</h2>
 
-    <div class="paginacion">
-      <button onclick="anteriorPagina()">⏪ Anterior</button>
-      <span id="paginaActual"></span>
-      <button onclick="siguientePagina()">Siguiente ⏩</button>
-    </div>
-  </section>
+  <!-- Aquí JS inyecta las cards -->
+  <div id="productos" class="contenedor-productos"></div>
 
-  <!-- MODAL DETALLE PRODUCTO -->
+  <!-- PAGINACIÓN -->
+  <div class="paginacion">
+    <button onclick="anteriorPagina()">⏪ Anterior</button>
+    <span id="paginaActual"></span>
+    <button onclick="siguientePagina()">Siguiente ⏩</button>
+  </div>
+</section>
+
+<!-- MODAL DETALLE PRODUCTO -->
 <div id="modalProducto" class="modal-producto">
   <div class="modal-producto-content">
     <span class="modal-close" id="cerrarModalProducto">&times;</span>
-
     <img id="modalProductoImg" src="" alt="Producto">
-
     <p id="modalProductoDesc"></p>
   </div>
 </div>
