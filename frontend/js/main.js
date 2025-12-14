@@ -170,6 +170,11 @@ const formLogin = document.getElementById("formLogin");
 const mensajeBienvenida = document.getElementById("mensajeBienvenida");
 const paginacion = document.querySelector(".paginacion");
 const btnCerrarSesion = document.getElementById("btnCerrarSesion"); // ÚNICA DECLARACIÓN
+const modalProducto = document.getElementById("modalProducto");
+const modalProductoImg = document.getElementById("modalProductoImg");
+const modalProductoDesc = document.getElementById("modalProductoDesc");
+const cerrarModalProducto = document.getElementById("cerrarModalProducto");
+
 
 let ofertasGlobal = [];
 
@@ -1234,3 +1239,29 @@ if (mensajeTemporadaActivo) {
         contenedor.classList.add("active");  // Activar efecto CSS
     }
 }
+
+
+
+
+
+
+// ============================
+// MODAL DETALLE PRODUCTO
+// ============================
+
+
+function abrirModalProducto(imagen, descripcion) {
+  modalProductoImg.src = imagen;
+  modalProductoDesc.textContent = descripcion || "Descripción no disponible";
+  modalProducto.classList.add("active");
+}
+
+cerrarModalProducto.addEventListener("click", () => {
+  modalProducto.classList.remove("active");
+});
+
+modalProducto.addEventListener("click", (e) => {
+  if (e.target === modalProducto) {
+    modalProducto.classList.remove("active");
+  }
+});

@@ -197,6 +197,76 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
 .paginacion span { font-weight:600; }
 
 
+/* =========================
+   MODAL PRODUCTO (CLICK IMAGEN)
+========================= */
+
+.modal-producto {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 15px;
+}
+
+.modal-producto.active {
+  display: flex;
+}
+
+.modal-producto-content {
+  background: #fff;
+  max-width: 420px;
+  width: 100%;
+  border-radius: 14px;
+  padding: 15px;
+  text-align: center;
+  position: relative;
+  animation: modalFade 0.25s ease;
+}
+
+.modal-producto-content img {
+  width: 100%;
+  max-height: 280px;
+  object-fit: contain;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+.modal-producto-content p {
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.4;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  font-size: 1.6rem;
+  cursor: pointer;
+  color: #333;
+}
+
+@keyframes modalFade {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
+
+
 /* Footer */
 /*.footer { margin-top:30px; background:#0a97e9; color: #ffffff; padding:22px 16px; text-align:center; }
 .footer a { color: #ffffff; margin:0 8px; font-size:18px; }
@@ -817,8 +887,8 @@ footer .mensaje-temporada.active {
   position: absolute;
   top: 15px;
   left: -20px;
-  background: linear-gradient(135deg, #f90e0e, #f3062a);
-  color: #fff;
+  background: linear-gradient(135deg, #f90e0e, #530202);
+  color: #fcfcfc;
   padding: 10px 30px;
   font-size: 0.75rem;
   font-weight: 500;
