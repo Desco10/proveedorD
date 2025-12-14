@@ -2,9 +2,9 @@
    {
   "id": 1,
   "nombre": "Advil Max",
-  "precio": "$20.000 (sobre x10)",
-  "imagen": "images/advilmax.jpg",
-  "descripcion": "Analgésico...",
+  "precio": "$20.700 (sobre x10)",
+  "imagen": "img/p4/produc/Advimax.jpg",
+  "descripcion": "Dolor general...",
   "oferta": true,
   "proveedorId": 4
 },

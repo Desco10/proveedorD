@@ -31,11 +31,11 @@
   {
     "id": 4,
     "nombre": "Desco tiendas",
-    "logo": "/img/logo.png",
+    "logo": "/img/p4/logo/LOGODESCO.png",
     "descripcion": "Snacks, bebidas y productos comestibles.",
     "color": "#FFF3E0",
-    "banner":"/img/banner.jpeg",
-    "detalles": "Nuestro tope de pedido es de $ 100.000 – Descuentos hoy - estamos ubicados  en POPAYAN "
+    "banner":"/img/p4/banner/minimarketbanne.png",
+    "detalles": "Nuestro tope de pedido es de $ 40.000 – Descuentos hoy - estamos ubicados  en la Ciudad de  POPAYAN "
   }
   
 
