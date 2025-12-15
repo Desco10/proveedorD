@@ -6,7 +6,8 @@
     "descripcion": "Especialistas en productos de aseo y hogar.",
     "color": "#E8F5E9",
     "banner": "/img/p1/banner/iniciobanner.jpg",
-    "detalles": "Nuestro tope de pedido es de $45.000 – Despachamos  en toda  la ciudad de Popayan "
+    "colorDetalles": "#ff6f00",
+    "detalles": "Nuestro tope de pedido es de $45.000\nDespachamos  en toda  la ciudad de Popayan "
   },
   
   {
@@ -16,7 +17,8 @@
     "descripcion": "Medicamentos y productos de cuidado personal.",
     "color": "#E3F2FD",
     "banner": "/img/logo.png",
-    "detalles": "Nuestro tope de pedido es de $ 100.000  – Despachamos  en todo el Departamento del Cauca "
+    "colorDetalles": "#1565C0",
+    "detalles": "Nuestro tope de pedido es de $ 100.000\nDespachamos  en todo el Departamento del Cauca "
   },
   
   {
@@ -26,16 +28,19 @@
     "descripcion": "Snacks, bebidas y productos comestibles.",
     "color": "#FFF3E0",
     "banner":"/img/iniciobanner.jpg",
-    "detalles": "Nuestro tope de pedido es de $ 100.000 – Descuentos hoy - estamos ubicados  en POPAYAN "
+    "colorDetalles": "#42A5F5",
+    "detalles": "Nuestro tope de pedido es de $ 100.000\nDescuentos hoy\nestamos ubicados  en POPAYAN "
   },
   {
     "id": 4,
     "nombre": "Desco tiendas",
     "logo": "/img/p4/logo/LOGODESCO.png",
     "descripcion": "Snacks, bebidas y productos comestibles.",
-    "color": "#FFF3E0",
+    "color": "#1E88E5",
     "banner":"/img/p4/banner/minimarketbanne.png",
-    "detalles": "Nuestro tope de pedido es de $ 40.000, Descuentos hoy, estamos ubicados en la Ciudad de POPAYAN"
+    "colorDetalles": "#ff6f00",
+    "detalles": "Tope de pedido $40.000\nDías de entrega: Lunes, Miércoles y Viernes\nPopayán\nPago contra entrega"
+
   }
   
   

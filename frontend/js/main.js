@@ -385,6 +385,15 @@ async function abrirProveedor(id, nombre) {
 `;
 
 
+// 🎨 Color dinámico para detalles del proveedor (opcional)
+if (proveedorData && proveedorData.colorDetalles) {
+  const detallesEl = tituloEl.querySelector(".catalogo-detalles");
+  if (detallesEl) {
+    detallesEl.style.color = proveedorData.colorDetalles;
+  }
+}
+
+
       const inputBuscar = document.getElementById("buscarCatalogo");
       if (inputBuscar) {
         inputBuscar.addEventListener("input", (e) => {

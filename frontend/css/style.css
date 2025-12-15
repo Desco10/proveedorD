@@ -331,35 +331,65 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
 
 
 .catalogo-detalles {
-    /* 1. LAYOUT Y CENTRADO */
-    text-align: center; /* Centra el texto horizontalmente */
-    width: 100%; /* Asegura que el contenedor ocupe el ancho completo */
-    margin: 0 auto 22px auto; /* Centra el contenedor y añade margen inferior */
-    padding: 24px 15px; /* Relleno superior/inferior, y algo lateral */
-    background-color: #ffffff;
-    
-    /* 2. PROPIEDADES DE TEXTO Y SALTO DE LÍNEA */
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #03b9f5a5;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    
-    /* 🔑 CLAVE PROFESIONAL: Salto de línea automático */
-    /* Mantiene los saltos de línea y espacios en blanco del HTML/JS (como los crea el servidor) */
-    /*white-space: pre-wrap; 
-    
-    /* 3. MEJORA DEL TEXT-SHADOW */
-    /* Se simplificó el shadow para que no se vea tan pesado, manteniendo el contorno */
-    text-shadow: 
-        1px 1px 0 #000000,
-        -1px -1px 0 #000000,
-        0 0 8px rgba(0, 0, 0, 0.8);
-        
-    /* 4. ANIMACIÓN (Sin cambios) */
-    animation: fadeIn 0.8s ease-out;
+  /* LAYOUT */
+  width: 100%;
+  margin: 0 auto 22px auto;
+  padding: 26px 18px;
+  text-align: center;
+  background-color: #ffffff;
+
+  /* TIPOGRAFÍA PREMIUM */
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.8;
+
+  /* COLOR BASE */
+  color: #03b9f5;
+  text-transform: uppercase;
+  letter-spacing: 1.1px;
+
+  /* 🔑 SALTOS DE LÍNEA DESDE JSON */
+  white-space: pre-line;
+
+  /* EFECTO BORDADO / RELIEVE */
+  text-shadow:
+    1px 1px 0 rgba(0,0,0,0.85),
+    -1px -1px 0 rgba(0,0,0,0.85),
+    0 2px 6px rgba(0,0,0,0.35);
+
+  /* ESTÉTICA */
+  border-radius: 14px;
+
+  /* ANIMACIÓN */
+  animation: fadeIn 0.8s ease-out;
 }
 
+/* ICONO ÚNICO SUPERIOR */
+.catalogo-detalles::before {
+  content: "\f05a";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  display: block;
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+  opacity: 0.75;
+}
+
+/* SEPARADOR SUTIL INFERIOR */
+.catalogo-detalles::after {
+  content: "";
+  display: block;
+  margin: 14px auto 0;
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(0,0,0,0.25),
+    transparent
+  );
+}
 
 /* =========================
    PROVEEDORES  contenedor texto
