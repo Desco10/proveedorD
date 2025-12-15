@@ -139,10 +139,186 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
 .carrusel .item img { height:100%; width:100%; object-fit:cover; }
 .carrusel .item .tag { position:absolute; left:12px; top:12px; background:#ff4d6d; color:#fff; padding:6px 8px; border-radius:8px; font-weight:600; font-size:12px; }
 
-/* Buscador */
-.buscador-catalogo { text-align:center; margin:14px 0; }
-.buscador-catalogo input { width:90%; max-width:520px; padding:12px 14px; border-radius:30px; border:none; box-shadow:0 6px 18px rgba(12, 28, 59, 0.06); outline:none; background:#fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="gray" height="18" viewBox="0 0 24 24" width="18"><circle cx="11" cy="11" r="6"/></svg>') no-repeat 14px center; padding-left:46px; }
+/* =========================
+   BUSCADOR CATALOGO – 3D PREMIUM
+========================= */
 
+/* CONTENEDOR GENERAL */
+.buscador-catalogo {
+  display: flex;
+  justify-content: center;
+  margin: 18px 0 22px;
+}
+
+/* CAJA PRINCIPAL */
+.search-glow {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(145deg, #ffffff, #feffff);
+  border-radius: 40px;
+  padding: 0 18px 0 44px;
+  box-shadow:
+    inset 0 2px 6px rgba(255,255,255,0.05),
+    inset 0 -4px 8px rgba(0,0,0,0.6),
+    0 18px 40px rgba(0,0,0,0.45);
+  transform-style: preserve-3d;
+  overflow: hidden;
+}
+
+/* LUZ ELÉCTRICA RECORRIENDO EL BORDE */
+.search-glow::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 40px;
+  padding: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 15%,
+    rgba(43,124,255,0.8) 25%,
+    rgba(0,247,255,1) 35%,
+    rgba(43,124,255,0.8) 45%,
+    transparent 55%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: electricidadBorde 2.5s linear infinite;
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(1px);
+}
+
+/* RESPLANDOR INTERIOR MUY SUTIL */
+.search-glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 40px;
+  background: radial-gradient(
+    ellipse 150% 100% at 50% 50%,
+    rgba(43,124,255,0.04) 0%,
+    transparent 60%
+  );
+  animation: respiracionSuave 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.4;
+}
+
+/* ICONO LUPA */
+.search-glow i {
+  position: absolute;
+  left: 18px;
+  font-size: 18px;
+  color: #2b7cff;
+  opacity: 0.9;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 4;
+}
+
+/* EFECTO AL PASAR EL MOUSE SOBRE EL BUSCADOR */
+.search-glow:hover i {
+  transform: translateX(8px) scale(1.5) rotate(5deg);
+  color: #00f7ff;
+  filter: drop-shadow(0 0 8px rgba(0,247,255,0.8));
+}
+
+/* INPUT */
+.search-glow input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #14171e;
+  font-size: 0.95rem;
+  font-weight: 400;
+  padding-left: 36px;
+  padding-right: 12px;
+  z-index: 3;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* AJUSTAR EL TEXTO CUANDO LA LUPA SE AGRANDA - TEXTO DEBAJO */
+.search-glow:hover input {
+  padding-left: 62px;
+}
+
+.search-glow input::placeholder {
+  color: rgba(20, 24, 30, 0.779);
+  transition: color 0.3s ease;
+}
+
+.search-glow:hover input::placeholder {
+  color: rgba(20,23,30,0.75);
+}
+
+/* EFECTO AL PASAR EL MOUSE SOBRE EL BUSCADOR */
+.search-glow:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 2px 6px rgba(255,255,255,0.08),
+    0 26px 60px rgba(43,124,255,0.45),
+    0 0 30px rgba(0,247,255,0.2);
+}
+
+/* ANIMACIÓN ELECTRICIDAD EN EL BORDE */
+@keyframes electricidadBorde {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ANIMACIÓN RESPIRACIÓN INTERIOR SUAVE */
+@keyframes respiracionSuave {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* TABLET */
+@media (max-width: 768px) {
+  .search-glow {
+    max-width: 90%;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+  .search-glow {
+    max-width: 92%;
+    font-size: 0.88rem;
+  }
+  
+  .search-glow input {
+    font-size: 0.88rem;
+    padding-left: 32px;
+  }
+  
+  .search-glow:hover input {
+    padding-left: 56px;
+  }
+}
 /* =========================
    PROVEEDORES
 ========================= */
@@ -162,36 +338,154 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
   letter-spacing: 1.2px;
 }
 
+/* =========================
+   PROVEEDORES – CARD PREMIUM
+========================= */
+/* ===============================
+ /* ===============================
+   CONTENEDOR PROVEEDORES
+================================ */
+/* ===============================
+   CONTENEDOR PROVEEDORES
+================================ */
 .contenedor-proveedores {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  justify-content: center;
-  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 14px;
+  padding: 8px;
+  justify-items: center;
 }
 
+/* ===============================
+   CARD PROVEEDOR – COMPACTA
+================================ */
 .card-proveedor {
-  width: 200px;
+  width: 200px;              /* ⬅ MÁS PEQUEÑA */
   background: #ffffff;
   border-radius: 14px;
-  padding: 16px 12px;
+  padding: 8px 6px 10px;     /* ⬅ MENOS RELLENO */
   text-align: center;
-  box-shadow: 0 10px 28px rgba(12, 28, 59, 0.08);
-  cursor: pointer;
+
+  box-shadow: 0 6px 18px rgba(251, 251, 251, 0.958);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  cursor: pointer;
 }
+.card-proveedor {
+  position: relative;
+  overflow: hidden;
+}
+
+/* BORDE ELÉCTRICO */
+.card-proveedor::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  padding: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #00e0ff,
+    #2562d3,
+    #00e0ff,
+    transparent
+  );
+  background-size: 300% 300%;
+  animation: electricBorder 3s linear infinite;
+  mask: 
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+  opacity: 0.75;
+}
+
+@keyframes electricBorder {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 300% 50%;
+  }
+}
+
+
+.card-proveedor::before {
+  opacity: 0;
+}
+
+.card-proveedor:hover::before {
+  opacity: 0.85;
+}
+
+
 
 .card-proveedor:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 18px 38px rgba(12, 28, 59, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(24, 137, 229, 0.3);
 }
 
-.card-proveedor img {
-  width: 110px;
-  height: 110px;
-  object-fit: contain;
-  margin-bottom: 10px;
+/* ===============================
+   LOGO WRAPPER – DOMINA LA CARD
+================================ */
+.logo-wrapper {
+  width: 100%;
+  height: 120px;             /* ⬅ GRANDE RESPECTO A LA CARD */
+  background: #ffffff;
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 4px;
+
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.03);
 }
+
+/* ===============================
+   LOGO – GRANDE DESDE INICIO
+================================ */
+.card-proveedor img {
+  width: 100%;
+  height: 100%;
+
+  max-width: 110px;          /* ⬅ AQUÍ SE HACE GRANDE */
+  max-height: 110px;
+
+  object-fit: contain;
+  background: transparent;
+
+  mix-blend-mode: multiply;
+
+  transition: transform 0.25s ease;
+}
+
+/* Hover SOLO sutil */
+.card-proveedor:hover img {
+  transform: scale(1.06);
+}
+
+/* ===============================
+   TEXTO – DISCRETO
+================================ */
+.card-proveedor h3 {
+  margin-top: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #0b1220;
+  line-height: 1.2;
+}
+
 
 /* =========================
    CATÁLOGO

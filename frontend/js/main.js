@@ -311,7 +311,11 @@ async function cargarProveedores() {
 
     contenedorProveedores.innerHTML = proveedores.map(p => `
   <div class="card-proveedor" onclick="abrirProveedor('${p.id}', '${p.nombre}')">
-    <img src="${p.logo}" alt="${p.nombre}" loading="lazy">
+    
+    <div class="logo-wrapper">
+      <img src="${p.logo}" alt="${p.nombre}">
+    </div>
+
     <h3>${p.nombre}</h3>
   </div>
 `).join('');
@@ -355,17 +359,31 @@ async function abrirProveedor(id, nombre) {
       const detallesHtml = proveedorData && proveedorData.detalles ? `<div class="catalogo-detalles">${proveedorData.detalles}</div>` : "";
 
       tituloEl.innerHTML = `
-        <div class="header-catalogo">
-          <button class="btn-volver" onclick="volverAProveedores()">⬅ Volver a proveedores</button>
-          ${logoHtml}
-          <div>
-            <h2>Catálogo de Distribuidora ${nombre}</h2>
-            <div class="buscador-catalogo"><input id="buscarCatalogo" placeholder="Buscar en el catálogo de ${nombre}..." /></div>
-          </div>
+  <div class="header-catalogo">
+    <button class="btn-volver" onclick="volverAProveedores()">⬅ Volver a proveedores</button>
+    ${logoHtml}
+
+    <div>
+      <h2>Catálogo de Distribuidora ${nombre}</h2>
+
+      <div class="buscador-catalogo">
+        <div class="search-glow">
+          <i class="fas fa-search"></i>
+          <input 
+            id="buscarCatalogo"
+            type="text"
+            placeholder="Buscar en el catálogo de ${nombre}..."
+            autocomplete="off"
+          />
         </div>
-        ${bannerHtml}
-         ${detallesHtml}
-      `;
+      </div>
+    </div>
+  </div>
+
+  ${bannerHtml}
+  ${detallesHtml}
+`;
+
 
       const inputBuscar = document.getElementById("buscarCatalogo");
       if (inputBuscar) {
