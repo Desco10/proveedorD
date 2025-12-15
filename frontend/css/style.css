@@ -126,6 +126,13 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
 .section-title { font-size:20px; margin:12px 0; color:#0b74a8; text-align:left; padding-left:4px; }
 
 /* Bienvenida */
+.overlay {
+  text-align: center; /* Centra el texto horizontalmente */
+    width: 100%; /* Asegura que el contenedor ocupe el ancho completo */
+    margin: 0 auto 22px auto; /* Centra el contenedor y añade margen inferior */
+    padding: 20px 10px; /* Relleno superior/inferior, y algo lateral */
+    background-color: #ffffff;
+}
 .bienvenida { text-align:center; margin-bottom:18px; }
 .bienvenida h1 { color:#0b74a8; font-size:28px; margin-bottom:6px; }
 .bienvenida p { color:#334; }
@@ -319,61 +326,41 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
     padding-left: 56px;
   }
 }
-/* DETALLES DEL PROVEEDOR - MODERNO Y PROFESIONAL */
-/* DETALLES DEL PROVEEDOR - MODERNO Y PROFESIONAL */
-/* DETALLES DEL PROVEEDOR - MODERNO Y PROFESIONAL */
+
+
+
+
 .catalogo-detalles {
-  max-width: 1100px;
-  margin: 50px auto;
-  padding: 0 30px;
-  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  color: #b9ababdb;
-  font-size: 1.5rem;
-  line-height: 2;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  text-align: center;
-  position: relative;
-  text-shadow: 
-    -2px -2px 0 #000000,
-    2px -2px 0 #000000,
-    -2px 2px 0 #000000,
-    2px 2px 0 #000000,
-    -2px 0 0 #000000,
-    2px 0 0 #000000,
-    0 -2px 0 #000000,
-    0 2px 0 #000000,
-    0 0 4px rgba(0, 0, 0, 0.6);
-  animation: fadeIn 0.8s ease-out;
+    /* 1. LAYOUT Y CENTRADO */
+    text-align: center; /* Centra el texto horizontalmente */
+    width: 100%; /* Asegura que el contenedor ocupe el ancho completo */
+    margin: 0 auto 22px auto; /* Centra el contenedor y añade margen inferior */
+    padding: 24px 15px; /* Relleno superior/inferior, y algo lateral */
+    background-color: #ffffff;
+    
+    /* 2. PROPIEDADES DE TEXTO Y SALTO DE LÍNEA */
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #03b9f5a5;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    
+    /* 🔑 CLAVE PROFESIONAL: Salto de línea automático */
+    /* Mantiene los saltos de línea y espacios en blanco del HTML/JS (como los crea el servidor) */
+    /*white-space: pre-wrap; 
+    
+    /* 3. MEJORA DEL TEXT-SHADOW */
+    /* Se simplificó el shadow para que no se vea tan pesado, manteniendo el contorno */
+    text-shadow: 
+        1px 1px 0 #000000,
+        -1px -1px 0 #000000,
+        0 0 8px rgba(0, 0, 0, 0.8);
+        
+    /* 4. ANIMACIÓN (Sin cambios) */
+    animation: fadeIn 0.8s ease-out;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
 
-/* RESPONSIVE TABLET */
-@media (max-width: 768px) {
-  .catalogo-detalles {
-    font-size: 1.3rem;
-    padding: 0 24px;
-    line-height: 1.9;
-  }
-}
-
-/* RESPONSIVE MOBILE */
-@media (max-width: 480px) {
-  .catalogo-detalles {
-    font-size: 1.15rem;
-    padding: 0 16px;
-    line-height: 1.8;
-    letter-spacing: 0.01em;
-  }
-}
 /* =========================
    PROVEEDORES  contenedor texto
 ========================= */
@@ -387,7 +374,7 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
   text-align: center;
   font-size: 1.9rem;
   font-weight: 800;
-  color: #ff2600;
+  color: #0f0e0e;
   margin-bottom: 22px;
   text-transform: uppercase;
   letter-spacing: 1.2px;
@@ -928,12 +915,12 @@ footer .mensaje-temporada {
   background: linear-gradient(90deg,
     rgba(255, 214, 94, 0) 0%,         /* desvanecido inicio */
     rgba(255, 214, 94, 0.9) 20%,
-    rgba(255, 160, 122, 0.95) 50%,
+    rgba(236, 72, 7, 0.874) 50%,
     rgba(255, 214, 94, 0.9) 80%,
     rgba(255, 214, 94, 0) 100%        /* desvanecido final */
   );
 
-  color: #2d2d2d;
+  color: #0d0c0c;
   display: none;
   position: relative;
   overflow: hidden;
