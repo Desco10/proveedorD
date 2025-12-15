@@ -364,7 +364,7 @@ async function abrirProveedor(id, nombre) {
     ${logoHtml}
 
     <div>
-      <h2>Catálogo de Distribuidora ${nombre}</h2>
+      <h2>Catálogo de ${nombre}</h2>
 
       <div class="buscador-catalogo">
         <div class="search-glow">

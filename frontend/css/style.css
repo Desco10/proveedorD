@@ -319,8 +319,63 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
     padding-left: 56px;
   }
 }
+/* DETALLES DEL PROVEEDOR - MODERNO Y PROFESIONAL */
+/* DETALLES DEL PROVEEDOR - MODERNO Y PROFESIONAL */
+/* DETALLES DEL PROVEEDOR - MODERNO Y PROFESIONAL */
+.catalogo-detalles {
+  max-width: 1100px;
+  margin: 50px auto;
+  padding: 0 30px;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #b9ababdb;
+  font-size: 1.5rem;
+  line-height: 2;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-align: center;
+  position: relative;
+  text-shadow: 
+    -2px -2px 0 #000000,
+    2px -2px 0 #000000,
+    -2px 2px 0 #000000,
+    2px 2px 0 #000000,
+    -2px 0 0 #000000,
+    2px 0 0 #000000,
+    0 -2px 0 #000000,
+    0 2px 0 #000000,
+    0 0 4px rgba(0, 0, 0, 0.6);
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* RESPONSIVE TABLET */
+@media (max-width: 768px) {
+  .catalogo-detalles {
+    font-size: 1.3rem;
+    padding: 0 24px;
+    line-height: 1.9;
+  }
+}
+
+/* RESPONSIVE MOBILE */
+@media (max-width: 480px) {
+  .catalogo-detalles {
+    font-size: 1.15rem;
+    padding: 0 16px;
+    line-height: 1.8;
+    letter-spacing: 0.01em;
+  }
+}
 /* =========================
-   PROVEEDORES
+   PROVEEDORES  contenedor texto
 ========================= */
 
 .proveedores {
@@ -332,7 +387,7 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
   text-align: center;
   font-size: 1.9rem;
   font-weight: 800;
-  color: #0b1220;
+  color: #ff2600;
   margin-bottom: 22px;
   text-transform: uppercase;
   letter-spacing: 1.2px;
@@ -341,10 +396,7 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
 /* =========================
    PROVEEDORES – CARD PREMIUM
 ========================= */
-/* ===============================
- /* ===============================
-   CONTENEDOR PROVEEDORES
-================================ */
+
 /* ===============================
    CONTENEDOR PROVEEDORES
 ================================ */
