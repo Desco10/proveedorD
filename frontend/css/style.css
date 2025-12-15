@@ -328,35 +328,36 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
 }
 
 
-
+/*detalles textoproveedores*/
 
 .catalogo-detalles {
   /* LAYOUT */
   width: 100%;
   margin: 0 auto 22px auto;
-  padding: 26px 18px;
+  padding: 28px 20px;
   text-align: center;
   background-color: #ffffff;
 
   /* TIPOGRAFÍA PREMIUM */
   font-family: 'Open Sans', sans-serif;
-  font-size: 1.15rem;
-  font-weight: 700;
-  line-height: 1.8;
+  font-size: 1.18rem;
+  font-weight: 800;
+  line-height: 1.3; /* más compacto */
+  letter-spacing: 1px; /* menos espacio entre letras */
+  text-transform: uppercase;
 
   /* COLOR BASE */
   color: #03b9f5;
-  text-transform: uppercase;
-  letter-spacing: 1.1px;
 
-  /* 🔑 SALTOS DE LÍNEA DESDE JSON */
+  /* SALTOS DE LÍNEA DESDE JSON */
   white-space: pre-line;
 
-  /* EFECTO BORDADO / RELIEVE */
+  /* EFECTO 3D / BORDADO REAL */
   text-shadow:
-    1px 1px 0 rgba(0,0,0,0.85),
-    -1px -1px 0 rgba(0,0,0,0.85),
-    0 2px 6px rgba(0,0,0,0.35);
+    1px 1px 0 rgba(0,0,0,0.9),
+    2px 2px 0 rgba(0,0,0,0.75),
+    -1px -1px 0 rgba(255,255,255,0.25),
+    0 3px 6px rgba(0,0,0,0.35);
 
   /* ESTÉTICA */
   border-radius: 14px;
@@ -365,30 +366,70 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
   animation: fadeIn 0.8s ease-out;
 }
 
-/* ICONO ÚNICO SUPERIOR */
+/* ICONO SUPERIOR MODERNO - CARRITO + MOTOR ANIMADO */
 .catalogo-detalles::before {
-  content: "\f05a";
+  content: "\f48b \f21c"; /* carrito + motor/chispa Font Awesome */
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
   display: block;
-  font-size: 1.25rem;
+
+  font-size: 1.6rem;
   margin-bottom: 10px;
-  opacity: 0.75;
+
+  opacity: 0.9;
+
+  /* efecto 3D icono */
+  text-shadow:
+    1px 1px 0 rgba(0,0,0,0.9),
+    0 0 8px rgba(0,0,0,0.3);
+
+  /* animación de movimiento hacia la derecha */
+  animation: iconMove 2s ease-in-out infinite;
 }
 
 /* SEPARADOR SUTIL INFERIOR */
 .catalogo-detalles::after {
   content: "";
   display: block;
-  margin: 14px auto 0;
-  width: 60%;
+  margin: 12px auto 0; /* más compacto */
+  width: 55%;
   height: 1px;
   background: linear-gradient(
     to right,
     transparent,
-    rgba(0,0,0,0.25),
+    rgba(0,0,0,0.35),
     transparent
   );
+}
+
+/* ANIMACIÓN DE ARRANQUE DEL ICONO */
+@keyframes iconMove {
+  0% {
+    transform: translateX(0) scale(1);
+    opacity: 0.8;
+  }
+  25% {
+    transform: translateX(5px) scale(1.05) rotate(2deg);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(15px) scale(1.1) rotate(-2deg);
+    opacity: 1;
+  }
+  75% {
+    transform: translateX(25px) scale(1.05) rotate(2deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0) scale(1);
+    opacity: 0.8;
+  }
+}
+
+/* ANIMACIÓN DE FADE-IN PARA EL TEXTO */
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
 /* =========================
