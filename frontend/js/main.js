@@ -706,6 +706,15 @@ function mostrarCerrarSesion() {
     btn.style.visibility = "visible";
     btn.style.opacity = "1";
     console.log("Botón mostrado");
+
+    // Agregar evento para redirigir al hacer clic
+    btn.addEventListener("click", () => {
+      // Opcional: limpiar sesión/localStorage si la tienes
+      localStorage.removeItem("usuario"); // ejemplo
+      sessionStorage.clear();              // ejemplo
+      // Redirigir a la página principal
+      window.location.href = "index.html";
+    });
   }
 }
 
@@ -718,6 +727,7 @@ function ocultarCerrarSesion() {
     console.log("Botón ocultado");
   }
 }
+
 
 // ENVIAR WHATSAPP (CATÁLOGO) - VERSIÓN PROFESIONAL FINAL
 

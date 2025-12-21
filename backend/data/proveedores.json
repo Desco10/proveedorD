@@ -1,15 +1,13 @@
 [
   {
-    "id": 1,
-    "nombre": "Distribuciones El Buen Precio",
-    "logo": "/img/p1/logo/iniciobanner.jpg",
-    "descripcion": "Especialistas en productos de aseo y hogar.",
-    "color": "#E8F5E9",
-    "banner": "/img/p1/banner/iniciobanner.jpg",
-    "colorDetalles": "#ff6f00",
-    "detalles": "Nuestro tope de pedido es de $45.000\nDespachamos  en toda  la ciudad de Popayan "
-  },
-  
+  "id": 1,
+  "nombre": "Aceite Bebe 100ml",
+  "precio": "$6897 (unidad)",
+  "imagen": "/img/p1/produc/ACEITEBEBE.jpg",
+  "descripcion": "suavecito con tu piel...",
+  "oferta": true,
+  "proveedorId": 1
+},
   {
     "id": 2,
     "nombre": "Laboratorios Salud Total",
