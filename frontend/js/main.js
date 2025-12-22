@@ -832,7 +832,10 @@ function actualizarMensajeBienvenida() {
   }
 
   const nombre = (usuarioActual.nombre || "").toUpperCase();
-  const genero = usuarioActual.genero === "F" ? "Bienvenida" : "Bienvenido";
+  const genero = usuarioActual.genero
+  ? (usuarioActual.genero === "F" ? "Bienvenida" : "Bienvenido")
+  : detectarGenero(usuarioActual.nombre);
+
 
   mensajeBienvenida.innerHTML = `
     ¡${genero}, <b>${nombre}</b>!
