@@ -157,10 +157,11 @@ function ocultarErrorForm(idError = 'loginErrorMsg') {
 }
 
 
+
 // ============================================
 // CONFIGURACIÓN GLOBAL
 // ============================================
-
+const WHATSAPP_EMPRESA = "573245961645";
 const contenedorProveedores = document.getElementById("listaProveedores");
 const contenedorProductos = document.getElementById("productos");
 const contenedorCarrusel = document.getElementById("carrusel");
@@ -789,7 +790,7 @@ ${logoProveedorUrl ? `Logo: ${logoProveedorUrl}` : ""}
 ${urlProducto}
 `;
 
-    const numero = proveedor?.whatsapp || producto.whatsapp || "573143416441";
+    const numero = proveedor?.whatsapp || producto.whatsapp || WHATSAPP_EMPRESA;
 
     const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, "_blank");
@@ -1146,7 +1147,7 @@ function enviarWhatsAppCarrusel(idProducto) {
       if (imagenUrl) mensajeTexto += `Imagen: ${imagenUrl}\n`;
       mensajeTexto += `\nVer producto: ${window.location.origin}?producto=${encodeURIComponent(producto.nombre)}`;
 
-      const numero = "573143416441";
+      const numero = WHATSAPP_EMPRESA;
       const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensajeTexto)}`;
       window.open(url, "_blank");
     })

@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const nombre = e.target.getAttribute("data-nombre");
         const precio = e.target.getAttribute("data-precio");
         const mensaje = `👋 Hola, estoy interesado en comprar *${nombre}* por ${precio}. ¿Está disponible?`;
-        const url = `https://wa.me/573001112233?text=${encodeURIComponent(mensaje)}`;
+        const url = `https://wa.me/573245961645?text=${encodeURIComponent(mensaje)}`;
         window.open(url, "_blank");
       });
     });
