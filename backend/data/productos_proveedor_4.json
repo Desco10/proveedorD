@@ -400,7 +400,7 @@
     "nombre": "Gaviscon",
     "precio": "$29.170 (Caja x 12)",
     "imagen": "img/p4/produc/42-gaviscon.jpg",
-    "descripcion": "............... .",
+    "descripcion": "Gaviscon Doble Acción: contiene alginato de sodio, bicarbonato de sodio y carbonato de calcio; sirve para aliviar acidez, reflujo gastroesofágico, ardor e indigestión neutralizando el ácido y formando una barrera protectora en el estómago.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -410,7 +410,7 @@
     "nombre": "Pedialyte",
     "precio": "$9.178 (unidad)",
     "imagen": "img/p4/produc/43-pedialite.jpg",
-    "descripcion": "............... .",
+    "descripcion": "Pedialyte Active 30 Manzana / Pedialyte Max 60 500 ml / Suero Rehidratante Pedialyte Max 60 Coco 500 ml / Pedialyte con Zinc 45 Fresa 500 ml / Pedialyte Max con Zinc 60 Fresa 500 ml / Pedialyte Oral Rehydration Solution 1 L: solución oral de electrolitos (sodio, potasio, cloruro) y glucosa/dextrosa, a veces con zinc; sirve para prevenir y tratar la deshidratación por pérdida de líquidos (diarrea, vómito, calor o ejercicio) y reponer sales y minerales esenciales.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -421,7 +421,7 @@
     "nombre": "Electrolit",
     "precio": "$7.498 (unidad)",
     "imagen": "img/p4/produc/44-ELECTROLIC.jpg",
-    "descripcion": "............... .",
+    "descripcion": "Electrolit: solución oral de electrolitos (sodio, potasio, cloruro) y glucosa; sirve para prevenir y tratar la deshidratación por pérdida de líquidos (diarrea, vómito, calor o ejercicio).",
     "oferta": true,
     "proveedorId": 4
   },
@@ -431,7 +431,7 @@
     "nombre": "Acetaminofen Jarabe 90 ml laprof",
     "precio": "$4.498 (unidad)",
     "imagen": "img/p4/produc/45-JARABENIÑOS.jpg",
-    "descripcion": "............... .",
+    "descripcion": "Acetaminofén Jarabe 90 ml (LAPROF): contiene acetaminofén (paracetamol); sirve para aliviar dolor y reducir fiebre en niños y adultos, en presentación líquida de fácil dosificación.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -441,7 +441,7 @@
     "nombre": "Removedor Lander",
     "precio": "$4.998 (unidad)",
     "imagen": "img/p4/produc/46-LANDER.jpg",
-    "descripcion": "............... .",
+    "descripcion": "Removedor Lander: producto cosmético para uñas que remueve esmalte de uñas fácilmente sin resecar ni debilitar las uñas ni cutículas, dejando las uñas listas para nueva aplicación.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -452,7 +452,7 @@
     "nombre": "Removedor Charlestone",
     "precio": "$4.998 (unidad)",
     "imagen": "img/p4/produc/47-CHARLESTONE.jpg",
-    "descripcion": "............... .",
+    "descripcion": "Removedor Charlestone: producto cosmético para uñas que elimina esmalte de uñas de forma rápida y eficaz, facilitando la limpieza antes de una nueva aplicación.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -464,7 +464,7 @@
     "nombre": "Vitamina c ",
     "precio": "$4.998 (unidad)",
     "imagen": "img/p4/produc/48-VITAMINAC.jpg",
-    "descripcion": "............... .",
+    "descripcion": "Vitamina C (tabletas): contiene ácido ascórbico (vitamina C); sirve para apoyar el sistema inmunológico y contribuir a la protección contra el daño oxidativo.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -475,7 +475,7 @@
     "nombre": "Kola Granulada mk sobre ",
     "precio": "$7.500 (Caja x 6)",
     "imagen": "img/p4/produc/49-KOLAGRANULADA.jpg",
-    "descripcion": "............... .",
+    "descripcion": "Kola Granulada MK Sobre: contiene extracto de kola, vitamina C y complejo B; sirve para aportar energía y resistencia como suplemento nutricional.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -486,7 +486,7 @@
     "nombre": " Sundays Protector Solar ",
     "precio": "$67.500 (Caja x 24)",
     "imagen": "img/p4/produc/50-SUNDAYS.jpg",
-    "descripcion": "............... .",
+    "descripcion": "Sundays Protector Solar: contiene filtros solares (UVB/UVA); sirve para proteger la piel del sol y prevenir quemaduras y daño por radiación ultravioleta.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -498,7 +498,7 @@
     "nombre": " Talco rexona  ",
     "precio": "$7.500 (unidad )",
     "imagen": "img/p4/produc/51-TALCOREXONA.png",
-    "descripcion": "............... .",
+    "descripcion": "Talco Rexona: contiene talco y fragancia; sirve para absorber la humedad, mantener la piel seca y brindar sensación de frescura.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -508,7 +508,7 @@
     "nombre": " Ampicilina ",
     "precio": "$67.500 (Caja x 50)",
     "imagen": "img/p4/produc/52-ampicilina.png",
-    "descripcion": "............... .",
+    "descripcion": "Ampicilina: contiene ampicilina (antibiótico del grupo de las penicilinas); sirve para tratar infecciones bacterianas sensibles, como infecciones respiratorias, urinarias y gastrointestinales.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -518,7 +518,7 @@
     "nombre": " Amoxicilina ",
     "precio": "$23.500 (Caja x 50)",
     "imagen": "img/p4/produc/53-AMOXICILINA.jpg",
-    "descripcion": "............... .",
+    "descripcion": "Amoxicilina: contiene amoxicilina (antibiótico del grupo de las penicilinas); sirve para tratar infecciones bacterianas como respiratorias, urinarias, cutáneas y de oído.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -528,7 +528,7 @@
     "nombre": " Loratadina ",
     "precio": "$3.500 (Caja x 10)",
     "imagen": "img/p4/produc/54-LORATADINA.jpg",
-    "descripcion": "............... .",
+    "descripcion": "Loratadina: contiene loratadina (antihistamínico H1 de segunda generación); sirve para aliviar síntomas de alergias como estornudos, picazón, ojos llorosos y secreción nasal.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -539,7 +539,7 @@
     "nombre": " Amoxicilina Suspencion 45mg ",
     "precio": "$6.500 (Unidad)",
     "imagen": "img/p4/produc/55-amoxsuspencion.PNg",
-    "descripcion": "............... .",
+    "descripcion": "Amoxicilina Suspensión 45 mg/ml: contiene amoxicilina (antibiótico del grupo de las penicilinas); sirve para tratar infecciones bacterianas en niños, incluyendo respiratorias, urinarias y de oído, en presentación líquida de fácil dosificación.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -549,7 +549,7 @@
     "nombre": " Omeprasol",
     "precio": "$3.500 (Caja x 10)",
     "imagen": "img/p4/produc/56-OMEPRASOL.jpg",
-    "descripcion": "............... .",
+    "descripcion": "Omeprazol: contiene omeprazol (inhibidor de la bomba de protones); sirve para reducir la producción de ácido gástrico, aliviando reflujo, acidez estomacal y úlceras gástricas o duodenales.",
     "oferta": true,
     "proveedorId": 4
   }, 
@@ -559,27 +559,27 @@
     "nombre": " Diclofenaco",
     "precio": "$3.500 (Caja x 30)",
     "imagen": "img/p4/produc/57-DICLOFENACO.jpg",
-    "descripcion": "............... .",
+    "descripcion": "Diclofenaco: contiene diclofenaco sódico o potásico (antiinflamatorio no esteroideo, AINE); sirve para aliviar dolor, inflamación y rigidez en afecciones musculoesqueléticas, articulares y postoperatorias.",
     "oferta": true,
     "proveedorId": 4
   },
 
    {
     "id": 59,
-    "nombre": " Ibuprofeno Genfar ",
+    "nombre": " Ibuprofeno Genfar 500mg ",
     "precio": "$11.700 (Caja x 50)",
     "imagen": "img/p4/produc/58-IBUPROFENO.jpg",
-    "descripcion": "............... .",
+    "descripcion": "Ibuprofeno Genfar 500 mg: contiene ibuprofeno (antiinflamatorio no esteroideo, AINE); sirve para aliviar dolor, inflamación y fiebre en adultos y adolescentes.",
     "oferta": true,
     "proveedorId": 4
   },
 
   {
     "id": 60,
-    "nombre": " Azitromicina ",
+    "nombre": " Azitromicina 500mg",
     "precio": "$5.700 (Caja x 3)",
     "imagen": "img/p4/produc/59-azitromicina.png",
-    "descripcion": "............... .",
+    "descripcion": "Azitromicina: contiene azitromicina (antibiótico macrólido); sirve para tratar infecciones bacterianas como respiratorias, de piel, oído y algunas infecciones de transmisión sexual.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -589,7 +589,7 @@
     "nombre": " Acetaminofen tableta Genfar ",
     "precio": "$7.700 (Caja x 100)",
     "imagen": "img/p4/produc/60-ACETAMINOFEN.jpg",
-    "descripcion": "............... .",
+    "descripcion": "Acetaminofén Tableta Genfar: contiene acetaminofén (paracetamol); sirve para aliviar dolor leve a moderado y reducir fiebre.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -599,7 +599,7 @@
     "nombre": " Pangetan ",
     "precio": "$7.700 (Caja x 100)",
     "imagen": "img/p4/produc/61-pangetan.jpg",
-    "descripcion": "............... .",
+    "descripcion": "Pangetan: contiene loperamida (antidiarreico); sirve para controlar y aliviar la diarrea aguda reduciendo la motilidad intestinal.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -609,7 +609,7 @@
     "nombre": " Lomotil ",
     "precio": "$8.700 (Caja x 4)",
     "imagen": "img/p4/produc/62-lomotil.png",
-    "descripcion": "............... .",
+    "descripcion": "Lomotil: contiene difenoxilato y atropina; sirve para aliviar diarrea aguda y crónica reduciendo la motilidad intestinal.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -619,7 +619,7 @@
     "nombre": "Naproxeno 500mg Genfar ",
     "precio": "$5.700 (Caja x 10)",
     "imagen": "img/p4/produc/63-NAPROXENO.jpg",
-    "descripcion": "............... .",
+    "descripcion": "Naproxeno 500 mg Genfar: contiene naproxeno (antiinflamatorio no esteroideo, AINE); sirve para aliviar dolor, inflamación y fiebre en afecciones musculoesqueléticas y articulares.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -629,7 +629,7 @@
     "nombre": "Aromatica Manzanilla ",
     "precio": "$2.178 (Caja x 20)",
     "imagen": "img/p4/produc/64-manzanilla.png",
-    "descripcion": "............... .",
+    "descripcion": "Aromática Manzanilla: contiene flores de manzanilla (Matricaria chamomilla); sirve para preparar infusiones que ayudan a la digestión, calmar molestias estomacales y promover la relajación.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -640,7 +640,7 @@
     "nombre": "Aromatica Apio ",
     "precio": "$2.178 (Caja x 20)",
     "imagen": "img/p4/produc/65-apio.png",
-    "descripcion": "............... .",
+    "descripcion": "Aromática Apio: contiene hojas y semillas de apio (Apium graveolens); sirve para preparar infusiones que favorecen la digestión, ayudan a reducir retención de líquidos y promueven el bienestar general.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -650,7 +650,7 @@
     "nombre": "Aromatica Cidron ",
     "precio": "$2.178 (Caja x 20)",
     "imagen": "img/p4/produc/66-cidron.png",
-    "descripcion": "............... .",
+    "descripcion": "Aromática Cidrón: contiene hojas de cidrón (Aloysia citrodora); sirve para preparar infusiones que ayudan a la relajación, reducir el estrés y favorecer la digestión.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -660,7 +660,7 @@
     "nombre": "Aromatica Frutos rojos ",
     "precio": "$2.178 (Caja x 20)",
     "imagen": "img/p4/produc/67-frutosrojos.png",
-    "descripcion": "............... .",
+    "descripcion": "Aromática Frutos Rojos: contiene mezcla de frutas rojas deshidratadas; sirve para preparar infusiones con sabor afrutado que aportan antioxidantes y promueven bienestar general.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -671,17 +671,17 @@
     "nombre": "Aromatica Yerbabuena ",
     "precio": "$2.178 (Caja x 20)",
     "imagen": "img/p4/produc/68-yerbabuena.png",
-    "descripcion": "............... .",
+    "descripcion": "Aromática Yerbabuena: contiene hojas de yerbabuena (Mentha spicata); sirve para preparar infusiones que favorecen la digestión, alivian molestias estomacales y proporcionan sensación de frescura.",
     "oferta": true,
     "proveedorId": 4
   },
 
   {
     "id": 70,
-    "nombre": "Aromatica Yerbabuena ",
+    "nombre": "Aromatica limonaria ",
     "precio": "$2.178 (Caja x 20)",
     "imagen": "img/p4/produc/69-limonaria.png",
-    "descripcion": "............... .",
+    "descripcion": "Aromática Limonaria: contiene hojas de limonaria (Cymbopogon citratus, también conocida como hierba limón); sirve para preparar infusiones que ayudan a la digestión, relajan y proporcionan efecto calmante y aromático.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -691,7 +691,7 @@
     "nombre": "Shampoo Hys Rosado cojin ",
     "precio": "$10.996 (Ristra x 12)",
     "imagen": "img/p4/produc/70-hysrosado.png",
-    "descripcion": "............... .",
+    "descripcion": "Shampoo Hys Rosado (cojín): producto de higiene capilar con agentes limpiadores y acondicionadores suaves; sirve para limpiar el cabello y el cuero cabelludo, dejando el pelo suave y con fragancia.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -701,7 +701,7 @@
     "nombre": "Shampoo Hys Azul cojin ",
     "precio": "$10.996 (Ristra x 12)",
     "imagen": "img/p4/produc/71-hysazul.png",
-    "descripcion": "............... .",
+    "descripcion": "Shampoo Hys Azul (cojín): producto de higiene capilar con agentes limpiadores y acondicionadores suaves; sirve para limpiar y acondicionar el cabello, dejándolo fresco y con fragancia.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -711,7 +711,7 @@
     "nombre": "Shampoo Hys Coco cojin ",
     "precio": "$10.996 (Ristra x 12)",
     "imagen": "img/p4/produc/72-hyscoco.png",
-    "descripcion": "............... .",
+    "descripcion": "Shampoo Hys Coco (cojín): producto de higiene capilar con agentes limpiadores y acondicionadores suaves y aroma a coco; sirve para limpiar y suavizar el cabello, dejando un aroma tropical y sensación de frescura.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -721,7 +721,7 @@
     "nombre": "Shampoo  Pantene verde cojin ",
     "precio": "$10.996 (Ristra x 12)",
     "imagen": "img/p4/produc/73-panteneverde.png",
-    "descripcion": "............... .",
+    "descripcion": "Shampoo Pantene Verde (cojín): producto de higiene capilar con agentes limpiadores, fortalecedores y acondicionadores; sirve para limpiar el cabello, nutrirlo y fortalecerlo, dejando el pelo suave y con fragancia.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -731,7 +731,7 @@
     "nombre": "Shampoo  Pantene rosado cojin ",
     "precio": "$10.996 (Ristra x 12)",
     "imagen": "img/p4/produc/74-pantenerosado.png",
-    "descripcion": "............... .",
+    "descripcion": "Shampoo Pantene Rosado (cojín): producto de higiene capilar con agentes limpiadores y acondicionadores nutritivos; sirve para limpiar y suavizar el cabello, aportando brillo y fragancia.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -741,7 +741,7 @@
     "nombre": "Gel Ego naranja cojin ",
     "precio": "$14.997 (Ristra x 15)",
     "imagen": "img/p4/produc/75-gelegonaranja.png",
-    "descripcion": "............... .",
+    "descripcion": "Gel Ego Naranja (cojín): producto de higiene personal con agentes gelificantes y fragancia de naranja; sirve para limpiar y refrescar la piel durante el baño.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -751,7 +751,7 @@
     "nombre": "Gel Ego Roja cojin ",
     "precio": "$14.997 (Ristra x 15)",
     "imagen": "img/p4/produc/76-gelegoroja.png",
-    "descripcion": "............... .",
+    "descripcion": "Gel Ego Roja (cojín): producto de higiene personal con agentes gelificantes y fragancia roja; sirve para limpiar y refrescar la piel durante el baño.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -761,7 +761,7 @@
     "nombre": "Shampoo Dove cojin ",
     "precio": "$12.438 (Ristra x 12)",
     "imagen": "img/p4/produc/77-shdove.png",
-    "descripcion": "............... .",
+    "descripcion": "Shampoo Dove (cojín): producto de higiene capilar con agentes limpiadores suaves y acondicionadores nutritivos; sirve para limpiar, suavizar e hidratar el cabello, dejándolo manejable y con fragancia.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -771,7 +771,7 @@
     "nombre": "Acondicionador Dove cojin ",
     "precio": "$12.438 (Ristra x 12)",
     "imagen": "img/p4/produc/78-acondove.png",
-    "descripcion": "............... .",
+    "descripcion": "Acondicionador Dove (cojín): producto de cuidado capilar con agentes acondicionadores nutritivos; sirve para suavizar, desenredar e hidratar el cabello después del shampoo, dejándolo más manejable y con fragancia.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -781,7 +781,7 @@
     "nombre": "Acondicionador Savital cojin ",
     "precio": "$17.438 (Caja x 20)",
     "imagen": "img/p4/produc/79-acondsavital.jpg",
-    "descripcion": "............... .",
+    "descripcion": "Acondicionador Savital (cojín): producto de cuidado capilar con agentes acondicionadores suaves; sirve para suavizar, desenredar e hidratar el cabello después del shampoo, dejándolo manejable y con fragancia.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -791,7 +791,7 @@
     "nombre": "Shampoo Savital cojin ",
     "precio": "$17.438 (Caja x 20)",
     "imagen": "img/p4/produc/80-shamposavital.jpg",
-    "descripcion": "............... .",
+    "descripcion": "Shampoo Savital (cojín): producto de higiene capilar con agentes limpiadores y acondicionadores suaves; sirve para limpiar y refrescar el cabello, dejándolo suave y con fragancia.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -801,7 +801,7 @@
     "nombre": "Crema Menta 60 mg Colgate",
     "precio": "$44.00 (display x 12)",
     "imagen": "img/p4/produc/81-CREMAMENTA60GR.jpg",
-    "descripcion": "............... .",
+    "descripcion": "Crema Dental Colgate Menta 60 mg: contiene fluoruro de sodio; sirve para limpiar los dientes, prevenir caries y fortalecer el esmalte dental.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -812,7 +812,7 @@
     "nombre": "Crema Triple Accion 75 mg Colgate",
     "precio": "$44.000 (display x 12)",
     "imagen": "img/p4/produc/82-CREMACOLGATE60GRTRIPLE.jpg",
-    "descripcion": "............... .",
+    "descripcion": "Crema Dental Triple Acción Colgate 75 mg: contiene fluoruro de sodio; sirve para limpiar los dientes, prevenir caries y fortalecer el esmalte dental.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -822,7 +822,7 @@
     "nombre": "Crema Triple Accion 22 mg Colgate",
     "precio": "$26.000 (display x 12)",
     "imagen": "img/p4/produc/83-CREMACOLGATE22ML.jpg",
-    "descripcion": "............... .",
+    "descripcion": "Crema Dental Triple Acción Colgate 22 mg: contiene fluoruro de sodio; sirve para limpiar los dientes, prevenir caries y fortalecer el esmalte dental.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -832,7 +832,7 @@
     "nombre": "Cepillo Colgate",
     "precio": "$26.000 (display x 12)",
     "imagen": "img/p4/produc/84-Cepillo COLGATE.jpg",
-    "descripcion": "............... .",
+    "descripcion": "Cepillo Colgate: producto de higiene bucal con cerdas suaves o medias y mango ergonómico; sirve para limpiar los dientes y encías removiendo placa y residuos.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -842,7 +842,7 @@
     "nombre": "Crema + Cepillo Colgate",
     "precio": "$48.000 (display x 12)",
     "imagen": "img/p4/produc/85-CREMAMASCEPI.jpg",
-    "descripcion": "............... .",
+    "descripcion": "Crema + Cepillo Colgate: incluye crema dental con fluoruro y cepillo dental; sirve para limpiar, proteger contra caries y mantener salud bucal completa.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -852,7 +852,7 @@
     "nombre": "Jabon Protex  Colgate",
     "precio": "$18.000 (display x 6)",
     "imagen": "img/p4/produc/86-PROTEX.jpg",
-    "descripcion": "............... .",
+    "descripcion": "Jabón Protex: producto de higiene corporal con agentes limpiadores antibacteriales; sirve para limpiar la piel y ayudar a reducir bacterias, manteniendo sensación de frescura.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -863,7 +863,7 @@
     "nombre": "Jabon Palmolive  Colgate",
     "precio": "$17.000 (display x 6)",
     "imagen": "img/p4/produc/87-PALMOLIVE.jpg",
-    "descripcion": "............... .",
+    "descripcion": "Jabón Palmolive: producto de higiene corporal con agentes limpiadores suaves y fragancia; sirve para limpiar la piel, eliminar suciedad y dejar sensación de frescura y suavidad.",
     "oferta": true,
     "proveedorId": 4
   },
@@ -871,22 +871,219 @@
     {
     "id": 89,
     "nombre": "Keratina",
-    "precio": "$17.000 (display x 6)",
+    "precio": "$19.000 (display x 12)",
     "imagen": "img/p4/produc/88-Keratina.png",
-    "descripcion": "............... .",
+    "descripcion": "Keratina Cabello: producto de cuidado capilar con keratina hidrolizada; sirve para fortalecer, reparar y suavizar la fibra del cabello, reduciendo el quiebre y aportando brillo.",
     "oferta": true,
     "proveedorId": 4
   },
 
   {
     "id": 90,
-    "nombre": "Crema Ponds ROJA ",
-    "precio": "$17.000 (display x 6)",
+    "nombre": "Crema Ponds Roja cojin ",
+    "precio": "$16.580 (Caja x 10)",
     "imagen": "img/p4/produc/89-crepondroja.png",
-    "descripcion": "............... .",
+    "descripcion": "Crema Ponds Roja (cojín): producto de cuidado de la piel con agentes humectantes y nutritivos; sirve para hidratar, suavizar y mejorar la apariencia de la piel.",
     "oferta": true,
     "proveedorId": 4
+  },
+
+  {
+    "id": 91,
+    "nombre": "Crema Ponds Azul cojin ",
+    "precio": "$16.580 (Caja x 10)",
+    "imagen": "img/p4/produc/90-crepondazul.png",
+    "descripcion": "Crema Ponds Azul (cojín): producto de cuidado de la piel con agentes humectantes y nutritivos; sirve para hidratar, suavizar y proteger la piel, dejándola más saludable y con sensación de frescura.",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 92,
+    "nombre": "Crema Ponds Rosada cojin ",
+    "precio": "$16.580 (Caja x 10)",
+    "imagen": "img/p4/produc/91-crepondrosada.png",
+    "descripcion": "Crema Ponds Rosada (cojín): producto de cuidado de la piel con agentes humectantes y nutritivos; sirve para hidratar, suavizar y mejorar la apariencia de la piel, dejándola más suave y con sensación de frescura.",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+   "id": 93,
+    "nombre": "Silicona cabello ",
+    "precio": "$16.580 (display x 12)",
+    "imagen": "img/p4/produc/92-SILICONA.jpg",
+    "descripcion": "Crema Ponds Rosada (cojín): producto de cuidado de la piel con agentes humectantes y nutritivos; sirve para hidratar, suavizar y mejorar la apariencia de la piel, dejándola más suave y con sensación de frescura.",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+   "id": 94,
+    "nombre": "Desodorante Rexona Hombre cojin",
+    "precio": "$19.780 (display x 20)",
+    "imagen": "img/p4/produc/93-DESOREXONAHOMBRE.jpg",
+    "descripcion": "Desodorante Rexona Hombre (cojín): producto de higiene personal con agentes antitranspirantes y fragancia; sirve para controlar el sudor y el mal olor corporal en hombres.",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+
+  {
+   "id": 95,
+    "nombre": "Desodorante Rexonona Mujer cojin",
+    "precio": "$19.780 (display x 20)",
+    "imagen": "img/p4/produc/94-DESOREXONAMUJER.jpg",
+    "descripcion": "Desodorante Rexona Mujer (cojín): producto de higiene personal con agentes antitranspirantes y fragancia; sirve para controlar el sudor y el mal olor corporal en mujeres.",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+   "id": 96,
+    "nombre": "Desodorante Ballance Mujer cojin",
+    "precio": "$19.780 (display x 20)",
+    "imagen": "img/p4/produc/95-desoballanmujer.png",
+    "descripcion": "Desodorante Ballance Mujer (cojín): producto de higiene personal con agentes antitranspirantes y fragancia; sirve para controlar el sudor y el mal olor corporal en mujeres.",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  
+
+  {
+   "id": 97,
+    "nombre": "Desodorante Ballance Hombre cojin",
+    "precio": "$19.780 (display x 18)",
+    "imagen": "img/p4/produc/96-desoballanhombre.png",
+    "descripcion": "Desodorante Ballance Hombre (cojín): producto de higiene personal con agentes antitranspirantes y fragancia; sirve para controlar el sudor y el mal olor corporal en hombres",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 98,
+    "nombre": "Desodorante Speed stick Clinical Hombre cojin",
+    "precio": "$19.780 (display x 18)",
+    "imagen": "img/p4/produc/97-speedclinical.png",
+    "descripcion": "Desodorante Speed Stick Clinical Hombre (cojín): producto de higiene personal con agentes antitranspirantes clínicos y fragancia; sirve para controlar fuertemente el sudor y el mal olor corporal en hombres.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+{
+   "id": 99,
+    "nombre": "Desodorante Speed stick Gel Hombre cojin",
+    "precio": "$19.780 (display x 18)",
+    "imagen": "img/p4/produc/98-speedclinical.png",
+    "descripcion": "Desodorante Speed Stick Gel Hombre (cojín): producto de higiene personal con agentes antitranspirantes y fragancia en gel; sirve para controlar el sudor y el mal olor corporal en hombres.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+
+  {
+   "id": 100,
+    "nombre": "Desodorante Lady Speed stick Clinical Mujer cojin",
+    "precio": "$19.780 (display x 18)",
+    "imagen": "img/p4/produc/99-ladyclinical.png",
+    "descripcion": "Desodorante Lady Speed Stick Clinical Mujer (cojín): producto de higiene personal con agentes antitranspirantes clínicos y fragancia; sirve para controlar fuertemente el sudor y el mal olor corporal en mujeres.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 101,
+    "nombre": "Desodorante Lady Speed stick Crema Mujer cojin",
+    "precio": "$19.780 (display x 18)",
+    "imagen": "img/p4/produc/100-ladycremaduo.png",
+    "descripcion": "Desodorante Lady Speed Stick Crema Mujer (cojín): producto de higiene personal con agentes antitranspirantes y fragancia; sirve para controlar el sudor y el mal olor corporal en mujeres.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 102,
+    "nombre": "Desodorante Lady Speed stick Gel Mujer cojin",
+    "precio": "$19.780 (display x 18)",
+    "imagen": "img/p4/produc/101-ladygel.png",
+    "descripcion": "Desodorante Lady Speed Stick Gel Mujer (cojín): producto de higiene personal con agentes antitranspirantes y fragancia en gel; sirve para controlar el sudor y el mal olor corporal en mujeres.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 103,
+    "nombre": "Alcohol 345 ml ",
+    "precio": "$3.788 (unidad)",
+    "imagen": "img/p4/produc/102-ALCOHOL345.jpg",
+    "descripcion": "Alcohol 345 ml OSA: producto desinfectante con alcohol etílico; sirve para limpiar y desinfectar superficies y piel, eliminando gérmenes y bacterias.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 104,
+    "nombre": "Alcohol 120 ml ",
+    "precio": "$3.788 (unidad)",
+    "imagen": "img/p4/produc/103-ALCOHOL120.jpg",
+    "descripcion": "Alcohol 120 ml OSA: producto desinfectante con alcohol etílico; sirve para limpiar y desinfectar superficies y piel, eliminando gérmenes y bacterias.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 105,
+    "nombre": "Agua Oxigenada 120 ml ",
+    "precio": "$2.388 (unidad)",
+    "imagen": "img/p4/produc/104-aguaoxigenada.png",
+    "descripcion": "Agua Oxigenada 120 ml: contiene peróxido de hidrógeno (3%); sirve para desinfectar heridas menores, limpiar cortes y raspaduras, y eliminar bacterias en la piel.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 106,
+    "nombre": "Aceite de Almendras",
+    "precio": "$19.044 (Display x 12)",
+    "imagen": "img/p4/produc/105-aceitealmendras.png",
+    "descripcion": "Aceite de Almendras OSA: contiene aceite de almendras dulces; sirve para hidratar, suavizar y nutrir la piel y el cabello, aportando elasticidad y brillo natural.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 107,
+    "nombre": "Aceite Bebe 50 ml",
+    "precio": "$19.044 (Display x 5)",
+    "imagen": "img/p4/produc/105-aceitebb.png",
+    "descripcion": "Aceite Bebé OSA: contiene aceite mineral y emolientes suaves; sirve para hidratar, proteger y suavizar la piel delicada de los bebés, ayudando a prevenir resequedad y rozaduras.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 108,
+    "nombre": "Aceite Bebe 100 ml",
+    "precio": "$19.044 (Display x 5)",
+    "imagen": "img/p4/produc/105-aceitebb.png",
+    "descripcion": "Aceite Bebé OSA: contiene aceite mineral y emolientes suaves; sirve para hidratar, proteger y suavizar la piel delicada de los bebés, ayudando a prevenir resequedad y rozaduras.",
+    "oferta": true,
+    "proveedorId": 4
+
   }
+
 
 
 
