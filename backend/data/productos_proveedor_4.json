@@ -382,18 +382,511 @@
     "proveedorId": 4
   },
   {
-    "id": 41,
+    "id": 42,
     "nombre": "Calmidol Compuesto",
     "precio": "$23.170 (sobre x 12)",
     "imagen": "img/p4/produc/41-CALMIDOLCOMPUESTO BIG.png",
     "descripcion": "Calmidol Compuesto: contiene ibuprofeno, cafeína y clorfeniramina; sirve para aliviar dolor, fiebre y síntomas de resfriado o alergia leve.",
     "oferta": true,
     "proveedorId": 4
+  },
+    
+   
+
+
+
+  {
+    "id": 43,
+    "nombre": "Gaviscon",
+    "precio": "$29.170 (Caja x 12)",
+    "imagen": "img/p4/produc/42-gaviscon.jpg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 44,
+    "nombre": "Pedialyte",
+    "precio": "$9.178 (unidad)",
+    "imagen": "img/p4/produc/43-pedialite.jpg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+
+  {
+    "id": 45,
+    "nombre": "Electrolit",
+    "precio": "$7.498 (unidad)",
+    "imagen": "img/p4/produc/44-ELECTROLIC.jpg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 46,
+    "nombre": "Acetaminofen Jarabe 90 ml laprof",
+    "precio": "$4.498 (unidad)",
+    "imagen": "img/p4/produc/45-JARABENIÑOS.jpg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 47,
+    "nombre": "Removedor Lander",
+    "precio": "$4.998 (unidad)",
+    "imagen": "img/p4/produc/46-LANDER.jpg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+
+  {
+    "id": 48,
+    "nombre": "Removedor Charlestone",
+    "precio": "$4.998 (unidad)",
+    "imagen": "img/p4/produc/47-CHARLESTONE.jpg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+
+
+  {
+    "id": 49,
+    "nombre": "Vitamina c ",
+    "precio": "$4.998 (unidad)",
+    "imagen": "img/p4/produc/48-VITAMINAC.jpg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+
+   {
+    "id": 50,
+    "nombre": "Kola Granulada mk sobre ",
+    "precio": "$7.500 (Caja x 6)",
+    "imagen": "img/p4/produc/49-KOLAGRANULADA.jpg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+ 
+  {
+    "id": 51,
+    "nombre": " Sundays Protector Solar ",
+    "precio": "$67.500 (Caja x 24)",
+    "imagen": "img/p4/produc/50-SUNDAYS.jpg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+
+
+{
+    "id": 52,
+    "nombre": " Talco rexona  ",
+    "precio": "$7.500 (unidad )",
+    "imagen": "img/p4/produc/51-TALCOREXONA.png",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 53,
+    "nombre": " Ampicilina ",
+    "precio": "$67.500 (Caja x 50)",
+    "imagen": "img/p4/produc/52-ampicilina.png",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+ {
+    "id": 54,
+    "nombre": " Amoxicilina ",
+    "precio": "$23.500 (Caja x 50)",
+    "imagen": "img/p4/produc/53-AMOXICILINA.jpg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+ {
+    "id": 55,
+    "nombre": " Loratadina ",
+    "precio": "$3.500 (Caja x 10)",
+    "imagen": "img/p4/produc/54-LORATADINA.jpg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+
+  {
+    "id": 56,
+    "nombre": " Amoxicilina Suspencion 45mg ",
+    "precio": "$6.500 (Unidad)",
+    "imagen": "img/p4/produc/55-amoxsuspencion.PNg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 57,
+    "nombre": " Omeprasol",
+    "precio": "$3.500 (Caja x 10)",
+    "imagen": "img/p4/produc/56-OMEPRASOL.jpg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  }, 
+
+  {
+    "id": 58,
+    "nombre": " Diclofenaco",
+    "precio": "$3.500 (Caja x 30)",
+    "imagen": "img/p4/produc/57-DICLOFENACO.jpg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+   {
+    "id": 59,
+    "nombre": " Ibuprofeno Genfar ",
+    "precio": "$11.700 (Caja x 50)",
+    "imagen": "img/p4/produc/58-IBUPROFENO.jpg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 60,
+    "nombre": " Azitromicina ",
+    "precio": "$5.700 (Caja x 3)",
+    "imagen": "img/p4/produc/59-azitromicina.jpg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 61,
+    "nombre": " Acetaminofen tableta Genfar ",
+    "precio": "$7.700 (Caja x 100)",
+    "imagen": "img/p4/produc/60-ACETAMINOFEN.jpg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 62,
+    "nombre": " Pangetan ",
+    "precio": "$7.700 (Caja x 100)",
+    "imagen": "img/p4/produc/61-pangetan.jpg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 63,
+    "nombre": " Lomotil ",
+    "precio": "$8.700 (Caja x 4)",
+    "imagen": "img/p4/produc/62-lomotil.png",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 64,
+    "nombre": "Naproxeno 500mg Genfar ",
+    "precio": "$5.700 (Caja x 10)",
+    "imagen": "img/p4/produc/63-NAPROXENO.png",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+   {
+    "id": 65,
+    "nombre": "Aromatica Manzanilla ",
+    "precio": "$2.178 (Caja x 20)",
+    "imagen": "img/p4/produc/64-manzanilla.png",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+
+  {
+    "id": 66,
+    "nombre": "Aromatica Apio ",
+    "precio": "$2.178 (Caja x 20)",
+    "imagen": "img/p4/produc/65-apio.png",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 67,
+    "nombre": "Aromatica Cidron ",
+    "precio": "$2.178 (Caja x 20)",
+    "imagen": "img/p4/produc/66-cidron.png",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 68,
+    "nombre": "Aromatica Frutos rojos ",
+    "precio": "$2.178 (Caja x 20)",
+    "imagen": "img/p4/produc/67-frutosrojos.png",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+
+  {
+    "id": 69,
+    "nombre": "Aromatica Yerbabuena ",
+    "precio": "$2.178 (Caja x 20)",
+    "imagen": "img/p4/produc/68-yerbabuena.png",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 70,
+    "nombre": "Aromatica Yerbabuena ",
+    "precio": "$2.178 (Caja x 20)",
+    "imagen": "img/p4/produc/69-limonaria.png",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 71,
+    "nombre": "Shampoo Hys Rosado cojin ",
+    "precio": "$10.996 (Ristra x 12)",
+    "imagen": "img/p4/produc/70-hysrosado.png",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 72,
+    "nombre": "Shampoo Hys Azul cojin ",
+    "precio": "$10.996 (Ristra x 12)",
+    "imagen": "img/p4/produc/71-hysazul.png",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 73,
+    "nombre": "Shampoo Hys Coco cojin ",
+    "precio": "$10.996 (Ristra x 12)",
+    "imagen": "img/p4/produc/72-hyscoco.png",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 74,
+    "nombre": "Shampoo  Pantene verde cojin ",
+    "precio": "$10.996 (Ristra x 12)",
+    "imagen": "img/p4/produc/73-panteneverde.png",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 75,
+    "nombre": "Shampoo  Pantene rosado cojin ",
+    "precio": "$10.996 (Ristra x 12)",
+    "imagen": "img/p4/produc/74-pantenerosado.png",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 76,
+    "nombre": "Gel Ego naranja cojin ",
+    "precio": "$14.997 (Ristra x 15)",
+    "imagen": "img/p4/produc/75-gelegonaranja.png",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 77,
+    "nombre": "Gel Ego Roja cojin ",
+    "precio": "$14.997 (Ristra x 15)",
+    "imagen": "img/p4/produc/76-gelegoroja.png",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 78,
+    "nombre": "Shampoo Dove cojin ",
+    "precio": "$12.438 (Ristra x 12)",
+    "imagen": "img/p4/produc/77-shdove.png",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 79,
+    "nombre": "Acondicionador Dove cojin ",
+    "precio": "$12.438 (Ristra x 12)",
+    "imagen": "img/p4/produc/78-acondove.png",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 80,
+    "nombre": "Acondicionador Savital cojin ",
+    "precio": "$17.438 (Caja x 20)",
+    "imagen": "img/p4/produc/79-acondsavital.jpg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 81,
+    "nombre": "Shampoo Savital cojin ",
+    "precio": "$17.438 (Caja x 20)",
+    "imagen": "img/p4/produc/80-shamposavital.jpg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 82,
+    "nombre": "Crema Menta 60 mg Colgate",
+    "precio": "$44.00 (display x 12)",
+    "imagen": "img/p4/produc/81-CREMAMENTA60GR.jpg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+
+{
+    "id": 83,
+    "nombre": "Crema Triple Accion 75 mg Colgate",
+    "precio": "$44.000 (display x 12)",
+    "imagen": "img/p4/produc/82-CREMACOLGATE60GRTRIPLE.jpg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+{
+    "id": 84,
+    "nombre": "Crema Triple Accion 22 mg Colgate",
+    "precio": "$26.000 (display x 12)",
+    "imagen": "img/p4/produc/83-CREMACOLGATE22ML.jpg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 85,
+    "nombre": "Cepillo Colgate",
+    "precio": "$26.000 (display x 12)",
+    "imagen": "img/p4/produc/84-Cepillo COLGATE.jpg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+   {
+    "id": 86,
+    "nombre": "Crema + Cepillo Colgate",
+    "precio": "$48.000 (display x 12)",
+    "imagen": "img/p4/produc/85-CREMAMASCEPI.jpg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 87,
+    "nombre": "Jabon Protex  Colgate",
+    "precio": "$18.000 (display x 6)",
+    "imagen": "img/p4/produc/86-PROTEX.jpg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+
+{
+    "id": 88,
+    "nombre": "Jabon Palmolive  Colgate",
+    "precio": "$17.000 (display x 6)",
+    "imagen": "img/p4/produc/87-PALMOLIVE.jpg",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+    {
+    "id": 89,
+    "nombre": "Keratina",
+    "precio": "$17.000 (display x 6)",
+    "imagen": "img/p4/produc/88-Keraytina.png",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
+  },
+
+  {
+    "id": 90,
+    "nombre": "Crema Ponds ROJA ",
+    "precio": "$17.000 (display x 6)",
+    "imagen": "img/p4/produc/89-crepondroja.png",
+    "descripcion": "............... .",
+    "oferta": true,
+    "proveedorId": 4
   }
-
-
-
-
 
 
 
