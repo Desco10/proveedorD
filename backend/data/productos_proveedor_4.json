@@ -977,7 +977,7 @@
    "id": 99,
     "nombre": "Desodorante Speed stick Gel Hombre cojin",
     "precio": "$19.780 (display x 18)",
-    "imagen": "img/p4/produc/98-speedclinical.png",
+    "imagen": "img/p4/produc/98-speedgel.png",
     "descripcion": "Desodorante Speed Stick Gel Hombre (cojín): producto de higiene personal con agentes antitranspirantes y fragancia en gel; sirve para controlar el sudor y el mal olor corporal en hombres.",
     "oferta": true,
     "proveedorId": 4
@@ -1066,7 +1066,7 @@
    "id": 107,
     "nombre": "Aceite Bebe 50 ml",
     "precio": "$19.044 (Display x 5)",
-    "imagen": "img/p4/produc/105-aceitebb.png",
+    "imagen": "img/p4/produc/106-aceitebb.png",
     "descripcion": "Aceite Bebé OSA: contiene aceite mineral y emolientes suaves; sirve para hidratar, proteger y suavizar la piel delicada de los bebés, ayudando a prevenir resequedad y rozaduras.",
     "oferta": true,
     "proveedorId": 4
@@ -1077,28 +1077,470 @@
    "id": 108,
     "nombre": "Aceite Bebe 100 ml",
     "precio": "$19.044 (Display x 5)",
-    "imagen": "img/p4/produc/105-aceitebb.png",
+    "imagen": "img/p4/produc/106-aceitebb.png",
     "descripcion": "Aceite Bebé OSA: contiene aceite mineral y emolientes suaves; sirve para hidratar, proteger y suavizar la piel delicada de los bebés, ayudando a prevenir resequedad y rozaduras.",
     "oferta": true,
     "proveedorId": 4
 
+  },
+
+  {
+   "id": 109,
+    "nombre": "Vaselina",
+    "precio": "$5.544 (Display x 12)",
+    "imagen": "img/p4/produc/107-VASELINA.jpg",
+    "descripcion": "Vaselina OSA: contiene petrolato/petrolatum; sirve para proteger, hidratar y suavizar la piel seca o agrietada, formando una barrera protectora.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 110,
+    "nombre": "Yodopovidona 120 ml",
+    "precio": "$6.544 (Unidad)",
+    "imagen": "img/p4/produc/108-YODOPOVIDONA.jpg",
+    "descripcion": "Yodo Povidona 120 ml: contiene povidona yodada; sirve para desinfectar heridas, cortes y raspaduras, previniendo infecciones bacterianas en la piel.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 111,
+    "nombre": " Algodon 20 Gg Higietex",
+    "precio": "$8.448 (Display x 6)",
+    "imagen": "img/p4/produc/109-ALGODON.jpg",
+    "descripcion": "Algodón 20 g Hihietex: contiene fibras de algodón 100%; sirve para absorber líquidos, limpiar heridas y aplicar productos médicos o de higiene de manera segura.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 112,
+    "nombre": " Jeringa 3 ml",
+    "precio": "$8.448 (Display x 12)",
+    "imagen": "img/p4/produc/110-JERINGAS.jpg",
+    "descripcion": "Jeringa 3 ml: instrumento médico con cuerpo, émbolo y aguja estéril; sirve para inyectar medicamentos o extraer fluidos de manera precisa y segura.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+ {
+   "id": 113,
+    "nombre": " Jeringa 5 ml",
+    "precio": "$8.448 (Display x 12)",
+    "imagen": "img/p4/produc/110-JERINGAS.jpg",
+    "descripcion": "Jeringa 5 ml: instrumento médico con cuerpo, émbolo y aguja estéril; sirve para inyectar medicamentos o extraer fluidos de manera precisa y segura.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 114,
+    "nombre": " Jeringa 10 ml",
+    "precio": "$8.448 (Display x 12)",
+    "imagen": "img/p4/produc/110-JERINGAS.jpg",
+    "descripcion": "Jeringa 10 ml: instrumento médico con cuerpo, émbolo y aguja estéril; sirve para inyectar medicamentos o extraer fluidos de manera precisa y segura.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 115,
+    "nombre": " Seda Dental",
+    "precio": "$8.448 (Display x 12)",
+    "imagen": "img/p4/produc/111-SEDADENTAL.jpg",
+    "descripcion": "Seda Dental: producto de higiene bucal con hilo dental de nylon o PTFE; sirve para eliminar placa y restos de alimentos entre los dientes, ayudando a prevenir caries y enfermedades de las encías.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 116,
+    "nombre": " Curas Cureband",
+    "precio": "$11.448 (Caja x 100)",
+    "imagen": "img/p4/produc/112-CURAS.jpg",
+    "descripcion": "Curas Cureband: producto médico con adhesivo hipoalergénico y almohadilla absorbente estéril; sirve para cubrir y proteger heridas menores, cortes y raspaduras, facilitando la cicatrización.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+
+  {
+   "id": 117,
+    "nombre": " Gasas en Caja",
+    "precio": "$10.148 (Display x 12)",
+    "imagen": "img/p4/produc/113-GASAS.jpg",
+    "descripcion": "Gasa en cajita: producto médico con hilos de algodón estéril; sirve para cubrir y proteger heridas, absorber líquidos y facilitar la limpieza y cicatrización de cortes y lesiones.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 118,
+    "nombre": " Cinta Micropore pequeño",
+    "precio": "$17.148 (Display x 24)",
+    "imagen": "img/p4/produc/114-MICROPORE.jpg",
+    "descripcion": "Cinta Micropore Pequeña: producto médico con adhesivo hipoalergénico y soporte de papel poroso; sirve para fijar apósitos, vendajes y tubos en la piel sin irritarla, permitiendo transpiración.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+
+  {
+   "id": 119,
+    "nombre": " Cinta Micropore Mediano",
+    "precio": "$17.148 (Caja x 12)",
+    "imagen": "img/p4/produc/114-MICROPORE.jpg",
+    "descripcion": "Cinta Micropore Mediana: producto médico con adhesivo hipoalergénico y soporte de papel poroso; sirve para fijar apósitos, vendajes y tubos en la piel sin irritarla, permitiendo transpiración.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 120,
+    "nombre": " Esparadrapo Mediano",
+    "precio": "$17.148 (Caja x 12)",
+    "imagen": "img/p4/produc/115-ESPARADRAPO.jpg",
+    "descripcion": "Esparadrapo: producto médico con adhesivo fuerte sobre soporte de tela o papel; sirve para fijar vendajes, apósitos o dispositivos médicos en la piel de manera segura, ofreciendo mayor sujeción que la cinta micropore.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+{
+   "id": 121,
+    "nombre": " Esparadrapo Pequeño",
+    "precio": "$17.148 (Caja x 24)",
+    "imagen": "img/p4/produc/115-ESPARADRAPO.jpg",
+    "descripcion": "Esparadrapo: producto médico con adhesivo fuerte sobre soporte de tela o papel; sirve para fijar vendajes, apósitos o dispositivos médicos en la piel de manera segura, ofreciendo mayor sujeción que la cinta micropore.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 121,
+    "nombre": " Prueba Embarazo Cassette",
+    "precio": "$17.148 (Display x 6)",
+    "imagen": "img/p4/produc/116-PRUEBAEMBARAZO.jpg",
+    "descripcion": "Prueba de Embarazo Cassette: dispositivo de diagnóstico con anticuerpos específicos para hCG; sirve para detectar la hormona del embarazo (hCG) en orina y confirmar la presencia de embarazo temprano.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 122,
+    "nombre": " Muestra Orina ",
+    "precio": "$17.148 (Display x 12)",
+    "imagen": "img/p4/produc/117-MUESTRAORINA.jpg",
+    "descripcion": "Muestras de Orina (tarritos): recipientes estériles de plástico con tapa hermética; sirven para recolectar y almacenar muestras de orina de manera segura para análisis clínicos y pruebas de laboratorio.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 123,
+    "nombre": " Muestra Cropologica ",
+    "precio": "$17.148 (Display x 12)",
+    "imagen": "img/p4/produc/118-MUESTRACROPOLOGICA.jpg",
+    "descripcion": "Muestra Coprológica (tarritos): recipientes estériles de plástico con tapa hermética; sirven para recolectar y almacenar muestras de heces para análisis microbiológicos, parasitológicos o químicos en laboratorio.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 124,
+    "nombre": " Guantes Quirurgicos Blancos ",
+    "precio": "$19.148 (Caja x 100)",
+    "imagen": "img/p4/produc/119-GUANTESBLANCOS.jpg",
+    "descripcion": "Guantes Quirúrgicos Blancos: guantes de látex o nitrilo estériles; sirven para proteger al personal médico y al paciente durante procedimientos quirúrgicos, evitando contaminación y transmisión de infecciones.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+{
+   "id": 125,
+    "nombre": " Guantes Quirurgicos Negros ",
+    "precio": "$21.148 (Caja x 100)",
+    "imagen": "img/p4/produc/120-GUANTESNEGROS.jpg",
+    "descripcion": "Guantes Quirúrgicos Negros: guantes de látex o nitrilo estériles; sirven para proteger al personal médico y al paciente durante procedimientos quirúrgicos, evitando contaminación y transmisión de infecciones.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+ {
+   "id": 126,
+    "nombre": " Copitos ",
+    "precio": "$2.948 (Unidad)",
+    "imagen": "img/p4/produc/121-COPITOS.jpg",
+    "descripcion": "Copitos de Algodón (tarro): producto de higiene con hisopos de algodón en palillo de plástico o madera; sirve para limpiar o aplicar productos en oídos, heridas o áreas delicadas de manera segura y precisa.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 127,
+    "nombre": " Tapabocas Negro ",
+    "precio": "$18.948 (Caja x 50 ,con empaque)",
+    "imagen": "img/p4/produc/122-TAPABOCASNEGRO.jpg",
+    "descripcion": "Tapabocas Negro: mascarilla de tela o material no tejido; sirve para cubrir nariz y boca, reduciendo la exposición a partículas, polvo y microorganismos, ayudando a prevenir contagios.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+ 
+  {
+   "id": 128,
+    "nombre": " Tapabocas Azul ",
+    "precio": "$18.948 (Caja x 50 ,con empaque)",
+    "imagen": "img/p4/produc/123-TAPABOCASAZUL.jpg",
+    "descripcion": "Tapabocas Azul: mascarilla de tela o material no tejido; sirve para cubrir nariz y boca, reduciendo la exposición a partículas, polvo y microorganismos, ayudando a prevenir contagios.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 129,
+    "nombre": " Maquina Shick Xtreme 3 ",
+    "precio": "$38.948 (Ristra x 13 )",
+    "imagen": "img/p4/produc/124-MAQUINASCHIK.jpg",
+    "descripcion": "Máquina Schick Xtreme 3 Hojas: rasuradora de tres hojas con sistema de deslizamiento suave; sirve para afeitar vello corporal o facial con corte apurado y cómodo.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 130,
+    "nombre": " Maquina Dorco ",
+    "precio": "$11.948 (Ristra x 24 )",
+    "imagen": "img/p4/produc/125-MAQUINADORCO.jpg",
+    "descripcion": "Máquina Dorco: rasuradora con hojas de acero inoxidable; sirve para afeitar vello corporal o facial con corte preciso y confortable.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+ 
+  {
+   "id": 131,
+    "nombre": " Hoja Dorco  ",
+    "precio": "$11.948 (Ristra x 60 ,cuchillas )",
+    "imagen": "img/p4/produc/126-HOJADORCO.jpg",
+    "descripcion": "Hoja/Cuchillas Dorco: hoja de acero inoxidable para rasurado; sirve para reemplazar cuchillas en rasuradoras y lograr un afeitado apurado y cómodo.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 132,
+    "nombre": " Betun Cherry Negro   ",
+    "precio": "$25.948 (Caja x 12  )",
+    "imagen": "img/p4/produc/127-betunnegro.png",
+    "descripcion": "Betún Negro Cherry: producto para calzado con pigmentos y ceras protectoras; sirve para dar color negro, proteger y dar brillo al calzado de cuero.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+ 
+  {
+   "id": 133,
+    "nombre": " Betun Cherry Cafe   ",
+    "precio": "$25.948 (Caja x 12  )",
+    "imagen": "img/p4/produc/128-betuncafe.png",
+    "descripcion": "Betún Café Cherry: producto para calzado con pigmentos y ceras protectoras; sirve para dar color café, proteger y dar brillo al calzado de cuero.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 134,
+    "nombre": " Pegante Rojo 3gr   ",
+    "precio": "$5.948 (Ristra x 12  )",
+    "imagen": "img/p4/produc/129-PEGANTEROJO.jpg",
+    "descripcion": "Pegastic (líquido en tubito con tapa): adhesivo líquido transparente; sirve para pegar papel, cartón, tela y otros materiales ligeros con fijación rápida.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 135,
+    "nombre": " Pegante Blanco 8gr   ",
+    "precio": "$7.948 (Ristra x 12  )",
+    "imagen": "img/p4/produc/130-PEGANTEVERDE.jpg",
+    "descripcion": "Pegastic (líquido en tubito con tapa): adhesivo líquido transparente; sirve para pegar papel, cartón, tela y otros materiales ligeros con fijación rápida.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+ 
+  {
+   "id": 136,
+    "nombre": " Peineta Machete  ",
+    "precio": "$7.948 (Display x 12  )",
+    "imagen": "img/p4/produc/131-peinetamachete.jpg",
+    "descripcion": "Peineta Machete: accesorio de peinado de plástico ; sirve para desenredar, peinar y dar forma al cabello de manera precisa y uniforme.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+ 
+  {
+   "id": 137,
+    "nombre": " Peineta Mojarra ",
+    "precio": "$7.948 (Display x 12  )",
+    "imagen": "img/p4/produc/132-peinetamojarra.jpg",
+    "descripcion": "Peineta Mojarra: accesorio de peinado de plástico ; sirve para desenredar, peinar y dar forma al cabello de manera precisa y uniforme.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+{
+   "id": 138,
+    "nombre": " Peineta Bolsillo ",
+    "precio": "$7.948 (Display x 12  )",
+    "imagen": "img/p4/produc/134-peinetabolsillo.jpg",
+    "descripcion": "Peineta Bolsillo: accesorio de peinado de plástico ; sirve para desenredar, peinar y dar forma al cabello de manera precisa y uniforme.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 139,
+    "nombre": " Peine Piojo ",
+    "precio": "$7.948 (Display x 12  )",
+    "imagen": "img/p4/produc/135-peinepiojo.jpg",
+    "descripcion": "Peineta Bolsillo: accesorio de peinado de plástico ; sirve para desenredar, peinar y dar forma al cabello de manera precisa y uniforme.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+
+
+  {
+   "id": 140,
+    "nombre": " Limas de Uñas  ",
+    "precio": "$10.948 (Display x 12  )",
+    "imagen": "img/p4/produc/133-limas.png",
+    "descripcion": "Limas de Uñas: herramienta de cuidado personal con superficie abrasiva; sirve para dar forma, alisar y suavizar los bordes de las uñas.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 141,
+    "nombre": " Cepillo Eco Adulto  ",
+    "precio": "$10.948 ( Display x 12  )",
+    "imagen": "img/p4/produc/136-cepilloecoadulto.jpg",
+    "descripcion": "Cepillo de Dientes Económico Adulto: producto de higiene bucal con cerdas suaves o medias y mango básico; sirve para limpiar dientes y encías removiendo placa y residuos.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+ 
+  {
+   "id": 142,
+    "nombre": " Cepillo Eco Niños  ",
+    "precio": "$10.948 ( Display x 12  )",
+    "imagen": "img/p4/produc/137-cepilloeconiño.jpg",
+    "descripcion": "Cepillo de Dientes Económico Niño: producto de higiene bucal con cerdas suaves y mango diseñado para niños; sirve para limpiar dientes y encías, removiendo placa y residuos de forma segura para uso infantil.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+ 
+  {
+   "id": 143,
+    "nombre": " Sardina tinapa Roja 170 gr tomate ",
+    "precio": "$32.448 ( Display x 12  )",
+    "imagen": "img/p4/produc/138-tinaparoja.jpg",
+    "descripcion": "Sardina Tinapa Roja 170 g (marca Calidad): sardinas en lata ahumadas en salsa de tomate; sirven como alimento rico en proteínas y ácidos grasos omega‑3, ideal para comidas rápidas, ensaladas o acompañamientos nutritivos.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+ {
+   "id": 144,
+    "nombre": " Sardina tinapa verde 170 gr Aceite",
+    "precio": "$32.448 ( Display x 12  )",
+    "imagen": "img/p4/produc/139-tinapaverde.jpg",
+    "descripcion": "Sardina Tinapa Verde 170 g (marca Calidad): sardinas en lata ahumadas en aceite; sirven como alimento rico en proteínas y ácidos grasos omega‑3, ideal para comidas rápidas, ensaladas o acompañamientos nutritivos.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 145,
+    "nombre": " Atun Calidad ",
+    "precio": "$32.448 ( Display x 12  )",
+    "imagen": "img/p4/produc/140-atuncalidad.jpg",
+    "descripcion": "Atún Calidad: atún en lata conservado en aceite ; sirve como alimento rico en proteínas y ácidos grasos omega‑3, ideal para ensaladas, sándwiches y comidas rápidas nutritivas.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+
+{
+   "id": 146,
+    "nombre": " Sardina Ovalada verde 425 gr Aceite ",
+    "precio": "$32.448 ( Display x 12  )",
+    "imagen": "img/p4/produc/141-ovaladaverdecalidad.jpg",
+    "descripcion": "Sardina Ovalada Verde 425 g (marca Calidad): sardinas en lata conservadas en aceite; sirve como alimento rico en proteínas y ácidos grasos omega‑3, ideal para ensaladas, acompañamientos y comidas nutritivas.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+ 
+ {
+   "id": 147,
+    "nombre": " Sardina Ovalada roja 425 gr tomate ",
+    "precio": "$32.448 ( Display x 12  )",
+    "imagen": "img/p4/produc/142-ovaladarojacalidad.jpg",
+    "descripcion": "Sardina Ovalada Roja 425 g (marca Calidad): sardinas en lata ahumadas y conservadas en salsa de tomate; sirve como alimento rico en proteínas y ácidos grasos omega‑3, ideal para preparar comidas nutritivas como ensaladas, arroz con sardina o sándwiches.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+  
+
+  {
+   "id": 148,
+    "nombre": " Salchichon Cervecero Rico sabor ",
+    "precio": "$6.978 ( Unidad  )",
+    "imagen": "img/p4/produc/143-salchichon.jpg",
+    "descripcion": "Salchichón Cervecero Rico Sabor: embutido cárnico con carne de cerdo y especias; sirve como alimento listo para consumir en sándwiches, picadas o acompañamientos con un sabor intenso.",
+    "oferta": true,
+    "proveedorId": 4
+
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
