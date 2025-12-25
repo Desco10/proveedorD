@@ -218,7 +218,7 @@ function requireLogin(callback) {
 // Variables globales
 let productos = [];
 let paginaActual = 1;
-const productosPorPagina = 12;
+const productosPorPagina = 20;
 let usuarioActual = null;
 let proveedorActual = null;
 

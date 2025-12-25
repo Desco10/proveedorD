@@ -1540,7 +1540,437 @@
     "oferta": true,
     "proveedorId": 4
 
+  },
+
+
+  {
+   "id": 149,
+    "nombre": " Candelera Sin Linterna ",
+    "precio": "$10.978 ( Display x 25  )",
+    "imagen": "img/p4/produc/144-CANDELASINLINTERNA.jpg",
+    "descripcion": "Candelera Sin Linterna (Encendedor): herramienta para encender fuego o llama; sirve para prender velas, estufas, parrillas u otros combustibles de forma fácil y segura.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 150,
+    "nombre": " Candelera Con Linterna ",
+    "precio": "$15.978 ( Display x 25  )",
+    "imagen": "img/p4/produc/145-candelacon.jpg",
+    "descripcion": "Candela con Linterna (Encendedor): dispositivo multifuncional con mechero y linterna integrada; sirve para encender fuego y proporcionar iluminación portátil en diversas situaciones.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 151,
+    "nombre": " Candelera de Rastrillo ",
+    "precio": "$11.978 ( Display x 25  )",
+    "imagen": "img/p4/produc/146-CANDELARASTRILLO.webp",
+    "descripcion": "Candelera de Rastrillo de Piedrita: encendedor de tipo pedernal (Encendedor): herramienta para encender fuego o llama; sirve para prender velas, estufas, parrillas u otros combustibles de forma fácil y segura.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 152,
+    "nombre": " Bombillo Tradicional Economico ",
+    "precio": "$17.978 ( Display x 10  )",
+    "imagen": "img/p4/produc/147-bombilloeco.jpg",
+    "descripcion": "Bombillo Tradicional Económico Esmerilado Transparente: bombillo de vidrio esmerilado con filamento; sirve para iluminación básica de interiores, brindando luz uniforme y de bajo costo para uso doméstico.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+
+  {
+   "id": 153,
+    "nombre": " Bombillo Nalpilux 9W ",
+    "precio": "$12.478 ( Display x 5  )",
+    "imagen": "img/p4/produc/148-bombillonalpilux.jpg",
+    "descripcion": "Bombillo Nalpilux 9 W: bombillo LED de 9 W; sirve para iluminación eficiente y de bajo consumo en interiores, reemplazando bombillos tradicionales.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 154,
+    "nombre": " Pila AA",
+    "precio": "$18.478 ( Ristra x 10 )",
+    "imagen": "img/p4/produc/149-pilaa.jpg",
+    "descripcion": "Pila  AA: batería alcalina tamaño AA; sirve para alimentar dispositivos electrónicos de uso diario como controles, juguetes, relojes y linternas.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 155,
+    "nombre": " Pila AAA",
+    "precio": "$18.478 ( Ristra x 10 )",
+    "imagen": "img/p4/produc/149-pilaa.jpg",
+    "descripcion": "Pila  AAA: batería alcalina tamaño AAA; sirve para alimentar dispositivos electrónicos de uso diario como controles, juguetes, relojes y linternas.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 156,
+    "nombre": " Guantes Domesticos de Aseo ",
+    "precio": "$4.478 ( par )",
+    "imagen": "img/p4/produc/150-guantesaseo.jpg",
+    "descripcion": "Guantes Domésticos de Aseo: guantes de látex, caucho o nitrilo no estériles; sirven para proteger las manos durante labores de limpieza, evitando contacto con químicos, suciedad y humedad.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 157,
+    "nombre": " Esponja Doble Uso",
+    "precio": "$9.478 ( Display x 24 )",
+    "imagen": "img/p4/produc/151-esponjadobleuso.jpg",
+    "descripcion": "Esponja Doble Uso (cocina): utensilio de limpieza con cara suave y cara abrasiva; sirve para lavar platos y utensilios de cocina, removiendo grasa y residuos sin dañar superficies delicadas.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  
+  {
+   "id": 158,
+    "nombre": " Esponja Colores Almohadita",
+    "precio": "$6.478 ( Display x 12 )",
+    "imagen": "img/p4/produc/152-esponjacolores.jpg",
+    "descripcion": "Esponja Colores Almohadita : utensilio de limpieza con material absorbente y superficie suave; sirve para lavar y fregar superficies y utensilios del hogar, removiendo suciedad y grasa de forma eficaz.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 158,
+    "nombre": " Esponja Abrasiva",
+    "precio": "$9.478 ( Display x 36 )",
+    "imagen": "img/p4/produc/153-esponjaabrasiva.jpg",
+    "descripcion": "Esponja Abrasiva: utensilio de limpieza con fibra sintética de alta fricción; sirve para remover suciedad difícil, grasa y residuos adheridos en ollas, sartenes y superficies resistentes.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 159,
+    "nombre": " Esponja de Acero",
+    "precio": "$6.478 ( Ristra x 12 )",
+    "imagen": "img/p4/produc/154-esponjaacero.jpg",
+    "descripcion": "Esponja de Acero Enroscada: utensilio de limpieza de acero inoxidable; sirve para remover grasa y suciedad difícil en ollas, parrillas y superficies metálicas resistentes.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 160,
+    "nombre": " Esponjilla",
+    "precio": "$6.478 ( Ristra x 16 )",
+    "imagen": "img/p4/produc/155-esponjilla.jpg",
+    "descripcion": "Esponjilla: utensilio de limpieza de material sintético suave o semiaabrasivo; sirve para lavar utensilios y superficies del hogar, removiendo suciedad ligera sin rayar.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+
+  {
+   "id": 161,
+    "nombre": " Esponja  Maquina",
+    "precio": "$6.478 ( Ristra x 12 )",
+    "imagen": "img/p4/produc/156-esponjamaquina.jpg",
+    "descripcion": "Esponja “Máquina”: esponja de material sintético de alta resistencia; sirve para lavar y restregar superficies con suciedad pesada o grasa, soportando mayor fricción y uso intensivo sin deteriorarse.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 162,
+    "nombre": " Axion Disco",
+    "precio": "$6.478 ( Caja x 12 )",
+    "imagen": "img/p4/produc/157-axiondisco.jpg",
+    "descripcion": "Axion Disco Lavaloza: detergente en forma de disco sólido concentrado; sirve para lavar platos, ollas y utensilios de cocina, removiendo grasa y residuos con facilidad.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 163,
+    "nombre": " Suavitel Doypack 180 ml",
+    "precio": "$6.478 ( Display x 6)",
+    "imagen": "img/p4/produc/158-suavitel.jpg",
+    "descripcion": "Suavitel Doypack 180 ml Suavizante de Ropa: producto de cuidado de textiles con agentes suavizantes y fragancia; sirve para suavizar, perfumar y facilitar el planchado de la ropa al final del lavado.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 164,
+    "nombre": " Fabuloso Doypack 180 ml",
+    "precio": "$6.478 ( Display x 6 )",
+    "imagen": "img/p4/produc/159-fabulosos.jpg",
+    "descripcion": "Fabuloso Doypack 180 ml Aromatizante de Pisos: limpiador con agentes desengrasantes y fragancia; sirve para limpiar y perfumar pisos y superficies, dejando un aroma fresco y duradero.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+
+  {
+   "id": 165,
+    "nombre": " Jabon Supremo de 100 gr",
+    "precio": "$6.478 ( Display x 6 )",
+    "imagen": "img/p4/produc/160-supremos.jpg",
+    "descripcion": "Jabón Supremo (aseo): jabón de uso doméstico con agentes detergentes; sirve para lavar loza, utensilios y realizar todo tipo de limpieza de aseo, con alto poder arrancagrasa.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 167,
+    "nombre": " Jabon Supremo de 200 gr",
+    "precio": "$6.478 ( Display x 6 )",
+    "imagen": "img/p4/produc/160-supremos.jpg",
+    "descripcion": "Jabón Supremo (aseo): jabón de uso doméstico con agentes detergentes; sirve para lavar loza, utensilios y realizar todo tipo de limpieza de aseo, con alto poder arrancagrasa.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 168,
+    "nombre": " Jabon Supremo de 300 gr",
+    "precio": "$6.478 ( Display x 6 )",
+    "imagen": "img/p4/produc/160-supremos.jpg",
+    "descripcion": "Jabón Supremo (aseo): jabón de uso doméstico con agentes detergentes; sirve para lavar loza, utensilios y realizar todo tipo de limpieza de aseo, con alto poder arrancagrasa.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 169,
+    "nombre": " Aromatel Doypack 180 ml",
+    "precio": "$6.478 ( Display x 6 )",
+    "imagen": "img/p4/produc/161-aromatel.jpg",
+    "descripcion": "Aromatel Doypack 180 ml Suavizante de Ropa: producto de cuidado de textiles con agentes suavizantes y fragancia; sirve para suavizar, perfumar y dejar la ropa más manejable después del lavado.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 170,
+    "nombre": " Galleta Brinky",
+    "precio": "$9.478 ( Paquete x 10 )",
+    "imagen": "img/p4/produc/162-galletabrinky.jpg",
+    "descripcion": "Galleta Brinky: galleta dulce con harina, azúcar y saborizantes; sirve como snack o alimento ligero para consumo diario.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 171,
+    "nombre": " Galleta Bridge",
+    "precio": "$9.478 ( Paquete x 10 )",
+    "imagen": "img/p4/produc/163-galletabridge.jpg",
+    "descripcion": "Galleta Bridge: galleta dulce con harina, azúcar y saborizantes; sirve como snack o alimento ligero para consumo diario.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+
+  {
+   "id": 172,
+    "nombre": " Galleta Muu de Leche",
+    "precio": "$9.478 ( Paquete x 24 )",
+    "imagen": "img/p4/produc/164-muuleche.jpg",
+    "descripcion": "Galleta Muu de Leche: galleta dulce con harina, azúcar y saborizantes; sirve como snack o alimento ligero para consumo diario.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 173,
+    "nombre": " Galleta Muu Mantequilla",
+    "precio": "$9.478 ( Paquete x 18 )",
+    "imagen": "img/p4/produc/165-muumantequilla.jpg",
+    "descripcion": "Galleta Muu de Leche: galleta dulce con harina, azúcar y saborizantes; sirve como snack o alimento ligero para consumo diario.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 174,
+    "nombre": " Galleta Capri ",
+    "precio": "$9.478 ( Paquete x 24 )",
+    "imagen": "img/p4/produc/166-capri.jpg",
+    "descripcion": "Galleta Capri: galleta dulce con harina, azúcar y saborizantes; sirve como snack o alimento ligero para consumo diario.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 175,
+    "nombre": " Bon bon bum ",
+    "precio": "$9.478 ( Paquete x 24 )",
+    "imagen": "img/p4/produc/167-bombombum.jpg",
+    "descripcion": "Bon bon Bum: dulce tipo bombón con cobertura y relleno azucarado; sirve como snack dulce o golosina para consumo ocasional.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+  {
+   "id": 176,
+    "nombre": " Barrilete ",
+    "precio": "$9.478 ( Paquete x 40 )",
+    "imagen": "img/p4/produc/168-barrilete.jpg",
+    "descripcion": "Barrilete: dulce tipo caramelo masticable o duro con sabores frutales; sirve como golosina para consumo ocasional, ideal para niños y adultos.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+  
+  {
+   "id": 177,
+    "nombre": " Bianchi Azul ",
+    "precio": "$11.478 ( Paquete x 100 )",
+    "imagen": "img/p4/produc/169-bianchiazul.png",
+    "descripcion": "Bianchi (snack dulce): snack dulce con chocolate y/o caramelo y otros ingredientes de confitería; sirve como golosina o snack para consumo ocasional y acompañar bebidas o meriendas.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+ 
+  {
+   "id": 178,
+    "nombre": " Bianchi Blanco ",
+    "precio": "$11.478 ( Paquete x 100 )",
+    "imagen": "img/p4/produc/170-bianchiblanco.png",
+    "descripcion": "Bianchi (snack dulce): snack dulce con chocolate y/o caramelo y otros ingredientes de confitería; sirve como golosina o snack para consumo ocasional y acompañar bebidas o meriendas.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 179,
+    "nombre": " Galletas Glacitas  ",
+    "precio": "$6.478 ( Paquete x 6 )",
+    "imagen": "img/p4/produc/171-glacitas.png",
+    "descripcion": "Galleta Glacitas: galleta dulce con harina, azúcar y cobertura glacé; sirve como snack o merienda dulce para consumo diario.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+
+  {
+   "id": 180,
+    "nombre": " Gelatina Casera de pata  ",
+    "precio": "$6.478 ( Paquete x 6 )",
+    "imagen": "img/p4/produc/172-gelatina.png",
+    "descripcion": "Galleta Glacitas: galleta dulce con harina, azúcar y cobertura glacé; sirve como snack o merienda dulce para consumo diario.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+ 
+  {
+   "id": 181,
+    "nombre": " Galleta Herpo ",
+    "precio": "$6.978 ( Paquete x 10 )",
+    "imagen": "img/p4/produc/173-herpo.png",
+    "descripcion": "Galleta Herpo (con dulce de guayaba): galleta con harina, dulce de guayaba y azúcar; sirve como snack o merienda dulce con relleno frutal para consumo diario.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 182,
+    "nombre": " Lonchera Submarinos ",
+    "precio": "$7.978 ( Paquete x 6 )",
+    "imagen": "img/p4/produc/174-submarinos.png",
+    "descripcion": "Pastelitos Submarinos de Marilena: pastelillo dulce con masa horneada y relleno azucarado; sirve como snack o merienda para consumo diario.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  
+  {
+   "id": 183,
+    "nombre": " Takis Rojo 50 gr",
+    "precio": "$3.078 ( Paquete x 6 )",
+    "imagen": "img/p4/produc/175-takisrojo.png",
+    "descripcion": "Takis (snack): totopos de maíz fritos con condimentos picantes y saborizantes; sirven como snack salado y crujiente para consumo casual.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+   {
+   "id": 184,
+    "nombre": " Takis Azul 50 gr",
+    "precio": "$3.078 ( Paquete x 6 )",
+    "imagen": "img/p4/produc/176-takisazul.png",
+    "descripcion": "Takis (snack): totopos de maíz fritos con condimentos picantes y saborizantes; sirven como snack salado y crujiente para consumo casual.",
+    "oferta": true,
+    "proveedorId": 4
+
+  },
+
+  {
+   "id": 185,
+    "nombre": " Pony Malta Lata 355 ml",
+    "precio": "$49.078 ( Paca x 24 )",
+    "imagen": "img/p4/produc/178-ponylata.png",
+    "descripcion": "Pony Malta (lata): bebida maltada sin alcohol con maltas y extractos de malta de cebada; sirve como bebida energética y nutritiva, ideal para hidratación y aporte de carbohidratos.",
+    "oferta": true,
+    "proveedorId": 4
+
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
