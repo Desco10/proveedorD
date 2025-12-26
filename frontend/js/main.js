@@ -311,7 +311,8 @@ async function cargarProveedores() {
     }
 
     contenedorProveedores.innerHTML = proveedores.map(p => `
-  <div class="card-proveedor" onclick="abrirProveedor('${p.id}', '${p.nombre}')">
+  <div class="card-proveedor"
+       onclick="requireLogin(() => abrirProveedor('${p.id}', '${p.nombre}'))">
     
     <div class="logo-wrapper">
       <img src="${p.logo}" alt="${p.nombre}">

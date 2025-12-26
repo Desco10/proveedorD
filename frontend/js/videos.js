@@ -196,14 +196,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     overlayBtn.textContent = "Ver catálogo";
 
     overlayBtn.onclick = (e) => {
-      e.preventDefault();
-      if (proveedor && typeof abrirProveedor === "function") {
-        pauseStory();
-        abrirProveedor(proveedor.id, proveedor.nombre);
-      } else {
-        window.location.href = proveedorUrl;
-      }
-    };
+  e.preventDefault();
+
+  if (!proveedor || typeof abrirProveedor !== "function") {
+    window.location.href = proveedorUrl;
+    return;
+  }
+
+  // Pedir login, pero no pausar todavía
+  requireLogin(() => {
+    // Solo aquí pausamos y abrimos el catálogo si el login fue exitoso
+    pauseStory();
+    abrirProveedor(proveedor.id, proveedor.nombre);
+  });
+
+  // Si cierra el modal de login, no pasa nada, el video sigue reproduciéndose
+};
+
+
 
     // Click sobre el video → pausa/play
     videoEl.onclick = () => {
