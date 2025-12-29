@@ -310,16 +310,29 @@ document.addEventListener("DOMContentLoaded", cargarMensajeDiario);
     <h2>¡Disfruta más con DESCOAPP!</h2>
 
     <p>  
-      Regístrate completamente fácil con tus datos y accede a tus proveedores favoritos , con los mejores precios .
+      Regístrate o inicie seccion completamente fácil con tus datos y accede a tus proveedores favoritos , con los mejores precios .
     </p>
 
     <button id="btnIrLogin" class="registro-modal-btn">
-      Registrarse ahora
+      Inicie seccion 
     </button>
 
   </div>
 </div>
 
+<div id="carritoPanel" class="carrito-panel">
+  <div class="carrito-header">
+    <h3>🛒 Estás comprando</h3>
+    <button onclick="cerrarCarrito()">✕</button>
+  </div>
+
+  <div id="carritoItems" class="carrito-items"></div>
+
+  <div class="carrito-footer">
+    <button class="btn-secundario" onclick="cerrarCarrito()">Seguir comprando</button>
+    <button class="btn-principal" onclick="finalizarCompra()">Finalizar compra</button>
+  </div>
+</div>
 
 </body>
 </html>

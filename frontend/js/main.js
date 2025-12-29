@@ -664,6 +664,9 @@ function comprarProductoCarrusel(idProducto) {
     }
 
     enviarWhatsApp(producto);
+    agregarProductoAlCarrito(producto)
+    
+
   });
 }
 
@@ -780,23 +783,32 @@ async function enviarWhatsApp(producto, cliente = null, proveedor = null) {
         : "*PROVEEDOR*";
 
     const logoProveedor = proveedor?.logo || producto.proveedorLogo || "";
+
     const makeAbsolute = (path) => {
       if (!path) return "";
       if (path.startsWith("http://") || path.startsWith("https://")) return path;
       return `${window.location.origin}/${path}`.replace(/([^:]\/)\/+/g, "$1");
     };
-    const logoProveedorUrl = makeAbsolute(logoProveedor);
 
+    const logoProveedorUrl = makeAbsolute(logoProveedor);
     const urlProducto = `${window.location.origin}/producto.html?id=${encodeURIComponent(producto.id)}`;
 
     const nombreProducto = `🔥 *${producto.nombre.toUpperCase()}*`;
-    const precio = `*PRECIO:* *${producto.precio.toUpperCase ? producto.precio.toUpperCase() : producto.precio}*`;
+    const precio = `*PRECIO:* *${producto.precio?.toUpperCase ? producto.precio.toUpperCase() : producto.precio}*`;
+    const descripcion = producto.descripcion ? producto.descripcion : "";
 
-    const descripcion = producto.descripcion
-      ? producto.descripcion
-      : "";
+    // ===============================
+    // 🧠 CONTROL DE CONVERSACIÓN
+    // ===============================
+    const conversacionIniciada = sessionStorage.getItem("wa_iniciado");
 
-    let mensaje = 
+    let mensaje = "";
+
+    if (!conversacionIniciada) {
+      // 🟢 PRIMER MENSAJE DE LA SESIÓN
+      sessionStorage.setItem("wa_iniciado", "1");
+
+      mensaje = 
 `Hola, soy ${nombreCliente} y quiero comprar este producto:
 
 ${nombreProducto}
@@ -809,10 +821,23 @@ ${logoProveedorUrl ? `Logo: ${logoProveedorUrl}` : ""}
 🔗 Ver producto:
 ${urlProducto}
 `;
+    } else {
+      // 🔵 MENSAJES SIGUIENTES
+      mensaje =
+`Y también quiero comprar este producto:
+
+${nombreProducto}
+${descripcion}
+${precio}
+
+🔗 Ver producto:
+${urlProducto}
+`;
+    }
 
     const numero = proveedor?.whatsapp || producto.whatsapp || WHATSAPP_EMPRESA;
-
     const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
+
     window.open(url, "_blank");
 
   } catch (error) {
@@ -863,22 +888,29 @@ function actualizarMensajeBienvenida() {
 }
 
 // CERRAR SESIÓN
+// CERRAR SESIÓN
 function cerrarSesion() {
   try {
+    // 🔐 Limpieza de sesión
     localStorage.removeItem("cliente");
     localStorage.removeItem("loginTime");
+
+    // 🧹 Limpieza de estados temporales
     sessionStorage.removeItem("productoPendiente");
+    sessionStorage.removeItem("wa_iniciado"); // ⬅️ MUY IMPORTANTE
 
     usuarioActual = null;
 
+    // 🔄 UI
     actualizarMensajeBienvenida();
     ocultarCerrarSesion();
 
-    console.log("✅ Sesión cerrada: localStorage limpiado");
+    console.log("✅ Sesión cerrada correctamente (estado limpio)");
   } catch (err) {
     console.error("Error en cerrarSesion:", err);
   }
 }
+
 
 // ============================================
 // REGISTRO CON VALIDACIONES (MEJORADO)
@@ -1353,7 +1385,7 @@ modalProducto.addEventListener("click", (e) => {
 
 
 
-/* funcion mensaje resgistro   ( revisar  */
+/* funcion mensaje resgistro   ( revisado */
 function mostrarRegistroModal(callbackLogin) {
   const modal = document.getElementById("registroModal");
   if (!modal) return; // ← evita errores silenciosos
@@ -1379,3 +1411,92 @@ function mostrarRegistroModal(callbackLogin) {
   };
 }
 
+
+
+
+function obtenerCarrito() {
+  return JSON.parse(localStorage.getItem("carrito")) || [];
+}
+
+function guardarCarrito(carrito) {
+  localStorage.setItem("carrito", JSON.stringify(carrito));
+}
+
+
+function agregarAlCarrito(producto) {
+  const carrito = obtenerCarrito();
+
+  const existente = carrito.find(p => p.id === producto.id);
+  if (!existente) {
+    carrito.push({
+      id: producto.id,
+      nombre: producto.nombre,
+      precio: producto.precio,
+      proveedor: producto.proveedorNombre,
+      logo: producto.proveedorLogo,
+      url: `/producto.html?id=${producto.id}`
+    });
+  }
+
+  guardarCarrito(carrito);
+  renderizarCarrito();
+  abrirCarrito();
+}
+
+
+
+function renderizarCarrito() {
+  const contenedor = document.getElementById("carritoItems");
+  if (!contenedor) return;
+
+  const carrito = obtenerCarrito();
+  contenedor.innerHTML = "";
+
+  if (carrito.length === 0) {
+    contenedor.innerHTML = "<p>Tu carrito está vacío</p>";
+    return;
+  }
+
+  carrito.forEach(p => {
+    contenedor.innerHTML += `
+      <div class="carrito-item">
+        <strong>${p.nombre}</strong>
+        <span>${p.precio}</span>
+        <button onclick="eliminarDelCarrito(${p.id})">🗑</button>
+      </div>
+    `;
+  });
+}
+
+
+
+function eliminarDelCarrito(id) {
+  let carrito = obtenerCarrito();
+  carrito = carrito.filter(p => p.id !== id);
+  guardarCarrito(carrito);
+  renderizarCarrito();
+}
+
+
+
+function abrirCarrito() {
+  document.getElementById("carritoPanel").classList.add("activo");
+}
+
+function cerrarCarrito() {
+  document.getElementById("carritoPanel").classList.remove("activo");
+}
+
+
+
+
+function finalizarCompra() {
+  const carrito = obtenerCarrito();
+  if (carrito.length === 0) return;
+
+  carrito.forEach((producto, index) => {
+    setTimeout(() => {
+      enviarWhatsApp(producto);
+    }, index * 800);
+  });
+}
