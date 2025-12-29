@@ -634,7 +634,9 @@ function ocultarPaginacion() {
   if (paginacion) paginacion.style.display = "none";
 }
 
-// COMPRAR PRODUCTO
+// ================================
+// 🛒 COMPRAR PRODUCTO (FINAL)
+// ================================
 
 function comprarProducto(idProducto) {
   requireLogin(() => {
@@ -645,13 +647,25 @@ function comprarProducto(idProducto) {
         return;
       }
 
+      // 🛒 1️⃣ Guardar intención en carrito
+      agregarProductoAlCarrito(producto);
+
+      // 📲 2️⃣ Enviar mensaje WhatsApp (conversación progresiva)
       enviarWhatsApp(producto);
+
+      // 🔔 3️⃣ Feedback interno (no rompe UX)
+      console.log("🛒 Producto agregado al carrito:", producto.nombre);
 
     } catch (error) {
       console.error("Error al comprar producto:", error);
     }
   });
 }
+
+
+ 
+
+
 
 // COMPRAR DESDE CARRUSEL
 function comprarProductoCarrusel(idProducto) {
@@ -753,11 +767,14 @@ function ocultarCerrarSesion() {
 }
 
 
-// ENVIAR WHATSAPP (CATÁLOGO) - VERSIÓN PROFESIONAL FINAL
+// ENVIAR WHATSAPP (CATÁLOGO) - VERSIÓN ENTERPRISE AJUSTADA
 
 async function enviarWhatsApp(producto, cliente = null, proveedor = null) {
   try {
 
+    // ===============================
+    // 👤 CLIENTE
+    // ===============================
     if (!cliente) {
       cliente = isLoginVigente() ? JSON.parse(localStorage.getItem("cliente")) : null;
     }
@@ -766,6 +783,9 @@ async function enviarWhatsApp(producto, cliente = null, proveedor = null) {
       ? `*${cliente.nombre.toUpperCase()}*`
       : "*CLIENTE*";
 
+    // ===============================
+    // 🏪 PROVEEDOR
+    // ===============================
     if (!proveedor && producto.proveedorId) {
       try {
         const resProv = await fetch("/data/proveedores.json");
@@ -784,6 +804,9 @@ async function enviarWhatsApp(producto, cliente = null, proveedor = null) {
 
     const logoProveedor = proveedor?.logo || producto.proveedorLogo || "";
 
+    // ===============================
+    // 🌐 URLS ABSOLUTAS
+    // ===============================
     const makeAbsolute = (path) => {
       if (!path) return "";
       if (path.startsWith("http://") || path.startsWith("https://")) return path;
@@ -793,19 +816,22 @@ async function enviarWhatsApp(producto, cliente = null, proveedor = null) {
     const logoProveedorUrl = makeAbsolute(logoProveedor);
     const urlProducto = `${window.location.origin}/producto.html?id=${encodeURIComponent(producto.id)}`;
 
+    // ===============================
+    // 📦 PRODUCTO
+    // ===============================
     const nombreProducto = `🔥 *${producto.nombre.toUpperCase()}*`;
     const precio = `*PRECIO:* *${producto.precio?.toUpperCase ? producto.precio.toUpperCase() : producto.precio}*`;
     const descripcion = producto.descripcion ? producto.descripcion : "";
 
     // ===============================
-    // 🧠 CONTROL DE CONVERSACIÓN
+    // 🧠 CONTROL DE CONVERSACIÓN (CLAVE)
     // ===============================
     const conversacionIniciada = sessionStorage.getItem("wa_iniciado");
 
     let mensaje = "";
 
     if (!conversacionIniciada) {
-      // 🟢 PRIMER MENSAJE DE LA SESIÓN
+      // 🟢 PRIMER MENSAJE
       sessionStorage.setItem("wa_iniciado", "1");
 
       mensaje = 
@@ -822,7 +848,7 @@ ${logoProveedorUrl ? `Logo: ${logoProveedorUrl}` : ""}
 ${urlProducto}
 `;
     } else {
-      // 🔵 MENSAJES SIGUIENTES
+      // 🔵 PRODUCTOS SIGUIENTES (INTENCIÓN ACUMULADA)
       mensaje =
 `Y también quiero comprar este producto:
 
@@ -835,10 +861,25 @@ ${urlProducto}
 `;
     }
 
+    // ===============================
+    // 📲 ENVÍO WHATSAPP
+    // ===============================
     const numero = proveedor?.whatsapp || producto.whatsapp || WHATSAPP_EMPRESA;
     const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
-
     window.open(url, "_blank");
+
+    // ===============================
+    // 🛒 NUEVO — REGISTRO DE INTENCIÓN (CARRITO LÓGICO)
+    // ===============================
+    if (typeof agregarProductoAlCarrito === "function") {
+      agregarProductoAlCarrito({
+        id: producto.id,
+        nombre: producto.nombre,
+        precio: producto.precio,
+        proveedorId: producto.proveedorId,
+        imagen: producto.imagen || "",
+      });
+    }
 
   } catch (error) {
     console.error("Error al enviar WhatsApp:", error);
@@ -1413,3 +1454,188 @@ function mostrarRegistroModal(callbackLogin) {
 
 
 
+/*carritocompras*/
+
+
+// ================================
+// 🛒 CARRITO – MODELO CENTRAL (FINAL)
+// ================================
+
+const CARRITO_KEY = "desco_carrito";
+
+/**
+ * Obtiene el carrito desde localStorage
+ */
+function obtenerCarrito() {
+  try {
+    return JSON.parse(localStorage.getItem(CARRITO_KEY)) || {
+      items: [],
+      updatedAt: Date.now()
+    };
+  } catch {
+    return { items: [], updatedAt: Date.now() };
+  }
+}
+
+/**
+ * Guarda el carrito y actualiza timestamp
+ */
+function guardarCarrito(carrito) {
+  carrito.updatedAt = Date.now();
+  localStorage.setItem(CARRITO_KEY, JSON.stringify(carrito));
+}
+
+/**
+ * Limpia carrito + reinicia conversación WhatsApp
+ */
+function limpiarCarrito() {
+  localStorage.removeItem(CARRITO_KEY);
+  sessionStorage.removeItem("wa_iniciado"); // 🔑 control de conversación
+}
+
+/**
+ * Agrega producto al carrito (intención)
+ */
+function agregarProductoAlCarrito(producto) {
+  const carrito = obtenerCarrito();
+
+  const existente = carrito.items.find(
+    p => p.id === producto.id && p.proveedorId === producto.proveedorId
+  );
+
+  if (existente) {
+    existente.cantidad += 1;
+  } else {
+    carrito.items.push({
+      id: producto.id,
+      nombre: producto.nombre,
+      precio: producto.precio,
+      imagen: producto.imagen,
+      proveedorId: producto.proveedorId,
+      cantidad: 1
+    });
+  }
+
+  guardarCarrito(carrito);
+  renderCarrito();
+}
+
+
+/**
+ * Finaliza la compra y envía resumen por WhatsApp
+ */
+function finalizarCompra() {
+  const carrito = obtenerCarrito();
+
+  if (!carrito.items.length) {
+    alert("Tu carrito está vacío.");
+    return;
+  }
+
+  let mensaje = `🧾 *RESUMEN FINAL DE COMPRA*\n\n`;
+
+  carrito.items.forEach((p, index) => {
+    mensaje += `${index + 1}. *${p.nombre}* (x${p.cantidad})\n`;
+  });
+
+  mensaje += `\n✅ Quedo atento para confirmar disponibilidad, total y envío.`;
+
+  const numero = WHATSAPP_EMPRESA;
+  const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
+  window.open(url, "_blank");
+
+  limpiarCarrito();
+}
+
+/**
+ * Detecta carrito pendiente (recuperación)
+ */
+function restaurarCarritoSiExiste() {
+  const carrito = obtenerCarrito();
+  if (carrito.items.length > 0) {
+    console.log("🟡 Carrito pendiente detectado:", carrito.items);
+  }
+}
+
+
+// ================================
+// ================================
+// 🛒 UI CARRITO – RENDER PROFESIONAL
+// ================================
+
+function toggleCarrito() {
+  document.getElementById("carritoPanel").classList.toggle("oculto");
+}
+
+function eliminarProductoDelCarrito(id) {
+  const carrito = obtenerCarrito();
+  carrito.items = carrito.items.filter(p => p.id !== id);
+  guardarCarrito(carrito);
+  renderCarrito();
+}
+
+function cambiarCantidad(id, delta) {
+  const carrito = obtenerCarrito();
+  const item = carrito.items.find(p => p.id === id);
+  if (!item) return;
+
+  item.cantidad += delta;
+
+  if (item.cantidad <= 0) {
+    carrito.items = carrito.items.filter(p => p.id !== id);
+  }
+
+  guardarCarrito(carrito);
+  renderCarrito();
+}
+
+function renderCarrito() {
+  const carrito = obtenerCarrito();
+  const contenedor = document.getElementById("carritoItems");
+  const badge = document.getElementById("carritoBadge");
+
+  if (!contenedor || !badge) return;
+
+  contenedor.innerHTML = "";
+
+  // Badge total
+  badge.textContent = carrito.items.reduce((a, b) => a + b.cantidad, 0);
+
+  if (!carrito.items.length) {
+    contenedor.innerHTML = "<p>Tu carrito está vacío.</p>";
+    return;
+  }
+
+  carrito.items.forEach(p => {
+    const div = document.createElement("div");
+    div.className = "carrito-item";
+
+    div.innerHTML = `
+      <img src="${p.imagen}" alt="${p.nombre}">
+      <div class="carrito-info">
+        <strong>${p.nombre}</strong><br>
+        <small>${p.precio}</small><br>
+        <small>Proveedor: ${p.proveedorId ?? "N/A"}</small>
+
+        <div class="carrito-cantidad">
+          <button onclick="cambiarCantidad(${p.id}, -1)">−</button>
+          <span>${p.cantidad}</span>
+          <button onclick="cambiarCantidad(${p.id}, 1)">+</button>
+        </div>
+      </div>
+
+      <button class="btn-eliminar" onclick="eliminarProductoDelCarrito(${p.id})">✖</button>
+    `;
+
+    contenedor.appendChild(div);
+  });
+}
+
+// Hook automático
+const _agregarProductoOriginal = agregarProductoAlCarrito;
+agregarProductoAlCarrito = function(producto) {
+  _agregarProductoOriginal(producto);
+  renderCarrito();
+};
+
+document.addEventListener("DOMContentLoaded", renderCarrito);

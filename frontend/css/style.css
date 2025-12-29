@@ -2806,3 +2806,129 @@ footer .mensaje-temporada.active {
 
 
 
+/*CARRITOCOMPARAS */
+
+/* 🛒 ICONO CARRITO */
+.carrito-icono {
+  position: fixed;
+  top: 18px;
+  right: 22px;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 9999;
+}
+
+.carrito-badge {
+  background: red;
+  color: white;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  margin-left: 4px;
+}
+
+/* 🛒 PANEL */
+.carrito-panel {
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  width: 320px;
+  max-height: 70vh;
+  background: #fff;
+  box-shadow: 0 8px 30px rgba(0,0,0,.25);
+  border-radius: 12px;
+  padding: 14px;
+  z-index: 9999;
+  overflow-y: auto;
+}
+
+.carrito-panel.oculto {
+  display: none;
+}
+
+/* ITEMS */
+.carrito-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.carrito-item img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.carrito-item button {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: red;
+  cursor: pointer;
+}
+
+/* FOOTER */
+/* FOOTER DEL CARRITO */
+.carrito-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+/* BOTÓN SEGUIR COMPRANDO */
+.btn-seguir {
+  background: #047bf1;
+  color: #ffffff;
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-seguir:hover {
+  background: #e9ecef;
+}
+
+/* BOTÓN FINALIZAR */
+.btn-finalizar {
+  background: #25D366;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+
+.carrito-info {
+  flex: 1;
+  font-size: 13px;
+}
+
+.carrito-cantidad {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.carrito-cantidad button {
+  width: 22px;
+  height: 22px;
+  border: 1px solid #ccc;
+  background: #f8f9fa;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.btn-eliminar {
+  background: transparent;
+  border: none;
+  color: red;
+  cursor: pointer;
+}

@@ -320,6 +320,24 @@ document.addEventListener("DOMContentLoaded", cargarMensajeDiario);
   </div>
 </div>
 
+<!-- 🛒 ICONO CARRITO HEADER -->
+<div id="carritoIcono" class="carrito-icono" onclick="toggleCarrito()">
+  🛒 <span id="carritoBadge" class="carrito-badge">0</span>
+</div>
+
+<!-- 🛒 PANEL CARRITO DESPLEGABLE -->
+<div id="carritoPanel" class="carrito-panel oculto">
+  <h3>Tu carrito</h3>
+
+  <div id="carritoItems" class="carrito-items"></div>
+
+  <div class="carrito-footer">
+  <button class="btn-seguir" onclick="toggleCarrito()">Seguir comprando</button>
+  <button class="btn-finalizar" onclick="finalizarCompra()">Finalizar compra</button>
+</div>
+
+</div>
+
 
 </body>
 </html>
