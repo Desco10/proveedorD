@@ -28,18 +28,22 @@
     <!-- BOTÓN CERRAR SESIÓN (arriba derecha, oculto por defecto) -->
     <button id="btnCerrarSesion" class="btn-cerrar">Cerrar sesión</button>
     <div class="logo-container">
-    <img src="img/plataforma/NEWLOGODESCOAPP.jpg" class="logo" alt="Logo">
+  <div class="logo-wrap">
+    <img src="img/plataforma/newdescoappsinf.png" class="logo" alt="Logo">
+    <span class="logo-shine"></span>
+  </div>
 
   <div class="abierto-text">
-    ABIERTO
+    ABIERTO 24/7
   </div>
 </div>
+
 
 
     <div class="overlay">
       
       <h1>⭐ Bienvenido a DescoApp ⭐</h1>
-      <p>Compra rápido y fácil tus productos para tienda y droguería.</p>
+      <p> Feliz , Comprando rápido y fácil tus productos ,Surte Bien..</p>
 
       <p id="mensajeBienvenida" class="mensaje-bienvenida"></p>
     </div>
@@ -181,7 +185,7 @@
 <div id="authModal" class="modal-auth">
   <div class="modal-contenido">
     <span class="cerrar" id="cerrarModal">&times;</span>
-    <img src="img/plataforma/NEWLOGODESCOAPP.jpg" class="modal-logo">
+    <img src="img/plataforma/newdescoappsinf.png" class="modal-logo">
     <h2>DescoApp</h2>
     
 
@@ -280,20 +284,42 @@ function cargarMensajeDiario() {
 
 
 
-/*revisar ojo */
-<div id="registroModal" class="registro-modal">
-  <div class="registro-modal-content">
-    <span id="closeRegistroModal" class="registro-modal-close">&times;</span>
-    <h2>¡Disfruta más con DESCOAPP!</h2>
-    <p>Para que puedas disfrutar de todos los beneficios de DESCOAPP, regístrate completamente fácil con tus datos y accede a más funcionalidades.</p>
-    <button id="btnIrLogin" class="registro-modal-btn">Registrarse ahora</button>
-  </div>
-</div>
+
 
 document.addEventListener("DOMContentLoaded", cargarMensajeDiario);
 </script>
 
   <script src="/js/main.js"></script>
   <script src="/js/videos.js"></script>
+
+
+
+  <!-- Modal de mensaje de registro -->
+<div id="registroModal" class="registro-modal">
+  <div class="registro-modal-content">
+
+    <!-- LOGO DESCOAPP -->
+    <img 
+      src="./img/plataforma/newdescoappsinf.png" 
+      alt="DescoApp" 
+      class="registro-modal-logo"
+    />
+
+    <span id="closeRegistroModal" class="registro-modal-close">&times;</span>
+
+    <h2>¡Disfruta más con DESCOAPP!</h2>
+
+    <p>  
+      Regístrate completamente fácil con tus datos y accede a tus proveedores favoritos , con los mejores precios .
+    </p>
+
+    <button id="btnIrLogin" class="registro-modal-btn">
+      Registrarse ahora
+    </button>
+
+  </div>
+</div>
+
+
 </body>
 </html>

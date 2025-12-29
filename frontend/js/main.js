@@ -195,25 +195,44 @@ function isLoginVigente() {
   return diff < LOGIN_EXPIRATION_HOURS;
 }
 
-// Ejecuta callback si el usuario está logueado. Si no, abre modal y guarda la acción.
+// Ejecuta callback si el usuario está logueado. Si no, muestra mensaje y abre login
 function requireLogin(callback) {
-  const cliente = isLoginVigente() ? JSON.parse(localStorage.getItem("cliente")) : null;
+  const cliente = isLoginVigente()
+    ? JSON.parse(localStorage.getItem("cliente"))
+    : null;
+
+  // ✅ Usuario logueado → ejecuta acción
   if (cliente) {
     usuarioActual = cliente;
-    try { return callback(); } catch (err) { console.error("requireLogin callback error:", err); }
+    try {
+      return callback();
+    } catch (err) {
+      console.error("requireLogin callback error:", err);
+    }
     return;
   }
 
+  // ❌ Usuario NO logueado → guardar acción
   window.afterLogin = callback;
-  
-  // ✅ LIMPIAR ERRORES ANTES DE MOSTRAR MODAL
+
+  // ✅ Limpiar errores y formularios
   ocultarErrorForm('loginErrorMsg');
   ocultarErrorForm('registroErrorMsg');
   if (formLogin) formLogin.reset();
   if (formRegistro) formRegistro.reset();
-  
-  if (modalAuth) modalAuth.style.display = "flex";
+
+  // ✅ MOSTRAR MENSAJE PERSUASIVO ANTES DEL LOGIN
+  if (typeof mostrarRegistroModal === "function") {
+    mostrarRegistroModal(() => {
+      // Al aceptar → abrir modal real de login/registro
+      if (modalAuth) modalAuth.style.display = "flex";
+    });
+  } else {
+    // Fallback seguro
+    if (modalAuth) modalAuth.style.display = "flex";
+  }
 }
+
 
 // Variables globales
 let productos = [];
@@ -1331,3 +1350,32 @@ modalProducto.addEventListener("click", (e) => {
     modalProducto.classList.remove("active");
   }
 });
+
+
+
+/* funcion mensaje resgistro   ( revisar  */
+function mostrarRegistroModal(callbackLogin) {
+  const modal = document.getElementById("registroModal");
+  if (!modal) return; // ← evita errores silenciosos
+
+  const closeBtn = document.getElementById("closeRegistroModal");
+  const btnLogin = document.getElementById("btnIrLogin");
+
+  modal.style.display = "block";
+
+  closeBtn.onclick = () => {
+    modal.style.display = "none";
+  };
+
+  btnLogin.onclick = () => {
+    modal.style.display = "none";
+    if (callbackLogin) callbackLogin();
+  };
+
+  window.onclick = (e) => {
+    if (e.target === modal) {
+      modal.style.display = "none";
+    }
+  };
+}
+
