@@ -19,37 +19,61 @@
 
 <body>
 
-  <!-- HEADER -->
+<!-- HEADER -->
 <header class="header">
   <div class="banner">
 
     <img src="/img/plataforma/TIENDATENDEROS2.png" alt="Banner Desco" class="banner-img">
 
-    <!-- BOTÓN CERRAR SESIÓN (arriba derecha, oculto por defecto) -->
-    <button id="btnCerrarSesion" class="btn-cerrar">Cerrar sesión</button>
+    <!-- BARRA SUPERIOR DEL HEADER -->
+    <div class="header-top">
+
+      <!-- BOTÓN CERRAR SESIÓN -->
+      <button id="btnCerrarSesion" class="btn-cerrar">Cerrar sesión</button>
+
+      <!-- 🛒 CARRITO HEADER -->
+      <div id="carritoHeader">
+        <div id="carritoIcono" class="carrito-icono" onclick="toggleCarrito()">
+          🛒 <span id="carritoBadge" class="carrito-badge">0</span>
+        </div>
+
+        <!-- PANEL CARRITO -->
+        <div id="carritoPanel" class="carrito-panel oculto">
+          <h3>Tu carrito</h3>
+
+          <div id="carritoItems" class="carrito-items"></div>
+
+          <div class="carrito-footer">
+            <button class="btn-seguir" onclick="toggleCarrito()">Seguir comprando</button>
+            <button class="btn-finalizar" onclick="finalizarCompra()">Finalizar compra</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- LOGO -->
     <div class="logo-container">
-  <div class="logo-wrap">
-    <img src="img/plataforma/newdescoappsinf.png" class="logo" alt="Logo">
-    <span class="logo-shine"></span>
-  </div>
+      <div class="logo-wrap">
+        <img src="img/plataforma/newdescoappsinf.png" class="logo" alt="Logo">
+        <span class="logo-shine"></span>
+      </div>
 
-  <div class="abierto-text">
-    ABIERTO 24/7
-  </div>
-</div>
+      <div class="abierto-text">
+        ABIERTO 24/7
+      </div>
+    </div>
 
-
-
+    <!-- OVERLAY -->
     <div class="overlay">
-      
       <h1>⭐ Bienvenido a DescoApp ⭐</h1>
-      <p> Feliz , Comprando rápido y fácil tus productos ,Surte Bien..</p>
-
+      <p>Feliz, comprando rápido y fácil tus productos, Surte Bien.</p>
       <p id="mensajeBienvenida" class="mensaje-bienvenida"></p>
     </div>
 
   </div>
 </header>
+
 
   
  <!-- ====== CARRUSEL DE VIDEOS PROFESIONAL ====== -->
@@ -320,23 +344,6 @@ document.addEventListener("DOMContentLoaded", cargarMensajeDiario);
   </div>
 </div>
 
-<!-- 🛒 ICONO CARRITO HEADER -->
-<div id="carritoIcono" class="carrito-icono" onclick="toggleCarrito()">
-  🛒 <span id="carritoBadge" class="carrito-badge">0</span>
-</div>
-
-<!-- 🛒 PANEL CARRITO DESPLEGABLE -->
-<div id="carritoPanel" class="carrito-panel oculto">
-  <h3>Tu carrito</h3>
-
-  <div id="carritoItems" class="carrito-items"></div>
-
-  <div class="carrito-footer">
-  <button class="btn-seguir" onclick="toggleCarrito()">Seguir comprando</button>
-  <button class="btn-finalizar" onclick="finalizarCompra()">Finalizar compra</button>
-</div>
-
-</div>
 
 
 </body>
