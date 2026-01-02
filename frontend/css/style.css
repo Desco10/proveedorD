@@ -1102,8 +1102,8 @@ footer .social-icons i.fa-whatsapp:hover {
 footer .mensaje-temporada {
   max-width: 85%;                 /* No ocupa todo el ancho */
   margin: 10px auto;              /* Centrada */
-  padding: 6px 14px;              /* Más delgada */
-  border-radius: 30px;
+  padding: 4px 10px;              /* Más delgada */
+  border-radius: 20px;
   font-family: "Quicksand", sans-serif;   /* Tipografía casual */
   font-weight: 600;
   font-size: 1rem;
@@ -1112,16 +1112,24 @@ footer .mensaje-temporada {
   /* Fondo cinta degradado casual */
   background: linear-gradient(90deg,
     rgba(255, 214, 94, 0) 0%,         /* desvanecido inicio */
-    rgba(255, 214, 94, 0.9) 20%,
-    rgba(236, 72, 7, 0.874) 50%,
-    rgba(255, 214, 94, 0.9) 80%,
+    rgba(94, 255, 247, 0.715) 20%,
+    rgba(7, 209, 236, 0.874) 50%,
+    rgba(94, 191, 255, 0.69) 80%,
     rgba(255, 214, 94, 0) 100%        /* desvanecido final */
   );
 
-  color: #0d0c0c;
+  color: #feb201;
   display: none;
   position: relative;
   overflow: hidden;
+
+
+  text-shadow:
+    -1px -1px 0 #ffffff,
+     1px -1px 0 #ffffff,
+    -1px  1px 0 #ffffff,
+     1px  1px 0 #ffffff,
+     0  4px 8px rgba(0,0,0,0.4);
 }
 
 /* EFECTO DE BRILLO SUAVE Y ELEGANTE */

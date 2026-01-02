@@ -2,7 +2,7 @@
   {
   "id": 1,
   "nombre": "Aceite Bebe 100ml",
-  "precio": "$6897 (unidad)",
+  "precio": "$6.897 (unidad)",
   "imagen": "/img/p1/produc/ACEITEBEBE.jpg",
   "descripcion": "suavecito con tu piel...",
   "oferta": true,
@@ -12,7 +12,7 @@
   {
     "id": 2,
     "nombre": "Acetaminofen tabletas 500mg",
-    "precio": "$8.700 caja x 100 unidades",
+    "precio": "$8.700 (caja x100)",
     "imagen": "/img/p1/produc/ACETAMINOFEN.jpg",
     "descripcion": "Tabletas para aliviar el malestar del dolor de cabeza .",
     "oferta": false,

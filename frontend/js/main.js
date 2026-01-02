@@ -157,6 +157,19 @@ function ocultarErrorForm(idError = 'loginErrorMsg') {
 }
 
 
+async function cargarProveedoresEnCache() {
+  try {
+    const res = await fetch("/data/proveedores.json");
+    const proveedores = await res.json();
+    localStorage.setItem("proveedores_cache", JSON.stringify(proveedores));
+  } catch (e) {
+    console.warn("No se pudieron cargar proveedores");
+  }
+}
+
+cargarProveedoresEnCache();
+
+
 
 // ============================================
 // CONFIGURACIÓN GLOBAL
@@ -641,19 +654,20 @@ function ocultarPaginacion() {
 function comprarProducto(idProducto) {
   requireLogin(() => {
     try {
-      const producto = productos.find(p => p.id === idProducto);
-      if (!producto) {
+      const productoBase = productos.find(p => p.id === idProducto);
+      if (!productoBase) {
         console.error("Producto no encontrado:", idProducto);
         return;
       }
 
-      // 🛒 1️⃣ Guardar intención en carrito
+      const producto = normalizarProductoParaCompra(productoBase);
+
+      // 🛒 Carrito
       agregarProductoAlCarrito(producto);
 
-      // 📲 2️⃣ Enviar mensaje WhatsApp (conversación progresiva)
+      // 📲 WhatsApp
       enviarWhatsApp(producto);
 
-      // 🔔 3️⃣ Feedback interno (no rompe UX)
       console.log("🛒 Producto agregado al carrito:", producto.nombre);
 
     } catch (error) {
@@ -663,6 +677,7 @@ function comprarProducto(idProducto) {
 }
 
 
+
  
 
 
@@ -670,18 +685,50 @@ function comprarProducto(idProducto) {
 // COMPRAR DESDE CARRUSEL
 function comprarProductoCarrusel(idProducto) {
   requireLogin(() => {
-
-    const producto = ofertasGlobal.find(p => p.id === idProducto);
-    if (!producto) {
+    const productoBase = ofertasGlobal.find(p => p.id === idProducto);
+    if (!productoBase) {
       console.error("Producto no encontrado en ofertas:", idProducto);
       return;
     }
 
-    enviarWhatsApp(producto);
-    agregarProductoAlCarrito(producto)
-    
+    const producto = normalizarProductoParaCompra(productoBase);
 
+    agregarProductoAlCarrito(producto);
+    enviarWhatsApp(producto);
+
+    console.log("🛒 Producto agregado desde carrusel:", producto.nombre);
   });
+}
+
+
+
+function normalizarProductoParaCompra(producto) {
+  let proveedorNombre = producto.proveedorNombre || "Proveedor";
+  let proveedorId = producto.proveedorId || null;
+
+  // Resolver proveedor desde JSON si solo viene el ID
+  if (!producto.proveedorNombre && producto.proveedorId) {
+    try {
+      const proveedores = JSON.parse(localStorage.getItem("proveedores_cache")) || [];
+      const prov = proveedores.find(p => Number(p.id) === Number(producto.proveedorId));
+      if (prov) {
+        proveedorNombre = prov.nombre;
+      }
+    } catch (e) {
+      console.warn("No se pudo resolver proveedor:", e);
+    }
+  }
+
+  return {
+    id: producto.id,
+    nombre: producto.nombre,
+    precio: producto.precio,
+    descripcion: producto.descripcion || "",
+    imagen: producto.imagen,
+    proveedorId,
+    proveedorNombre,
+    whatsapp: producto.whatsapp || null
+  };
 }
 
 // login exitoso
@@ -1385,7 +1432,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const mensajeTemporadaActivo = true;  // true = mostrar, false = ocultar
 
 // Texto de temporada actual
-const textoDeTemporada = "¡Feliz Navidad y próspero Año Nuevo 2026!";
+const textoDeTemporada = "¡2026 - la GLORIA Postrera de esta casa sera Mayor que la Primera  - Hageo 2-9 !";
 
 // Si está activo, lo mostramos
 if (mensajeTemporadaActivo) {
@@ -1499,19 +1546,20 @@ function limpiarCarrito() {
 function agregarProductoAlCarrito(producto) {
   const carrito = obtenerCarrito();
 
+  const proveedorNombre = obtenerNombreProveedor(producto.proveedorId);
+
   const existente = carrito.items.find(
     p => p.id === producto.id && p.proveedorId === producto.proveedorId
   );
 
-  if (existente) {
-    existente.cantidad += 1;
-  } else {
+  if (!existente) {
     carrito.items.push({
       id: producto.id,
       nombre: producto.nombre,
       precio: producto.precio,
       imagen: producto.imagen,
       proveedorId: producto.proveedorId,
+      proveedorNombre: proveedorNombre,
       cantidad: 1
     });
   }
@@ -1519,6 +1567,7 @@ function agregarProductoAlCarrito(producto) {
   guardarCarrito(carrito);
   renderCarrito();
 }
+
 
 
 /**
@@ -1532,20 +1581,30 @@ function finalizarCompra() {
     return;
   }
 
+  const proveedores = agruparPorProveedor(carrito.items);
   let mensaje = `🧾 *RESUMEN FINAL DE COMPRA*\n\n`;
+  let totalGeneral = 0;
 
-  carrito.items.forEach((p, index) => {
-    mensaje += `${index + 1}. *${p.nombre}* (x${p.cantidad})\n`;
+  proveedores.forEach(prov => {
+    mensaje += `🏪 *${prov.proveedorNombre}*\n`;
+
+    prov.productos.forEach(p => {
+      mensaje += `- ${p.nombre} x${p.cantidad} → ${formatearPrecio(p.subtotalProducto)}\n`;
+    });
+
+    mensaje += `Subtotal: ${formatearPrecio(prov.subtotal)}\n\n`;
+    totalGeneral += prov.subtotal;
   });
 
-  mensaje += `\n✅ Quedo atento para confirmar disponibilidad, total y envío.`;
+  mensaje += `🧮 *TOTAL GENERAL: ${formatearPrecio(totalGeneral)}*\n\n`;
+  mensaje += `✅ Quedo atento para confirmar disponibilidad y envío.`;
 
-  const numero = WHATSAPP_EMPRESA;
-  const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
+  const url = `https://wa.me/${WHATSAPP_EMPRESA}?text=${encodeURIComponent(mensaje)}`;
   window.open(url, "_blank");
 
   limpiarCarrito();
 }
+
 
 /**
  * Detecta carrito pendiente (recuperación)
@@ -1566,28 +1625,39 @@ function restaurarCarritoSiExiste() {
 function toggleCarrito() {
   document.getElementById("carritoPanel").classList.toggle("oculto");
 }
-
-function eliminarProductoDelCarrito(id) {
+function eliminarProductoDelCarrito(idProducto, proveedorId) {
   const carrito = obtenerCarrito();
-  carrito.items = carrito.items.filter(p => p.id !== id);
+
+  carrito.items = carrito.items.filter(
+    p => !(p.id === idProducto && p.proveedorId === proveedorId)
+  );
+
   guardarCarrito(carrito);
   renderCarrito();
 }
 
-function cambiarCantidad(id, delta) {
+
+function cambiarCantidad(idProducto, proveedorId, cambio) {
   const carrito = obtenerCarrito();
-  const item = carrito.items.find(p => p.id === id);
+
+  const item = carrito.items.find(
+    p => p.id === idProducto && p.proveedorId === proveedorId
+  );
+
   if (!item) return;
 
-  item.cantidad += delta;
+  item.cantidad += cambio;
 
   if (item.cantidad <= 0) {
-    carrito.items = carrito.items.filter(p => p.id !== id);
+    carrito.items = carrito.items.filter(
+      p => !(p.id === idProducto && p.proveedorId === proveedorId)
+    );
   }
 
   guardarCarrito(carrito);
   renderCarrito();
 }
+
 
 function renderCarrito() {
   const carrito = obtenerCarrito();
@@ -1598,44 +1668,155 @@ function renderCarrito() {
 
   contenedor.innerHTML = "";
 
-  // Badge total
-  badge.textContent = carrito.items.reduce((a, b) => a + b.cantidad, 0);
+  badge.textContent = calcularCantidadTotal(carrito.items);
 
   if (!carrito.items.length) {
     contenedor.innerHTML = "<p>Tu carrito está vacío.</p>";
     return;
   }
 
-  carrito.items.forEach(p => {
-    const div = document.createElement("div");
-    div.className = "carrito-item";
+  const proveedores = agruparPorProveedor(carrito.items);
+  let totalGeneral = 0;
 
-    div.innerHTML = `
-      <img src="${p.imagen}" alt="${p.nombre}">
-      <div class="carrito-info">
-        <strong>${p.nombre}</strong><br>
-        <small>${p.precio}</small><br>
-        <small>Proveedor: ${p.proveedorId ?? "N/A"}</small>
+  proveedores.forEach(prov => {
+    totalGeneral += prov.subtotal;
 
-        <div class="carrito-cantidad">
-          <button onclick="cambiarCantidad(${p.id}, -1)">−</button>
-          <span>${p.cantidad}</span>
-          <button onclick="cambiarCantidad(${p.id}, 1)">+</button>
-        </div>
-      </div>
+    const bloqueProveedor = document.createElement("div");
+    bloqueProveedor.className = "bloque-proveedor";
 
-      <button class="btn-eliminar" onclick="eliminarProductoDelCarrito(${p.id})">✖</button>
+    bloqueProveedor.innerHTML = `
+      <h4 class="proveedor-titulo">${prov.proveedorNombre}</h4>
     `;
 
-    contenedor.appendChild(div);
+    prov.productos.forEach(p => {
+      const item = document.createElement("div");
+      item.className = "carrito-item";
+
+      item.innerHTML = `
+        <img src="${p.imagen}" alt="${p.nombre}">
+        <div class="carrito-info">
+          <strong>${p.nombre}</strong><br>
+          <small>
+            ${formatearPrecio(p.precioUnitario)} × ${p.cantidad} =
+            <strong>${formatearPrecio(p.subtotalProducto)}</strong>
+          </small>
+
+          <div class="carrito-cantidad">
+            <button onclick="cambiarCantidad(${p.id}, ${p.proveedorId}, -1)">−</button>
+            <span>${p.cantidad}</span>
+            <button onclick="cambiarCantidad(${p.id}, ${p.proveedorId}, 1)">+</button>
+          </div>
+        </div>
+
+        <button class="btn-eliminar"
+          onclick="eliminarProductoDelCarrito(${p.id}, ${p.proveedorId})">✖</button>
+      `;
+
+      bloqueProveedor.appendChild(item);
+    });
+
+    const subtotalDiv = document.createElement("div");
+    subtotalDiv.className = "subtotal-proveedor";
+    subtotalDiv.innerHTML = `
+      Subtotal ${prov.proveedorNombre}:
+      <strong>${formatearPrecio(prov.subtotal)}</strong>
+    `;
+
+    bloqueProveedor.appendChild(subtotalDiv);
+    contenedor.appendChild(bloqueProveedor);
   });
+
+  const totalDiv = document.createElement("div");
+  totalDiv.className = "carrito-total-general";
+  totalDiv.innerHTML = `
+    <hr>
+    <h3>Total general: ${formatearPrecio(totalGeneral)}</h3>
+  `;
+  contenedor.appendChild(totalDiv);
 }
 
+
+
+
 // Hook automático
-const _agregarProductoOriginal = agregarProductoAlCarrito;
-agregarProductoAlCarrito = function(producto) {
-  _agregarProductoOriginal(producto);
-  renderCarrito();
-};
+
 
 document.addEventListener("DOMContentLoaded", renderCarrito);
+
+
+
+async function cargarProveedoresEnCache() {
+  try {
+    const res = await fetch("/data/proveedores.json");
+    const proveedores = await res.json();
+    localStorage.setItem("proveedores_cache", JSON.stringify(proveedores));
+  } catch (e) {
+    console.warn("No se pudieron cargar proveedores");
+  }
+}
+
+cargarProveedoresEnCache();
+
+
+function obtenerNombreProveedor(proveedorId) {
+  const proveedores = JSON.parse(localStorage.getItem("proveedores_cache")) || [];
+  const proveedor = proveedores.find(p => Number(p.id) === Number(proveedorId));
+  return proveedor ? proveedor.nombre : "Proveedor";
+}
+
+
+
+function agruparPorProveedor(items) {
+  const proveedores = {};
+
+  items.forEach(p => {
+    if (!proveedores[p.proveedorId]) {
+      proveedores[p.proveedorId] = {
+        proveedorId: p.proveedorId,
+        proveedorNombre: p.proveedorNombre,
+        productos: [],
+        subtotal: 0
+      };
+    }
+
+    const precioUnitario = extraerPrecioNumero(p.precio);
+    const subtotalProducto = precioUnitario * p.cantidad;
+
+    proveedores[p.proveedorId].productos.push({
+      ...p,
+      precioUnitario,
+      subtotalProducto
+    });
+
+    proveedores[p.proveedorId].subtotal += subtotalProducto;
+  });
+
+  return Object.values(proveedores);
+}
+
+
+
+
+function formatearPrecio(valor) {
+  return "$" + valor.toLocaleString("es-CO");
+}
+
+function extraerPrecioNumero(precioTexto) {
+  if (!precioTexto) return 0;
+
+  return Number(
+    precioTexto
+      .split("(")[0]        // "$13.200 "
+      .replace(/[^0-9]/g, "") // "13200"
+  );
+}
+
+function calcularTotalGeneral(proveedores) {
+  return proveedores.reduce((total, prov) => {
+    return total + prov.subtotal;
+  }, 0);
+}
+
+function calcularCantidadTotal(items) {
+  return items.reduce((total, p) => total + p.cantidad, 0);
+}
