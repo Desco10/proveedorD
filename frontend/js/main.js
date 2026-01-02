@@ -190,6 +190,20 @@ const modalProductoImg = document.getElementById("modalProductoImg");
 const modalProductoDesc = document.getElementById("modalProductoDesc");
 const cerrarModalProducto = document.getElementById("cerrarModalProducto");
 
+const sonidoAgregarCarrito = new Audio("/sounds/add-cart.mp3");
+sonidoAgregarCarrito.volume = 0.35;
+/*sonido compras*/
+
+function reproducirSonidoCarrito() {
+  try {
+    sonidoAgregarCarrito.currentTime = 0;
+    sonidoAgregarCarrito.play();
+  } catch (e) {
+    // silencio si el navegador bloquea
+  }
+}
+
+
 
 let ofertasGlobal = [];
 
@@ -662,13 +676,9 @@ function comprarProducto(idProducto) {
 
       const producto = normalizarProductoParaCompra(productoBase);
 
-      // 🛒 Carrito
-      agregarProductoAlCarrito(producto);
+      decidirCompra(producto);
 
-      // 📲 WhatsApp
-      enviarWhatsApp(producto);
-
-      console.log("🛒 Producto agregado al carrito:", producto.nombre);
+      console.log("🛒 Acción de compra ejecutada:", producto.nombre);
 
     } catch (error) {
       console.error("Error al comprar producto:", error);
@@ -685,20 +695,25 @@ function comprarProducto(idProducto) {
 // COMPRAR DESDE CARRUSEL
 function comprarProductoCarrusel(idProducto) {
   requireLogin(() => {
-    const productoBase = ofertasGlobal.find(p => p.id === idProducto);
-    if (!productoBase) {
-      console.error("Producto no encontrado en ofertas:", idProducto);
-      return;
+    try {
+      const productoBase = ofertasGlobal.find(p => p.id === idProducto);
+      if (!productoBase) {
+        console.error("Producto no encontrado en ofertas:", idProducto);
+        return;
+      }
+
+      const producto = normalizarProductoParaCompra(productoBase);
+
+      decidirCompra(producto);
+
+      console.log("🛒 Acción de compra desde carrusel:", producto.nombre);
+
+    } catch (error) {
+      console.error("Error al comprar desde carrusel:", error);
     }
-
-    const producto = normalizarProductoParaCompra(productoBase);
-
-    agregarProductoAlCarrito(producto);
-    enviarWhatsApp(producto);
-
-    console.log("🛒 Producto agregado desde carrusel:", producto.nombre);
   });
 }
+
 
 
 
@@ -1509,6 +1524,7 @@ function mostrarRegistroModal(callbackLogin) {
 // ================================
 
 const CARRITO_KEY = "desco_carrito";
+const DECISION_COMPRA_KEY = "desco_decision_compra";
 
 /**
  * Obtiene el carrito desde localStorage
@@ -1566,7 +1582,12 @@ function agregarProductoAlCarrito(producto) {
 
   guardarCarrito(carrito);
   renderCarrito();
+  reproducirSonidoCarrito();
+
 }
+
+
+
 
 
 
@@ -1604,6 +1625,9 @@ function finalizarCompra() {
 
   limpiarCarrito();
 }
+
+
+
 
 
 /**
@@ -1819,4 +1843,84 @@ function calcularTotalGeneral(proveedores) {
 
 function calcularCantidadTotal(items) {
   return items.reduce((total, p) => total + p.cantidad, 0);
+}
+
+//*redireccion compra decicion*/
+
+function decidirCompra(producto) {
+  const decisionGuardada = sessionStorage.getItem(DECISION_COMPRA_KEY);
+
+  // ✅ Si ya decidió antes, ejecuta sin preguntar
+  if (decisionGuardada === "whatsapp") {
+    enviarWhatsApp(producto);
+    return;
+  }
+
+  if (decisionGuardada === "carrito") {
+    agregarProductoAlCarrito(producto);
+    return;
+  }
+
+  // 🟡 No hay decisión → mostrar modal
+  const overlay = document.createElement("div");
+  overlay.className = "compra-overlay";
+
+  const modal = document.createElement("div");
+  modal.className = "compra-modal";
+
+  modal.innerHTML = `
+    <h3>¿Cómo deseas comprar?</h3>
+    <p>${producto.nombre}</p>
+
+    <div class="compra-botones">
+      <button class="btn-compra-wsp">
+        Comprar por WhatsApp
+      </button>
+
+      <button class="btn-compra-carrito">
+        Agregar al carrito
+      </button>
+    </div>
+
+    <button class="btn-compra-cancelar">Cancelar</button>
+    <p class="compra-micro">
+  Puedes cambiar esto cuando quieras
+</p>
+
+  `;
+
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+
+  // WhatsApp
+  modal.querySelector(".btn-compra-wsp").onclick = () => {
+    sessionStorage.setItem(DECISION_COMPRA_KEY, "whatsapp");
+    enviarWhatsApp(producto);
+    cerrar();
+  };
+
+  // Carrito
+  modal.querySelector(".btn-compra-carrito").onclick = () => {
+    sessionStorage.setItem(DECISION_COMPRA_KEY, "carrito");
+    agregarProductoAlCarrito(producto);
+    cerrar();
+  };
+
+  modal.querySelector(".btn-compra-cancelar").onclick = cerrar;
+
+  overlay.onclick = e => {
+    if (e.target === overlay) cerrar();
+  };
+
+  function cerrar() {
+    overlay.remove();
+  }
+}
+
+
+
+function limpiarCarrito() {
+  localStorage.removeItem(CARRITO_KEY);
+  sessionStorage.removeItem("wa_iniciado");
+  sessionStorage.removeItem(DECISION_COMPRA_KEY); // 🔑 RESET DECISIÓN
 }
