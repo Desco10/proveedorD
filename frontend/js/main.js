@@ -194,12 +194,16 @@ const sonidoAgregarCarrito = new Audio("/sounds/add-cart.mp3");
 sonidoAgregarCarrito.volume = 0.35;
 /*sonido compras*/
 
+// ==========================
+// SONIDO AL AGREGAR AL CARRITO
+// ==========================
 function reproducirSonidoCarrito() {
   try {
-    sonidoAgregarCarrito.currentTime = 0;
-    sonidoAgregarCarrito.play();
+    const audio = new Audio("/sounds/add-cart.mp3"); // ruta desde el frontend
+    audio.volume = 0.25; // volumen suave
+    audio.play();
   } catch (e) {
-    // silencio si el navegador bloquea
+    console.warn("🔇 Audio carrito bloqueado o no encontrado", e);
   }
 }
 
@@ -1581,8 +1585,11 @@ function agregarProductoAlCarrito(producto) {
   }
 
   guardarCarrito(carrito);
-  renderCarrito();
+  /*🎵 REPRODUCIR SONIDO*/
   reproducirSonidoCarrito();
+
+  renderCarrito();
+ 
 
 }
 
