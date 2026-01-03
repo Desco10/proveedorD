@@ -58,7 +58,7 @@ exports.agregarItem = async (req, res) => {
 
     await pool.query(
       `INSERT INTO carrito_items 
-        (carrito_id, producto_id, nombre_producto, precio, cantidad)
+       (carrito_id, producto_id, nombre_producto, precio, cantidad)
        VALUES (?, ?, ?, ?, ?)`,
       [carrito_id, producto_id, nombre_producto, precio, qty]
     );
@@ -82,7 +82,7 @@ exports.agregarItem = async (req, res) => {
 };
 
 /**
- * Enviar carrito (checkout)
+ * Enviar carrito
  */
 exports.enviarCarrito = async (req, res) => {
   try {
@@ -101,7 +101,7 @@ exports.enviarCarrito = async (req, res) => {
 };
 
 /**
- * Listar carritos - ADMIN (FINAL)
+ * Listar carritos - ADMIN
  */
 exports.listarCarritosAdmin = async (req, res) => {
   try {
@@ -132,6 +132,43 @@ exports.listarCarritosAdmin = async (req, res) => {
     res.json({ ok: true, carritos: rows });
   } catch (error) {
     console.error("Error listarCarritosAdmin:", error);
-    res.status(500).json({ ok: false, msg: "Error al listar carritos" });
+    res.status(500).json({ ok: false });
+  }
+};
+
+/**
+ * Detalle de un carrito (ADMIN)
+ */
+exports.listarDetalleCarritoAdmin = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const [items] = await pool.query(
+      `
+      SELECT 
+        id,
+        producto_id,
+        nombre_producto,
+        precio,
+        cantidad,
+        subtotal
+      FROM carrito_items
+      WHERE carrito_id = ?
+      ORDER BY id ASC
+      `,
+      [id]
+    );
+
+    res.json({
+      ok: true,
+      carrito_id: id,
+      items
+    });
+  } catch (error) {
+    console.error("Error listarDetalleCarritoAdmin:", error);
+    res.status(500).json({
+      ok: false,
+      mensaje: "Error al obtener el detalle del carrito"
+    });
   }
 };
