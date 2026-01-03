@@ -1,24 +1,25 @@
 const mysql = require("mysql2/promise");
 
 const pool = mysql.createPool({
-  host: "localhost",
-  user: "appuser",
-  password: "app1234",
-  database: "proveedordb",
-  port: 3308,
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT,
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0
+  queueLimit: 0,
+  charset: "utf8mb4"
 });
 
-
-pool.getConnection()
-  .then(conn => {
-    console.log("Conexión a MySQL exitosa");
+(async () => {
+  try {
+    const conn = await pool.getConnection();
+    console.log("✅ Conectado a MySQL correctamente");
     conn.release();
-  })
-  .catch(err => {
-    console.error("Error conexión MySQL:", err);
-  });
+  } catch (error) {
+    console.error("❌ Error conexión MySQL:", error.message);
+  }
+})();
 
 module.exports = pool;

@@ -617,7 +617,9 @@ function mostrarProductos(animar = true) {
   <h3 class="producto-nombre">${prod.nombre}</h3>
 
   <p class="producto-precio">${prod.precio}</p>
+  <p class="producto-presentacion">${prod.presentacion}</p>
 
+ 
   <div class="card-actions">
     <button class="btn-wsp" onclick="comprarProducto(${prod.id})">
       <i class="fab fa-whatsapp"></i> COMPRAR
@@ -1665,6 +1667,24 @@ function toggleCarrito() {
     }, 50);
   }
 }
+
+
+document.addEventListener("click", function (e) {
+  const panel = document.getElementById("carritoPanel");
+  const icono = document.getElementById("carritoIcono");
+
+  // Si el carrito está cerrado, no hacemos nada
+  if (!panel || panel.classList.contains("oculto")) return;
+
+  // Si el click fue dentro del carrito o en el ícono, no cerrar
+  if (panel.contains(e.target) || icono.contains(e.target)) return;
+
+  // Si hizo click fuera → cerrar carrito
+  panel.classList.add("oculto");
+
+  // Opcional: resetear posición si estaba movido
+  panel.style.transform = "";
+});
 
 function eliminarProductoDelCarrito(idProducto, proveedorId) {
   const carrito = obtenerCarrito();

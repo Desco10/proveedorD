@@ -1,3 +1,8 @@
+
+
+require("dotenv").config({ path: __dirname + "/.env" });
+
+
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
@@ -15,6 +20,11 @@ require("./config/db");
 // Rutas
 const clientesRoutes = require("./routes/clientes");
 app.use("/api/clientes", clientesRoutes);
+
+app.use("/api/carritos", require("./routes/carritos"));
+
+
+
 
 // Paths del proyecto
 const FRONTEND_PATH = path.join(__dirname, "..", "frontend");
