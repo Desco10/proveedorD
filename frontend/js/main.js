@@ -197,17 +197,17 @@ sonidoAgregarCarrito.volume = 0.35;
 // ==========================
 // SONIDO AL AGREGAR AL CARRITO
 // ==========================
+let sonidoCarrito;
+
 function reproducirSonidoCarrito() {
-  try {
-    const audio = new Audio("/sounds/add-cart.mp3"); // ruta desde el frontend
-    audio.volume = 0.25; // volumen suave
-    audio.play();
-  } catch (e) {
-    console.warn("🔇 Audio carrito bloqueado o no encontrado", e);
+  if (!sonidoCarrito) {
+    sonidoCarrito = new Audio('public/sounds/bell1-445873.mp3');
+    sonidoCarrito.volume = 0.3;
   }
+
+  sonidoCarrito.currentTime = 0;
+  sonidoCarrito.play().catch(() => {});
 }
-
-
 
 let ofertasGlobal = [];
 
@@ -1654,8 +1654,18 @@ function restaurarCarritoSiExiste() {
 // ================================
 
 function toggleCarrito() {
-  document.getElementById("carritoPanel").classList.toggle("oculto");
+  const panel = document.getElementById("carritoPanel");
+
+  panel.classList.toggle("oculto");
+
+  // Si se acaba de abrir, habilitamos el drag
+  if (!panel.classList.contains("oculto")) {
+    setTimeout(() => {
+      habilitarDragCarrito();
+    }, 50);
+  }
 }
+
 function eliminarProductoDelCarrito(idProducto, proveedorId) {
   const carrito = obtenerCarrito();
 
@@ -1930,4 +1940,76 @@ function limpiarCarrito() {
   localStorage.removeItem(CARRITO_KEY);
   sessionStorage.removeItem("wa_iniciado");
   sessionStorage.removeItem(DECISION_COMPRA_KEY); // 🔑 RESET DECISIÓN
+}
+
+
+
+function habilitarDragCarrito() {
+  const carrito = document.getElementById("carritoPanel");
+  const icono = document.getElementById("carritoIcono");
+
+  if (!carrito || !icono) return;
+
+  let isDragging = false;
+  let offsetX = 0;
+  let offsetY = 0;
+
+  carrito.addEventListener("mousedown", iniciarDrag);
+
+  function iniciarDrag(e) {
+    // Evitar conflicto con botones
+    if (e.target.tagName === "BUTTON") return;
+
+    isDragging = true;
+    carrito.classList.add("dragging");
+
+    offsetX = e.clientX - carrito.offsetLeft;
+    offsetY = e.clientY - carrito.offsetTop;
+
+    document.addEventListener("mousemove", moverCarrito);
+    document.addEventListener("mouseup", soltarCarrito);
+  }
+
+  function moverCarrito(e) {
+    if (!isDragging) return;
+
+    carrito.style.left = `${e.clientX - offsetX}px`;
+    carrito.style.top  = `${e.clientY - offsetY}px`;
+    carrito.style.right = "auto";
+  }
+
+  function soltarCarrito() {
+    if (!isDragging) return;
+
+    isDragging = false;
+    carrito.classList.remove("dragging");
+
+    document.removeEventListener("mousemove", moverCarrito);
+    document.removeEventListener("mouseup", soltarCarrito);
+
+    verificarCierrePorIcono();
+  }
+
+  function verificarCierrePorIcono() {
+    const c = carrito.getBoundingClientRect();
+    const i = icono.getBoundingClientRect();
+
+    const distancia = Math.hypot(
+      c.left + c.width / 2 - (i.left + i.width / 2),
+      c.top + c.height / 2 - (i.top + i.height / 2)
+    );
+
+    if (distancia < 90) {
+      cerrarCarritoConSnap();
+    }
+  }
+
+  function cerrarCarritoConSnap() {
+    carrito.classList.add("oculto");
+
+    // restaurar posición
+    carrito.style.left = "";
+    carrito.style.top = "";
+    carrito.style.right = "20px";
+  }
 }

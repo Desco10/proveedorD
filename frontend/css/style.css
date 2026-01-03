@@ -2973,6 +2973,25 @@ footer .mensaje-temporada.active {
   background: #4b6fe4;
 }
 
+/* ===============================
+   CARRITO ARRASTRABLE (DRAG)
+================================ */
+
+/* === DRAG CARRITO === */
+#carritoPanel {
+  position: fixed;
+  top: 70px; /* posición inicial */
+  right: 20px;
+  cursor: grab;
+  z-index: 9999;
+  transition: box-shadow 0.2s ease;
+}
+
+#carritoPanel.dragging {
+  cursor: grabbing;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.45);
+}
+
 
 
 
