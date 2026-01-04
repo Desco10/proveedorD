@@ -1,7 +1,4 @@
-
-
 require("dotenv").config({ path: __dirname + "/.env" });
-
 
 const express = require("express");
 const cors = require("cors");
@@ -9,48 +6,76 @@ const path = require("path");
 
 const app = express();
 
-// Middlewares
+// =====================
+// MIDDLEWARES GLOBALES
+// =====================
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Inicializar conexión MySQL
+// =====================
+// DB
+// =====================
 require("./config/db");
 
-// Rutas
-const clientesRoutes = require("./routes/clientes");
-app.use("/api/clientes", clientesRoutes);
-
+// =====================
+// RUTAS API (SIEMPRE PRIMERO)
+// =====================
+app.use("/api/clientes", require("./routes/clientes"));
 app.use("/api/carritos", require("./routes/carritos"));
+app.use("/api/admin", require("./routes/admin.routes"));
 
-
-
-
-// Paths del proyecto
+// =====================
+// PATHS
+// =====================
 const FRONTEND_PATH = path.join(__dirname, "..", "frontend");
 const DATA_PATH = path.join(__dirname, "data");
 
-// Servir JSON desde backend/data
+// =====================
+// DATA ESTÁTICA (JSON)
+// =====================
 app.use("/data", express.static(DATA_PATH));
 
-// Servir frontend
+// =====================
+// FRONTEND
+// =====================
 app.use(express.static(FRONTEND_PATH));
 
-// Ruta principal
+// =====================
+// SPA ENTRY POINT
+// =====================
 app.get("/", (req, res) => {
   res.sendFile(path.join(FRONTEND_PATH, "index.html"));
 });
 
-// Catch-all para SPA
+// =====================
+// CATCH-ALL (SOLO FRONTEND)
+// =====================
 app.get("*", (req, res) => {
-  if (req.path.startsWith("/data")) {
-    return res.status(404).json({ error: "Archivo no encontrado" });
+  // ⚠️ Protección para APIs
+  if (req.path.startsWith("/api")) {
+    return res.status(404).json({
+      ok: false,
+      message: "Ruta API no encontrada"
+    });
   }
+
+  // ⚠️ Protección para data
+  if (req.path.startsWith("/data")) {
+    return res.status(404).json({
+      ok: false,
+      message: "Archivo no encontrado"
+    });
+  }
+
   res.sendFile(path.join(FRONTEND_PATH, "index.html"));
 });
 
-// Puerto
+// =====================
+// SERVER
+// =====================
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
   console.log(`📁 Frontend: ${FRONTEND_PATH}`);
