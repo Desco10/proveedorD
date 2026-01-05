@@ -1,0 +1,248 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f4f6f8;
+}
+
+.admin-header {
+  background: #1e293b;
+  color: #fff;
+  padding: 16px;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  padding: 16px;
+}
+
+.card {
+  background: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.card span {
+  font-size: 24px;
+  font-weight: bold;
+  color: #0f766e;
+}
+
+.tabla-section {
+  padding: 16px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+}
+
+th {
+  background: #e5e7eb;
+}
+
+button {
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 8px;
+}
+
+.cerrar {
+  float: right;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.oculto {
+  display: none;
+}
+
+
+.estado-cliente {
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.estado-admin {
+  padding: 4px 6px;
+  font-weight: 600;
+}
+
+
+
+
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#logoutBtn {
+  background: #02bbf8;
+  border: none;
+  padding: 10px 16px;
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+#logoutBtn:hover {
+  background: #073af3;
+}
+
+
+/*estados color cliente admin */
+.estado {
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.estado.abierto { background: #e0f2fe; color: #0369a1; }
+.estado.en_proceso { background: #fef3c7; color: #92400e; }
+.estado.cerrado { background: #dcfce7; color: #166534; }
+.estado.cancelado { background: #fee2e2; color: #991b1b; }
+
+
+.estado-admin {
+  padding: 6px;
+  font-weight: bold;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+/* colores */
+.estado-admin.abierto {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.estado-admin.en_proceso {
+  background: #fff8e1;
+  color: #f57f17;
+}
+
+.estado-admin.cerrado {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.estado-admin.cancelado {
+  background: #ffebee;
+  color: #c62828;
+}
+
+
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: #fff;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 8px;
+  padding: 20px;
+  position: relative;
+}
+
+.cerrar {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.tabla-detalle {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.tabla-detalle th,
+.tabla-detalle td {
+  border-bottom: 1px solid #eee;
+  padding: 8px;
+}
+
+.total-detalle {
+  text-align: right;
+  margin-top: 15px;
+  font-size: 1.1em;
+}
+
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.08);
+  text-align: center;
+}
+
+.card h3 {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.card span {
+  display: block;
+  margin-top: 10px;
+  font-size: 26px;
+  font-weight: bold;
+  color: #222;
+}

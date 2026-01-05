@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard | DescoApp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+
+ <header class="admin-header">
+  <h1>📊 Dashboard Admin - DescoApp</h1>
+  <button id="logoutBtn">Cerrar sesión</button>
+</header>
+
+
+  <!-- MÉTRICAS -->
+  <section class="metrics">
+    <div class="card">
+      <h3>Carritos hoy</h3>
+      <span id="carritosHoy">0</span>
+    </div>
+    <div class="card">
+      <h3>Total vendido</h3>
+      <span id="totalVendido">$0</span>
+    </div>
+    <div class="card">
+      <h3>Carritos activos</h3>
+      <span id="carritosActivos">0</span>
+    </div>
+    <div class="card">
+      <h3>Abandonados</h3>
+      <span id="carritosAbandonados">0</span>
+    </div>
+  </section>
+
+  <!-- LISTADO DE CARRITOS -->
+  <section class="tabla-section">
+    <h2>🛒 Carritos</h2>
+    <table>
+      <thead>
+  <tr>
+    <th>ID</th>
+    <th>Cliente</th>
+    <th>Estado cliente</th>
+    <th>Estado admin</th>
+    <th>Total</th>
+    <th>Fecha</th>
+    <th>Acción</th>
+  </tr>
+</thead>
+
+      <tbody id="tablaCarritos"></tbody>
+    </table>
+  </section>
+
+  <!-- MODAL DETALLE -->
+  <div id="modalDetalle" class="modal oculto">
+    <div class="modal-content">
+      <span class="cerrar" onclick="cerrarModal()">&times;</span>
+      <h3>Detalle del carrito</h3>
+      <ul id="detalleItems"></ul>
+    </div>
+  </div>
+
+
+  <!-- MODAL DETALLE CARRITO -->
+<div id="modalDetalle" class="modal hidden">
+  <div class="modal-content">
+    <span class="cerrar" onclick="cerrarModal()">×</span>
+
+    <h3>Detalle del Carrito #<span id="detalleCarritoId"></span></h3>
+
+    <table class="tabla-detalle">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Cantidad</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody id="detalleItems"></tbody>
+    </table>
+
+    <div class="total-detalle">
+      Total: <strong id="detalleTotal">$0</strong>
+    </div>
+  </div>
+</div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

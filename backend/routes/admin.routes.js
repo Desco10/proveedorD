@@ -1,13 +1,34 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const { dashboardResumen } = require('../controllers/adminDashboardController');
-const { listarCarritos } = require('../controllers/adminCarritosController');
+// ===============================
+// CONTROLLERS
+// ===============================
+const { loginAdmin } = require("../controllers/adminAuthController");
+const { dashboardResumen } = require("../controllers/adminDashboardController");
+const {
+  listarCarritosAdmin,
+  detalleCarritoAdmin,
+  actualizarEstadoCarrito
+} = require("../controllers/adminCarritosController");
 
-// Dashboard resumen
-router.get('/dashboard/resumen', dashboardResumen);
+// ===============================
+// AUTH
+// ===============================
+router.post("/login", loginAdmin);
 
-// Listado de carritos (ADMIN)
-router.get('/carritos', listarCarritos);
+// ===============================
+// DASHBOARD
+// ===============================
+router.get("/dashboard/resumen", dashboardResumen);
 
+// ===============================
+// CARRITOS (ADMIN)
+// ===============================
+router.get("/carritos", listarCarritosAdmin);
+router.get("/carritos/:id/detalle", detalleCarritoAdmin);
+router.put("/carritos/:id/estado", actualizarEstadoCarrito);
+
+
+// ===============================
 module.exports = router;
