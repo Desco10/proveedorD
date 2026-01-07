@@ -126,7 +126,7 @@ exports.listarCarritosAdmin = async (req, res) => {
         END AS estado_admin
       FROM carritos c
       JOIN clientes cl ON cl.id = c.cliente_id
-      ORDER BY c.updated_at DESC
+      
     `);
 
     res.json({ ok: true, carritos: rows });
@@ -172,3 +172,5 @@ exports.listarDetalleCarritoAdmin = async (req, res) => {
     });
   }
 };
+
+

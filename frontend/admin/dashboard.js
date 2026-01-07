@@ -39,36 +39,46 @@ async function cargarCarritos() {
     const tr = document.createElement("tr");
 
     tr.innerHTML = `
-      <td>${c.id}</td>
-      <td>${c.cliente_id}</td>
-      <td>
-  <span class="estado-cliente">${c.estado}</span>
-</td>
+  <td>${c.id}</td>
 
-<td>
-  <select
-    class="estado-admin"
-    data-id="${c.id}"
-    onchange="cambiarEstadoAdmin(this)"
-  >
-    <option value="abierto" ${c.estado_admin === "abierto" ? "selected" : ""}>Abierto</option>
-    <option value="en_proceso" ${c.estado_admin === "en_proceso" ? "selected" : ""}>En proceso</option>
-    <option value="cerrado" ${c.estado_admin === "cerrado" ? "selected" : ""}>Cerrado</option>
-    <option value="cancelado" ${c.estado_admin === "cancelado" ? "selected" : ""}>Cancelado</option>
-  </select>
+  <td>
+  <strong>${c.nombre} ${c.apellido}</strong><br>
+  <small>${c.telefono}</small>
 </td>
 
 
-      <td>$${c.total}</td>
-      <td>${new Date(c.created_at).toLocaleString()}</td>
-      <td>
-        <button onclick="verDetalle(${c.id})">Ver</button>
-        <button onclick="contactarCliente(${c.id}, ${c.cliente_id})">
-  WhatsApp
-</button>
+  <td>
+    <span class="estado-cliente ${c.estado}">
+      ${c.estado}
+    </span>
+  </td>
 
-      </td>
-    `;
+  <td>
+    <select
+      class="estado-admin ${c.estado_admin}"
+      onchange="cambiarEstado(${c.id}, this.value)"
+    >
+      ${["abierto","en_proceso","cerrado","cancelado"].map(e =>
+        `<option value="${e}" ${e === c.estado_admin ? "selected" : ""}>${e}</option>`
+      ).join("")}
+    </select>
+  </td>
+
+  <td>$${c.total}</td>
+
+  <td>${new Date(c.created_at).toLocaleString()}</td>
+
+  <td>
+    <button onclick="contactarCliente(${c.id}, '${c.telefono}', '${c.nombre}')">
+      WhatsApp
+    </button>
+    <button onclick="verDetalle(${c.id})">
+      Ver
+    </button>
+  </td>
+`;
+
+    
 
     tbody.appendChild(tr);
   });
@@ -122,44 +132,40 @@ async function cambiarEstadoAdmin(select) {
 // ===============================
 // DETALLE DE CARRITO (ADMIN)
 // ===============================
+// VER DETALLE CARRITO (ADMIN)
 async function verDetalle(id) {
   const res = await fetch(`/api/admin/carritos/${id}/detalle`);
   const data = await res.json();
 
   if (!data.ok) {
-    alert("No se pudo cargar el detalle del carrito");
+    alert("No se pudo cargar el detalle");
     return;
   }
 
-  // ID carrito
   document.getElementById("detalleCarritoId").textContent = id;
+  document.getElementById("detalleTotal").textContent =
+    `$${Number(data.total).toLocaleString("es-CO")}`;
 
   const tbody = document.getElementById("detalleItems");
   tbody.innerHTML = "";
 
-  let total = 0;
-
-  data.items.forEach(item => {
-    total += Number(item.subtotal);
-
+  data.items.forEach(i => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${item.nombre_producto}</td>
-      <td>${item.cantidad}</td>
-      <td>$${item.subtotal}</td>
+      <td>${i.nombre_producto}</td>
+      <td>${i.cantidad}</td>
+      <td>$${Number(i.subtotal).toLocaleString("es-CO")}</td>
     `;
     tbody.appendChild(tr);
   });
 
-  document.getElementById("detalleTotal").textContent = `$${total.toFixed(2)}`;
-
-  // Mostrar modal
   document.getElementById("modalDetalle").classList.remove("hidden");
 }
 
 function cerrarModal() {
   document.getElementById("modalDetalle").classList.add("hidden");
 }
+
 
 // ===============================
 // INIT
@@ -174,16 +180,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-function contactarCliente(carritoId, clienteId) {
+function contactarCliente(carritoId, telefono, nombre) {
+  if (!telefono) {
+    alert("Este cliente no tiene teléfono registrado");
+    return;
+  }
+
   const mensaje = encodeURIComponent(
-    `Hola 👋 Tienes un carrito pendiente en DescoApp.\nCarrito #${carritoId}\n¿Deseas finalizar tu pedido?`
+    `Hola ${nombre} 👋\n` +
+    `Tienes un carrito pendiente en DescoApp (Carrito #${carritoId}).\n` +
+    `¿Deseas finalizar tu pedido?`
   );
 
-  // aquí luego usas teléfono real del cliente
-  const telefono = "57XXXXXXXXXX";
-
-  window.open(`https://wa.me/${telefono}?text=${mensaje}`, "_blank");
+  window.open(`https://wa.me/57${telefono}?text=${mensaje}`, "_blank");
 }
+
 
 function logout() {
   localStorage.removeItem("adminAuth");

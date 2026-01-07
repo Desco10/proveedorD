@@ -11,4 +11,5 @@ router.post("/enviar", carritosController.enviarCarrito);
 router.get("/admin/listar", carritosController.listarCarritosAdmin);
 router.get("/admin/:id/detalle", carritosController.listarDetalleCarritoAdmin);
 
+
 module.exports = router;

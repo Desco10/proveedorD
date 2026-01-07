@@ -6,57 +6,78 @@ const pool = require("../config/db");
 const listarCarritosAdmin = async (req, res) => {
   try {
     const [rows] = await pool.query(`
-      SELECT id, cliente_id, estado, total, created_at
-      FROM carritos
-      ORDER BY created_at DESC
+      SELECT
+        c.id,
+        cl.nombre,
+        cl.apellido,
+        cl.telefono,
+        c.estado,
+        c.estado_admin,
+        c.total,
+        c.created_at
+      FROM carritos c
+      JOIN clientes cl ON cl.id = c.cliente_id
+      ORDER BY c.created_at DESC
     `);
 
-    res.json({ ok: true, carritos: rows });
+    res.json({
+      ok: true,
+      carritos: rows
+    });
+
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ ok: false, message: "Error listando carritos" });
+    console.error("listarCarritosAdmin:", error);
+    res.status(500).json({
+      ok: false,
+      message: "Error al listar carritos"
+    });
   }
 };
 
-
 // ===============================
-
+// DETALLE CARRITO (ADMIN) ✔ REAL
 // ===============================
-// DETALLE CARRITO (ADMIN)
+// ===============================
+// DETALLE CARRITO (ADMIN) ✔ REAL
 // ===============================
 const detalleCarritoAdmin = async (req, res) => {
-  const { id } = req.params;
-
   try {
-    const [items] = await pool.query(
-      `
-      SELECT 
-        id,
-        producto_id,
+    const { id } = req.params;
+
+    // 🔹 Items reales del carrito (SIN JOIN)
+    const [items] = await pool.query(`
+      SELECT
         nombre_producto,
+        precio,
         cantidad,
         subtotal
       FROM carrito_items
       WHERE carrito_id = ?
-      ORDER BY id ASC
-      `,
-      [id]
-    );
+    `, [id]);
 
-    return res.json({
+    // 🔹 Total real del carrito
+    const [totalResult] = await pool.query(`
+      SELECT total
+      FROM carritos
+      WHERE id = ?
+    `, [id]);
+
+    res.json({
       ok: true,
       carrito_id: id,
+      total: totalResult[0]?.total || 0,
       items
     });
 
   } catch (error) {
-    console.error("Error detalle carrito:", error);
-    return res.status(500).json({
+    console.error("detalleCarritoAdmin:", error);
+    res.status(500).json({
       ok: false,
       message: "Error detalle carrito"
     });
   }
 };
+
 
 // ===============================
 // ACTUALIZAR ESTADO CARRITO (ADMIN)
@@ -109,12 +130,8 @@ const actualizarEstadoCarrito = async (req, res) => {
   }
 };
 
-
-
 module.exports = {
   listarCarritosAdmin,
   detalleCarritoAdmin,
   actualizarEstadoCarrito
 };
-
-
