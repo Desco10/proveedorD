@@ -1567,7 +1567,6 @@ function limpiarCarrito() {
  */
 function agregarProductoAlCarrito(producto) {
   const carrito = obtenerCarrito();
-
   const proveedorNombre = obtenerNombreProveedor(producto.proveedorId);
 
   const existente = carrito.items.find(
@@ -1581,19 +1580,36 @@ function agregarProductoAlCarrito(producto) {
       precio: producto.precio,
       imagen: producto.imagen,
       proveedorId: producto.proveedorId,
-      proveedorNombre: proveedorNombre,
+      proveedorNombre,
       cantidad: 1
     });
   }
 
   guardarCarrito(carrito);
-  /*🎵 REPRODUCIR SONIDO*/
   reproducirSonidoCarrito();
-
   renderCarrito();
- 
 
+  // 🔗 SYNC BACKEND (NO BLOQUEA UI)
+  (async () => {
+    const carritoId = await obtenerOCrearCarritoBackend();
+    if (!carritoId) return;
+
+    try {
+      await fetch("/api/carrito/agregar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          carrito_id: carritoId,
+          producto_id: producto.id,
+          nombre_producto: producto.nombre,
+          precio: extraerPrecioNumero(producto.precio),
+          cantidad: 1
+        })
+      });
+    } catch {}
+  })();
 }
+
 
 
 
@@ -1629,10 +1645,29 @@ function finalizarCompra() {
   mensaje += `🧮 *TOTAL GENERAL: ${formatearPrecio(totalGeneral)}*\n\n`;
   mensaje += `✅ Quedo atento para confirmar disponibilidad y envío.`;
 
-  const url = `https://wa.me/${WHATSAPP_EMPRESA}?text=${encodeURIComponent(mensaje)}`;
-  window.open(url, "_blank");
+  window.open(
+    `https://wa.me/${WHATSAPP_EMPRESA}?text=${encodeURIComponent(mensaje)}`,
+    "_blank"
+  );
 
+  // 🔗 MARCAR CARRITO COMO ENVIADO EN BACKEND
+  const carritoId = localStorage.getItem("carrito_backend_id");
+  if (carritoId) {
+    fetch("/api/carrito/enviar", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ carrito_id: carritoId })
+    }).catch(() => {});
+  }
+
+  // ♻️ RESET TOTAL DEL CICLO
   limpiarCarrito();
+  localStorage.removeItem("carrito_backend_id");
+  renderCarrito();
+
+  // cerrar panel visualmente
+  const panel = document.getElementById("carritoPanel");
+  if (panel) panel.classList.add("oculto");
 }
 
 
@@ -2032,4 +2067,36 @@ function habilitarDragCarrito() {
     carrito.style.top = "";
     carrito.style.right = "20px";
   }
+}
+
+async function obtenerOCrearCarritoBackend() {
+  let carritoId = localStorage.getItem("carrito_backend_id");
+  if (carritoId) return carritoId;
+
+  let clienteId = localStorage.getItem("cliente_id");
+
+// fallback seguro (cliente invitado)
+if (!clienteId) {
+  clienteId = "1"; // cliente genérico invitado (EXISTE en DB)
+  localStorage.setItem("cliente_id", clienteId);
+}
+
+  try {
+    const res = await fetch("/api/carrito/obtener", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cliente_id: clienteId })
+    });
+
+    const data = await res.json();
+
+    if (data.ok && data.carrito?.id) {
+      localStorage.setItem("carrito_backend_id", data.carrito.id);
+      return data.carrito.id;
+    }
+  } catch (e) {
+    console.warn("Backend carrito no disponible");
+  }
+
+  return null;
 }
