@@ -1,3 +1,10 @@
+
+let IDS_ABANDONADOS = [];
+let IDS_PENDIENTES = [];
+let CARROS_TODOS = [];
+
+
+
 if (!localStorage.getItem("adminLogged")) {
   window.location.href = "/admin/login.html";
 }
@@ -36,10 +43,140 @@ async function cargarCarritos() {
   const res = await fetch(`${API_ADMIN}/carritos`);
   const data = await res.json();
 
+  CARROS_TODOS = data.carritos;
+
+
   const tbody = document.getElementById("tablaCarritos");
   tbody.innerHTML = "";
 
   data.carritos.forEach(c => {
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td>${c.id}</td>
+
+      <td>
+        <strong>${c.nombre} ${c.apellido}</strong><br>
+        <small>${c.telefono}</small>
+      </td>
+
+      <td>
+        <span class="estado-cliente ${c.estado}">
+          ${c.estado}
+        </span>
+      </td>
+
+      <td>
+        <select
+          class="estado-admin ${c.estado_admin}"
+          onchange="cambiarEstado(${c.id}, this.value)"
+        >
+          ${["abierto","en_proceso","enviado","cerrado","cancelado"].map(e =>
+            `<option value="${e}" ${e === c.estado_admin ? "selected" : ""}>
+              ${e}
+            </option>`
+          ).join("")}
+        </select>
+      </td>
+
+      <td>$${c.total}</td>
+
+      <td>${new Date(c.created_at).toLocaleString()}</td>
+
+      <td>
+        <button onclick="contactarCliente(${c.id}, '${c.telefono}', '${c.nombre}')">
+          WhatsApp
+        </button>
+        <button onclick="verDetalle(${c.id})">
+          Ver
+        </button>
+      </td>
+    `;
+
+    tbody.appendChild(tr);
+  });
+}
+
+
+
+async function cargarCarritosFiltrados(tipo) {
+  const res = await fetch(`${API_ADMIN}/carritos`);
+  const data = await res.json();
+
+  const ahora = Date.now();
+  const tbody = document.getElementById("tablaCarritos");
+  tbody.innerHTML = "";
+
+  data.carritos.forEach(c => {
+
+    const horas =
+      (ahora - new Date(c.created_at).getTime()) / (1000 * 60 * 60);
+
+    let mostrar = false;
+
+    if (tipo === "todos") mostrar = true;
+
+    if (tipo === "enviados") {
+      mostrar = c.estado_admin === "enviado" || c.estado_admin === "cerrado";
+    }
+
+    if (tipo === "pendientes") {
+      mostrar = c.estado_admin === "abierto" && horas < 8;
+    }
+
+    if (tipo === "abandonados") {
+      mostrar = c.estado_admin === "abierto" && horas >= 12;
+    }
+
+    if (!mostrar) return;
+
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td>${c.id}</td>
+      <td>
+        <strong>${c.nombre} ${c.apellido}</strong><br>
+        <small>${c.telefono}</small>
+      </td>
+      <td>
+        <span class="estado-cliente ${c.estado}">
+          ${c.estado}
+        </span>
+      </td>
+      <td>
+        <select
+          class="estado-admin ${c.estado_admin}"
+          onchange="cambiarEstado(${c.id}, this.value)"
+        >
+          ${["abierto","en_proceso","enviado","cerrado","cancelado"].map(e =>
+            `<option value="${e}" ${e === c.estado_admin ? "selected" : ""}>
+              ${e}
+            </option>`
+          ).join("")}
+        </select>
+      </td>
+      <td>$${c.total}</td>
+      <td>${new Date(c.created_at).toLocaleString()}</td>
+      <td>
+        <button onclick="contactarCliente(${c.id}, '${c.telefono}', '${c.nombre}')">
+          WhatsApp
+        </button>
+        <button onclick="verDetalle(${c.id})">
+          Ver
+        </button>
+      </td>
+    `;
+
+    tbody.appendChild(tr);
+  });
+}
+
+
+function renderTablaCarritos(lista) {
+  const tbody = document.getElementById("tablaCarritos");
+  tbody.innerHTML = "";
+
+  lista.forEach(c => {
     const tr = document.createElement("tr");
 
     tr.innerHTML = `
@@ -172,11 +309,15 @@ async function cargarMetricas() {
 
   if (!data.ok) return;
 
-  document.getElementById("m-total").textContent = data.metricas.total;
-  document.getElementById("m-enviados").textContent = data.metricas.enviados;
-  document.getElementById("m-abandonados").textContent = data.metricas.abandonados;
-  document.getElementById("m-pendientes").textContent = data.metricas.pendientes;
+  const { metricas } = data;
+
+  document.getElementById("m-total").textContent = metricas.total;
+  document.getElementById("m-enviados").textContent = metricas.enviados;
+  document.getElementById("m-abandonados").textContent = metricas.abandonados;
+  document.getElementById("m-pendientes").textContent = metricas.pendientes;
 }
+
+
 
 // ===============================
 // INIT
@@ -202,4 +343,47 @@ function contactarCliente(carritoId, telefono, nombre) {
   );
 
   window.open(`https://wa.me/57${telefono}?text=${mensaje}`, "_blank");
+}
+
+
+function mostrarTodos() {
+  renderTablaCarritos(CARROS_TODOS);
+}
+
+function mostrarEnviados() {
+  renderTablaCarritos(
+    CARROS_TODOS.filter(c =>
+      c.estado_admin === "enviado" || c.estado_admin === "cerrado"
+    )
+  );
+}
+
+function mostrarPendientes() {
+  const ahora = Date.now();
+
+  renderTablaCarritos(
+    CARROS_TODOS.filter(c => {
+      if (c.estado_admin !== "abierto") return false;
+
+      const horas =
+        (ahora - new Date(c.created_at).getTime()) / (1000 * 60 * 60);
+
+      return horas < 8;
+    })
+  );
+}
+
+function mostrarAbandonados() {
+  const ahora = Date.now();
+
+  renderTablaCarritos(
+    CARROS_TODOS.filter(c => {
+      if (c.estado_admin !== "abierto") return false;
+
+      const horas =
+        (ahora - new Date(c.created_at).getTime()) / (1000 * 60 * 60);
+
+      return horas >= 12;
+    })
+  );
 }

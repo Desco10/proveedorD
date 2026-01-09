@@ -16,26 +16,37 @@
 </header>
 
   <div class="metricas">
-  <div class="card">
+
+  <div class="card"
+       onclick="cargarCarritosFiltrados('todos')"
+       style="cursor:pointer">
     <h4>Total carritos</h4>
     <span id="m-total">0</span>
   </div>
 
-  <div class="card enviado">
+  <div class="card enviado"
+       onclick="cargarCarritosFiltrados('enviados')"
+       style="cursor:pointer">
     <h4>Enviados</h4>
     <span id="m-enviados">0</span>
   </div>
 
-  <div class="card abandonado">
+  <div class="card abandonado"
+       onclick="cargarCarritosFiltrados('abandonados')"
+       style="cursor:pointer">
     <h4>Abandonados</h4>
     <span id="m-abandonados">0</span>
   </div>
 
-  <div class="card pendiente">
+  <div class="card pendiente"
+       onclick="cargarCarritosFiltrados('pendientes')"
+       style="cursor:pointer">
     <h4>Pendientes contacto</h4>
     <span id="m-pendientes">0</span>
   </div>
+
 </div>
+
 
 
   <!-- LISTADO DE CARRITOS -->

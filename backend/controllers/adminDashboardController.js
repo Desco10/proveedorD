@@ -46,9 +46,8 @@ const dashboardResumen = async (req, res) => {
 
 const metricasDashboard = async (req, res) => {
   try {
-
     const [carritos] = await pool.query(`
-      SELECT estado_admin, created_at
+      SELECT id, estado_admin, created_at
       FROM carritos
     `);
 
@@ -59,23 +58,28 @@ const metricasDashboard = async (req, res) => {
     let abandonados = 0;
     let pendientes = 0;
 
+    // ⬇️ IDs para acción
+    const idsAbandonados = [];
+    const idsPendientes = [];
+
     carritos.forEach(carrito => {
       const creado = new Date(carrito.created_at);
       const horas = (ahora - creado) / (1000 * 60 * 60);
 
-      if (carrito.estado_admin === 'enviado' || carrito.estado_admin === 'cerrado') {
-  enviados++;
-  return;
-}
+      if (carrito.estado_admin === "enviado" || carrito.estado_admin === "cerrado") {
+        enviados++;
+        return;
+      }
 
-if (carrito.estado_admin === 'abierto') {
-  if (horas < 8) {
-    pendientes++;
-  } else if (horas >= 12) {
-    abandonados++;
-  }
-}
-
+      if (carrito.estado_admin === "abierto") {
+        if (horas < 8) {
+          pendientes++;
+          idsPendientes.push(carrito.id);
+        } else if (horas >= 12) {
+          abandonados++;
+          idsAbandonados.push(carrito.id);
+        }
+      }
     });
 
     res.json({
@@ -85,6 +89,14 @@ if (carrito.estado_admin === 'abierto') {
         enviados,
         abandonados,
         pendientes
+      },
+      criterios: {
+        pendiente_horas: "< 8",
+        abandonado_horas: ">= 12"
+      },
+      acciones: {
+        pendientes: idsPendientes,
+        abandonados: idsAbandonados
       }
     });
 
