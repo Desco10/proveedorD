@@ -144,25 +144,29 @@ button {
 
 /* colores */
 .estado-admin.abierto {
-  background: #e3f2fd;
-  color: #1565c0;
+  background: #f1f5f9;
+  color: #0f172a;
 }
 
 .estado-admin.en_proceso {
-  background: #fff8e1;
-  color: #f57f17;
+  background: #fff7ed;
+  color: #9a3412;
+}
+
+.estado-admin.enviado {
+  background: #ecfeff;
+  color: #155e75;
 }
 
 .estado-admin.cerrado {
-  background: #e8f5e9;
-  color: #2e7d32;
+  background: #ecfdf5;
+  color: #065f46;
 }
 
 .estado-admin.cancelado {
-  background: #ffebee;
-  color: #c62828;
+  background: #fef2f2;
+  color: #991b1b;
 }
-
 
 
 .modal {
@@ -216,6 +220,9 @@ button {
   margin-top: 15px;
   font-size: 1.1em;
 }
+
+
+
 
 
 .metrics {

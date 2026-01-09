@@ -4,7 +4,6 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 
-
 const app = express();
 
 // =====================
@@ -20,10 +19,16 @@ app.use(express.urlencoded({ extended: true }));
 require("./config/db");
 
 // =====================
-// RUTAS API (SIEMPRE PRIMERO)
+// RUTAS API
 // =====================
+
+// CLIENTES
 app.use("/api/clientes", require("./routes/clientes"));
+
+// CARRITOS (UNA SOLA FUENTE DE VERDAD)
 app.use("/api/carritos", require("./routes/carritos"));
+
+// ADMIN
 app.use("/api/admin", require("./routes/admin.routes"));
 
 // =====================
@@ -53,7 +58,6 @@ app.get("/", (req, res) => {
 // CATCH-ALL (SOLO FRONTEND)
 // =====================
 app.get("*", (req, res) => {
-  // ⚠️ Protección para APIs
   if (req.path.startsWith("/api")) {
     return res.status(404).json({
       ok: false,
@@ -61,7 +65,6 @@ app.get("*", (req, res) => {
     });
   }
 
-  // ⚠️ Protección para data
   if (req.path.startsWith("/data")) {
     return res.status(404).json({
       ok: false,

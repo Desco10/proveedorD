@@ -5,7 +5,8 @@
   <title>Admin Dashboard | DescoApp</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="stylesheet" href="dashboard.css" />
+ <link rel="stylesheet" href="./dashboard.css">
+
 </head>
 <body>
 
@@ -14,26 +15,28 @@
   <button id="logoutBtn">Cerrar sesión</button>
 </header>
 
+  <div class="metricas">
+  <div class="card">
+    <h4>Total carritos</h4>
+    <span id="m-total">0</span>
+  </div>
 
-  <!-- MÉTRICAS -->
-  <section class="metrics">
-    <div class="card">
-      <h3>Carritos hoy</h3>
-      <span id="carritosHoy">0</span>
-    </div>
-    <div class="card">
-      <h3>Total vendido</h3>
-      <span id="totalVendido">$0</span>
-    </div>
-    <div class="card">
-      <h3>Carritos activos</h3>
-      <span id="carritosActivos">0</span>
-    </div>
-    <div class="card">
-      <h3>Abandonados</h3>
-      <span id="carritosAbandonados">0</span>
-    </div>
-  </section>
+  <div class="card enviado">
+    <h4>Enviados</h4>
+    <span id="m-enviados">0</span>
+  </div>
+
+  <div class="card abandonado">
+    <h4>Abandonados</h4>
+    <span id="m-abandonados">0</span>
+  </div>
+
+  <div class="card pendiente">
+    <h4>Pendientes contacto</h4>
+    <span id="m-pendientes">0</span>
+  </div>
+</div>
+
 
   <!-- LISTADO DE CARRITOS -->
   <section class="tabla-section">
@@ -55,14 +58,7 @@
     </table>
   </section>
 
-  <!-- MODAL DETALLE -->
-  <div id="modalDetalle" class="modal oculto">
-    <div class="modal-content">
-      <span class="cerrar" onclick="cerrarModal()">&times;</span>
-      <h3>Detalle del carrito</h3>
-      <ul id="detalleItems"></ul>
-    </div>
-  </div>
+  
 
 
   <!-- MODAL DETALLE CARRITO -->
@@ -89,6 +85,7 @@
   </div>
 </div>
 
-  <script src="dashboard.js"></script>
+ <script src="./dashboard.js"></script>
+
 </body>
 </html>

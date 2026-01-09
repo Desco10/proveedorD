@@ -84,16 +84,54 @@ exports.agregarItem = async (req, res) => {
 /**
  * Enviar carrito
  */
+/**
+ * Enviar carrito (CIERRA y CREA uno nuevo)
+ */
 exports.enviarCarrito = async (req, res) => {
   try {
     const { carrito_id, canal_envio } = req.body;
 
+    if (!carrito_id) {
+      return res.status(400).json({ ok: false, msg: "carrito_id requerido" });
+    }
+
+    // 1. Obtener carrito actual
+    const [[carrito]] = await pool.query(
+      "SELECT cliente_id FROM carritos WHERE id = ?",
+      [carrito_id]
+    );
+
+    if (!carrito) {
+      return res.status(404).json({ ok: false, msg: "Carrito no encontrado" });
+    }
+
+    // 2. Marcar carrito como enviado (cerrado)
     await pool.query(
-      "UPDATE carritos SET estado = 'enviado', canal_envio = ? WHERE id = ?",
+      `
+      UPDATE carritos
+      SET estado = 'enviado',
+          canal_envio = ?,
+          updated_at = NOW()
+      WHERE id = ?
+      `,
       [canal_envio || "web", carrito_id]
     );
 
-    res.json({ ok: true, msg: "Carrito enviado" });
+    // 3. Crear nuevo carrito activo para el cliente
+    const [nuevo] = await pool.query(
+      `
+      INSERT INTO carritos (cliente_id, estado)
+      VALUES (?, 'activo')
+      `,
+      [carrito.cliente_id]
+    );
+
+    res.json({
+      ok: true,
+      msg: "Carrito enviado y nuevo carrito creado",
+      nuevo_carrito_id: nuevo.insertId
+    });
+
   } catch (error) {
     console.error("Error enviarCarrito:", error);
     res.status(500).json({ ok: false });
@@ -103,7 +141,7 @@ exports.enviarCarrito = async (req, res) => {
 /**
  * Listar carritos - ADMIN
  */
-exports.listarCarritosAdmin = async (req, res) => {
+/*exports.listarCarritosAdmin = async (req, res) => {
   try {
     const [rows] = await pool.query(`
       SELECT 
@@ -139,7 +177,7 @@ exports.listarCarritosAdmin = async (req, res) => {
 /**
  * Detalle de un carrito (ADMIN)
  */
-exports.listarDetalleCarritoAdmin = async (req, res) => {
+/*exports.listarDetalleCarritoAdmin = async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -171,6 +209,6 @@ exports.listarDetalleCarritoAdmin = async (req, res) => {
       mensaje: "Error al obtener el detalle del carrito"
     });
   }
-};
+};*/
 
 

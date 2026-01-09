@@ -1,20 +1,22 @@
 const pool = require("../config/db");
 
-// ===============================
-// LISTAR CARRITOS (YA FUNCIONA)
-// ===============================
+// ==================================================
+// LISTAR CARRITOS (ADMIN) — FUENTE ÚNICA DE VERDAD
+// ==================================================
 const listarCarritosAdmin = async (req, res) => {
   try {
     const [rows] = await pool.query(`
       SELECT
         c.id,
+        c.cliente_id,
+        c.estado,
+        c.total,
+        c.canal_envio,
+        c.created_at,
+        c.updated_at,
         cl.nombre,
         cl.apellido,
-        cl.telefono,
-        c.estado,
-        c.estado_admin,
-        c.total,
-        c.created_at
+        cl.telefono
       FROM carritos c
       JOIN clientes cl ON cl.id = c.cliente_id
       ORDER BY c.created_at DESC
@@ -34,58 +36,69 @@ const listarCarritosAdmin = async (req, res) => {
   }
 };
 
-// ===============================
-// DETALLE CARRITO (ADMIN) ✔ REAL
-// ===============================
-// ===============================
-// DETALLE CARRITO (ADMIN) ✔ REAL
-// ===============================
+// ==================================================
+// DETALLE CARRITO (ADMIN) — REAL, SIN INVENTOS
+// ==================================================
 const detalleCarritoAdmin = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // 🔹 Items reales del carrito (SIN JOIN)
-    const [items] = await pool.query(`
+    // 1. Obtener carrito exacto
+    const [carritos] = await pool.query(
+      `SELECT * FROM carritos WHERE id = ?`,
+      [id]
+    );
+
+    if (carritos.length === 0) {
+      return res.status(404).json({
+        ok: false,
+        msg: "Carrito no encontrado"
+      });
+    }
+
+    const carrito = carritos[0];
+
+    // 2. Obtener items reales asociados a ESE carrito
+    const [items] = await pool.query(
+      `
       SELECT
+        id,
+        producto_id,
         nombre_producto,
-        precio,
         cantidad,
+        precio,
         subtotal
       FROM carrito_items
       WHERE carrito_id = ?
-    `, [id]);
+      ORDER BY id ASC
+      `,
+      [id]
+    );
 
-    // 🔹 Total real del carrito
-    const [totalResult] = await pool.query(`
-      SELECT total
-      FROM carritos
-      WHERE id = ?
-    `, [id]);
-
+    // 3. Respuesta única y consistente
     res.json({
       ok: true,
-      carrito_id: id,
-      total: totalResult[0]?.total || 0,
-      items
+      carrito,
+      items,
+      total: carrito.total
     });
 
   } catch (error) {
     console.error("detalleCarritoAdmin:", error);
     res.status(500).json({
       ok: false,
-      message: "Error detalle carrito"
+      msg: "Error al obtener el detalle del carrito"
     });
   }
 };
 
-
-// ===============================
-// ACTUALIZAR ESTADO CARRITO (ADMIN)
-// ===============================
+// ==================================================
+// ACTUALIZAR ESTADO ADMINISTRATIVO (OPCIONAL)
+// SOLO PARA USO INTERNO DEL DASHBOARD
+// ==================================================
 const actualizarEstadoCarrito = async (req, res) => {
-
   const { id } = req.params;
-  const { estado } = req.body;
+  const { estado_admin } = req.body;
 
   const estadosValidos = [
     "abierto",
@@ -94,17 +107,21 @@ const actualizarEstadoCarrito = async (req, res) => {
     "cancelado"
   ];
 
-  if (!estadosValidos.includes(estado)) {
+  if (!estadosValidos.includes(estado_admin)) {
     return res.status(400).json({
       ok: false,
-      message: "Estado admin no válido"
+      message: "Estado administrativo no válido"
     });
   }
 
   try {
     const [result] = await pool.query(
-      `UPDATE carritos SET estado_admin = ? WHERE id = ?`,
-      [estado, id]
+      `
+      UPDATE carritos
+      SET estado_admin = ?
+      WHERE id = ?
+      `,
+      [estado_admin, id]
     );
 
     if (result.affectedRows === 0) {
@@ -118,7 +135,7 @@ const actualizarEstadoCarrito = async (req, res) => {
       ok: true,
       message: "Estado administrativo actualizado",
       carrito_id: id,
-      estado_admin: estado
+      estado_admin
     });
 
   } catch (error) {
@@ -130,6 +147,7 @@ const actualizarEstadoCarrito = async (req, res) => {
   }
 };
 
+// ==================================================
 module.exports = {
   listarCarritosAdmin,
   detalleCarritoAdmin,
