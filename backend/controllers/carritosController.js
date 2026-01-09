@@ -212,3 +212,63 @@ exports.enviarCarrito = async (req, res) => {
 };*/
 
 
+
+
+exports.syncCarritoDesdeFrontend = async (req, res) => {
+  try {
+    const { cliente_id, items, canal_envio } = req.body;
+
+    if (!cliente_id || !Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({
+        ok: false,
+        message: "Carrito vacío o datos inválidos"
+      });
+    }
+
+    // 1️⃣ Crear carrito ENVIADO
+    const [result] = await pool.query(
+      `INSERT INTO carritos (cliente_id, estado, total, canal_envio)
+       VALUES (?, 'enviado', 0, ?)`,
+      [cliente_id, canal_envio || "web"]
+    );
+
+    const carritoId = result.insertId;
+    let total = 0;
+
+    // 2️⃣ Insertar productos reales
+    for (const item of items) {
+      const precio = Number(item.precioUnitario || 0);
+      const subtotal = precio * item.cantidad;
+      total += subtotal;
+
+   await pool.query(
+  `INSERT INTO carrito_items
+   (carrito_id, producto_id, nombre_producto, proveedor_id, precio, cantidad)
+   VALUES (?, ?, ?, ?, ?, ?)`,
+  [
+    carritoId,
+    item.id,
+    item.nombre,       // ✅ nombre_producto
+    item.proveedorId,
+    precio,
+    item.cantidad
+  ]
+);
+    }
+
+    // 3️⃣ Actualizar total del carrito
+    await pool.query(
+      `UPDATE carritos SET total = ? WHERE id = ?`,
+      [total, carritoId]
+    );
+
+    res.json({
+      ok: true,
+      carrito_id: carritoId
+    });
+
+  } catch (error) {
+    console.error("❌ Error sync carrito:", error);
+    res.status(500).json({ ok: false });
+  }
+};

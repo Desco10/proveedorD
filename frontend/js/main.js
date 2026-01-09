@@ -1588,6 +1588,31 @@ function agregarProductoAlCarrito(producto) {
   guardarCarrito(carrito);
   reproducirSonidoCarrito();
   renderCarrito();
+  // 🔗 sincronizar con backend
+sincronizarCarritoBackend();
+  
+
+async function sincronizarCarritoBackend() {
+  try {
+    const carrito = obtenerCarrito();
+    if (!carrito.items.length) return;
+
+    let clienteId = localStorage.getItem("cliente_id") || 1;
+
+    await fetch("/api/carrito/sync", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        cliente_id: clienteId,
+        items: carrito.items
+      })
+    });
+
+    console.log("🟢 Carrito sincronizado con backend");
+  } catch (err) {
+    console.warn("🔴 Error sincronizando carrito:", err);
+  }
+}
 
   // 🔗 SYNC BACKEND (NO BLOQUEA UI)
   (async () => {
@@ -1619,7 +1644,7 @@ function agregarProductoAlCarrito(producto) {
 /**
  * Finaliza la compra y envía resumen por WhatsApp
  */
-function finalizarCompra() {
+async function finalizarCompra() {
   const carrito = obtenerCarrito();
 
   if (!carrito.items.length) {
@@ -1645,12 +1670,13 @@ function finalizarCompra() {
   mensaje += `🧮 *TOTAL GENERAL: ${formatearPrecio(totalGeneral)}*\n\n`;
   mensaje += `✅ Quedo atento para confirmar disponibilidad y envío.`;
 
+  // 📤 Abrir WhatsApp
   window.open(
     `https://wa.me/${WHATSAPP_EMPRESA}?text=${encodeURIComponent(mensaje)}`,
     "_blank"
   );
 
-  // 🔗 MARCAR CARRITO COMO ENVIADO EN BACKEND
+  // 🔗 MARCAR CARRITO COMO ENVIADO EN BACKEND (si existe)
   const carritoId = localStorage.getItem("carrito_backend_id");
   if (carritoId) {
     fetch("/api/carrito/enviar", {
@@ -1658,6 +1684,23 @@ function finalizarCompra() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ carrito_id: carritoId })
     }).catch(() => {});
+  }
+
+  // 🔄 SYNC REAL DEL CARRITO PARA DASHBOARD
+  try {
+    await fetch("/api/carritos/sync", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        cliente_id: localStorage.getItem("cliente_id") || 1,
+        items: proveedores.flatMap(p => p.productos),
+        canal_envio: "whatsapp"
+      })
+    });
+  } catch (e) {
+    console.warn("No se pudo sincronizar el carrito con el backend");
   }
 
   // ♻️ RESET TOTAL DEL CICLO
