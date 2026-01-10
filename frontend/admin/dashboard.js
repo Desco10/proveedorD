@@ -1,9 +1,6 @@
-
 let IDS_ABANDONADOS = [];
 let IDS_PENDIENTES = [];
 let CARROS_TODOS = [];
-
-
 
 if (!localStorage.getItem("adminLogged")) {
   window.location.href = "/admin/login.html";
@@ -12,25 +9,8 @@ if (!localStorage.getItem("adminLogged")) {
 const API_ADMIN = "/api/admin";
 
 // ===============================
-// RESUMEN (DESACTIVADO)
+// LOGOUT
 // ===============================
-// ⚠️ Este resumen usaba IDs que ya no existen en el HTML
-// Se deja comentado para no romper nada ni perder lógica futura
-
-/*
-async function cargarResumen() {
-  const res = await fetch(`${API_ADMIN}/dashboard/resumen`);
-  const data = await res.json();
-
-  document.getElementById("carritosHoy").textContent = data.carritos_hoy;
-  document.getElementById("totalVendido").textContent = "$" + data.total_vendido;
-  document.getElementById("carritosActivos").textContent = data.carritos_activos;
-  document.getElementById("carritosAbandonados").textContent = data.carritos_abandonados;
-}
-
-setInterval(cargarResumen, 30000);
-*/
-
 document.getElementById("logoutBtn").addEventListener("click", () => {
   localStorage.removeItem("adminLogged");
   window.location.href = "/admin/login.html";
@@ -45,171 +25,53 @@ async function cargarCarritos() {
 
   CARROS_TODOS = data.carritos;
 
+  renderCarritos(CARROS_TODOS);
 
-  const tbody = document.getElementById("tablaCarritos");
-  tbody.innerHTML = "";
-
-  data.carritos.forEach(c => {
-    const tr = document.createElement("tr");
-
-    tr.innerHTML = `
-      <td>${c.id}</td>
-
-      <td>
-        <strong>${c.nombre} ${c.apellido}</strong><br>
-        <small>${c.telefono}</small>
-      </td>
-
-      <td>
-        <span class="estado-cliente ${c.estado}">
-          ${c.estado}
-        </span>
-      </td>
-
-      <td>
-        <select
-          class="estado-admin ${c.estado_admin}"
-          onchange="cambiarEstado(${c.id}, this.value)"
-        >
-          ${["abierto","en_proceso","enviado","cerrado","cancelado"].map(e =>
-            `<option value="${e}" ${e === c.estado_admin ? "selected" : ""}>
-              ${e}
-            </option>`
-          ).join("")}
-        </select>
-      </td>
-
-      <td>$${c.total}</td>
-
-      <td>${new Date(c.created_at).toLocaleString()}</td>
-
-      <td>
-        <button onclick="contactarCliente(${c.id}, '${c.telefono}', '${c.nombre}')">
-          WhatsApp
-        </button>
-        <button onclick="verDetalle(${c.id})">
-          Ver
-        </button>
-      </td>
-    `;
-
-    tbody.appendChild(tr);
-  });
+  recalcularMetricasDesdeCarritos(); // ← CLAVE
 }
 
 
-
-async function cargarCarritosFiltrados(tipo) {
-  const res = await fetch(`${API_ADMIN}/carritos`);
-  const data = await res.json();
-
-  const ahora = Date.now();
+function renderCarritos(lista) {
   const tbody = document.getElementById("tablaCarritos");
   tbody.innerHTML = "";
 
-  data.carritos.forEach(c => {
-
-    const horas =
-      (ahora - new Date(c.created_at).getTime()) / (1000 * 60 * 60);
-
-    let mostrar = false;
-
-    if (tipo === "todos") mostrar = true;
-
-    if (tipo === "enviados") {
-      mostrar = c.estado_admin === "enviado" || c.estado_admin === "cerrado";
-    }
-
-    if (tipo === "pendientes") {
-      mostrar = c.estado_admin === "abierto" && horas < 8;
-    }
-
-    if (tipo === "abandonados") {
-      mostrar = c.estado_admin === "abierto" && horas >= 12;
-    }
-
-    if (!mostrar) return;
-
-    const tr = document.createElement("tr");
-
-    tr.innerHTML = `
-      <td>${c.id}</td>
-      <td>
-        <strong>${c.nombre} ${c.apellido}</strong><br>
-        <small>${c.telefono}</small>
-      </td>
-      <td>
-        <span class="estado-cliente ${c.estado}">
-          ${c.estado}
-        </span>
-      </td>
-      <td>
-        <select
-          class="estado-admin ${c.estado_admin}"
-          onchange="cambiarEstado(${c.id}, this.value)"
-        >
-          ${["abierto","en_proceso","enviado","cerrado","cancelado"].map(e =>
-            `<option value="${e}" ${e === c.estado_admin ? "selected" : ""}>
-              ${e}
-            </option>`
-          ).join("")}
-        </select>
-      </td>
-      <td>$${c.total}</td>
-      <td>${new Date(c.created_at).toLocaleString()}</td>
-      <td>
-        <button onclick="contactarCliente(${c.id}, '${c.telefono}', '${c.nombre}')">
-          WhatsApp
-        </button>
-        <button onclick="verDetalle(${c.id})">
-          Ver
-        </button>
-      </td>
+  if (!lista.length) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="7" style="text-align:center;padding:15px">
+          No hay carritos para este filtro
+        </td>
+      </tr>
     `;
-
-    tbody.appendChild(tr);
-  });
-}
-
-
-function renderTablaCarritos(lista) {
-  const tbody = document.getElementById("tablaCarritos");
-  tbody.innerHTML = "";
+    return;
+  }
 
   lista.forEach(c => {
     const tr = document.createElement("tr");
 
     tr.innerHTML = `
       <td>${c.id}</td>
-
       <td>
         <strong>${c.nombre} ${c.apellido}</strong><br>
-        <small>${c.telefono}</small>
+        <small>${c.telefono || "Sin teléfono"}</small>
       </td>
-
       <td>
         <span class="estado-cliente ${c.estado}">
           ${c.estado}
         </span>
       </td>
-
       <td>
         <select
           class="estado-admin ${c.estado_admin}"
           onchange="cambiarEstado(${c.id}, this.value)"
         >
           ${["abierto","en_proceso","enviado","cerrado","cancelado"].map(e =>
-            `<option value="${e}" ${e === c.estado_admin ? "selected" : ""}>
-              ${e}
-            </option>`
+            `<option value="${e}" ${e === c.estado_admin ? "selected" : ""}>${e}</option>`
           ).join("")}
         </select>
       </td>
-
-      <td>$${c.total}</td>
-
+      <td>$${Number(c.total).toLocaleString("es-CO")}</td>
       <td>${new Date(c.created_at).toLocaleString()}</td>
-
       <td>
         <button onclick="contactarCliente(${c.id}, '${c.telefono}', '${c.nombre}')">
           WhatsApp
@@ -225,17 +87,14 @@ function renderTablaCarritos(lista) {
 }
 
 // ===============================
-// CAMBIAR ESTADO ADMIN
+// CAMBIAR ESTADO ADMIN (FIX REAL)
 // ===============================
-async function cambiarEstadoAdmin(select) {
-  const carritoId = select.dataset.id;
-  const nuevoEstado = select.value;
-
+async function cambiarEstado(carritoId, nuevoEstado) {
   try {
-    const res = await fetch(`/api/admin/carritos/${carritoId}/estado`, {
+    const res = await fetch(`/api/admin/carritos/${carritoId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ estado: nuevoEstado })
+      body: JSON.stringify({ estado_admin: nuevoEstado })
     });
 
     const data = await res.json();
@@ -245,16 +104,64 @@ async function cambiarEstadoAdmin(select) {
       return;
     }
 
-    select.className = "estado-admin " + nuevoEstado;
-
   } catch (err) {
     console.error(err);
     alert("Error de conexión");
   }
+  
+  await cargarCarritos();
+
 }
 
+async function cargarMetricas() {
+  const res = await fetch("/api/admin/dashboard/metricas");
+  const data = await res.json();
+
+  if (!data.ok) return;
+
+  const { metricas } = data;
+
+  document.getElementById("m-total").textContent = metricas.total;
+  document.getElementById("m-enviados").textContent = metricas.enviados;
+  document.getElementById("m-abandonados").textContent = metricas.abandonados;
+  document.getElementById("m-pendientes").textContent = metricas.pendientes;
+}
+
+
+function recalcularMetricasDesdeCarritos() {
+  const ahora = Date.now();
+
+  let total = CARROS_TODOS.length;
+  let enviados = 0;
+  let abandonados = 0;
+  let pendientes = 0;
+
+  CARROS_TODOS.forEach(c => {
+    const horas =
+      (ahora - new Date(c.created_at).getTime()) / (1000 * 60 * 60);
+
+    if (c.estado_admin === "enviado" || c.estado_admin === "cerrado") {
+      enviados++;
+    }
+
+    if (c.estado_admin === "abierto" && horas >= 12) {
+      abandonados++;
+    }
+
+    if (c.estado_admin === "abierto" && horas < 8) {
+      pendientes++;
+    }
+  });
+
+  document.getElementById("m-total").textContent = total;
+  document.getElementById("m-enviados").textContent = enviados;
+  document.getElementById("m-abandonados").textContent = abandonados;
+  document.getElementById("m-pendientes").textContent = pendientes;
+}
+
+
 // ===============================
-// DETALLE DE CARRITO (ADMIN)
+// DETALLE DE CARRITO
 // ===============================
 async function verDetalle(id) {
   const res = await fetch(`/api/admin/carritos/${id}/detalle`);
@@ -272,60 +179,30 @@ async function verDetalle(id) {
   const tbody = document.getElementById("detalleItems");
   tbody.innerHTML = "";
 
-  if (!data.items || data.items.length === 0) {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td colspan="3" style="text-align:center; padding:10px;">
-        Este carrito no tiene productos
-      </td>
+  if (!data.items.length) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="3" style="text-align:center">Sin productos</td>
+      </tr>
     `;
-    tbody.appendChild(tr);
   } else {
     data.items.forEach(i => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${i.nombre_producto}</td>
-        <td>${i.cantidad}</td>
-        <td>$${Number(i.subtotal).toLocaleString("es-CO")}</td>
+      tbody.innerHTML += `
+        <tr>
+          <td>${i.nombre_producto}</td>
+          <td>${i.cantidad}</td>
+          <td>$${Number(i.subtotal).toLocaleString("es-CO")}</td>
+        </tr>
       `;
-      tbody.appendChild(tr);
     });
   }
 
   document.getElementById("modalDetalle").classList.remove("hidden");
 }
 
-
 function cerrarModal() {
   document.getElementById("modalDetalle").classList.add("hidden");
 }
-
-// ===============================
-// MÉTRICAS VISUALES (ACTIVAS)
-// ===============================
-async function cargarMetricas() {
-  const res = await fetch("/api/admin/dashboard/metricas");
-  const data = await res.json();
-
-  if (!data.ok) return;
-
-  const { metricas } = data;
-
-  document.getElementById("m-total").textContent = metricas.total;
-  document.getElementById("m-enviados").textContent = metricas.enviados;
-  document.getElementById("m-abandonados").textContent = metricas.abandonados;
-  document.getElementById("m-pendientes").textContent = metricas.pendientes;
-}
-
-
-
-// ===============================
-// INIT
-// ===============================
-document.addEventListener("DOMContentLoaded", () => {
-  cargarMetricas();
-  cargarCarritos();
-});
 
 // ===============================
 // WHATSAPP
@@ -337,21 +214,21 @@ function contactarCliente(carritoId, telefono, nombre) {
   }
 
   const mensaje = encodeURIComponent(
-    `Hola ${nombre}\n` +
-    `Tienes un carrito pendiente en DescoApp (Carrito #${carritoId}).\n` +
-    `¿Deseas finalizar tu pedido?`
+    `Hola ${nombre}, tienes un carrito pendiente en DescoApp (#${carritoId}). ¿Deseas finalizar tu pedido?`
   );
 
   window.open(`https://wa.me/57${telefono}?text=${mensaje}`, "_blank");
 }
 
-
+// ===============================
+// FILTROS
+// ===============================
 function mostrarTodos() {
-  renderTablaCarritos(CARROS_TODOS);
+  renderCarritos(CARROS_TODOS);
 }
 
 function mostrarEnviados() {
-  renderTablaCarritos(
+  renderCarritos(
     CARROS_TODOS.filter(c =>
       c.estado_admin === "enviado" || c.estado_admin === "cerrado"
     )
@@ -360,14 +237,10 @@ function mostrarEnviados() {
 
 function mostrarPendientes() {
   const ahora = Date.now();
-
-  renderTablaCarritos(
+  renderCarritos(
     CARROS_TODOS.filter(c => {
       if (c.estado_admin !== "abierto") return false;
-
-      const horas =
-        (ahora - new Date(c.created_at).getTime()) / (1000 * 60 * 60);
-
+      const horas = (ahora - new Date(c.created_at)) / 36e5;
       return horas < 8;
     })
   );
@@ -375,15 +248,18 @@ function mostrarPendientes() {
 
 function mostrarAbandonados() {
   const ahora = Date.now();
-
-  renderTablaCarritos(
+  renderCarritos(
     CARROS_TODOS.filter(c => {
       if (c.estado_admin !== "abierto") return false;
-
-      const horas =
-        (ahora - new Date(c.created_at).getTime()) / (1000 * 60 * 60);
-
+      const horas = (ahora - new Date(c.created_at)) / 36e5;
       return horas >= 12;
     })
   );
 }
+
+// ===============================
+// INIT
+// ===============================
+document.addEventListener("DOMContentLoaded", () => {
+  cargarCarritos();
+});
