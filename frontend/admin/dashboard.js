@@ -144,9 +144,10 @@ function recalcularMetricasDesdeCarritos() {
       enviados++;
     }
 
-    if (c.estado_admin === "abierto" && horas >= 12) {
-      abandonados++;
-    }
+    if (c.fue_abandonado === 1) {
+  abandonados++;
+}
+
 
     if (c.estado_admin === "abierto" && horas < 8) {
       pendientes++;
@@ -247,15 +248,11 @@ function mostrarPendientes() {
 }
 
 function mostrarAbandonados() {
-  const ahora = Date.now();
   renderCarritos(
-    CARROS_TODOS.filter(c => {
-      if (c.estado_admin !== "abierto") return false;
-      const horas = (ahora - new Date(c.created_at)) / 36e5;
-      return horas >= 12;
-    })
+    CARROS_TODOS.filter(c => c.fue_abandonado === 1)
   );
 }
+
 
 // ===============================
 // INIT

@@ -7,6 +7,8 @@ router.post("/obtener-o-crear", carritosController.obtenerOCrearCarrito);
 router.post("/agregar-item", carritosController.agregarItem);
 router.post("/enviar", carritosController.enviarCarrito);
 router.post("/sync", carritosController.syncCarritoDesdeFrontend);
+router.post("/ping", carritosController.pingActividad);
+
 
 
 router.post("/sync", async (req, res) => {

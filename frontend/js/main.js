@@ -1563,9 +1563,16 @@ function limpiarCarrito() {
 }
 
 /**
- * Agrega producto al carrito (intención)
- */
+ * Agrega producto al carrito (intención)*/
+/* =====================================================
+   🛒 AGREGA PRODUCTO AL CARRITO (LOCAL + BACKEND)
+   No rompe nada | Flujo profesional
+===================================================== */
 function agregarProductoAlCarrito(producto) {
+
+  /* ===============================
+     1️⃣ CARRITO LOCAL (NO SE TOCA)
+  =============================== */
   const carrito = obtenerCarrito();
   const proveedorNombre = obtenerNombreProveedor(producto.proveedorId);
 
@@ -1588,50 +1595,69 @@ function agregarProductoAlCarrito(producto) {
   guardarCarrito(carrito);
   reproducirSonidoCarrito();
   renderCarrito();
-  // 🔗 sincronizar con backend
-sincronizarCarritoBackend();
-  
 
-async function sincronizarCarritoBackend() {
-  try {
-    const carrito = obtenerCarrito();
-    if (!carrito.items.length) return;
-
-    let clienteId = localStorage.getItem("cliente_id") || 1;
-
-    await fetch("/api/carrito/sync", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        cliente_id: clienteId,
-        items: carrito.items
-      })
-    });
-
-    console.log("🟢 Carrito sincronizado con backend");
-  } catch (err) {
-    console.warn("🔴 Error sincronizando carrito:", err);
-  }
-}
-
-  // 🔗 SYNC BACKEND (NO BLOQUEA UI)
+  /* ===============================
+     2️⃣ SINCRONIZACIÓN BACKEND
+     (crear / obtener / ping / agregar)
+  =============================== */
   (async () => {
-    const carritoId = await obtenerOCrearCarritoBackend();
-    if (!carritoId) return;
-
     try {
+      let carritoBackendId = localStorage.getItem("carrito_backend_id");
+
+      /* -------------------------------
+         🟢 CREAR U OBTENER CARRITO
+      -------------------------------- */
+      if (!carritoBackendId) {
+        const res = await fetch("/api/carrito/obtener-o-crear", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            cliente_id: localStorage.getItem("cliente_id") || 1,
+            canal_envio: "web"
+          })
+        });
+
+        const data = await res.json();
+        carritoBackendId = data?.carrito?.id || data?.carrito_id;
+
+        if (carritoBackendId) {
+          localStorage.setItem("carrito_backend_id", carritoBackendId);
+        } else {
+          console.warn("No se pudo obtener carrito backend");
+          return;
+        }
+      }
+
+      /* -------------------------------
+         🔔 MARCAR ACTIVIDAD (PING)
+         → esto es lo que permitirá
+           detectar carritos abandonados
+      -------------------------------- */
+      await fetch("/api/carrito/ping", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ carrito_id: carritoBackendId })
+      });
+
+      /* -------------------------------
+         ➕ AGREGAR PRODUCTO (YA EXISTÍA)
+         (NO se cambia tu lógica)
+      -------------------------------- */
       await fetch("/api/carrito/agregar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          carrito_id: carritoId,
+          carrito_id: carritoBackendId,
           producto_id: producto.id,
           nombre_producto: producto.nombre,
           precio: extraerPrecioNumero(producto.precio),
           cantidad: 1
         })
       });
-    } catch {}
+
+    } catch (error) {
+      console.error("Error sincronizando carrito con backend", error);
+    }
   })();
 }
 

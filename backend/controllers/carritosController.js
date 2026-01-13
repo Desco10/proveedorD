@@ -17,6 +17,12 @@ exports.obtenerOCrearCarrito = async (req, res) => {
     );
 
     if (existente.length > 0) {
+            // 🔄 marcar actividad al recuperar carrito activo
+      await pool.query(
+        `UPDATE carritos SET last_activity = NOW() WHERE id = ?`,
+        [existente[0].id]
+      );
+
       return res.json({ ok: true, carrito: existente[0] });
     }
 
@@ -63,16 +69,35 @@ exports.agregarItem = async (req, res) => {
       [carrito_id, producto_id, nombre_producto, precio, qty]
     );
 
+
     await pool.query(
-      `UPDATE carritos 
-       SET total = (
-         SELECT IFNULL(SUM(subtotal), 0)
-         FROM carrito_items
-         WHERE carrito_id = ?
-       )
-       WHERE id = ?`,
-      [carrito_id, carrito_id]
-    );
+  `UPDATE carritos 
+   SET total = (
+     SELECT IFNULL(SUM(subtotal), 0)
+     FROM carrito_items
+     WHERE carrito_id = ?
+   ),
+   last_activity = NOW(),
+   fue_abandonado = 0
+   WHERE id = ?`,
+  [carrito_id, carrito_id]
+);
+
+   await pool.query(
+  `UPDATE carritos 
+   SET total = (
+     SELECT IFNULL(SUM(subtotal), 0)
+     FROM carrito_items
+     WHERE carrito_id = ?
+   ),
+   last_activity = NOW(),
+   fue_abandonado = 0
+   WHERE id = ?`,
+  [carrito_id, carrito_id]
+);
+
+
+
 
     res.json({ ok: true, msg: "Producto agregado al carrito" });
   } catch (error) {
@@ -269,6 +294,30 @@ exports.syncCarritoDesdeFrontend = async (req, res) => {
 
   } catch (error) {
     console.error("❌ Error sync carrito:", error);
+    res.status(500).json({ ok: false });
+  }
+};
+
+
+exports.pingActividad = async (req, res) => {
+  try {
+    const { carrito_id } = req.body;
+
+    if (!carrito_id) {
+      return res.status(400).json({ ok: false });
+    }
+
+    await pool.query(
+      `UPDATE carritos
+       SET last_activity = NOW(),
+           fue_abandonado = 0
+       WHERE id = ? AND estado_admin = 'abierto'`,
+      [carrito_id]
+    );
+
+    res.json({ ok: true });
+  } catch (e) {
+    console.error("pingActividad", e);
     res.status(500).json({ ok: false });
   }
 };
