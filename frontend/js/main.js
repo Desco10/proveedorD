@@ -1614,7 +1614,7 @@ function agregarProductoAlCarrito(producto) {
         localStorage.setItem("carrito_backend_id", carritoId);
       }
 
-      await fetch("/api/carritos/agregar-item", {
+      await fetch("/api/carrito/agregar-item", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -1674,7 +1674,7 @@ async function finalizarCompra() {
   // 🔗 MARCAR CARRITO COMO ENVIADO EN BACKEND (si existe)
   const carritoId = localStorage.getItem("carrito_backend_id");
   if (carritoId) {
-    fetch("/api/carritos/enviar", {
+    fetch("/api/carrito/enviar", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ carrito_id: carritoId })
