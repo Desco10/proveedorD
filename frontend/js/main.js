@@ -1570,9 +1570,7 @@ function limpiarCarrito() {
 ===================================================== */
 function agregarProductoAlCarrito(producto) {
 
-  /* ===============================
-     1️⃣ CARRITO LOCAL (NO SE TOCA)
-  =============================== */
+  // 1️⃣ CARRITO LOCAL (SE MANTIENE)
   const carrito = obtenerCarrito();
   const proveedorNombre = obtenerNombreProveedor(producto.proveedorId);
 
@@ -1596,58 +1594,31 @@ function agregarProductoAlCarrito(producto) {
   reproducirSonidoCarrito();
   renderCarrito();
 
-  /* ===============================
-     2️⃣ SINCRONIZACIÓN BACKEND
-     (crear / obtener / ping / agregar)
-  =============================== */
+  // 2️⃣ BACKEND (FUENTE DE VERDAD)
   (async () => {
     try {
-      let carritoBackendId = localStorage.getItem("carrito_backend_id");
+      let carritoId = localStorage.getItem("carrito_backend_id");
 
-      /* -------------------------------
-         🟢 CREAR U OBTENER CARRITO
-      -------------------------------- */
-      if (!carritoBackendId) {
-        const res = await fetch("/api/carrito/obtener-o-crear", {
+      if (!carritoId) {
+        const res = await fetch("/api/carritos/obtener-o-crear", {
+
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            cliente_id: localStorage.getItem("cliente_id") || 1,
-            canal_envio: "web"
+            cliente_id: localStorage.getItem("cliente_id") || 1
           })
         });
 
         const data = await res.json();
-        carritoBackendId = data?.carrito?.id || data?.carrito_id;
-
-        if (carritoBackendId) {
-          localStorage.setItem("carrito_backend_id", carritoBackendId);
-        } else {
-          console.warn("No se pudo obtener carrito backend");
-          return;
-        }
+        carritoId = data.carrito.id;
+        localStorage.setItem("carrito_backend_id", carritoId);
       }
 
-      /* -------------------------------
-         🔔 MARCAR ACTIVIDAD (PING)
-         → esto es lo que permitirá
-           detectar carritos abandonados
-      -------------------------------- */
-      await fetch("/api/carrito/ping", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ carrito_id: carritoBackendId })
-      });
-
-      /* -------------------------------
-         ➕ AGREGAR PRODUCTO (YA EXISTÍA)
-         (NO se cambia tu lógica)
-      -------------------------------- */
-      await fetch("/api/carrito/agregar", {
+      await fetch("/api/carritos/agregar-item", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          carrito_id: carritoBackendId,
+          carrito_id: carritoId,
           producto_id: producto.id,
           nombre_producto: producto.nombre,
           precio: extraerPrecioNumero(producto.precio),
@@ -1655,13 +1626,11 @@ function agregarProductoAlCarrito(producto) {
         })
       });
 
-    } catch (error) {
-      console.error("Error sincronizando carrito con backend", error);
+    } catch (e) {
+      console.error("Error backend carrito", e);
     }
   })();
 }
-
-
 
 
 
@@ -1705,7 +1674,7 @@ async function finalizarCompra() {
   // 🔗 MARCAR CARRITO COMO ENVIADO EN BACKEND (si existe)
   const carritoId = localStorage.getItem("carrito_backend_id");
   if (carritoId) {
-    fetch("/api/carrito/enviar", {
+    fetch("/api/carritos/enviar", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ carrito_id: carritoId })
@@ -2151,7 +2120,7 @@ if (!clienteId) {
 }
 
   try {
-    const res = await fetch("/api/carrito/obtener", {
+    const res = await fetch("/api/carritos/obtener", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ cliente_id: clienteId })

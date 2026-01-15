@@ -4,6 +4,17 @@ const pool = require("../config/db");
  * Obtener o crear carrito activo
  */
 exports.obtenerOCrearCarrito = async (req, res) => {
+
+
+
+
+  // dentro de obtenerOCrearCarrito
+const [result] = await pool.query(
+  `INSERT INTO carritos (cliente_id, estado, last_activity)
+   VALUES (?, 'activo', NOW())`,
+  [cliente_id]
+);
+
   try {
     const { cliente_id } = req.body;
 
@@ -70,32 +81,19 @@ exports.agregarItem = async (req, res) => {
     );
 
 
-    await pool.query(
-  `UPDATE carritos 
-   SET total = (
-     SELECT IFNULL(SUM(subtotal), 0)
-     FROM carrito_items
-     WHERE carrito_id = ?
-   ),
-   last_activity = NOW(),
-   fue_abandonado = 0
-   WHERE id = ?`,
-  [carrito_id, carrito_id]
-);
-
    await pool.query(
-  `UPDATE carritos 
-   SET total = (
-     SELECT IFNULL(SUM(subtotal), 0)
-     FROM carrito_items
-     WHERE carrito_id = ?
-   ),
-   last_activity = NOW(),
-   fue_abandonado = 0
-   WHERE id = ?`,
+  `UPDATE carritos
+   SET
+     total = (
+       SELECT IFNULL(SUM(subtotal), 0)
+       FROM carrito_items
+       WHERE carrito_id = ?
+     ),
+     last_activity = NOW(),
+     fue_abandonado = 0
+   WHERE id = ? AND estado = 'activo'`,
   [carrito_id, carrito_id]
 );
-
 
 
 
@@ -311,7 +309,7 @@ exports.pingActividad = async (req, res) => {
       `UPDATE carritos
        SET last_activity = NOW(),
            fue_abandonado = 0
-       WHERE id = ? AND estado_admin = 'abierto'`,
+       WHERE id = ? AND estado = 'activo'`,
       [carrito_id]
     );
 
