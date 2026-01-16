@@ -4,42 +4,39 @@ const pool = require("../config/db");
  * Obtener o crear carrito activo
  */
 exports.obtenerOCrearCarrito = async (req, res) => {
-
-
-
-
-  // dentro de obtenerOCrearCarrito
-const [result] = await pool.query(
-  `INSERT INTO carritos (cliente_id, estado, last_activity)
-   VALUES (?, 'activo', NOW())`,
-  [cliente_id]
-);
-
   try {
-    const { cliente_id } = req.body;
+    const { cliente_id, canal_envio } = req.body;
 
     if (!cliente_id) {
-      return res.status(400).json({ ok: false, msg: "cliente_id requerido" });
+      return res.status(400).json({
+        ok: false,
+        msg: "cliente_id requerido"
+      });
     }
 
+    // 1️⃣ Buscar carrito activo existente
     const [existente] = await pool.query(
       "SELECT * FROM carritos WHERE cliente_id = ? AND estado = 'activo' LIMIT 1",
       [cliente_id]
     );
 
     if (existente.length > 0) {
-            // 🔄 marcar actividad al recuperar carrito activo
+      // 🔔 marcar actividad
       await pool.query(
-        `UPDATE carritos SET last_activity = NOW() WHERE id = ?`,
+        "UPDATE carritos SET last_activity = NOW() WHERE id = ?",
         [existente[0].id]
       );
 
-      return res.json({ ok: true, carrito: existente[0] });
+      return res.json({
+        ok: true,
+        carrito: existente[0]
+      });
     }
 
+    // 2️⃣ Crear nuevo carrito activo
     const [result] = await pool.query(
-      "INSERT INTO carritos (cliente_id, estado) VALUES (?, 'activo')",
-      [cliente_id]
+      "INSERT INTO carritos (cliente_id, estado, canal_envio) VALUES (?, 'activo', ?)",
+      [cliente_id, canal_envio || "web"]
     );
 
     const [nuevo] = await pool.query(
@@ -47,12 +44,17 @@ const [result] = await pool.query(
       [result.insertId]
     );
 
-    res.json({ ok: true, carrito: nuevo[0] });
+    res.json({
+      ok: true,
+      carrito: nuevo[0]
+    });
+
   } catch (error) {
     console.error("Error obtenerOCrearCarrito:", error);
     res.status(500).json({ ok: false });
   }
 };
+
 
 /**
  * Agregar item al carrito
@@ -316,6 +318,29 @@ exports.pingActividad = async (req, res) => {
     res.json({ ok: true });
   } catch (e) {
     console.error("pingActividad", e);
+    res.status(500).json({ ok: false });
+  }
+};
+
+
+exports.listarCarritosAbandonados = async (req, res) => {
+  try {
+    const [rows] = await pool.query(`
+      SELECT 
+        c.id,
+        c.cliente_id,
+        c.total,
+        c.last_activity,
+        TIMESTAMPDIFF(MINUTE, c.last_activity, NOW()) AS minutos_inactivo
+      FROM carritos c
+      WHERE c.estado = 'activo'
+        AND c.fue_abandonado = 1
+      ORDER BY c.last_activity DESC
+    `);
+
+    res.json({ ok: true, carritos: rows });
+  } catch (error) {
+    console.error("Error listarCarritosAbandonados", error);
     res.status(500).json({ ok: false });
   }
 };

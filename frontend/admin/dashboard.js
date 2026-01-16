@@ -23,11 +23,10 @@ async function cargarCarritos() {
   const res = await fetch(`${API_ADMIN}/carritos`);
   const data = await res.json();
 
-  CARROS_TODOS = data.carritos;
+  CARROS_TODOS = data.carritos || [];
 
   renderCarritos(CARROS_TODOS);
-
-  recalcularMetricasDesdeCarritos(); // ← CLAVE
+  recalcularMetricasDesdeCarritos();
 }
 
 
@@ -114,17 +113,14 @@ async function cambiarEstado(carritoId, nuevoEstado) {
 }
 
 async function cargarMetricas() {
+  // ⚠️ Esta función NO actualiza el DOM
+  // Las métricas visibles se calculan desde CARROS_TODOS
   const res = await fetch("/api/admin/dashboard/metricas");
   const data = await res.json();
 
   if (!data.ok) return;
 
   const { metricas } = data;
-
-  document.getElementById("m-total").textContent = metricas.total;
-  document.getElementById("m-enviados").textContent = metricas.enviados;
-  document.getElementById("m-abandonados").textContent = metricas.abandonados;
-  document.getElementById("m-pendientes").textContent = metricas.pendientes;
 }
 
 
@@ -248,9 +244,11 @@ function mostrarPendientes() {
 }
 
 function mostrarAbandonados() {
-  renderCarritos(
-    CARROS_TODOS.filter(c => c.fue_abandonado === 1)
+  const abandonados = CARROS_TODOS.filter(
+    c => c.estado === "activo" && c.fue_abandonado === 1
   );
+
+  renderCarritos(abandonados);
 }
 
 
@@ -260,3 +258,28 @@ function mostrarAbandonados() {
 document.addEventListener("DOMContentLoaded", () => {
   cargarCarritos();
 });
+
+
+
+async function cargarCarritosAbandonados() {
+  try {
+    const res = await fetch("/api/carritos/abandonados");
+    const data = await res.json();
+
+    if (!data.ok) return [];
+
+    return data.carritos.map(c => ({
+      id: c.id,
+      cliente_id: c.cliente_id,
+      total: c.total,
+      estado: "abandonado",
+      estado_admin: "abandonado",
+      fue_abandonado: 1,
+      last_activity: c.last_activity,
+      minutos_inactivo: c.minutos_inactivo
+    }));
+  } catch (err) {
+    console.error("Error cargando carritos abandonados", err);
+    return [];
+  }
+}

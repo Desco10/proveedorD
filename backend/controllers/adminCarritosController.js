@@ -14,9 +14,22 @@ const listarCarritosAdmin = async (req, res) => {
         c.canal_envio,
         c.created_at,
         c.updated_at,
+        c.last_activity,
+        c.fue_abandonado,
+
+        -- Estado administrativo real para el dashboard
+        CASE
+          WHEN c.estado = 'enviado' THEN 'enviado'
+          WHEN c.estado = 'activo' AND c.fue_abandonado = 1 THEN 'abandonado'
+          WHEN c.estado = 'activo' THEN 'abierto'
+          ELSE 'cerrado'
+        END AS estado_admin,
+
         cl.nombre,
         cl.apellido,
-        cl.telefono
+        cl.telefono,
+        cl.direccion
+
       FROM carritos c
       JOIN clientes cl ON cl.id = c.cliente_id
       ORDER BY c.created_at DESC
@@ -35,6 +48,7 @@ const listarCarritosAdmin = async (req, res) => {
     });
   }
 };
+
 
 // ==================================================
 // DETALLE CARRITO (ADMIN) — REAL, SIN INVENTOS

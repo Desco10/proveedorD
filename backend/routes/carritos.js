@@ -8,6 +8,7 @@ router.post("/agregar-item", carritosController.agregarItem);
 router.post("/enviar", carritosController.enviarCarrito);
 router.post("/sync", carritosController.syncCarritoDesdeFrontend);
 router.post("/ping", carritosController.pingActividad);
+router.get("/abandonados", carritosController.listarCarritosAbandonados);
 
 
 
