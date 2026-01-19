@@ -70,7 +70,14 @@ function renderCarritos(lista) {
         </select>
       </td>
       <td>$${Number(c.total).toLocaleString("es-CO")}</td>
-      <td>${new Date(c.created_at).toLocaleString()}</td>
+      <td>
+  ${
+    c.estado_admin === "abandonado" && c.last_activity
+      ? new Date(c.last_activity).toLocaleString()
+      : new Date(c.created_at).toLocaleString()
+  }
+</td>
+
       <td>
         <button onclick="contactarCliente(${c.id}, '${c.telefono}', '${c.nombre}')">
           WhatsApp
@@ -283,3 +290,4 @@ async function cargarCarritosAbandonados() {
     return [];
   }
 }
+

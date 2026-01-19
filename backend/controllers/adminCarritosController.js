@@ -32,7 +32,7 @@ const listarCarritosAdmin = async (req, res) => {
 
       FROM carritos c
       JOIN clientes cl ON cl.id = c.cliente_id
-      ORDER BY c.created_at DESC
+      ORDER BY IFNULL(c.last_activity, c.created_at) DESC
     `);
 
     res.json({
@@ -50,6 +50,7 @@ const listarCarritosAdmin = async (req, res) => {
 };
 
 
+
 // ==================================================
 // DETALLE CARRITO (ADMIN) — REAL, SIN INVENTOS
 // ==================================================
@@ -59,7 +60,18 @@ const detalleCarritoAdmin = async (req, res) => {
 
     // 1. Obtener carrito exacto
     const [carritos] = await pool.query(
-      `SELECT * FROM carritos WHERE id = ?`,
+      `
+      SELECT
+        c.*,
+        CASE
+          WHEN c.estado = 'enviado' THEN 'enviado'
+          WHEN c.estado = 'activo' AND c.fue_abandonado = 1 THEN 'abandonado'
+          WHEN c.estado = 'activo' THEN 'abierto'
+          ELSE 'cerrado'
+        END AS estado_admin
+      FROM carritos c
+      WHERE c.id = ?
+      `,
       [id]
     );
 
@@ -161,9 +173,13 @@ const actualizarEstadoCarrito = async (req, res) => {
   }
 };
 
+
+
+
 // ==================================================
 module.exports = {
   listarCarritosAdmin,
   detalleCarritoAdmin,
   actualizarEstadoCarrito
+  
 };
