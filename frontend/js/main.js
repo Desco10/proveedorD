@@ -1568,68 +1568,85 @@ function limpiarCarrito() {
    🛒 AGREGA PRODUCTO AL CARRITO (LOCAL + BACKEND)
    No rompe nada | Flujo profesional
 ===================================================== */
-function agregarProductoAlCarrito(producto) {
+async function agregarProductoAlCarrito(producto) {
+  try {
+    // ============================
+    // 1️⃣ CARRITO LOCAL (FRONTEND)
+    // ============================
+    const carrito = obtenerCarrito();
+    const proveedorNombre = obtenerNombreProveedor(producto.proveedorId);
 
-  // 1️⃣ CARRITO LOCAL (SE MANTIENE)
-  const carrito = obtenerCarrito();
-  const proveedorNombre = obtenerNombreProveedor(producto.proveedorId);
+    const existente = carrito.items.find(
+      p => p.id === producto.id && p.proveedorId === producto.proveedorId
+    );
 
-  const existente = carrito.items.find(
-    p => p.id === producto.id && p.proveedorId === producto.proveedorId
-  );
+    if (existente) {
+      existente.cantidad += 1;
+    } else {
+      carrito.items.push({
+        id: producto.id,
+        nombre: producto.nombre,
+        precio: producto.precio,
+        imagen: producto.imagen,
+        proveedorId: producto.proveedorId,
+        proveedorNombre,
+        cantidad: 1
+      });
+    }
 
-  if (!existente) {
-    carrito.items.push({
-      id: producto.id,
-      nombre: producto.nombre,
-      precio: producto.precio,
-      imagen: producto.imagen,
-      proveedorId: producto.proveedorId,
-      proveedorNombre,
-      cantidad: 1
-    });
-  }
+    guardarCarrito(carrito);
+    reproducirSonidoCarrito();
+    renderCarrito();
 
-  guardarCarrito(carrito);
-  reproducirSonidoCarrito();
-  renderCarrito();
+    // ============================
+    // 2️⃣ CARRITO REAL (BACKEND)
+    // ============================
+    let carritoId = localStorage.getItem("carrito_backend_id");
 
-  // 2️⃣ BACKEND (FUENTE DE VERDAD)
-  (async () => {
-    try {
-      let carritoId = localStorage.getItem("carrito_backend_id");
-
-      if (!carritoId) {
-        const res = await fetch("/api/carritos/obtener-o-crear", {
-
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            cliente_id: localStorage.getItem("cliente_id") || 1
-          })
-        });
-
-        const data = await res.json();
-        carritoId = data.carrito.id;
-        localStorage.setItem("carrito_backend_id", carritoId);
-      }
-
-      await fetch("/api/carrito/agregar-item", {
+    // SOLO crear carrito si NO existe ninguno
+    if (!carritoId) {
+      const res = await fetch("/api/carritos/obtener-o-crear", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          carrito_id: carritoId,
-          producto_id: producto.id,
-          nombre_producto: producto.nombre,
-          precio: extraerPrecioNumero(producto.precio),
-          cantidad: 1
+          cliente_id: localStorage.getItem("cliente_id") || 1,
+          canal_envio: "web"
         })
       });
 
-    } catch (e) {
-      console.error("Error backend carrito", e);
+      const data = await res.json();
+      carritoId = data.carrito.id;
+      localStorage.setItem("carrito_backend_id", carritoId);
     }
-  })();
+
+    // ============================
+    // 3️⃣ INSERTAR PRODUCTO REAL
+    // ============================
+    await fetch("/api/carritos/agregar-item", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        carrito_id: carritoId,
+        producto_id: producto.id,
+        nombre_producto: producto.nombre,
+        precio: producto.precio,
+        cantidad: 1,
+        proveedor_id: producto.proveedorId
+      })
+    });
+
+    // ============================
+    // 4️⃣ MARCAR ACTIVIDAD (NO reactiva abandonados)
+    // ============================
+    await fetch("/api/carritos/ping", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ carrito_id: carritoId })
+    });
+
+  } catch (error) {
+    console.error("Error agregando producto al carrito:", error);
+  }
 }
 
 

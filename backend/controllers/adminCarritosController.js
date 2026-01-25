@@ -5,6 +5,16 @@ const pool = require("../config/db");
 // ==================================================
 const listarCarritosAdmin = async (req, res) => {
   try {
+    // 🔴 Marcar carritos abandonados por tiempo (3 minutos)
+await pool.query(`
+  UPDATE carritos
+  SET fue_abandonado = 1
+  WHERE estado = 'activo'
+    AND fue_abandonado = 0
+    AND last_activity IS NOT NULL
+    AND last_activity < NOW() - INTERVAL 3 MINUTE
+`);
+
     const [rows] = await pool.query(`
       SELECT
         c.id,

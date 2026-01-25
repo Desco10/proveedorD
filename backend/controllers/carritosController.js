@@ -16,9 +16,17 @@ exports.obtenerOCrearCarrito = async (req, res) => {
 
     // 1️⃣ Buscar carrito activo existente
     const [existente] = await pool.query(
-      "SELECT * FROM carritos WHERE cliente_id = ? AND estado = 'activo' LIMIT 1",
-      [cliente_id]
-    );
+  `
+  SELECT *
+  FROM carritos
+  WHERE cliente_id = ?
+    AND estado = 'activo'
+    AND fue_abandonado = 0
+  LIMIT 1
+  `,
+  [cliente_id]
+);
+
 
     if (existente.length > 0) {
       // 🔔 marcar actividad
@@ -75,31 +83,50 @@ exports.agregarItem = async (req, res) => {
 
     const qty = cantidad || 1;
 
+    // 🔹 NORMALIZAR PRECIO (sin romper lo que ya funciona)
+    // Ej: "$9.500 (sobre x12)" → 9500
+    const extraerPrecio = (valor) => {
+  if (!valor) return 0;
+
+  // Toma SOLO lo que está antes del paréntesis
+  // "$21.800 (sobre x10)" → "$21.800"
+  const limpio = String(valor).split("(")[0];
+
+  // "$21.800" → "21800"
+  return Number(limpio.replace(/[^0-9]/g, ""));
+};
+
+const precioNumerico = extraerPrecio(precio);
+
+    if (!precioNumerico || isNaN(precioNumerico)) {
+      return res.status(400).json({ ok: false, msg: "Precio inválido" });
+    }
+
+    // 🔹 Insertar item correctamente
     await pool.query(
       `INSERT INTO carrito_items 
        (carrito_id, producto_id, nombre_producto, precio, cantidad)
        VALUES (?, ?, ?, ?, ?)`,
-      [carrito_id, producto_id, nombre_producto, precio, qty]
+      [carrito_id, producto_id, nombre_producto, precioNumerico, qty]
     );
 
-
-   await pool.query(
-  `UPDATE carritos
-   SET
-     total = (
-       SELECT IFNULL(SUM(subtotal), 0)
-       FROM carrito_items
-       WHERE carrito_id = ?
-     ),
-     last_activity = NOW(),
-     fue_abandonado = 0
-   WHERE id = ? AND estado = 'activo'`,
-  [carrito_id, carrito_id]
-);
-
-
+    // 🔹 Recalcular total y marcar actividad (se deja exactamente como estaba)
+    await pool.query(
+      `UPDATE carritos
+       SET
+         total = (
+           SELECT IFNULL(SUM(precio * cantidad), 0)
+           FROM carrito_items
+           WHERE carrito_id = ?
+         ),
+         last_activity = NOW(),
+         fue_abandonado = 0
+       WHERE id = ? AND estado = 'activo'`,
+      [carrito_id, carrito_id]
+    );
 
     res.json({ ok: true, msg: "Producto agregado al carrito" });
+
   } catch (error) {
     console.error("Error agregarItem:", error);
     res.status(500).json({ ok: false });
