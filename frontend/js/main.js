@@ -1700,17 +1700,21 @@ async function finalizarCompra() {
 
   // 🔄 SYNC REAL DEL CARRITO PARA DASHBOARD
   try {
-    await fetch("/api/carritos/sync", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        cliente_id: localStorage.getItem("cliente_id") || 1,
-        items: proveedores.flatMap(p => p.productos),
-        canal_envio: "whatsapp"
-      })
-    });
+    const carritoBackendId = localStorage.getItem("carrito_backend_id");
+
+await fetch("/api/carritos/sync", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    cliente_id: localStorage.getItem("cliente_id") || 1,
+    items: proveedores.flatMap(p => p.productos),
+    canal_envio: "whatsapp",
+    carrito_origen_id: carritoBackendId ? Number(carritoBackendId) : null
+  })
+});
+
   } catch (e) {
     console.warn("No se pudo sincronizar el carrito con el backend");
   }

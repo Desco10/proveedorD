@@ -16,34 +16,48 @@ await pool.query(`
 `);
 
     const [rows] = await pool.query(`
-      SELECT
-        c.id,
-        c.cliente_id,
-        c.estado,
-        c.total,
-        c.canal_envio,
-        c.created_at,
-        c.updated_at,
-        c.last_activity,
-        c.fue_abandonado,
+  SELECT
+    c.id,
+    c.carrito_origen_id, 
+    c.cliente_id,
+    c.estado,
+    c.total,
+    c.canal_envio,
+    c.created_at,
+    c.updated_at,
+    c.last_activity,
+    c.fue_abandonado,
+    c.carrito_origen_id,
 
-        -- Estado administrativo real para el dashboard
-        CASE
-          WHEN c.estado = 'enviado' THEN 'enviado'
-          WHEN c.estado = 'activo' AND c.fue_abandonado = 1 THEN 'abandonado'
-          WHEN c.estado = 'activo' THEN 'abierto'
-          ELSE 'cerrado'
-        END AS estado_admin,
+    -- Si este carrito fue recuperado (tiene un hijo enviado)
+    (
+      SELECT COUNT(*)
+      FROM carritos h
+      WHERE h.carrito_origen_id = c.id
+    ) AS recuperaciones,
 
-        cl.nombre,
-        cl.apellido,
-        cl.telefono,
-        cl.direccion
+    -- Estado administrativo real
+    CASE
+      WHEN c.estado = 'enviado' AND c.carrito_origen_id IS NOT NULL THEN 'recuperado'
+      WHEN c.estado = 'enviado' THEN 'enviado'
+      WHEN c.estado = 'activo' AND c.fue_abandonado = 1
+           AND NOT EXISTS (
+             SELECT 1 FROM carritos h WHERE h.carrito_origen_id = c.id
+           )
+        THEN 'abandonado'
+      WHEN c.estado = 'activo' THEN 'abierto'
+      ELSE 'cerrado'
+    END AS estado_admin,
 
-      FROM carritos c
-      JOIN clientes cl ON cl.id = c.cliente_id
-      ORDER BY IFNULL(c.last_activity, c.created_at) DESC
-    `);
+    cl.nombre,
+    cl.apellido,
+    cl.telefono,
+    cl.direccion
+
+  FROM carritos c
+  JOIN clientes cl ON cl.id = c.cliente_id
+  ORDER BY IFNULL(c.last_activity, c.created_at) DESC
+`);
 
     res.json({
       ok: true,

@@ -37,7 +37,7 @@ function renderCarritos(lista) {
   if (!lista.length) {
     tbody.innerHTML = `
       <tr>
-        <td colspan="7" style="text-align:center;padding:15px">
+        <td colspan="8" style="text-align:center;padding:15px">
           No hay carritos para este filtro
         </td>
       </tr>
@@ -48,17 +48,25 @@ function renderCarritos(lista) {
   lista.forEach(c => {
     const tr = document.createElement("tr");
 
+    // 🔗 ORIGEN DEL CARRITO (trazabilidad)
+    const origen = c.carrito_origen_id
+      ? `Recuperado de #${c.carrito_origen_id}`
+      : "Directo";
+
     tr.innerHTML = `
       <td>${c.id}</td>
+
       <td>
         <strong>${c.nombre} ${c.apellido}</strong><br>
         <small>${c.telefono || "Sin teléfono"}</small>
       </td>
+
       <td>
         <span class="estado-cliente ${c.estado}">
           ${c.estado}
         </span>
       </td>
+
       <td>
         <select
           class="estado-admin ${c.estado_admin}"
@@ -69,14 +77,21 @@ function renderCarritos(lista) {
           ).join("")}
         </select>
       </td>
+
       <td>$${Number(c.total).toLocaleString("es-CO")}</td>
+
       <td>
-  ${
-    c.estado_admin === "abandonado" && c.last_activity
-      ? new Date(c.last_activity).toLocaleString()
-      : new Date(c.created_at).toLocaleString()
-  }
-</td>
+        ${
+          c.estado_admin === "abandonado" && c.last_activity
+            ? new Date(c.last_activity).toLocaleString()
+            : new Date(c.created_at).toLocaleString()
+        }
+      </td>
+
+      <!-- 🧬 NUEVA COLUMNA ORIGEN -->
+      <td>
+        ${origen}
+      </td>
 
       <td>
         <button onclick="contactarCliente(${c.id}, '${c.telefono}', '${c.nombre}')">
