@@ -268,7 +268,7 @@ exports.enviarCarrito = async (req, res) => {
 
 exports.syncCarritoDesdeFrontend = async (req, res) => {
   try {
-    const { cliente_id, items, canal_envio } = req.body;
+    const { cliente_id, items, canal_envio, carrito_origen_id } = req.body;
 
     if (!cliente_id || !Array.isArray(items) || items.length === 0) {
       return res.status(400).json({
@@ -277,11 +277,16 @@ exports.syncCarritoDesdeFrontend = async (req, res) => {
       });
     }
 
-    // 1️⃣ Crear carrito ENVIADO
+    // 1️⃣ Crear carrito ENVIADO (con posible origen)
     const [result] = await pool.query(
-      `INSERT INTO carritos (cliente_id, estado, total, canal_envio)
-       VALUES (?, 'enviado', 0, ?)`,
-      [cliente_id, canal_envio || "web"]
+      `INSERT INTO carritos 
+       (cliente_id, estado, total, canal_envio, carrito_origen_id)
+       VALUES (?, 'enviado', 0, ?, ?)`,
+      [
+        cliente_id,
+        canal_envio || "web",
+        carrito_origen_id || null
+      ]
     );
 
     const carritoId = result.insertId;
@@ -293,19 +298,19 @@ exports.syncCarritoDesdeFrontend = async (req, res) => {
       const subtotal = precio * item.cantidad;
       total += subtotal;
 
-   await pool.query(
-  `INSERT INTO carrito_items
-   (carrito_id, producto_id, nombre_producto, proveedor_id, precio, cantidad)
-   VALUES (?, ?, ?, ?, ?, ?)`,
-  [
-    carritoId,
-    item.id,
-    item.nombre,       // ✅ nombre_producto
-    item.proveedorId,
-    precio,
-    item.cantidad
-  ]
-);
+      await pool.query(
+        `INSERT INTO carrito_items
+         (carrito_id, producto_id, nombre_producto, proveedor_id, precio, cantidad)
+         VALUES (?, ?, ?, ?, ?, ?)`,
+        [
+          carritoId,
+          item.id,
+          item.nombre,
+          item.proveedorId,
+          precio,
+          item.cantidad
+        ]
+      );
     }
 
     // 3️⃣ Actualizar total del carrito
