@@ -2,9 +2,8 @@
    {
   "id": 1,
   "nombre": "Advil Max",
-  "precio": "$20.700 ",
+  "precio": "$20.700 (sobre x10)",
   "imagen": "img/p4/produc/1-advilmax.jpg",
-  "presentacion":"(sobre x10)",
   "descripcion": "Advil Max: contiene ibuprofeno; sirve para aliviar dolor fuerte, inflamación y fiebre.",
   "oferta": true,
   "proveedorId": 4

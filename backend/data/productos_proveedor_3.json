@@ -12,7 +12,7 @@
   {
     "id": 2,
     "nombre": "Bonfiest",
-    "precio": "$3.297 unidad",
+    "precio": "$3.297 (unidad)",
     "imagen": "images/bonfiest.png",
     "descripcion": "Tabletas efervescentes para aliviar el malestar estomacal y la acidez.",
     "oferta": false,
@@ -49,7 +49,7 @@
   {
     "id": 6,
     "nombre": "Agua Oxigenada",
-    "precio": "$2.179 unidad",
+    "precio": "$2.179 (unidad)",
     "imagen": "images/aguaoxigenada.jpg",
     "descripcion": "Antiséptico para el cuidado de heridas y limpieza de superficies.",
     "oferta": false,
@@ -58,7 +58,7 @@
   {
     "id": 7,
     "nombre": "Xraydol",
-    "precio": "$12.000 unidad",
+    "precio": "$12.000 (unidad)",
     "imagen": "images/xraydol.jpg",
     "descripcion": "Antiinflamatorio y analgésico de uso común en droguerías.",
     "oferta": false,
@@ -67,7 +67,7 @@
   {
     "id": 8,
     "nombre": "Pax Bebida Caliente Noche",
-    "precio": "$9.000 sobre x10",
+    "precio": "$9.000 (sobre x10)",
     "imagen": "images/pax.jpg",
     "descripcion": "Bebida relajante que alivia los síntomas de gripa nocturna.",
     "oferta": true,
@@ -76,7 +76,7 @@
   {
     "id": 9,
     "nombre": "Vitamina C Efervescente",
-    "precio": "$8.500 tubo x10",
+    "precio": "$8.500 (tubo x10)",
     "imagen": "images/vitaminac.jpg",
     "descripcion": "Suplemento efervescente que refuerza el sistema inmune.",
     "oferta": false,
@@ -85,7 +85,7 @@
   {
     "id": 10,
     "nombre": "Acetaminofén 500mg",
-    "precio": "$5.800 caja x10",
+    "precio": "$5.800 (caja x10)",
     "imagen": "images/acetaminofen.jpg",
     "descripcion": "Analgesico y antipirético para fiebre y dolores leves.",
     "oferta": false,
@@ -94,7 +94,7 @@
   {
     "id": 11,
     "nombre": "Ibuprofeno 400mg",
-    "precio": "$7.900 caja x10",
+    "precio": "$7.900 (caja x10)",
     "imagen": "images/ibuprofeno.jpg",
     "descripcion": "Alivia dolor, inflamación y fiebre. Producto de alta rotación.",
     "oferta": true,
@@ -103,7 +103,7 @@
   {
     "id": 12,
     "nombre": "Panadol Niños",
-    "precio": "$12.500 frasco x120ml",
+    "precio": "$12.500 (frasco x120ml)",
     "imagen": "images/panadolninos.jpg",
     "descripcion": "Jarabe suave para aliviar fiebre y dolor en niños.",
     "oferta": false,

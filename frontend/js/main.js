@@ -617,7 +617,7 @@ function mostrarProductos(animar = true) {
   <h3 class="producto-nombre">${prod.nombre}</h3>
 
   <p class="producto-precio">${prod.precio}</p>
-  <p class="producto-presentacion">${prod.presentacion}</p>
+  
 
  
   <div class="card-actions">
