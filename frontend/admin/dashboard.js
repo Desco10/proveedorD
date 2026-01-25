@@ -18,9 +18,18 @@ document.getElementById("logoutBtn").addEventListener("click", () => {
 
 // ===============================
 // LISTAR CARRITOS
+
 // ===============================
+let filtroActual = "";   // hoy | ayer | mes | desde=YYYY-MM-DD&hasta=YYYY-MM-DD
+
 async function cargarCarritos() {
-  const res = await fetch(`${API_ADMIN}/carritos`);
+  let url = `${API_ADMIN}/carritos`;
+
+  if (filtroActual) {
+    url += "?" + filtroActual;
+  }
+
+  const res = await fetch(url);
   const data = await res.json();
 
   CARROS_TODOS = data.carritos || [];
@@ -306,3 +315,27 @@ async function cargarCarritosAbandonados() {
   }
 }
 
+
+
+//filtradodashboard
+
+// ===============================
+// BOTONES DE FILTRO
+// ===============================
+function filtrarFecha(tipo) {
+  filtroActual = `filtro=${tipo}`;
+  cargarCarritos();
+}
+
+function filtrarRango() {
+  const desde = document.getElementById("desde").value;
+  const hasta = document.getElementById("hasta").value;
+
+  if (!desde || !hasta) {
+    alert("Selecciona ambas fechas");
+    return;
+  }
+
+  filtroActual = `desde=${desde}&hasta=${hasta}`;
+  cargarCarritos();
+}
