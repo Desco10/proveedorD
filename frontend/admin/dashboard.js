@@ -1,6 +1,8 @@
 let IDS_ABANDONADOS = [];
 let IDS_PENDIENTES = [];
 let CARROS_TODOS = [];
+let filtroActual = "";   // hoy | ayer | mes | desde=YYYY-MM-DD&hasta=YYYY-MM-DD
+let filtroActivo = false;
 
 if (!localStorage.getItem("adminLogged")) {
   window.location.href = "/admin/login.html";
@@ -18,15 +20,15 @@ document.getElementById("logoutBtn").addEventListener("click", () => {
 
 // ===============================
 // LISTAR CARRITOS
-
 // ===============================
-let filtroActual = "";   // hoy | ayer | mes | desde=YYYY-MM-DD&hasta=YYYY-MM-DD
-
 async function cargarCarritos() {
   let url = `${API_ADMIN}/carritos`;
 
   if (filtroActual) {
     url += "?" + filtroActual;
+    filtroActivo = true;
+  } else {
+    filtroActivo = false;
   }
 
   const res = await fetch(url);
@@ -37,7 +39,6 @@ async function cargarCarritos() {
   renderCarritos(CARROS_TODOS);
   recalcularMetricasDesdeCarritos();
 }
-
 
 function renderCarritos(lista) {
   const tbody = document.getElementById("tablaCarritos");
@@ -57,7 +58,6 @@ function renderCarritos(lista) {
   lista.forEach(c => {
     const tr = document.createElement("tr");
 
-    // 🔗 ORIGEN DEL CARRITO (trazabilidad)
     const origen = c.carrito_origen_id
       ? `Recuperado de #${c.carrito_origen_id}`
       : "Directo";
@@ -97,10 +97,7 @@ function renderCarritos(lista) {
         }
       </td>
 
-      <!-- 🧬 NUEVA COLUMNA ORIGEN -->
-      <td>
-        ${origen}
-      </td>
+      <td>${origen}</td>
 
       <td>
         <button onclick="contactarCliente(${c.id}, '${c.telefono}', '${c.nombre}')">
@@ -117,7 +114,7 @@ function renderCarritos(lista) {
 }
 
 // ===============================
-// CAMBIAR ESTADO ADMIN (FIX REAL)
+// CAMBIAR ESTADO
 // ===============================
 async function cambiarEstado(carritoId, nuevoEstado) {
   try {
@@ -140,20 +137,7 @@ async function cambiarEstado(carritoId, nuevoEstado) {
   }
   
   await cargarCarritos();
-
 }
-
-async function cargarMetricas() {
-  // ⚠️ Esta función NO actualiza el DOM
-  // Las métricas visibles se calculan desde CARROS_TODOS
-  const res = await fetch("/api/admin/dashboard/metricas");
-  const data = await res.json();
-
-  if (!data.ok) return;
-
-  const { metricas } = data;
-}
-
 
 function recalcularMetricasDesdeCarritos() {
   const ahora = Date.now();
@@ -172,9 +156,8 @@ function recalcularMetricasDesdeCarritos() {
     }
 
     if (c.fue_abandonado === 1) {
-  abandonados++;
-}
-
+      abandonados++;
+    }
 
     if (c.estado_admin === "abierto" && horas < 8) {
       pendientes++;
@@ -187,9 +170,8 @@ function recalcularMetricasDesdeCarritos() {
   document.getElementById("m-pendientes").textContent = pendientes;
 }
 
-
 // ===============================
-// DETALLE DE CARRITO
+// DETALLE
 // ===============================
 async function verDetalle(id) {
   const res = await fetch(`/api/admin/carritos/${id}/detalle`);
@@ -249,7 +231,7 @@ function contactarCliente(carritoId, telefono, nombre) {
 }
 
 // ===============================
-// FILTROS
+// FILTROS POR ESTADO
 // ===============================
 function mostrarTodos() {
   renderCarritos(CARROS_TODOS);
@@ -282,7 +264,6 @@ function mostrarAbandonados() {
   renderCarritos(abandonados);
 }
 
-
 // ===============================
 // INIT
 // ===============================
@@ -290,9 +271,12 @@ document.addEventListener("DOMContentLoaded", () => {
   cargarCarritos();
 });
 
-
-
+// ===============================
+// CARGAR ABANDONADOS (UNICA VERSION)
+// ===============================
 async function cargarCarritosAbandonados() {
+  if (filtroActivo) return [];
+
   try {
     const res = await fetch("/api/carritos/abandonados");
     const data = await res.json();
@@ -315,12 +299,8 @@ async function cargarCarritosAbandonados() {
   }
 }
 
-
-
-//filtradodashboard
-
 // ===============================
-// BOTONES DE FILTRO
+// FILTROS DE FECHA
 // ===============================
 function filtrarFecha(tipo) {
   filtroActual = `filtro=${tipo}`;
@@ -328,8 +308,16 @@ function filtrarFecha(tipo) {
 }
 
 function filtrarRango() {
-  const desde = document.getElementById("desde").value;
-  const hasta = document.getElementById("hasta").value;
+  const desdeInput = document.getElementById("desde");
+  const hastaInput = document.getElementById("hasta");
+
+  if (!desdeInput || !hastaInput) {
+    alert("No existen los campos de fecha en el HTML");
+    return;
+  }
+
+  const desde = desdeInput.value;
+  const hasta = hastaInput.value;
 
   if (!desde || !hasta) {
     alert("Selecciona ambas fechas");
@@ -338,4 +326,23 @@ function filtrarRango() {
 
   filtroActual = `desde=${desde}&hasta=${hasta}`;
   cargarCarritos();
+}
+
+
+
+
+
+// ===============================
+// ALIAS PARA BOTONES (FIX)
+// ===============================
+function filtrarHoy() {
+  filtrarFecha("hoy");
+}
+
+function filtrarAyer() {
+  filtrarFecha("ayer");
+}
+
+function filtrarMes() {
+  filtrarFecha("mes");
 }
