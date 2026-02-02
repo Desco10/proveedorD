@@ -532,7 +532,7 @@ function filtrarCatalogo(texto) {
     document.getElementById("productos").innerHTML = `
       <div class="mensaje-no-resultados">
         <p>Lo sentimos, por ahora no tenemos ese producto disponible.</p>
-        <p>Intenta con otro producto o mira nuestro catálogo completo.</p>
+        <p>Intenta con otro producto o mira nuestros catálogos completos.</p>
       </div>
     `;
     ocultarPaginacion();
@@ -958,44 +958,79 @@ ${urlProducto}
 
 // LOGIN Y REGISTRO detectar genero
 function detectarGenero(nombre) {
-  if (!nombre) return "bienvenido";
+  if (!nombre) return "Bienvenido";
 
   const limpio = nombre
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
+    .toString()
     .trim()
-    .toLowerCase();
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
 
-  if (limpio.endsWith("a")) {
-    return "bienvenida";
-  }
+  // Tomar SOLO el primer nombre
+  const primerNombre = limpio.split(" ")[0];
 
-  if (limpio.endsWith("o")) {
-    return "bienvenido";
-  }
+  if (primerNombre.endsWith("a")) return "Bienvenida";
+  if (primerNombre.endsWith("o")) return "Bienvenido";
 
-  return "bienvenido";
+  return "Bienvenido";
 }
 
+
 function actualizarMensajeBienvenida() {
+ 
+
   if (!mensajeBienvenida) return;
-  if (!usuarioActual) {
-    usuarioActual = isLoginVigente() ? JSON.parse(localStorage.getItem("cliente")) : null;
-  }
+
+  let usuarioActual = isLoginVigente()
+    ? JSON.parse(localStorage.getItem("cliente"))
+    : null;
+
   if (!usuarioActual) {
     mensajeBienvenida.innerHTML = "";
     return;
   }
 
-  const nombre = (usuarioActual.nombre || "").toUpperCase();
-  const genero = usuarioActual.genero
-  ? (usuarioActual.genero === "F" ? "Bienvenida" : "Bienvenido")
-  : detectarGenero(usuarioActual.nombre);
+  const nombreOriginal = usuarioActual.nombre || "";
+  const nombre = nombreOriginal.toUpperCase();
 
+  // Limpio para detectar bien
+  const limpio = nombreOriginal
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .toLowerCase();
 
+  // Detectar por nombre
+  let generoDetectado = detectarGenero(nombreOriginal); // bienvenida/bienvenido
+
+  // 🚨 CORRECCIÓN DE DATOS VIEJOS (como Karen)
+  if (limpio.endsWith("a")) {
+    generoDetectado = "bienvenida";
+  }
+
+  if (limpio.endsWith("o")) {
+    generoDetectado = "bienvenido";
+  }
+
+  // 🧠 Si viene género guardado, solo respetarlo si NO contradice el nombre
+  if (usuarioActual.genero === "F" && !limpio.endsWith("o")) {
+    generoDetectado = "bienvenida";
+  }
+
+  if (usuarioActual.genero === "M" && !limpio.endsWith("a")) {
+    generoDetectado = "bienvenido";
+  }
+
+  if (!mensajeBienvenida.dataset.locked) {
+  mensajeBienvenida.dataset.locked = "true";
   mensajeBienvenida.innerHTML = `
-    ¡${genero}, <b>${nombre}</b>!
+    ¡${generoDetectado.charAt(0).toUpperCase() + generoDetectado.slice(1)}, <b>${nombre}</b>!
   `;
+}
+
+
+  
 }
 
 // CERRAR SESIÓN
