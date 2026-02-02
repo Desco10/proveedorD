@@ -2,7 +2,7 @@
   {
     "id": 1,
     "nombre": "Advil Gripa Max",
-    "precio": "$15.000",
+    "precio": "$15.000 (Ristra x 12)",
     "descripcion": "Tabletas para dolor y fiebre",
     "imagen": "/img/carofer/produc/advilgripamax.jpg",
     "badge": " Oferta",
@@ -11,7 +11,7 @@
   {
     "id": 2,
     "nombre": "Alcohol Medicinal 500ml",
-    "precio": "$8.500",
+    "precio": "$8.500 (unidad )",
     "descripcion": "Alcohol para limpieza y desinfección",
     "imagen": "/img/carofer/produc/alcoholmedi.jpg",
     "badge": "💧 Destacado",
@@ -20,7 +20,7 @@
   {
     "id": 3,
     "nombre": "Aceite de Almendras",
-    "precio": "$12.000",
+    "precio": "$12.000 (Ristra x 12)",
     "descripcion": "Aceite nutritivo para la piel",
     "imagen": "/img/carofer/produc/ACEITEALMENDRAS.jpg",
     "badge": "🌿 Natural",
@@ -30,7 +30,7 @@
   {
     "id": 4,
     "nombre": "Acetaminofen ",
-    "precio": "$10.000",
+    "precio": "$10.000 (Ristra x 12)",
     "descripcion": "Analgésico y antiinflamatorio",
     "imagen": "img/carofer/produc/ACETAMINOFEN.jpg",
     "badge": "🔥 Oferta",
@@ -39,7 +39,7 @@
   {
     "id": 5,
     "nombre": "ApronaxL ",
-    "precio": "$18.000",
+    "precio": "$18.000 (Ristra x 12)",
     "descripcion": "Crema para el cuidado de la piel",
     "imagen": "img/carofer/produc/apronax.jpg",
     "badge": "💧 Destacado",
@@ -48,7 +48,7 @@
   {
     "id": 6,
     "nombre": "Advil max ",
-    "precio": "$22.000",
+    "precio": "$22.000 (Ristra x 12)",
     "descripcion": "Probiótico para la salud intestinal",
     "imagen": "img/carofer/produc/Advilmax.jpeg",
     "badge": "🌿 Natural",

@@ -837,6 +837,8 @@ function ocultarCerrarSesion() {
 
 // ENVIAR WHATSAPP (CATÁLOGO) - VERSIÓN ENTERPRISE AJUSTADA
 
+// ENVIAR WHATSAPP (CATÁLOGO) - VERSIÓN FINAL SIN PRESENTACION
+
 async function enviarWhatsApp(producto, cliente = null, proveedor = null) {
   try {
 
@@ -888,18 +890,19 @@ async function enviarWhatsApp(producto, cliente = null, proveedor = null) {
     // 📦 PRODUCTO
     // ===============================
     const nombreProducto = `🔥 *${producto.nombre.toUpperCase()}*`;
-    const precio = `*PRECIO:* *${producto.precio?.toUpperCase ? producto.precio.toUpperCase() : producto.precio}*`;
-    const descripcion = producto.descripcion ? producto.descripcion : "";
+    const descripcion = producto.descripcion || "";
+
+    // 🔑 AQUÍ QUEDA CLARO PRECIO + CANTIDAD
+    const precioTexto = producto.precio || "";
+    const precio = `*PRECIO:* *${precioTexto.toUpperCase()}*`;
 
     // ===============================
-    // 🧠 CONTROL DE CONVERSACIÓN (CLAVE)
+    // 🧠 CONTROL DE CONVERSACIÓN
     // ===============================
     const conversacionIniciada = sessionStorage.getItem("wa_iniciado");
-
     let mensaje = "";
 
     if (!conversacionIniciada) {
-      // 🟢 PRIMER MENSAJE
       sessionStorage.setItem("wa_iniciado", "1");
 
       mensaje = 
@@ -916,7 +919,6 @@ ${logoProveedorUrl ? `Logo: ${logoProveedorUrl}` : ""}
 ${urlProducto}
 `;
     } else {
-      // 🔵 PRODUCTOS SIGUIENTES (INTENCIÓN ACUMULADA)
       mensaje =
 `Y también quiero comprar este producto:
 
@@ -937,13 +939,13 @@ ${urlProducto}
     window.open(url, "_blank");
 
     // ===============================
-    // 🛒 NUEVO — REGISTRO DE INTENCIÓN (CARRITO LÓGICO)
+    // 🛒 REGISTRO EN CARRITO LÓGICO
     // ===============================
     if (typeof agregarProductoAlCarrito === "function") {
       agregarProductoAlCarrito({
         id: producto.id,
         nombre: producto.nombre,
-        precio: producto.precio,
+        precio: producto.precio, // ← con "(SOBRE X10)"
         proveedorId: producto.proveedorId,
         imagen: producto.imagen || "",
       });
@@ -1303,9 +1305,13 @@ function enviarWhatsAppCarrusel(idProducto) {
       const logoUrl = makeAbsolute(logoProveedor || "");
 
       let mensajeTexto = `Hola Soy ${cliente?.nombre || ""}, quiero comprar este producto:\n\n`;
-      mensajeTexto += `*${producto.nombre}*\n`;
+     mensajeTexto += `🔥 *${producto.nombre.toUpperCase()}*\n`;
+
       if (producto.descripcion) mensajeTexto += `${producto.descripcion}\n`;
-      mensajeTexto += `Precio: ${producto.precio}\n\n`;
+      const precioFormateado = producto.precio?.toUpperCase?.() || producto.precio;
+
+      mensajeTexto += `*PRECIO:* ${precioFormateado}\n\n`;
+
       mensajeTexto += `Proveedor: ${nombreProveedor || "No disponible"}\n`;
       if (logoUrl) mensajeTexto += `Logo: ${logoUrl}\n`;
       if (imagenUrl) mensajeTexto += `Imagen: ${imagenUrl}\n`;
@@ -1672,8 +1678,17 @@ async function finalizarCompra() {
     mensaje += `🏪 *${prov.proveedorNombre}*\n`;
 
     prov.productos.forEach(p => {
-      mensaje += `- ${p.nombre} x${p.cantidad} → ${formatearPrecio(p.subtotalProducto)}\n`;
-    });
+  const presentacion = p.precio?.includes("(")
+    ? p.precio.split("(")[1].replace(")", "")
+    : "";
+
+  const nombreConPres = presentacion
+    ? `${p.nombre} (${presentacion})`
+    : p.nombre;
+
+  mensaje += `- ${nombreConPres} x${p.cantidad} → ${formatearPrecio(p.subtotalProducto)}\n`;
+});
+
 
     mensaje += `Subtotal: ${formatearPrecio(prov.subtotal)}\n\n`;
     totalGeneral += prov.subtotal;
