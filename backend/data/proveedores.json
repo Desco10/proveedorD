@@ -1,12 +1,13 @@
 [
   {
   "id": 1,
-  "nombre": "Aceite Bebe 100ml",
-  "precio": "$6897 (unidad)",
-  "imagen": "/img/p1/produc/ACEITEBEBE.jpg",
-  "descripcion": "suavecito con tu piel...",
-  "oferta": true,
-  "proveedorId": 1
+   "nombre": "AUTENTICA COSMETICS ",
+    "logo": "/img/banner.jpeg",
+    "descripcion": "Medicamentos y productos de cuidado personal.",
+    "color": "#E3F2FD",
+    "banner": "/img/logo.png",
+    "colorDetalles": "#1565C0",
+    "detalles": "Nuestro tope de pedido es de $ 100.000\nDespachamos  en todo el Departamento del Cauca "
 },
   {
     "id": 2,
