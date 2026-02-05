@@ -417,7 +417,8 @@ async function abrirProveedor(id, nombre) {
 
       tituloEl.innerHTML = `
   <div class="header-catalogo">
-    <button class="btn-volver" onclick="volverAProveedores()">⬅ Volver a proveedores</button>
+  <button class="btn-volver" onclick="confirmarSalidaProveedor(this)">⬅ Volver a proveedores</button>
+
     ${logoHtml}
 
     <div>
@@ -588,6 +589,43 @@ function filtrarCatalogo(texto) {
     ocultarPaginacion();
   }
 }
+
+
+let estadoSalirProveedor = false;
+let timerSalirProveedor = null;
+
+function confirmarSalidaProveedor(btn) {
+  if (!proveedorActual) return;
+
+  if (!estadoSalirProveedor) {
+    estadoSalirProveedor = true;
+
+    const nombre = proveedorActual.nombre;
+    btn.dataset.textoOriginal = btn.innerText;
+
+    btn.innerText = `¿Salir de ${nombre}?`;
+    btn.classList.add("btn-confirmar-salida");
+
+    timerSalirProveedor = setTimeout(() => {
+      resetearBotonSalirProveedor(btn);
+    }, 4000);
+
+    return;
+  }
+
+  // SEGUNDO CLICK → sale realmente
+  resetearBotonSalirProveedor(btn);
+  volverAProveedores();
+}
+
+function resetearBotonSalirProveedor(btn) {
+  estadoSalirProveedor = false;
+  clearTimeout(timerSalirProveedor);
+  btn.innerText = btn.dataset.textoOriginal;
+  btn.classList.remove("btn-confirmar-salida");
+}
+
+
 
 // MOSTRAR PRODUCTOS
 
