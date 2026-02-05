@@ -355,33 +355,38 @@ async function cargarProveedores() {
     const res = await fetch("/data/proveedores.json");
     const proveedores = await res.json();
 
+    // ✅ Guardar cache aquí (donde existe la variable)
+    localStorage.setItem("proveedores_cache", JSON.stringify(proveedores));
+
     if (!contenedorProveedores) {
       console.error("contenedorProveedores no encontrado en el DOM.");
       return;
     }
 
     contenedorProveedores.innerHTML = proveedores.map(p => `
-  <div class="card-proveedor"
-       onclick="requireLogin(() => abrirProveedor('${p.id}', '${p.nombre}'))">
-    
-    <div class="logo-wrapper">
-      <img src="${p.logo}" alt="${p.nombre}">
-    </div>
+      <div class="card-proveedor"
+           onclick="requireLogin(() => abrirProveedor('${p.id}', '${p.nombre}'))">
+        
+        <div class="logo-wrapper">
+          <img src="${p.logo}" alt="${p.nombre}">
+        </div>
 
-    <h3>${p.nombre}</h3>
-  </div>
-`).join('');
+        <h3>${p.nombre}</h3>
+      </div>
+    `).join('');
 
     proveedorActual = null;
     ocultarPaginacion();
-
     restoreAllMedia({ unmute: false, tryPlay: true });
 
   } catch (error) {
-    if (contenedorProveedores) contenedorProveedores.innerHTML = "<p>Error al cargar los proveedores.</p>";
+    if (contenedorProveedores) {
+      contenedorProveedores.innerHTML = "<p>Error al cargar los proveedores.</p>";
+    }
     console.error("Error al cargar proveedores:", error);
   }
 }
+
 
 // ABRIR CATÁLOGO DE PROVEEDOR
 
@@ -482,6 +487,8 @@ window.abrirProveedor = abrirProveedor;
 
 function volverAProveedores() {
   contenedorProductos.innerHTML = "";
+  history.pushState({}, "", "/");
+
   const tituloEl = document.getElementById("tituloCatalogo");
   if (tituloEl) tituloEl.innerHTML = "🏪 Revisa Aqui tu proveedor";
   proveedorActual = null;
@@ -835,7 +842,6 @@ function ocultarCerrarSesion() {
 }
 
 
-// ENVIAR WHATSAPP (CATÁLOGO) - VERSIÓN ENTERPRISE AJUSTADA
 
 // ENVIAR WHATSAPP (CATÁLOGO) - VERSIÓN FINAL SIN PRESENTACION
 
@@ -1379,7 +1385,13 @@ window.addEventListener("DOMContentLoaded", () => {
 
   if (contenedorProveedores) {
     console.log("🟢 Cargando proveedores...");
-    cargarProveedores();
+    cargarProveedores().then(() => {
+  const slug = obtenerSlugDesdeURL();
+  if (slug) {
+    abrirProveedorPorSlug(slug);
+  }
+});
+
   }
 
   if (contenedorCarrusel) {
@@ -1950,17 +1962,6 @@ document.addEventListener("DOMContentLoaded", renderCarrito);
 
 
 
-async function cargarProveedoresEnCache() {
-  try {
-    const res = await fetch("/data/proveedores.json");
-    const proveedores = await res.json();
-    localStorage.setItem("proveedores_cache", JSON.stringify(proveedores));
-  } catch (e) {
-    console.warn("No se pudieron cargar proveedores");
-  }
-}
-
-cargarProveedoresEnCache();
 
 
 function obtenerNombreProveedor(proveedorId) {
@@ -2208,4 +2209,27 @@ if (!clienteId) {
   }
 
   return null;
+}
+
+
+
+/*funciones slug para link proveedor independiente*/
+
+function obtenerSlugDesdeURL() {
+  const path = window.location.pathname.replace(/^\/+|\/+$/g, "");
+  return path || null;
+}
+
+function getProveedorPorSlug(slug) {
+  const cache = JSON.parse(localStorage.getItem("proveedores_cache")) || [];
+  return cache.find(p => p.slug === slug && p.urlActiva === true) || null;
+}
+
+function abrirProveedorPorSlug(slug) {
+  const prov = getProveedorPorSlug(slug);
+  if (!prov) return;
+
+  requireLogin(() => {
+    abrirProveedor(prov.id, prov.nombre);
+  });
 }

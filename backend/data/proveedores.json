@@ -2,6 +2,8 @@
   {
   "id": 1,
    "nombre": "AUTENTICA COSMETICS ",
+   "slug": "autentica",
+    "urlActiva": false,
     "logo": "/img/banner.jpeg",
     "descripcion": "Medicamentos y productos de cuidado personal.",
     "color": "#E3F2FD",
@@ -12,6 +14,8 @@
   {
     "id": 2,
     "nombre": "Laboratorios Salud Total",
+    "slug": "labsalud",
+    "urlActiva": true,
     "logo": "/img/banner.jpeg",
     "descripcion": "Medicamentos y productos de cuidado personal.",
     "color": "#E3F2FD",
@@ -23,6 +27,8 @@
   {
     "id": 3,
     "nombre": "Super Alimentos del Cauca",
+    "slug": "superalimentos",
+    "urlActiva": true,
     "logo": "/img/bianchi.jpg",
     "descripcion": "Snacks, bebidas y productos comestibles.",
     "color": "#FFF3E0",
@@ -33,6 +39,9 @@
   {
     "id": 4,
     "nombre": "Desco tiendas",
+    "slug": "descotiendas",
+    "urlActiva": true,
+
     "logo": "/img/p4/logo/LOGODESCO.png",
     "descripcion": "Snacks, bebidas y productos comestibles a toda hora .",
     "color": "#1E88E5",
