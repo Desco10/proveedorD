@@ -363,7 +363,10 @@ async function cargarProveedores() {
       return;
     }
 
-    contenedorProveedores.innerHTML = proveedores.map(p => `
+    const proveedoresVisibles = proveedores.filter(p => p.visible !== false);
+
+     contenedorProveedores.innerHTML = proveedoresVisibles.map(p => `
+
       <div class="card-proveedor"
            onclick="requireLogin(() => abrirProveedor('${p.id}', '${p.nombre}'))">
         
@@ -372,6 +375,7 @@ async function cargarProveedores() {
         </div>
 
         <h3>${p.nombre}</h3>
+        <h3>${p.descripcion}</h3>
       </div>
     `).join('');
 
@@ -418,6 +422,7 @@ async function abrirProveedor(id, nombre) {
       tituloEl.innerHTML = `
   <div class="header-catalogo">
   <button class="btn-volver" onclick="confirmarSalidaProveedor(this)">⬅ Volver a proveedores</button>
+ 
 
     ${logoHtml}
 
@@ -663,6 +668,7 @@ function mostrarProductos(animar = true) {
 
   <p class="producto-precio">${prod.precio}</p>
   
+ 
 
  
   <div class="card-actions">

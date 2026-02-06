@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+/*document.addEventListener("DOMContentLoaded", () => {
   const proveedoresContainer = document.getElementById("proveedores");
   const productosContainer = document.getElementById("productos");
   const paginacionContainer = document.getElementById("paginacion");
@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.addEventListener("click", (e) => {
         const nombre = e.target.getAttribute("data-nombre");
         const precio = e.target.getAttribute("data-precio");
-        const mensaje = `👋 Hola, estoy interesado en comprar *${nombre}* por ${precio}. ¿Está disponible?`;
+        const mensaje = ` Hola, estoy interesado en comprar *${nombre}* por ${precio}. ¿Está disponible?`;
         const url = `https://wa.me/573245961645?text=${encodeURIComponent(mensaje)}`;
         window.open(url, "_blank");
       });
@@ -155,4 +155,4 @@ document.addEventListener("DOMContentLoaded", () => {
       carrusel.appendChild(item);
     });
   }
-});
+}); */

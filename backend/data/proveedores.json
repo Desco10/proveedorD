@@ -3,13 +3,17 @@
   "id": 1,
    "nombre": "AUTENTICA COSMETICS ",
    "slug": "autentica",
-    "urlActiva": false,
+    "urlActiva": true,
     "logo": "/img/banner.jpeg",
     "descripcion": "Medicamentos y productos de cuidado personal.",
     "color": "#E3F2FD",
     "banner": "/img/logo.png",
     "colorDetalles": "#1565C0",
-    "detalles": "Nuestro tope de pedido es de $ 100.000\nDespachamos  en todo el Departamento del Cauca "
+    "detalles": "Nuestro tope de pedido es de $ 100.000\nDespachamos  en todo el Departamento del Cauca ",
+    "visible": true
+
+
+
 },
   {
     "id": 2,
@@ -21,7 +25,8 @@
     "color": "#E3F2FD",
     "banner": "/img/logo.png",
     "colorDetalles": "#1565C0",
-    "detalles": "Nuestro tope de pedido es de $ 100.000\nDespachamos  en todo el Departamento del Cauca "
+    "detalles": "Nuestro tope de pedido es de $ 100.000\nDespachamos  en todo el Departamento del Cauca ",
+    "visible": true
   },
   
   {
@@ -34,7 +39,10 @@
     "color": "#FFF3E0",
     "banner":"/img/iniciobanner.jpg",
     "colorDetalles": "#42A5F5",
-    "detalles": "Nuestro tope de pedido es de $ 100.000\nDescuentos hoy\nestamos ubicados  en POPAYAN "
+    "detalles": "Nuestro tope de pedido es de $ 100.000\nDescuentos hoy\nestamos ubicados  en POPAYAN ",
+    "visible": true
+
+
   },
   {
     "id": 4,
@@ -47,7 +55,8 @@
     "color": "#1E88E5",
     "banner":"/img/p4/banner/minimarketbanne.png",
     "colorDetalles": "#ff6f00",
-    "detalles": "Tope de pedido $40.000\nDías de entrega: Lunes, Miércoles y Viernes\nPopayán\nPago contra entrega"
+    "detalles": "Tope de pedido $40.000\nDías de entrega: Lunes, Miércoles y Viernes\nPopayán\nPago contra entrega",
+    "visible": true
 
   }
   

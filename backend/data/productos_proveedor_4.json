@@ -5,6 +5,7 @@
   "precio": "$20.700 (sobre x10)",
   "imagen": "img/p4/produc/1-advilmax.jpg",
   "descripcion": "Advil Max: contiene ibuprofeno; sirve para aliviar dolor fuerte, inflamación y fiebre.",
+  "presentacion": "cojín",
   "oferta": true,
   "proveedorId": 4
 },
@@ -15,6 +16,7 @@
     "precio": "$20.700 (sobre x10)",
     "imagen": "img/p4/produc/2-advilultra.png",
     "descripcion": "Advil Ultra: contiene ibuprofeno y cafeína; sirve para aliviar el dolor de cabeza asociado a la migraña.",
+    "presentacion": "caja",
     "oferta": false,
     "proveedorId": 4
   },
@@ -24,6 +26,7 @@
     "precio": "$21.800 (sobre x10)",
     "imagen": "img/p4/produc/3-advilgripa.jpeg",
     "descripcion": "Advil Gripa: contiene ibuprofeno, fenilefrina y clorfeniramina; sirve para aliviar dolor, fiebre, congestión y síntomas de la gripa y resfriado común.",
+    "presentacion": "caja",
     "oferta": false,
     "proveedorId": 4
     
@@ -692,6 +695,7 @@
     "precio": "$10.996 (Ristra x 12)",
     "imagen": "img/p4/produc/70-hysrosado.png",
     "descripcion": "Shampoo Hys Rosado (cojín): producto de higiene capilar con agentes limpiadores y acondicionadores suaves; sirve para limpiar el cabello y el cuero cabelludo, dejando el pelo suave y con fragancia.",
+    
     "oferta": true,
     "proveedorId": 4
   },

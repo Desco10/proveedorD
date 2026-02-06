@@ -3248,7 +3248,7 @@ footer .mensaje-temporada.active {
   transform: translateY(-1px);
 }
 
-
+/*botn salida volver a proveedores confirmar salida */
 .btn-confirmar-salida {
   background: linear-gradient(135deg, #ff4d4d, #b30000);
   color: #fff !important;
@@ -3257,7 +3257,7 @@ footer .mensaje-temporada.active {
   font-weight: 700;
   letter-spacing: 0.4px;
   text-transform: uppercase;
-  padding: 10px 18px;
+  padding: 5px 10px;
   box-shadow:
     0 4px 12px rgba(0, 0, 0, 0.25),
     inset 0 1px 0 rgba(255, 255, 255, 0.25);
@@ -3293,3 +3293,6 @@ footer .mensaje-temporada.active {
     0 2px 8px rgba(0, 0, 0, 0.35),
     inset 0 2px 4px rgba(0, 0, 0, 0.25);
 }
+
+
+
