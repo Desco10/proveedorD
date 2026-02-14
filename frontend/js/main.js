@@ -910,7 +910,12 @@ async function enviarWhatsApp(producto, cliente = null, proveedor = null) {
       try {
         const resProv = await fetch("/data/proveedores.json");
         const provs = await resProv.json();
-        proveedor = provs.find(p => Number(p.id) === Number(producto.proveedorId)) || null;
+        proveedor = provs.find(p =>
+         String(p.id).trim() === String(producto.proveedorId).trim()
+         ) || null;
+         console.log("PROVEEDOR ENCONTRADO:", proveedor);
+
+
       } catch (err) {
         console.warn("No se pudo leer proveedores.json:", err);
       }
@@ -981,12 +986,15 @@ ${urlProducto}
 `;
     }
 
-    // ===============================
-    // 📲 ENVÍO WHATSAPP
-    // ===============================
-    const numero = proveedor?.whatsapp || producto.whatsapp || WHATSAPP_EMPRESA;
-    const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
-    window.open(url, "_blank");
+    
+// 📲 ENVÍO WHATSAPP (EMPRESA)
+// ===============================
+const numeroEmpresa = WHATSAPP_EMPRESA;
+const numero = numeroEmpresa;
+
+const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
+window.open(url, "_blank");
+
 
     // ===============================
     // 🛒 REGISTRO EN CARRITO LÓGICO

@@ -56,7 +56,13 @@
     "banner":"/img/p4/banner/minimarketbanne.png",
     "colorDetalles": "#ff6f00",
     "detalles": "Tope de pedido $40.000\nDías de entrega: Lunes, Miércoles y Viernes\nPopayán\nPago contra entrega",
-    "visible": true
+    "visible": true,
+
+    "whatsapp": {
+    "activo": true,
+    "numero": "573246030396"
+     }
+
 
   }
   
