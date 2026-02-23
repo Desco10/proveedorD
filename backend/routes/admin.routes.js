@@ -6,6 +6,22 @@ const router = express.Router();
 // ===============================
 const { loginAdmin } = require("../controllers/adminAuthController");
 
+
+
+const verifyToken = require('../middlewares/authMiddleware');
+const { obtenerDashboard } = require('../controllers/adminController');
+
+// Ruta protegida
+router.get('/dashboard', verifyToken, obtenerDashboard);
+
+
+const authMiddleware = require('../middlewares/authMiddleware');
+
+router.get('/dashboard', authMiddleware, dashboardResumen);
+router.get('/carritos', authMiddleware, listarCarritosAdmin);
+
+
+
 const {
   dashboardResumen,
   metricasDashboard
