@@ -2086,7 +2086,9 @@ function decidirCompra(producto) {
 
   // ✅ Si ya decidió antes, ejecuta sin preguntar
   if (decisionGuardada === "whatsapp") {
-    enviarWhatsApp(producto);
+    // sessionStorage ya no guarda WhatsApp activado
+    // enviarWhatsApp(producto); // ⚠️ desactivado por ahora
+    agregarProductoAlCarrito(producto); // por seguridad agregamos al carrito
     return;
   }
 
@@ -2095,7 +2097,7 @@ function decidirCompra(producto) {
     return;
   }
 
-  // 🟡 No hay decisión → mostrar modal
+  // 🟡 No hay decisión → mostrar modal (aunque WhatsApp está comentado)
   const overlay = document.createElement("div");
   overlay.className = "compra-overlay";
 
@@ -2103,13 +2105,15 @@ function decidirCompra(producto) {
   modal.className = "compra-modal";
 
   modal.innerHTML = `
-    <h3>¿Cómo deseas comprar?</h3>
+    <h3>¿Estas comparando?</h3>
     <p>${producto.nombre}</p>
 
     <div class="compra-botones">
+      <!-- WhatsApp desactivado temporalmente
       <button class="btn-compra-wsp">
         Comprar por WhatsApp
       </button>
+      -->
 
       <button class="btn-compra-carrito">
         Agregar al carrito
@@ -2118,20 +2122,21 @@ function decidirCompra(producto) {
 
     <button class="btn-compra-cancelar">Cancelar</button>
     <p class="compra-micro">
-  Puedes cambiar esto cuando quieras
-</p>
-
+      Te agradecemos por estar aqui
+    </p>
   `;
 
   overlay.appendChild(modal);
   document.body.appendChild(overlay);
 
-  // WhatsApp
+  // WhatsApp comentado
+  /*
   modal.querySelector(".btn-compra-wsp").onclick = () => {
     sessionStorage.setItem(DECISION_COMPRA_KEY, "whatsapp");
     enviarWhatsApp(producto);
     cerrar();
   };
+  */
 
   // Carrito
   modal.querySelector(".btn-compra-carrito").onclick = () => {
@@ -2150,7 +2155,6 @@ function decidirCompra(producto) {
     overlay.remove();
   }
 }
-
 
 
 function limpiarCarrito() {
