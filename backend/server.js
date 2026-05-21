@@ -1,7 +1,4 @@
-require("dotenv").config({
-  path: __dirname + "/.env",
-  quiet: true
-});
+require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
@@ -12,7 +9,13 @@ const app = express();
 // =====================
 // MIDDLEWARES GLOBALES
 // =====================
-app.use(cors());
+app.use(cors({
+  origin: [
+    "https://descoapp.com",
+    "https://www.descoapp.com"
+  ],
+  credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -81,10 +84,25 @@ app.get("*", (req, res) => {
 // =====================
 // SERVER
 // =====================
+
+
+
+// =====================
+// MANEJO GLOBAL DE ERRORES
+// =====================
+app.use((err, req, res, next) => {
+  console.error("❌ Error:", err.stack);
+
+  res.status(500).json({
+    ok: false,
+    message: "Error interno del servidor"
+  });
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`🚀 Servidor corriendo en puerto ${PORT}`);
   console.log(`📁 Frontend: ${FRONTEND_PATH}`);
   console.log(`📊 Data: ${DATA_PATH}`);
 });
