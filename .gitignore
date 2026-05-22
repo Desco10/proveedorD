@@ -2,8 +2,6 @@
 .env
 .env.*
 
-# Configuración sensible
-backend/config/db.js
 
 # Dependencias
 node_modules/
