@@ -4,6 +4,16 @@
 // FUNCIONES DE VALIDACIÓN (NUEVAS)
 // ============================================
 
+
+
+ const API_URL =
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1"
+    ? "http://localhost:3000"
+    : "";
+
+
+
 // Validar cédula colombiana
 function validarCedula(cedula) {
   const limpia = String(cedula).replace(/\D/g, '');
@@ -1186,7 +1196,7 @@ if (formRegistro) {
     }
 
     try {
-      const res = await fetch("/api/clientes/registrar", {
+      const res = await fetch(`${API_URL}/api/clientes/registrar`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -1269,7 +1279,7 @@ if (formLogin) {
 
 async function loginBackend(cedula) {
   try {
-    const res = await fetch("/api/clientes/autologin", {
+    const res = await fetch(`${API_URL}/api/clientes/autologin`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ cedula })
