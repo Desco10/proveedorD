@@ -1202,7 +1202,7 @@ if (formRegistro) {
       const data = await res.json();
 
       if (!data.ok) {
-        mostrarErrorForm(data.mensaje || "No se pudo registrar el cliente.", 'registroErrorMsg');
+       mostrarErrorForm(data.msg || data.error || "No se pudo registrar el cliente.", 'registroErrorMsg');
         return;
       }
 
