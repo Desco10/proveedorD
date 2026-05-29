@@ -1269,7 +1269,7 @@ if (formLogin) {
 
 async function loginBackend(cedula) {
   try {
-    const res = await fetch("http://localhost:3000/api/clientes/autologin", {
+    const res = await fetch("/api/clientes/autologin", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ cedula })
@@ -1468,7 +1468,7 @@ async function autologinBackend() {
   }
 
   try {
-    const res = await fetch("http://localhost:3000/api/clientes/autologin", {
+    const res = await fetch("/api/clientes/autologin", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ cedula: local.cedula })
