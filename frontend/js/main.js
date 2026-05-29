@@ -1186,7 +1186,7 @@ if (formRegistro) {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/api/clientes/registrar", {
+      const res = await fetch("/api/clientes/registrar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
