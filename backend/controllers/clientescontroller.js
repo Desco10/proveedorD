@@ -18,6 +18,8 @@ module.exports = {
     // ================================
     registrarCliente: async (req, res) => {
         try {
+
+            console.log("🚀 VERSION DEBUG 2026");
             let { nombre, cedula, telefono, direccion } = req.body;
 
             // Sanitizar datos
