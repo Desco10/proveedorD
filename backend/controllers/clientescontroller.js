@@ -58,9 +58,18 @@ module.exports = {
 
             return res.json({ ok: true, msg: "Cliente registrado correctamente." });
 
-        } catch (error) {
-            console.error("Error registrarCliente:", error);
-            return res.status(500).json({ ok: false, msg: "Error en el servidor." });
+                } catch (error) {
+
+            console.error("🔥 ERROR REGISTRO CLIENTE:");
+            console.error(error);
+
+            return res.status(500).json({
+                ok: false,
+                message: error.message,
+                code: error.code,
+                sqlMessage: error.sqlMessage
+            });
+
         }
     },
 
