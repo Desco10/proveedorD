@@ -1783,7 +1783,12 @@ async function finalizarCompra() {
 
   const cliente = JSON.parse(localStorage.getItem("cliente") || "{}");
 
-const nombreCliente = cliente.nombre || "No registrado";
+const nombreCliente = cliente.nombre || "";
+const apellidoCliente = cliente.apellido || "";
+
+const nombreCompleto =
+`${nombreCliente} ${apellidoCliente}`.trim() || "No registrado";
+
 const cedulaCliente = cliente.cedula || "No registrada";
 const telefonoCliente = cliente.telefono || "No registrado";
 const direccionCliente = cliente.direccion || "No registrada";
@@ -1792,7 +1797,7 @@ const direccionCliente = cliente.direccion || "No registrada";
 
 👤 *DATOS DEL CLIENTE*
 
-Nombre: ${nombreCliente}
+Nombre: ${nombreCompleto}
 Cédula: ${cedulaCliente}
 Teléfono: ${telefonoCliente}
 Dirección: ${direccionCliente}
