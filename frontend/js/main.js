@@ -1780,7 +1780,26 @@ async function finalizarCompra() {
   }
 
   const proveedores = agruparPorProveedor(carrito.items);
-  let mensaje = `🧾 *RESUMEN FINAL DE COMPRA*\n\n`;
+
+  const cliente = JSON.parse(localStorage.getItem("cliente") || "{}");
+
+const nombreCliente = cliente.nombre || "No registrado";
+const cedulaCliente = cliente.cedula || "No registrada";
+const telefonoCliente = cliente.telefono || "No registrado";
+const direccionCliente = cliente.direccion || "No registrada";
+  let mensaje =
+`🧾 *RESUMEN FINAL DE COMPRA*
+
+👤 *DATOS DEL CLIENTE*
+
+Nombre: ${nombreCliente}
+Cédula: ${cedulaCliente}
+Teléfono: ${telefonoCliente}
+Dirección: ${direccionCliente}
+
+--------------------------------
+
+`; 
   let totalGeneral = 0;
 
   proveedores.forEach(prov => {
