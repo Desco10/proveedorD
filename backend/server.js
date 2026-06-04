@@ -99,7 +99,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-console.log("🔥 SERVER VERSION 2026-06-03");
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {

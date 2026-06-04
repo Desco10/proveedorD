@@ -19,7 +19,7 @@ module.exports = {
     registrarCliente: async (req, res) => {
         try {
 
-            console.log("🚀 VERSION DEBUG 2026");
+           
             let { nombre, cedula, telefono, direccion } = req.body;
 
             // Sanitizar datos
@@ -62,17 +62,16 @@ module.exports = {
 
                 } catch (error) {
 
-            console.error("🔥 ERROR REGISTRO CLIENTE:");
-            console.error(error);
+    console.error("Error registrarCliente:", error);
 
-            return res.status(500).json({
-                ok: false,
-                message: error.message,
-                code: error.code,
-                sqlMessage: error.sqlMessage
-            });
+    return res.status(500).json({
+        ok: false,
+        msg: "Error en el servidor."
+    });
 
-        }
+  }
+
+        
     },
 
 
