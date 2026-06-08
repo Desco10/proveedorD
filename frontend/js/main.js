@@ -1156,7 +1156,7 @@ if (formRegistro) {
     datos.nombre = validNombre.valor;
 
     if (datos.apellido) {
-      const validApellido = validarNombre(datos.apellido);
+      const validApellido = validarApellido(datos.apellido);
       if (!validApellido.valido) {
         mostrarErrorForm('El apellido ' + validApellido.error.toLowerCase(), 'registroErrorMsg');
         document.getElementById("apellido")?.focus();
