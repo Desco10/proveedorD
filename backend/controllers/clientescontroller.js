@@ -20,14 +20,22 @@ module.exports = {
         try {
 
            
-            let { nombre, cedula, telefono, direccion } = req.body;
+           let {
+  nombre,
+  apellido,
+  cedula,
+  telefono,
+  direccion,
+  
+} = req.body;
 
             // Sanitizar datos
             nombre = sanitize(nombre);
             cedula = sanitize(cedula);
             telefono = sanitize(telefono);
             direccion = sanitize(direccion);
-
+            apellido = sanitize(apellido);
+            
             // Validaciones
             if (!regexNombre.test(nombre)) {
                 return res.status(400).json({ ok: false, msg: "Nombre inválido." });
@@ -54,9 +62,18 @@ module.exports = {
 
             // Insertar cliente
             await db.query(
-                "INSERT INTO clientes (nombre, cedula, telefono, direccion) VALUES (?, ?, ?, ?)",
-                [nombre, cedula, telefono, direccion]
-            );
+  `INSERT INTO clientes
+  (nombre, apellido, cedula, telefono, direccion)
+  VALUES (?, ?, ?, ?, ?)`,
+  [
+    nombre,
+    apellido,
+    cedula,
+    telefono,
+    direccion,
+    
+  ]
+);
 
             return res.json({ ok: true, msg: "Cliente registrado correctamente." });
 
