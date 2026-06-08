@@ -1219,6 +1219,7 @@ if (formRegistro) {
       const cliente = {
         id: data.id,
         nombre: datos.nombre,
+        apellido: datos.apellido,
         cedula: datos.cedula,
         telefono: datos.telefono,
         direccion: datos.direccion,
