@@ -26,15 +26,16 @@ module.exports = {
   cedula,
   telefono,
   direccion,
-  
+  genero
 } = req.body;
 
             // Sanitizar datos
             nombre = sanitize(nombre);
+            apellido = sanitize(apellido);
             cedula = sanitize(cedula);
             telefono = sanitize(telefono);
             direccion = sanitize(direccion);
-            apellido = sanitize(apellido);
+            
             
             // Validaciones
             if (!regexNombre.test(nombre)) {
@@ -60,17 +61,29 @@ module.exports = {
                 return res.status(400).json({ ok: false, msg: "La cédula ya está registrada." });
             }
 
+console.log("DATOS RECIBIDOS:");
+console.log({
+  nombre,
+  apellido,
+  cedula,
+  telefono,
+  direccion,
+  genero
+});
+
+
             // Insertar cliente
             await db.query(
   `INSERT INTO clientes
-  (nombre, apellido, cedula, telefono, direccion)
-  VALUES (?, ?, ?, ?, ?)`,
+  (nombre, apellido, cedula, telefono, direccion, genero)
+  VALUES (?, ?, ?, ?, ?, ?)`,
   [
     nombre,
     apellido,
     cedula,
     telefono,
     direccion,
+    genero
     
   ]
 );
