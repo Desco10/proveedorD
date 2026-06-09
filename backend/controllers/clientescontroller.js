@@ -29,6 +29,8 @@ module.exports = {
   genero
 } = req.body;
 
+console.log("BODY RECIBIDO:", req.body);
+
             // Sanitizar datos
             nombre = sanitize(nombre);
             apellido = sanitize(apellido);
