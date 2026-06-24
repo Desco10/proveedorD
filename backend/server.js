@@ -43,6 +43,16 @@ app.use("/api/admin", require("./routes/admin.routes"));
 const FRONTEND_PATH = path.join(__dirname, "..", "frontend");
 const DATA_PATH = path.join(__dirname, "data");
 
+//AGREGESTO  46
+const fs = require("fs");
+
+console.log("FRONTEND_PATH:", FRONTEND_PATH);
+console.log(
+  "EXISTE INDEX:",
+  fs.existsSync(path.join(FRONTEND_PATH, "index.html"))
+);
+//HASTA AQUI 54
+
 // =====================
 // DATA ESTÁTICA (JSON)
 // =====================
