@@ -68,7 +68,8 @@ module.exports = router;
 //});
 
 
-
+//Retomando proyecto desde commit 124e6c8
+//Fecha: 23-06-2026//
 
 
 
