@@ -64,7 +64,7 @@ body {
    =============================== */
 .logo-container {
   position: absolute;
-  top: -120px;
+  top: -70px;
   left: 46%;
   transform: translateX(-50%);
   z-index: 20;
@@ -75,13 +75,12 @@ body {
 .logo-wrap {
   position: relative;
   display: inline-block;
-  overflow: hidden; /* 🔒 AQUÍ SE CORTA EL BRILLO */
+  overflow: visible;
 }
 
-
 .logo {
-  width: 520px;
-  max-width: 95%;
+  width: 420px;
+  max-width: 90%;
   height: auto;
   display: block;
 }
