@@ -833,6 +833,7 @@ function cerrarModalAuth() {
 
 function onLoginExitoso(cliente) {
   localStorage.setItem("cliente", JSON.stringify(cliente));
+  localStorage.setItem("cliente_id", cliente.id);
   localStorage.setItem("loginTime", Date.now());
   usuarioActual = cliente;
 
@@ -1715,25 +1716,35 @@ async function agregarProductoAlCarrito(producto) {
     renderCarrito();
 
     // ============================
-    // 2️⃣ CARRITO REAL (BACKEND)
     // ============================
-    let carritoId = localStorage.getItem("carrito_backend_id");
+// 2️⃣ CARRITO REAL (BACKEND)
+// ============================
+let carritoId = localStorage.getItem("carrito_backend_id");
 
-    // SOLO crear carrito si NO existe ninguno
-    if (!carritoId) {
-      const res = await fetch("/api/carritos/obtener-o-crear", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          cliente_id: localStorage.getItem("cliente_id") || 1,
-          canal_envio: "web"
-        })
-      });
+// SOLO crear carrito si NO existe ninguno
+if (!carritoId) {
 
-      const data = await res.json();
-      carritoId = data.carrito.id;
-      localStorage.setItem("carrito_backend_id", carritoId);
-    }
+  const clienteId = localStorage.getItem("cliente_id");
+
+  if (!clienteId) {
+    console.error("No se encontró cliente_id en localStorage");
+    return;
+  }
+
+  const res = await fetch("/api/carritos/obtener-o-crear", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      cliente_id: Number(clienteId),
+      canal_envio: "web"
+    })
+  });
+
+  const data = await res.json();
+
+  carritoId = data.carrito.id;
+  localStorage.setItem("carrito_backend_id", carritoId);
+}
 
     // ============================
     // 3️⃣ INSERTAR PRODUCTO REAL
