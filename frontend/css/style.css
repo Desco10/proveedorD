@@ -166,7 +166,15 @@ body {
   padding: 30px 20px 26px;
   text-align: center;
 
-  background: linear-gradient(
+ 
+  text-align: center; /* Centra el texto horizontalmente */
+    width: 100%; /* Asegura que el contenedor ocupe el ancho completo */
+    margin: 0 auto 22px auto; /* Centra el contenedor y añade margen inferior */
+    padding: 20px 10px; /* Relleno superior/inferior, y algo lateral */
+    background-color: #ffffff;
+
+
+  /*background: linear-gradient(
     to top,
     rgba(255,255,255,0.65),
     rgba(255,255,255,0.35),
@@ -175,7 +183,7 @@ body {
 
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border-top: 1px solid rgba(255,255,255,0.6);
+  border-top: 1px solid rgba(255,255,255,0.6);*/
 }
 
 /* H1 GRANDE + BORDADO */
@@ -280,13 +288,13 @@ main { max-width:700px; margin:20px auto; padding:0 16px; }
 .section-title { font-size:20px; margin:12px 0; color:#0b74a8; text-align:left; padding-left:4px; }
 
 /* Bienvenida */
-.overlay {
+/*.overlay {
   text-align: center; /* Centra el texto horizontalmente */
-    width: 100%; /* Asegura que el contenedor ocupe el ancho completo */
-    margin: 0 auto 22px auto; /* Centra el contenedor y añade margen inferior */
-    padding: 20px 10px; /* Relleno superior/inferior, y algo lateral */
-    background-color: #ffffff;
-}
+   /* width: 100%; /* Asegura que el contenedor ocupe el ancho completo */
+   /* margin: 0 auto 22px auto; /* Centra el contenedor y añade margen inferior */
+   /* padding: 20px 10px; /* Relleno superior/inferior, y algo lateral */
+   /* background-color: #ffffff;
+}*/
 .bienvenida { text-align:center; margin-bottom:18px; }
 .bienvenida h1 { color:#0b74a8; font-size:28px; margin-bottom:6px; }
 .bienvenida p { color:#334; }
