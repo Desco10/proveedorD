@@ -64,8 +64,8 @@ body {
    =============================== */
 .logo-container {
   position: absolute;
-  top: -70px;
-  left: 46%;
+  top: 15px;
+  left: 50%;
   transform: translateX(-50%);
   z-index: 20;
   text-align: center;
