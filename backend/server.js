@@ -29,13 +29,13 @@ require("./config/db");
 // =====================
 
 // CLIENTES
-//app.use("/api/clientes", require("./routes/clientes"));
+app.use("/api/clientes", require("./routes/clientes"));
 
 // CARRITOS (UNA SOLA FUENTE DE VERDAD)
-//app.use("/api/carritos", require("./routes/carritos"));
+app.use("/api/carritos", require("./routes/carritos"));
 
 // ADMIN
-//app.use("/api/admin", require("./routes/admin.routes"));
+app.use("/api/admin", require("./routes/admin.routes"));
 
 // =====================
 // PATHS
