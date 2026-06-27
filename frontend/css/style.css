@@ -157,34 +157,11 @@ body {
 /* ===============================
    OVERLAY PREMIUM
    =============================== */
-.overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  z-index: 10;
-  padding: 30px 20px 26px;
-  text-align: center;
+.overlay {position: absolute;bottom: 0;left: 0;width: 100%;z-index: 10;padding: 30px 20px 26px;text-align: center;
 
- 
-  text-align: center; /* Centra el texto horizontalmente */
-    width: 100%; /* Asegura que el contenedor ocupe el ancho completo */
-    margin: 0 auto 22px auto; /* Centra el contenedor y añade margen inferior */
-    padding: 20px 10px; /* Relleno superior/inferior, y algo lateral */
-    background-color: #ffffff;
+background: linear-gradient(to top,rgba(255,255,255,0.65),rgba(255,255,255,0.35),rgba(255,255,255,0));
 
-
-  /*background: linear-gradient(
-    to top,
-    rgba(255,255,255,0.65),
-    rgba(255,255,255,0.35),
-    rgba(255,255,255,0)
-  );
-
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-top: 1px solid rgba(255,255,255,0.6);*/
-}
+backdrop-filter: blur(14px);-webkit-backdrop-filter: blur(14px);border-top: 1px solid rgba(255,255,255,0.6);}
 
 /* H1 GRANDE + BORDADO */
 .overlay h1 {
@@ -284,17 +261,18 @@ body {
 
 
 /* Sections */
-main { max-width:700px; margin:20px auto; padding:0 16px; }
-.section-title { font-size:20px; margin:12px 0; color:#0b74a8; text-align:left; padding-left:4px; }
+main { max-width:1200px; margin:20px auto; padding:0 16px; }
+.section-title { font-size:20px; margin:12px 0; color:#0b74a8; text-align: left; padding-left:4px; }
 
 /* Bienvenida */
-/*.overlay {
+.overlay {
   text-align: center; /* Centra el texto horizontalmente */
-   /* width: 100%; /* Asegura que el contenedor ocupe el ancho completo */
-   /* margin: 0 auto 22px auto; /* Centra el contenedor y añade margen inferior */
-   /* padding: 20px 10px; /* Relleno superior/inferior, y algo lateral */
-   /* background-color: #ffffff;
-}*/
+    width: 100%; /* Asegura que el contenedor ocupe el ancho completo */
+    margin: 0 auto 22px auto; /* Centra el contenedor y añade margen inferior */
+    padding: 20px 10px; /* Relleno superior/inferior, y algo lateral */
+    background-color: #ffffff;
+}
+
 .bienvenida { text-align:center; margin-bottom:18px; }
 .bienvenida h1 { color:#0b74a8; font-size:28px; margin-bottom:6px; }
 .bienvenida p { color:#334; }
