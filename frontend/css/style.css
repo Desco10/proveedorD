@@ -1,7 +1,5 @@
 /* ===============================
    RESET Y BASE
-/* ===============================
-   RESET Y BASE
    =============================== */
 * {
   box-sizing: border-box;
@@ -36,8 +34,8 @@ body {
 .banner {
   position: relative;
   width: 100%;
-  height: 420px;
-  overflow: visible;
+  height: 380px;
+  overflow: hidden;
 }
 
 /* Imagen */
@@ -64,8 +62,8 @@ body {
    =============================== */
 .logo-container {
   position: absolute;
-  top: 15px;
-  left: 50%;
+  top: -70px;
+  left: 46%;
   transform: translateX(-50%);
   z-index: 20;
   text-align: center;
@@ -88,11 +86,10 @@ body {
 
 
 /* BRILLO QUE PASA POR ENCIMA (REAL) */
-/* BRILLO QUE PASA POR ENCIMA (REAL) */
 .logo-shine {
   position: absolute;
 
-  /* 🔪 RECORTE EN ALTURA */
+  /* RECORTE EN ALTURA */
   top: 10%;        /* empieza más abajo */
   height: 50%;     /* solo mitad del logo */
 
@@ -157,11 +154,26 @@ body {
 /* ===============================
    OVERLAY PREMIUM
    =============================== */
-.overlay {position: absolute;bottom: 0;left: 0;width: 100%;z-index: 10;padding: 30px 20px 26px;text-align: center;
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  padding: 30px 20px 26px;
+  text-align: center;
 
-background: linear-gradient(to top,rgba(255,255,255,0.65),rgba(255,255,255,0.35),rgba(255,255,255,0));
+  background: linear-gradient(
+    to top,
+    rgba(255,255,255,0.65),
+    rgba(255,255,255,0.35),
+    rgba(255,255,255,0)
+  );
 
-backdrop-filter: blur(14px);-webkit-backdrop-filter: blur(14px);border-top: 1px solid rgba(255,255,255,0.6);}
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid rgba(255,255,255,0.6);
+}
 
 /* H1 GRANDE + BORDADO */
 .overlay h1 {
@@ -233,7 +245,7 @@ backdrop-filter: blur(14px);-webkit-backdrop-filter: blur(14px);border-top: 1px 
    RESPONSIVE
    =============================== */
 @media (max-width: 768px) {
-  .banner { height: 360px; }
+  .banner { height: 300px; }
 
   .logo {
     width: 300px;
@@ -262,7 +274,7 @@ backdrop-filter: blur(14px);-webkit-backdrop-filter: blur(14px);border-top: 1px 
 
 /* Sections */
 main { max-width:1200px; margin:20px auto; padding:0 16px; }
-.section-title { font-size:20px; margin:12px 0; color:#0b74a8; text-align: left; padding-left:4px; }
+.section-title { font-size:20px; margin:12px 0; color:#0b74a8; text-align:left; padding-left:4px; }
 
 /* Bienvenida */
 .overlay {
@@ -272,7 +284,6 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
     padding: 20px 10px; /* Relleno superior/inferior, y algo lateral */
     background-color: #ffffff;
 }
-
 .bienvenida { text-align:center; margin-bottom:18px; }
 .bienvenida h1 { color:#0b74a8; font-size:28px; margin-bottom:6px; }
 .bienvenida p { color:#334; }
@@ -582,10 +593,10 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
    CARD PROVEEDOR – COMPACTA
 ================================ */
 .card-proveedor {
-  width: 200px;              /* ⬅ MÁS PEQUEÑA */
+  width: 200px;              /* MÁS PEQUEÑA */
   background: #ffffff;
   border-radius: 14px;
-  padding: 8px 6px 10px;     /* ⬅ MENOS RELLENO */
+  padding: 8px 6px 10px;     /* MENOS RELLENO */
   text-align: center;
 
   box-shadow: 0 6px 18px rgba(251, 251, 251, 0.958);
@@ -661,7 +672,7 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
 ================================ */
 .logo-wrapper {
   width: 100%;
-  height: 120px;             /* ⬅ GRANDE RESPECTO A LA CARD */
+  height: 120px;             /* GRANDE RESPECTO A LA CARD */
   background: #ffffff;
   border-radius: 12px;
 
@@ -681,7 +692,7 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
   width: 100%;
   height: 100%;
 
-  max-width: 110px;          /* ⬅ AQUÍ SE HACE GRANDE */
+  max-width: 110px;          /* AQUÍ SE HACE GRANDE */
   max-height: 110px;
 
   object-fit: contain;
@@ -1034,7 +1045,6 @@ footer {
 }
 
 /* --------- ICONOS SOCIALES MODERNOS ---------- */
-/* --------- ICONOS SOCIALES MODERNOS ---------- */
 footer .social-icons {
   display: flex;
   justify-content: center;
@@ -1082,8 +1092,6 @@ footer .social-icons i.fa-whatsapp:hover {
 }
 
 /* --------- MENSAJE DE TEMPORADA ---------- */
-/* MENSAJE DE TEMPORADA DORADO CON EFECTO BRILLO */
-/* CINTA DE MENSAJE DE TEMPORADA (DISEÑO CASUAL) */
 footer .mensaje-temporada {
   max-width: 85%;                 /* No ocupa todo el ancho */
   margin: 10px auto;              /* Centrada */
@@ -1164,7 +1172,7 @@ footer .mensaje-temporada.active {
   opacity: 1;
 }
 
-/* ✅ NO tocar display, ni position, ni z-index de .modal-auth */
+/* NO tocar display, ni position, ni z-index de .modal-auth */
 
 /* Caja moderna */
 .modal-contenido {
@@ -1234,7 +1242,7 @@ footer .mensaje-temporada.active {
     border: 1px solid rgba(26, 25, 25, 0);
     background: rgba(255, 255, 255, 0.437);
     margin-bottom: 8px;
-    color: #020202; /* <-- cambia este color por el que quierasDEL SELEC GENERO */
+    color: #020202; /* color del select de género */
 }
  
 
@@ -1308,25 +1316,12 @@ footer .mensaje-temporada.active {
 
 
 /* estilo para mensajes de error en login */
-/* Mensajes de error en formularios */
 /* ============================================
    ANIMACIONES PARA MENSAJES DE ERROR
-   ============================================ */
-
-/* ============================================
-   ANIMACIONES PARA MENSAJES DE ERROR
-   ============================================ */
-
-/* Caja visual del mensaje */
-/* Mejora para el botón de cerrar error */
-/* Caja de error - VERSIÓN ACTUALIZADA */
-
-/* ============================================
-   MENSAJES DE ERROR - VERSIÓN SIMPLIFICADA
    ============================================ */
 
 /* Animaciones */
-@keyframes fadeIn {
+@keyframes fadeInError {
   from { 
     opacity: 0; 
     transform: translateY(-10px); 
@@ -1337,7 +1332,7 @@ footer .mensaje-temporada.active {
   }
 }
 
-@keyframes fadeOut {
+@keyframes fadeOutError {
   from { 
     opacity: 1; 
     transform: translateY(0); 
@@ -1355,9 +1350,9 @@ footer .mensaje-temporada.active {
 }
 
 /* ============================ */
-/* 🎯 CARRUSEL DE OFERTAS - VERSIÓN PROFESIONAL AJUSTADA */
+/* CARRUSEL DE OFERTAS - VERSIÓN PROFESIONAL AJUSTADA */
 /* =========================================================
-   🔥 CARRUSEL DE OFERTAS - ESTILO PROFESIONAL 3D
+   CARRUSEL DE OFERTAS - ESTILO PROFESIONAL 3D
    Cards con imagen protagonista y efecto centro sobresaliente
    ========================================================= */
 
@@ -1366,7 +1361,7 @@ footer .mensaje-temporada.active {
   padding: 18px 0;
   background: linear-gradient(180deg, #f8f9fa, #ffffff);
   text-align: center;
-  /*perspective: 1500px;*/
+  perspective: 1500px;
   overflow: hidden;
 }
 
@@ -1437,7 +1432,6 @@ footer .mensaje-temporada.active {
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
-  perspective: 1500px;
 }
 
 
@@ -1458,7 +1452,6 @@ footer .mensaje-temporada.active {
   border-radius: -5px;
 }
 
-/* Card del producto - IMAGEN PROTAGONISTA */
 /* Card del producto - mini card real */
 .carrusel-3d .item {
   position: relative;
@@ -1492,7 +1485,6 @@ footer .mensaje-temporada.active {
   border-color: rgba(102, 212, 249, 0.3);
   z-index: 10;
 
-  /* AÑADIR ESTA LÍNEA */
   scale: 0.80;   /* Hover más pequeño y controlado */
 }
 
@@ -1648,48 +1640,6 @@ footer .mensaje-temporada.active {
     font-size: 1rem;
   }
 }
-/* ====== PROVEEDORES ====== */
-.contenedor-proveedores {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
-}
-
-.card-proveedor {
-  background: #fff;
-  border-radius: 12px;
-  padding: 10px;
-  text-align: center;
-  cursor: pointer;
-  transition: 0.3s;
-  box-shadow: 0 2px 8px rgb(245, 245, 245);
-}
-
-.card-proveedor:hover {
-  transform: scale(1.05);
-}
-
-.card-proveedor img {
-  width: 100%;
-  height: 100px;
-  object-fit: contain;
-}
-
-.card.animar-entrada {
-  animation: fadeInUp 0.6s ease forwards;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
 /*  Estilo base de los botones de paginación */
 .paginacion button {
@@ -1700,7 +1650,7 @@ footer .mensaje-temporada.active {
   margin: 5px;
   border-radius: 20px;
   cursor: pointer;
-  font-size: 8 px;
+  font-size: 8px;
   font-weight: 600;
   box-shadow: 0 0 10px rgba(0, 198, 255, 0.5);
   transition: all 0.3s ease;
@@ -1708,13 +1658,13 @@ footer .mensaje-temporada.active {
   overflow: hidden;
 }
 
-/* 🖱️ Hover con leve agrandamiento */
+/* Hover con leve agrandamiento */
 .paginacion button:hover {
   transform: scale(1.06);
   box-shadow: 0 0 18px rgba(0, 198, 255, 0.8);
 }
 
-/* ✨ Efecto de brillo (neón en movimiento) */
+/* Efecto de brillo (neón en movimiento) */
 .paginacion button::after {
   content: "";
   position: absolute;
@@ -1732,7 +1682,7 @@ footer .mensaje-temporada.active {
   opacity: 0.7;
 }
 
-/* 🔁 Clase temporal para activar el brillo */
+/* Clase temporal para activar el brillo */
 .paginacion button.brillo::after {
   animation: brilloBoton 0.6s ease-in-out forwards;
 }
@@ -1746,11 +1696,12 @@ footer .mensaje-temporada.active {
   }
 }
 
-/* 💡 Pequeña pulsación al hacer clic */
+/* Pequeña pulsación al hacer clic */
 .paginacion button:active {
   transform: scale(0.96);
   box-shadow: 0 0 5px rgba(0, 198, 255, 0.5);
 }
+
 /* Contenedor del catálogo */
 #catalogoContainer {
   opacity: 0;
@@ -1763,7 +1714,6 @@ footer .mensaje-temporada.active {
   transform: translateY(0);
 }
 
-/* Botón "Volver a proveedores" */
 /* ============================
    BOTÓN VOLVER A PROVEEDORES
 ============================ */
@@ -1829,38 +1779,15 @@ footer .mensaje-temporada.active {
 }
 
 
-
-
-/* === CARRUSEL DE VIDEOS ESTILO HISTORIAS === */
 /* =========================================================
-   CARRUSEL DE VIDEOS ESTILO HISTORIAS PROFESIONAL
-   ========================================================= */
-/* =========================================================
-   CARRUSEL DE VIDEOS - ADAPTABLE YOUTUBE + TIKTOK
-   Soporta videos horizontales (16:9) y verticales (9:16)
-   ========================================================= */
-
-/* =========================================================
-   🎬 REPRODUCTOR DE VIDEOS PROFESIONAL
+   REPRODUCTOR DE VIDEOS PROFESIONAL
    Soporta YouTube (16:9) y TikTok (9:16) sin deformación
    Con controles personalizados y contador de vistas
    ========================================================= */
 
-/* =========================================================
-   🎬 SECCIÓN 1: VIDEO PLAYER
-   Busca desde: "/* === CARRUSEL DE VIDEOS ESTILO HISTORIAS === */
-   /*Hasta antes de: "/* === catálogo oculto === */
-   /*Y REEMPLAZA TODO ESO con esto:
-   /*========================================================= */
-
-/* =========================================================
-   🎬 SECCIÓN 1: VIDEO PLAYER
-   Busca desde: "/* === CARRUSEL DE VIDEOS ESTILO HISTORIAS === */
-  
-
 :root {
   --video-bg: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
-  --video-container-height: 400px; /* 🔑 Altura fija siempre */
+  --video-container-height: 400px; /* Altura fija siempre */
 }
 
 .video-stories {
@@ -1874,7 +1801,7 @@ footer .mensaje-temporada.active {
   margin: 0 auto 30px;
   position: relative;
   
-  /* 🌟 Efecto de partículas brillantes animadas */
+  /* Efecto de partículas brillantes animadas */
   animation: gradientShift 8s ease infinite;
 }
 
@@ -1968,7 +1895,7 @@ footer .mensaje-temporada.active {
   position: relative;
   width: 150%;
   max-width: 500px;
-  height: var(--video-container-height); /* 🔑 Altura fija */
+  height: var(--video-container-height); /* Altura fija */
   background: #ffffff2a;
   border-radius: 5px;
   overflow: hidden;
@@ -2019,13 +1946,13 @@ footer .mensaje-temporada.active {
   max-height: 100%;
   width: auto;
   height: auto;
-  object-fit: contain; /* 🔑 NO distorsiona */
+  object-fit: contain; /* NO distorsiona */
   display: block;
   cursor: pointer;
 }
 
 /* ============================================
-   📊 CONTADOR DE VISTAS
+   CONTADOR DE VISTAS
    ============================================ */
 .view-counter {
   position: absolute;
@@ -2065,7 +1992,7 @@ footer .mensaje-temporada.active {
 }
 
 /* ============================================
-   🎮 CONTROLES DE VIDEO
+   CONTROLES DE VIDEO
    ============================================ */
 .video-controls {
   position: absolute;
@@ -2138,11 +2065,11 @@ footer .mensaje-temporada.active {
 }
 
 /* ============================================
-   📦 OVERLAY DE PRODUCTO - MÁS ABAJO
+   OVERLAY DE PRODUCTO - MÁS ABAJO
    ============================================ */
 .product-overlay {
-  position: absolute; /* 🔑 DEBE SER ABSOLUTE */
-  bottom: 50px; /* 🔽 MÁS ABAJO - antes era 65px */
+  position: absolute; /* DEBE SER ABSOLUTE */
+  bottom: 50px; /* MÁS ABAJO - antes era 65px */
   left: 50%; /* Centrado horizontal */
   transform: translateX(-50%); /* Centrado perfecto */
   display: flex;
@@ -2217,7 +2144,7 @@ footer .mensaje-temporada.active {
 }
 
 /* ============================================
-   🎯 BARRA DE PROGRESO
+   BARRA DE PROGRESO
    ============================================ */
 .progress-track {
   position: absolute;
@@ -2241,7 +2168,7 @@ footer .mensaje-temporada.active {
 }
 
 /* ============================================
-   ⬅️➡️ BOTONES DE NAVEGACIÓN
+   BOTONES DE NAVEGACIÓN
    ============================================ */
 .story-nav {
   position: absolute;
@@ -2280,7 +2207,7 @@ footer .mensaje-temporada.active {
 }
 
 /* ============================================
-   ✨ TRANSICIÓN SUAVE
+   TRANSICIÓN SUAVE
    ============================================ */
 .video-player-wrap.format-changing {
   animation: containerTransition 0.5s ease;
@@ -2298,7 +2225,7 @@ footer .mensaje-temporada.active {
 }
 
 /* ============================================
-   📱 RESPONSIVE MOBILE
+   RESPONSIVE MOBILE
    ============================================ */
 @media (max-width: 1024px) {
   :root {
@@ -2339,7 +2266,7 @@ footer .mensaje-temporada.active {
   }
 
   .product-overlay {
-    bottom: 7px; /* 🔽 MÁS ABAJO en móvil */
+    bottom: 7px; /* MÁS ABAJO en móvil */
     padding: 6px 10px;
     max-width: 80%;
   }
@@ -2383,7 +2310,7 @@ footer .mensaje-temporada.active {
   }
 
   .product-overlay {
-    bottom: 40px; /* 🔽 Aún más abajo en móviles pequeños */
+    bottom: 40px; /* Aún más abajo en móviles pequeños */
   }
 }
 
@@ -2408,11 +2335,6 @@ footer .mensaje-temporada.active {
 .video-player-wrap.paused .video-controls {
   opacity: 1;
 }
-
-
-
-/*
-============================ */
 
 
 /* ===  catálogo oculto === */
@@ -2493,7 +2415,6 @@ footer .mensaje-temporada.active {
   transform: translateY(-5px);
 }
 
-/* Contenedor del banner */
 /* Contenedor principal del banner del proveedor */
 .catalogo-banner {
     width: 100%;
@@ -2515,7 +2436,7 @@ footer .mensaje-temporada.active {
     object-position: center;
 }
 
-/* **OPCIONAL**: Texto encima del banner */
+/* Texto encima del banner */
 .catalogo-banner .detalles {
     position: absolute;
     top: 0;
@@ -2591,81 +2512,57 @@ footer .mensaje-temporada.active {
     text-shadow: 0 0 15px #f0f4f5, 0 0 25px #e6e5ee;
   }
 }
- 
-
-
-
-
 
 
 /* ========================================================= */
-/* 💻 AJUSTES PARA PC/ESCRITORIO (>= 1200px) */
+/* AJUSTES PARA PC/ESCRITORIO (>= 1200px) */
 /* ========================================================= */
 @media (min-width: 1200px) {
 
+  /* ARREGLAR LA ALTURA DEL BANNER EN PC */
+  .banner-img {
+      height: 300px; /* Se ve mejor en pantallas grandes */
+  }
 
+  /* ARREGLAR EL LOGO */
+  .logo {
+      left: 30%; 
+      width: 150px; 
+      height: 150px;
+  }
 
+  /* Ajuste de la cabecera (Header) */
+  .logo-header {
+       height: 300px; 
+  }
 
-  @media (min-width: 1200px) {
-    
-    /* 1. ARREGLAR LA ALTURA DEL BANNER EN PC */
-    .banner-img {
-        height: 300px; /* Ejemplo: se ve mejor en pantallas grandes */
-    }
+  /* Mejora el tamaño del título de bienvenida en pantallas grandes */
+  .bienvenida h1 {
+      font-size: 70px; 
+      margin-top: 30px;
+  }
 
-    /* 2. ARREGLAR EL LOGO */
-    .logo {
-        /* Mueve el logo para que no se vea centrado en una pantalla ancha */
-        left: 30%; 
-        width: 150px; 
-        height: 150px;
-    }
+  /* Centra y expande el buscador en PC */
+  .buscador-catalogo input {
+      width: 700px;
+  }
 
-    /* ... y el resto de los ajustes ... */
+  /* Aumento del tamaño del contenedor de video en PC */
+  :root {
+      --video-container-height: 400px; 
+  }
+  
+  /* El contenedor del video puede ser más ancho */
+  .video-player-wrap {
+      max-width: 800px; /* Más ancho para videos horizontales */
+  }
+  
+  /* El contenedor de video vertical también puede ser más grande */
+  .video-player-wrap.vertical-video {
+      max-width: 500px; /* Más ancho para videos verticales */
+  }
 }
 
-    /* Ajuste de la cabecera (Header) */
-    .logo-header {
-        
-         height: 300px; 
-    }
-
-
-    /* Mejora el tamaño del título de bienvenida en pantallas grandes */
-    .bienvenida h1 {
-        font-size: 70px; 
-        margin-top: 30px;
-    }
-
-    /* Centra y expande el buscador en PC */
-    .buscador-catalogo input {
-        width: 700px;
-    }
-
-}
-
-@media (min-width: 1200px) {
-    /* ... otros ajustes de PC ... */
-    
-    /* Aumento del tamaño del contenedor de video en PC */
-    :root {
-        /* Aumentamos la altura de 400px a 550px solo en PC */
-        --video-container-height: 400px; 
-    }
-    
-    /* El contenedor del video puede ser más ancho */
-    .video-player-wrap {
-        max-width: 800px; /* Más ancho para videos horizontales */
-    }
-    
-    /* El contenedor de video vertical también puede ser más grande */
-    .video-player-wrap.vertical-video {
-        max-width: 500px; /* Más ancho para videos verticales */
-    }
-} 
-
-
-/*mensaje registro antes (revisar  */
 
 /* =========================================
    MODAL REGISTRO - DESCOAPP (GLASS + TECH)
@@ -2703,7 +2600,7 @@ footer .mensaje-temporada.active {
     0 10px 28px rgba(0, 0, 0, 0.4);
 
   backdrop-filter: blur(10px);
-  animation: fadeInUp 0.4s ease forwards;
+  animation: registroFadeInUp 0.4s ease forwards;
   transition: all 0.35s ease;
 }
 
@@ -2789,7 +2686,7 @@ footer .mensaje-temporada.active {
 }
 
 /* ANIMACIÓN */
-@keyframes fadeInUp {
+@keyframes registroFadeInUp {
   from {
     transform: translateY(20px);
     opacity: 0;
@@ -2801,12 +2698,8 @@ footer .mensaje-temporada.active {
 }
 
 
-
-/*CARRITOCOMPARAS */
-
-
 /* ============================= */
-/* 🛒 CARRITO EN HEADER */
+/* CARRITO EN HEADER */
 /* ============================= */
 
 .header-top {
@@ -2963,7 +2856,6 @@ footer .mensaje-temporada.active {
    CARRITO ARRASTRABLE (DRAG)
 ================================ */
 
-/* === DRAG CARRITO === */
 #carritoPanel {
   position: fixed;
   top: 70px; /* posición inicial */
@@ -2979,14 +2871,8 @@ footer .mensaje-temporada.active {
 }
 
 
-
-
 /* ===============================
    MODAL DECISIÓN DE COMPRA
-================================ */
-
-/* ===============================
-   OVERLAY
 ================================ */
 
 .compra-overlay {
@@ -3040,9 +2926,6 @@ footer .mensaje-temporada.active {
   overflow: hidden;
 }
 
-/* ===============================
-   BORDE ELÉCTRICO (CABEZA + COLA)
-================================ */
 /* ===============================
    BORDE ELÉCTRICO REAL (SVG)
 ================================ */
@@ -3234,7 +3117,7 @@ footer .mensaje-temporada.active {
   transform: translateY(-1px);
 }
 
-/*botn salida volver a proveedores confirmar salida */
+/* Botón salida volver a proveedores confirmar salida */
 .btn-confirmar-salida {
   background: linear-gradient(135deg, #ff4d4d, #b30000);
   color: #fff !important;
@@ -3279,6 +3162,3 @@ footer .mensaje-temporada.active {
     0 2px 8px rgba(0, 0, 0, 0.35),
     inset 0 2px 4px rgba(0, 0, 0, 0.25);
 }
-
-
-
