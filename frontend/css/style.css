@@ -1366,7 +1366,7 @@ footer .mensaje-temporada.active {
   padding: 18px 0;
   background: linear-gradient(180deg, #f8f9fa, #ffffff);
   text-align: center;
-  perspective: 1500px;
+  /*perspective: 1500px;*/
   overflow: hidden;
 }
 
@@ -1437,6 +1437,7 @@ footer .mensaje-temporada.active {
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
+  perspective: 1500px;
 }
 
 
