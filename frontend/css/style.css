@@ -245,14 +245,17 @@ body {
    RESPONSIVE
    =============================== */
 @media (max-width: 768px) {
-  .banner { height: 300px; }
+  .banner {
+    height: 300px;
+    overflow: visible; /* evita que el logo se corte por arriba */
+  }
 
   .logo {
     width: 300px;
   }
 
   .logo-container {
-    top: -60px;
+    top: -30px;
     left: 50%;
   }
 
@@ -267,6 +270,18 @@ body {
   .abierto-text {
     font-size: 1.3rem;
     margin-bottom: 80px;
+  }
+}
+
+/* TABLET - antes no existía este breakpoint intermedio,
+   por eso el logo heredaba valores poco adecuados entre 769px y 1199px */
+@media (min-width: 769px) and (max-width: 1199px) {
+  .banner {
+    overflow: visible;
+  }
+
+  .logo-container {
+    top: -50px;
   }
 }
 
@@ -2377,6 +2392,31 @@ footer .mensaje-temporada.active {
   font-size: 1rem;
 }
 
+/* FIX: en móvil el buscador quedaba muy angosto porque competía por
+   espacio con el logo y el nombre del proveedor en la misma fila.
+   Ahora el buscador pasa a su propia línea, debajo, a ancho completo. */
+@media (max-width: 768px) {
+  .header-catalogo {
+    flex-wrap: wrap;
+  }
+
+  .header-catalogo img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .header-catalogo h2 {
+    flex: 1 1 auto;
+    font-size: 1.2rem;
+  }
+
+  #buscadorCatalogo {
+    flex: 1 1 100%;
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
 #btnVolver {
   background: #e4d20848;
   color: #fefe04;
@@ -2560,6 +2600,17 @@ footer .mensaje-temporada.active {
   /* El contenedor de video vertical también puede ser más grande */
   .video-player-wrap.vertical-video {
       max-width: 500px; /* Más ancho para videos verticales */
+  }
+}
+
+/* ============================================
+   FIX: Carrusel de ofertas centrado en pantallas grandes
+   (antes quedaba agrupado a la izquierda en PC/laptop
+   porque .carrusel-3d no tenía justify-content)
+   ============================================ */
+@media (min-width: 992px) {
+  .carrusel-3d {
+    justify-content: center;
   }
 }
 
