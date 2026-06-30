@@ -1505,6 +1505,18 @@ footer .mensaje-temporada.active {
     width: 200px;
     height: 330px;
   }
+
+  /* FIX: imagen (100%) + texto (20%) sumaban 120% del alto de la
+     tarjeta, y el 20% restante se recortaba por el overflow:hidden
+     del item. Ajustamos para que ambos sumen 100% exacto. */
+  .carrusel-3d .item img {
+    height: 68%;
+  }
+
+  .carrusel-3d .info-oferta {
+    height: 32%;
+    padding: 10px;
+  }
 }
 
 /* Imagen interna reducida */
@@ -3345,4 +3357,14 @@ footer .mensaje-temporada.active {
 
 .menu-item:hover i {
   background: rgba(179, 0, 0, 0.18);
+}
+
+/* Variante para "Iniciar sesión" (sin sesión activa) */
+.menu-item.login i {
+  background: rgba(11, 116, 168, 0.1);
+  color: #0b74a8;
+}
+
+.menu-item.login:hover i {
+  background: rgba(11, 116, 168, 0.18);
 }

@@ -869,33 +869,56 @@ function onLoginExitoso(cliente) {
   }
 }
 
-function mostrarCerrarSesion() {
-  const btn = document.getElementById("btnCerrarSesion");
-  if (btn) {
-    btn.style.display = "inline-flex";
-    btn.style.visibility = "visible";
-    btn.style.opacity = "1";
-    console.log("Botón mostrado");
+// ============================================
+// MENÚ DE SESIÓN (dentro del botón hamburguesa)
+// Conectado con tu sistema real: localStorage "cliente"
+// + isLoginVigente() (expira a las 24h, igual que requireLogin)
+// ============================================
+function actualizarMenuSesion(logueado) {
+  const item = document.getElementById("btnCerrarSesion");
+  if (!item) return;
 
-    // Agregar evento para redirigir al hacer clic
-    btn.addEventListener("click", () => {
-      // Opcional: limpiar sesión/localStorage si la tienes
-      localStorage.removeItem("usuario"); // ejemplo
-      sessionStorage.clear();              // ejemplo
-      // Redirigir a la página principal
-      window.location.href = "index.html";
+  // Clonamos para eliminar CUALQUIER listener anterior
+  // (incluye el listener viejo: btnCerrarSesion.addEventListener("click", cerrarSesion))
+  const nuevoItem = item.cloneNode(true);
+  item.parentNode.replaceChild(nuevoItem, item);
+
+  if (logueado) {
+    nuevoItem.classList.remove("login");
+    nuevoItem.innerHTML = `<i class="fas fa-sign-out-alt"></i> Cerrar sesión`;
+
+    nuevoItem.addEventListener("click", () => {
+      const confirmar = confirm("¿Seguro que deseas cerrar tu sesión?");
+      if (!confirmar) return;
+      cerrarSesion(); // tu función real, ya limpia "cliente", "loginTime", etc.
+    });
+
+  } else {
+    nuevoItem.classList.add("login");
+    nuevoItem.innerHTML = `<i class="fas fa-sign-in-alt"></i> Iniciar sesión`;
+
+    nuevoItem.addEventListener("click", () => {
+      // cierra el menú desplegable
+      const menu = document.getElementById("menuDesplegable");
+      const btnHam = document.getElementById("btnMenuHamburguesa");
+      if (menu) menu.classList.remove("show");
+      if (btnHam) btnHam.classList.remove("active");
+
+      // abre tu modal real de login/registro
+      if (modalAuth) modalAuth.style.display = "flex";
     });
   }
 }
 
+// Mantenemos los nombres originales: tu código YA las llama
+// en onLoginExitoso() y en cerrarSesion(), así que no hay que
+// tocar nada más, solo estas dos definiciones.
+function mostrarCerrarSesion() {
+  actualizarMenuSesion(true);
+}
+
 function ocultarCerrarSesion() {
-  const btn = document.getElementById("btnCerrarSesion");
-  if (btn) {
-    btn.style.display = "none";
-    btn.style.visibility = "hidden";
-    btn.style.opacity = "0";
-    console.log("Botón ocultado");
-  }
+  actualizarMenuSesion(false);
 }
 
 
@@ -1439,6 +1462,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   if (!local) {
     console.log("❗ No hay usuario → abrir modal");
+      ocultarCerrarSesion();
     if (modalAuth) modalAuth.style.display = "flex";
   } else {
     console.log("✅ Usuario encontrado en localStorage:", local);
