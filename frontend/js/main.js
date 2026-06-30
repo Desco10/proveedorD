@@ -431,8 +431,10 @@ async function abrirProveedor(id, nombre) {
 
       tituloEl.innerHTML = `
   <div class="header-catalogo">
-  <button class="btn-volver" onclick="confirmarSalidaProveedor(this)">⬅ Volver a proveedores</button>
- 
+  <button class="btn-volver" onclick="confirmarSalidaProveedor(this)">
+    <i class="fas fa-arrow-left"></i>
+    <span>Volver</span>
+  </button>
 
     ${logoHtml}
 
