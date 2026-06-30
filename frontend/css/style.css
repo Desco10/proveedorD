@@ -1487,8 +1487,6 @@ footer .mensaje-temporada.active {
   box-shadow: 0 10px 20px rgba(0,0,0,0.08);
   z-index: 1;
   transform-origin: center;
-  display: flex;              /* 👈 NUEVO */
-  flex-direction: column;
 }
 
 .carrusel-3d .item:hover,
@@ -1511,9 +1509,12 @@ footer .mensaje-temporada.active {
   /* FIX: imagen (100%) + texto (20%) sumaban 120% del alto de la
      tarjeta, y el 20% restante se recortaba por el overflow:hidden
      del item. Ajustamos para que ambos sumen 100% exacto. */
-  
+  .carrusel-3d .item img {
+    height: 68%;
+  }
+
   .carrusel-3d .info-oferta {
-   
+    height: 32%;
     padding: 10px;
   }
 }
@@ -1521,7 +1522,7 @@ footer .mensaje-temporada.active {
 /* Imagen interna reducida */
 .carrusel-3d .item img {
   width: 100%;               /* Llenar la card */
-  flex: 1 1 auto;
+  height: 100%;
   object-fit: contain;       /* Se ve COMPLETA sin recortes */
   padding: 8px;              /* Reduce visualmente la imagen */
   border-radius: 10px;
@@ -1541,7 +1542,7 @@ footer .mensaje-temporada.active {
   padding: 15px;
   text-align: center;
   background: linear-gradient(180deg, #ffffff52, #f8f9fa7e);
-  
+  height: 20%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1563,7 +1564,7 @@ footer .mensaje-temporada.active {
   min-height: 42px;
 }
 
-.carrusel-3d .info-oferta p:first-of-type {
+.carrusel-3d .info-oferta p {
   font-size: 1.3rem;
   font-weight: 800;
   background: linear-gradient(135deg, #101113, #010319);
@@ -1571,24 +1572,6 @@ footer .mensaje-temporada.active {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin: 0;
-}
-
-/* FIX: el JS agrega un segundo <p> con la descripción del producto.
-   Antes heredaba el mismo estilo grande del precio (1.3rem, negrita,
-   degradado) y eso desbordaba el espacio de texto, recortando contenido.
-   Aquí le damos su propio estilo, pequeño y discreto. */
-.carrusel-3d .info-oferta p:not(:first-of-type) {
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: #6f787c;
-  background: none;
-  -webkit-text-fill-color: currentColor;
-  margin: 2px 0 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
 }
 
 /* Badge/Cinta de oferta */
@@ -1654,10 +1637,12 @@ footer .mensaje-temporada.active {
     transform: scale(1.05) translateY(-10px);
   }
 
-  
+  .carrusel-3d .item img {
+    height: 60%;
+  }
 
   .carrusel-3d .info-oferta {
-    
+    height: 40%;
     padding: 12px;
   }
 
@@ -1666,9 +1651,9 @@ footer .mensaje-temporada.active {
     min-height: 38px;
   }
 
-  .carrusel-3d .info-oferta p:first-of-type {
-  font-size: 1.1rem;
-}
+  .carrusel-3d .info-oferta p {
+    font-size: 1.1rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1682,9 +1667,9 @@ footer .mensaje-temporada.active {
     min-height: 34px;
   }
 
-  .carrusel-3d .info-oferta p:first-of-type {
-  font-size: 1rem;
-}
+  .carrusel-3d .info-oferta p {
+    font-size: 1rem;
+  }
 }
 
 /*  Estilo base de los botones de paginación */
