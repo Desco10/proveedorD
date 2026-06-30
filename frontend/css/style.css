@@ -1487,6 +1487,8 @@ footer .mensaje-temporada.active {
   box-shadow: 0 10px 20px rgba(0,0,0,0.08);
   z-index: 1;
   transform-origin: center;
+  display: flex;              /* 👈 NUEVO */
+  flex-direction: column;
 }
 
 .carrusel-3d .item:hover,
@@ -1509,12 +1511,9 @@ footer .mensaje-temporada.active {
   /* FIX: imagen (100%) + texto (20%) sumaban 120% del alto de la
      tarjeta, y el 20% restante se recortaba por el overflow:hidden
      del item. Ajustamos para que ambos sumen 100% exacto. */
-  .carrusel-3d .item img {
-    height: 68%;
-  }
-
+  
   .carrusel-3d .info-oferta {
-    height: 32%;
+   
     padding: 10px;
   }
 }
@@ -1522,7 +1521,7 @@ footer .mensaje-temporada.active {
 /* Imagen interna reducida */
 .carrusel-3d .item img {
   width: 100%;               /* Llenar la card */
-  height: 100%;
+  flex: 1 1 auto;
   object-fit: contain;       /* Se ve COMPLETA sin recortes */
   padding: 8px;              /* Reduce visualmente la imagen */
   border-radius: 10px;
@@ -1542,7 +1541,7 @@ footer .mensaje-temporada.active {
   padding: 15px;
   text-align: center;
   background: linear-gradient(180deg, #ffffff52, #f8f9fa7e);
-  height: 20%;
+  
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1655,12 +1654,10 @@ footer .mensaje-temporada.active {
     transform: scale(1.05) translateY(-10px);
   }
 
-  .carrusel-3d .item img {
-    height: 60%;
-  }
+  
 
   .carrusel-3d .info-oferta {
-    height: 40%;
+    
     padding: 12px;
   }
 
@@ -1669,9 +1666,9 @@ footer .mensaje-temporada.active {
     min-height: 38px;
   }
 
-  .carrusel-3d .info-oferta p {
-    font-size: 1.1rem;
-  }
+  .carrusel-3d .info-oferta p:first-of-type {
+  font-size: 1.1rem;
+}
 }
 
 @media (max-width: 480px) {
@@ -1685,9 +1682,9 @@ footer .mensaje-temporada.active {
     min-height: 34px;
   }
 
-  .carrusel-3d .info-oferta p {
-    font-size: 1rem;
-  }
+  .carrusel-3d .info-oferta p:first-of-type {
+  font-size: 1rem;
+}
 }
 
 /*  Estilo base de los botones de paginación */
