@@ -29,7 +29,20 @@
     <div class="header-top">
 
       <!-- BOTÓN CERRAR SESIÓN -->
-      <button id="btnCerrarSesion" class="btn-cerrar">Cerrar sesión</button>
+      <!-- MENÚ HAMBURGUESA -->
+<div class="contenedor-hamburguesa">
+  <button id="btnMenuHamburguesa" class="btn-hamburguesa" aria-label="Abrir menú" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <div id="menuDesplegable" class="menu-desplegable">
+    <button id="btnCerrarSesion" class="menu-item">
+      <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+    </button>
+  </div>
+</div>
 
       <!-- 🛒 CARRITO HEADER -->
       <div id="carritoHeader">

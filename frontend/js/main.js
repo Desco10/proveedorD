@@ -2335,3 +2335,26 @@ function abrirProveedorPorSlug(slug) {
     abrirProveedor(prov.id, prov.nombre);
   });
 }
+
+
+// Toggle del menú hamburguesa
+const btnHamburguesa = document.getElementById('btnMenuHamburguesa');
+const menuDesplegable = document.getElementById('menuDesplegable');
+
+if (btnHamburguesa && menuDesplegable) {
+  btnHamburguesa.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const abierto = menuDesplegable.classList.toggle('show');
+    btnHamburguesa.classList.toggle('active', abierto);
+    btnHamburguesa.setAttribute('aria-expanded', abierto);
+  });
+
+  // Cierra el menú si se hace clic fuera de él
+  document.addEventListener('click', (e) => {
+    if (!menuDesplegable.contains(e.target) && e.target !== btnHamburguesa) {
+      menuDesplegable.classList.remove('show');
+      btnHamburguesa.classList.remove('active');
+      btnHamburguesa.setAttribute('aria-expanded', false);
+    }
+  });
+}
