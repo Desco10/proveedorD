@@ -1564,7 +1564,7 @@ footer .mensaje-temporada.active {
   min-height: 42px;
 }
 
-.carrusel-3d .info-oferta p {
+.carrusel-3d .info-oferta p:first-of-type {
   font-size: 1.3rem;
   font-weight: 800;
   background: linear-gradient(135deg, #101113, #010319);
@@ -1572,6 +1572,24 @@ footer .mensaje-temporada.active {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin: 0;
+}
+
+/* FIX: el JS agrega un segundo <p> con la descripción del producto.
+   Antes heredaba el mismo estilo grande del precio (1.3rem, negrita,
+   degradado) y eso desbordaba el espacio de texto, recortando contenido.
+   Aquí le damos su propio estilo, pequeño y discreto. */
+.carrusel-3d .info-oferta p:not(:first-of-type) {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #6f787c;
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  margin: 2px 0 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 
 /* Badge/Cinta de oferta */
