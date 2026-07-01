@@ -77,7 +77,13 @@ console.log(
 // =====================
 // DATA ESTÁTICA (JSON)
 // =====================
-app.use("/data", express.static(DATA_PATH));
+app.use("/data", express.static(DATA_PATH, {
+  etag: true,
+  lastModified: true,
+  maxAge: "1h"
+}));
+// ESTO ARRIBA
+
 
 // =====================
 // FRONTEND
@@ -92,7 +98,7 @@ app.use(express.static(FRONTEND_PATH, {
 }));
  // ARRIBA  ESTO 
 
- 
+
 // =====================
 // SPA ENTRY POINT
 // =====================
