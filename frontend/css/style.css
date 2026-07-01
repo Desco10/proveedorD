@@ -1509,10 +1509,11 @@ footer .mensaje-temporada.active {
   }
 
   .carrusel-3d .item img {
-    flex: 1 1 auto;
-    min-height: 0;
-    height: auto;
-  }
+  flex: 0 0 55%;   
+  min-height: 0;
+  height: auto;
+  max-height: 55%;
+}
 
   .carrusel-3d .info-oferta {
     flex-shrink: 0;
