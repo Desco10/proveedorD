@@ -1504,17 +1504,19 @@ footer .mensaje-temporada.active {
   .carrusel-3d .item {
     width: 200px;
     height: 330px;
+    display: flex;
+    flex-direction: column;
   }
 
-  /* FIX: imagen (100%) + texto (20%) sumaban 120% del alto de la
-     tarjeta, y el 20% restante se recortaba por el overflow:hidden
-     del item. Ajustamos para que ambos sumen 100% exacto. */
   .carrusel-3d .item img {
-    height: 68%;
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
   }
 
   .carrusel-3d .info-oferta {
-    height: 32%;
+    flex-shrink: 0;
+    height: auto;
     padding: 10px;
   }
 }
