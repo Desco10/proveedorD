@@ -3,8 +3,17 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+const compression = require("compression"); //AGREGE ESTO
 
 const app = express();
+
+// =====================
+// CONFIGURACIÓN PRODUCCIÓN
+// =====================
+app.disable("x-powered-by");//AGREGE ESTO
+app.set("trust proxy", 1); //ESTO
+app.set("etag", "strong"); //ESTO
+
 
 // =====================
 // MIDDLEWARES GLOBALES
@@ -16,8 +25,20 @@ app.use(cors({
   ],
   credentials: true
 }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// =====================
+// COMPRESIÓN HTTP  AGREGE ESTO 
+// =====================
+app.use(compression({
+  level: 6,
+  threshold: 1024
+}));
+
+//HASTA AQUI 
+
 
 // =====================
 // DB
@@ -61,8 +82,17 @@ app.use("/data", express.static(DATA_PATH));
 // =====================
 // FRONTEND
 // =====================
-app.use(express.static(FRONTEND_PATH));
+app.use(express.static(FRONTEND_PATH, {
+  etag: true,
+  lastModified: true,
+  maxAge: "7d",
+  index: false,
+  redirect: false,
+  fallthrough: true
+}));
+ // ARRIBA  ESTO 
 
+ 
 // =====================
 // SPA ENTRY POINT
 // =====================
