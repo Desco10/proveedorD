@@ -1912,6 +1912,8 @@ await fetch("/api/carritos/sync", {
   localStorage.removeItem("carrito_backend_id");
   renderCarrito();
 
+  if (proveedorActual) mostrarProductos(false);
+  
   // cerrar panel visualmente
   const panel = document.getElementById("carritoPanel");
   if (panel) panel.classList.add("oculto");
