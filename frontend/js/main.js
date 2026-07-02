@@ -574,6 +574,7 @@ function filtrarCatalogo(texto) {
   paginaFiltrada.forEach(prod => {
     const card = document.createElement("div");
     card.className = "card";
+    card.setAttribute("data-producto-id", prod.id);
 
    card.innerHTML = `
   <div class="img-wrapper">
@@ -589,7 +590,7 @@ function filtrarCatalogo(texto) {
   <p class="producto-precio">${prod.precio}</p>
 
   <div class="card-actions">
-    <button class="btn-wsp" onclick="comprarProducto(${prod.id})">
+    <button class="btn-wsp" onclick="agregarDesdeCard(${prod.id})">
       <i class="fab fa-whatsapp"></i> COMPRAR
     </button>
   </div>
@@ -666,6 +667,7 @@ function mostrarProductos(animar = true) {
     productosPagina.forEach(prod => {
       const card = document.createElement("div");
       card.className = "card animar-entrada";
+      card.setAttribute("data-producto-id", prod.id);
 
       card.innerHTML = `
   <div class="img-wrapper">
@@ -684,7 +686,7 @@ function mostrarProductos(animar = true) {
 
  
   <div class="card-actions">
-    <button class="btn-wsp" onclick="comprarProducto(${prod.id})">
+    <button class="btn-wsp" onclick="agregarDesdeCard(${prod.id})">
       <i class="fab fa-whatsapp"></i> COMPRAR
     </button>
   </div>
@@ -2383,4 +2385,88 @@ if (btnHamburguesa && menuDesplegable) {
       btnHamburguesa.setAttribute('aria-expanded', false);
     }
   });
+}
+
+
+
+
+
+
+// ================================================
+// CONTROL DE CANTIDAD DIRECTO EN LA CARD
+// ================================================
+function agregarDesdeCard(idProducto) {
+  requireLogin(() => {
+    const productoBase = productos.find(p => p.id === idProducto);
+    if (!productoBase) return;
+
+    const producto = normalizarProductoParaCompra(productoBase);
+
+    // Agrega al carrito con cantidad 1
+    agregarProductoAlCarrito(producto);
+
+    // Transforma el botón en control de cantidad
+    actualizarControlCard(idProducto, 1);
+  });
+}
+
+function incrementarEnCard(idProducto) {
+  const productoBase = productos.find(p => p.id === idProducto);
+  if (!productoBase) return;
+
+  const producto = normalizarProductoParaCompra(productoBase);
+
+  // Reutiliza tu función existente del carrito
+  cambiarCantidad(idProducto, producto.proveedorId, 1);
+
+  // Actualiza visualmente la card
+  const carrito = obtenerCarrito();
+  const item = carrito.items.find(
+    p => p.id === idProducto && p.proveedorId === producto.proveedorId
+  );
+  actualizarControlCard(idProducto, item ? item.cantidad : 0);
+}
+
+function decrementarEnCard(idProducto) {
+  const productoBase = productos.find(p => p.id === idProducto);
+  if (!productoBase) return;
+
+  const producto = normalizarProductoParaCompra(productoBase);
+
+  // Reutiliza tu función existente del carrito
+  cambiarCantidad(idProducto, producto.proveedorId, -1);
+
+  // Actualiza visualmente la card
+  const carrito = obtenerCarrito();
+  const item = carrito.items.find(
+    p => p.id === idProducto && p.proveedorId === producto.proveedorId
+  );
+  const cantidad = item ? item.cantidad : 0;
+  actualizarControlCard(idProducto, cantidad);
+}
+
+function actualizarControlCard(idProducto, cantidad) {
+  // Busca el contenedor de acciones de esta card específica
+  const cardActions = document.querySelector(
+    `[data-producto-id="${idProducto}"] .card-actions`
+  );
+  if (!cardActions) return;
+
+  if (cantidad <= 0) {
+    // Vuelve al botón original
+    cardActions.innerHTML = `
+      <button class="btn-wsp" onclick="agregarDesdeCard(${idProducto})">
+        <i class="fab fa-whatsapp"></i> COMPRAR
+      </button>
+    `;
+  } else {
+    // Muestra control de cantidad
+    cardActions.innerHTML = `
+      <div class="card-cantidad-control">
+        <button class="card-qty-btn" onclick="decrementarEnCard(${idProducto})">−</button>
+        <span class="card-qty-num">${cantidad}</span>
+        <button class="card-qty-btn card-qty-add" onclick="incrementarEnCard(${idProducto})">+</button>
+      </div>
+    `;
+  }
 }
