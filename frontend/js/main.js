@@ -2007,7 +2007,9 @@ function cambiarCantidad(idProducto, proveedorId, cambio) {
   const itemActualizado = carritoActualizado.items.find(
     p => p.id === idProducto && p.proveedorId === proveedorId
   );
-  actualizarControlCard(idProducto, itemActualizado ? itemActualizado.cantidad : 0);
+  actualizarControlCard(idProducto, itemActualizado ? itemActualizado.cantidad : 0,
+    proveedorId
+  );
 
 
 }
@@ -2456,22 +2458,27 @@ function decrementarEnCard(idProducto) {
   actualizarControlCard(idProducto, cantidad);
 }
 
-function actualizarControlCard(idProducto, cantidad) {
-  // Busca el contenedor de acciones de esta card específica
+function actualizarControlCard(idProducto, cantidad, proveedorId) {
+  // Si viene proveedorId, verifica que el catálogo abierto
+  // sea del mismo proveedor antes de tocar la card.
+  // Si no coincide, no hay card visible → salir silenciosamente.
+  if (proveedorId && proveedorActual && 
+      String(proveedorActual.id) !== String(proveedorId)) {
+    return;
+  }
+
   const cardActions = document.querySelector(
     `[data-producto-id="${idProducto}"] .card-actions`
   );
   if (!cardActions) return;
 
   if (cantidad <= 0) {
-    // Vuelve al botón original
     cardActions.innerHTML = `
       <button class="btn-wsp" onclick="agregarDesdeCard(${idProducto})">
         <i class="fab fa-whatsapp"></i> COMPRAR
       </button>
     `;
   } else {
-    // Muestra control de cantidad
     cardActions.innerHTML = `
       <div class="card-cantidad-control">
         <button class="card-qty-btn" onclick="decrementarEnCard(${idProducto})">−</button>
@@ -2481,5 +2488,3 @@ function actualizarControlCard(idProducto, cantidad) {
     `;
   }
 }
-
-
