@@ -592,10 +592,8 @@ function filtrarCatalogo(texto) {
   <p class="producto-precio">${prod.precio}</p>
 
   <div class="card-actions">
-    <button class="btn-wsp" onclick="agregarDesdeCard(${prod.id})">
-      <i class="fab fa-whatsapp"></i> COMPRAR
-    </button>
-  </div>
+  ${generarHtmlAccionCard(prod)}
+</div>
 `;
 
 
@@ -688,9 +686,8 @@ function mostrarProductos(animar = true) {
 
  
   <div class="card-actions">
-    <button class="btn-wsp" onclick="agregarDesdeCard(${prod.id})">
-      <i class="fab fa-whatsapp"></i> COMPRAR
-    </button>
+  ${generarHtmlAccionCard(prod)}
+</div>
      
   </div>
 `;
@@ -2456,7 +2453,39 @@ function decrementarEnCard(idProducto) {
   );
   const cantidad = item ? item.cantidad : 0;
   actualizarControlCard(idProducto, cantidad);
+
 }
+
+
+// ================================================
+// GENERA EL HTML CORRECTO SEGÚN ESTADO DEL CARRITO
+// ================================================
+function generarHtmlAccionCard(prod) {
+  const carrito = obtenerCarrito();
+  const item = carrito.items.find(
+    p => p.id === prod.id && p.proveedorId === prod.proveedorId
+  );
+
+  if (item && item.cantidad > 0) {
+    // Ya está en carrito → mostrar control de cantidad
+    return `
+      <div class="card-cantidad-control">
+        <button class="card-qty-btn" onclick="decrementarEnCard(${prod.id})">−</button>
+        <span class="card-qty-num">${item.cantidad}</span>
+        <button class="card-qty-btn card-qty-add" onclick="incrementarEnCard(${prod.id})">+</button>
+      </div>
+    `;
+  }
+
+  // No está en carrito → mostrar botón COMPRAR
+  return `
+    <button class="btn-wsp" onclick="agregarDesdeCard(${prod.id})">
+      <i class="fab fa-whatsapp"></i> COMPRAR
+    </button>
+  `;
+}
+
+
 
 function actualizarControlCard(idProducto, cantidad, proveedorId) {
   // Si viene proveedorId, verifica que el catálogo abierto
