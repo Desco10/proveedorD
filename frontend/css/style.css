@@ -3371,3 +3371,54 @@ footer .mensaje-temporada.active {
 .menu-item.login:hover i {
   background: rgba(11, 116, 168, 0.18);
 }
+
+
+
+/* ===========================
+   CONTROL DE CANTIDAD EN CARD
+=========================== */
+.card-cantidad-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  border: 2px solid #2579d3;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 40px;
+  width: 100%;
+}
+
+.card-qty-btn {
+  background: #f0f7ff;
+  color: #2579d3;
+  border: none;
+  width: 40px;
+  height: 100%;
+  font-size: 1.3rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+}
+
+.card-qty-btn:hover {
+  background: #ddeeff;
+}
+
+.card-qty-btn.card-qty-add {
+  background: #2579d3;
+  color: #ffffff;
+}
+
+.card-qty-btn.card-qty-add:hover {
+  background: #1a60b8;
+}
+
+.card-qty-num {
+  flex: 1;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #2579d3;
+}

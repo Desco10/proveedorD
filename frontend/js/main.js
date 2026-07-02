@@ -1999,6 +1999,14 @@ function cambiarCantidad(idProducto, proveedorId, cambio) {
 
   guardarCarrito(carrito);
   renderCarrito();
+
+  const carritoActualizado = obtenerCarrito();
+  const itemActualizado = carritoActualizado.items.find(
+    p => p.id === idProducto && p.proveedorId === proveedorId
+  );
+  actualizarControlCard(idProducto, itemActualizado ? itemActualizado.cantidad : 0);
+
+
 }
 
 
