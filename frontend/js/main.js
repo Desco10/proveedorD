@@ -494,6 +494,10 @@ if (proveedorData && proveedorData.colorDetalles) {
       document.querySelector(".catalogo")?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 250);
 
+    setTimeout(() => {
+  abrirProductoPorSlugSiExiste();
+  }, 300);
+
   } catch (error) {
     contenedorProductos.innerHTML = "<p>Error al cargar productos del proveedor.</p>";
     console.error("Error cargando productos:", error);
@@ -689,6 +693,11 @@ function mostrarProductos(animar = true) {
     <button class="btn-wsp" onclick="agregarDesdeCard(${prod.id})">
       <i class="fab fa-whatsapp"></i> COMPRAR
     </button>
+     ${prod.slug ? `
+    <button class="btn-compartir" onclick="compartirProducto(${prod.id})" title="Copiar enlace">
+      <i class="fas fa-share-alt"></i>
+    </button>` : ""}
+
   </div>
 `;
 
@@ -2477,4 +2486,100 @@ function actualizarControlCard(idProducto, cantidad) {
       </div>
     `;
   }
+}
+
+
+// ================================================
+// SLUGS DE PRODUCTOS
+// ================================================
+
+/**
+ * Construye la URL compartible de un producto
+ * Ejemplo: descoapp.com/descotiendas/advilmax
+ */
+function obtenerUrlProducto(producto, proveedor) {
+  if (!producto.slug || !proveedor.slug) return null;
+  return `${window.location.origin}/${proveedor.slug}/${producto.slug}`;
+}
+
+/**
+ * Lee la URL actual y extrae el slug del producto
+ * Ejemplo: /descotiendas/advilmax → "advilmax"
+ */
+function obtenerSlugProductoDesdeURL() {
+  const partes = window.location.pathname
+    .replace(/^\/+|\/+$/g, "")
+    .split("/");
+  // partes[0] = slug proveedor, partes[1] = slug producto
+  return partes.length >= 2 ? partes[1] : null;
+}
+
+/**
+ * Busca un producto por su slug dentro del arreglo actual de productos
+ */
+function buscarProductoPorSlug(slug) {
+  return productos.find(p => p.slug === slug) || null;
+}
+
+/**
+ * Si la URL tiene slug de producto, abre su modal automáticamente
+ * Se llama DESPUÉS de que el catálogo del proveedor ya cargó
+ */
+function abrirProductoPorSlugSiExiste() {
+  const slugProducto = obtenerSlugProductoDesdeURL();
+  if (!slugProducto) return;
+
+  const producto = buscarProductoPorSlug(slugProducto);
+  if (!producto) return;
+
+  // Abre el modal de detalle que ya tienes
+  abrirModalProducto(producto.imagen, producto.descripcion);
+}
+
+
+async function compartirProducto(idProducto) {
+  const producto = productos.find(p => p.id === idProducto);
+  if (!producto || !producto.slug) return;
+
+  // Busca el proveedor actual
+  const proveedores = JSON.parse(localStorage.getItem("proveedores_cache")) || [];
+  const proveedor = proveedores.find(p => Number(p.id) === Number(producto.proveedorId));
+
+  const url = obtenerUrlProducto(producto, proveedor);
+  if (!url) return;
+
+  try {
+    await navigator.clipboard.writeText(url);
+    mostrarToast("✅ Link copiado: " + url);
+  } catch {
+    prompt("Copia este link:", url);
+  }
+}
+
+// Notificación visual simple
+function mostrarToast(mensaje) {
+  let toast = document.getElementById("toast-app");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "toast-app";
+    toast.style.cssText = `
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0b1220;
+      color: #fff;
+      padding: 12px 22px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 99999;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      transition: opacity 0.3s ease;
+    `;
+    document.body.appendChild(toast);
+  }
+  toast.textContent = mensaje;
+  toast.style.opacity = "1";
+  setTimeout(() => { toast.style.opacity = "0"; }, 3000);
 }
