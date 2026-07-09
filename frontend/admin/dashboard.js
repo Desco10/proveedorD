@@ -258,9 +258,8 @@ function mostrarPendientes() {
 
 function mostrarAbandonados() {
   const abandonados = CARROS_TODOS.filter(
-    c => c.estado === "activo" && c.fue_abandonado === 1
+    c => c.fue_abandonado === 1
   );
-
   renderCarritos(abandonados);
 }
 
@@ -269,6 +268,12 @@ function mostrarAbandonados() {
 // ===============================
 document.addEventListener("DOMContentLoaded", () => {
   cargarCarritos();
+
+  // Refresca el dashboard automáticamente cada 30 segundos
+  // para mostrar carritos nuevos sin recargar la página
+  setInterval(() => {
+    cargarCarritos();
+  }, 30 * 1000);
 });
 
 // ===============================

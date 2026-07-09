@@ -1794,14 +1794,47 @@ if (!carritoId) {
     // 4️⃣ MARCAR ACTIVIDAD (NO reactiva abandonados)
     // ============================
     await fetch("/api/carritos/ping", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ carrito_id: carritoId })
+});
+
+// Ping periódico cada 2 min — mantiene el carrito activo en el dashboard
+if (!window._pingCarritoInterval) {
+  window._pingCarritoInterval = setInterval(async () => {
+    const carritoActivo = obtenerCarrito();
+    const idActivo = localStorage.getItem("carrito_backend_id");
+    if (!carritoActivo.items.length || !idActivo) {
+      clearInterval(window._pingCarritoInterval);
+      window._pingCarritoInterval = null;
+      return;
+    }
+    await fetch("/api/carritos/ping", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ carrito_id: carritoId })
+      body: JSON.stringify({ carrito_id: idActivo })
     });
+  }, 2 * 60 * 1000);
+}
 
-  } catch (error) {
-    console.error("Error agregando producto al carrito:", error);
-  }
+// Detecta cuando el usuario cierra o cambia de pestaña
+if (!window._abandonoListenerActivo) {
+  window._abandonoListenerActivo = true;
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState !== "hidden") return;
+    const carritoActivo = obtenerCarrito();
+    const idActivo = localStorage.getItem("carrito_backend_id");
+    if (!carritoActivo.items.length || !idActivo) return;
+    navigator.sendBeacon(
+      "/api/carritos/ping",
+      JSON.stringify({ carrito_id: idActivo, posible_abandono: true })
+    );
+  });
+}
+
+} catch (error) {
+  console.error("Error agregando producto al carrito:", error);
+}
 }
 
 
@@ -2246,9 +2279,14 @@ function decidirCompra(producto) {
 function limpiarCarrito() {
   localStorage.removeItem(CARRITO_KEY);
   sessionStorage.removeItem("wa_iniciado");
-  sessionStorage.removeItem(DECISION_COMPRA_KEY); // 🔑 RESET DECISIÓN
-}
+  sessionStorage.removeItem(DECISION_COMPRA_KEY);
 
+  // Detiene el ping cuando el carrito se vacía o se finaliza
+  if (window._pingCarritoInterval) {
+    clearInterval(window._pingCarritoInterval);
+    window._pingCarritoInterval = null;
+  }
+}
 
 
 function habilitarDragCarrito() {
