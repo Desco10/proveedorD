@@ -2012,6 +2012,9 @@ function eliminarProductoDelCarrito(idProducto, proveedorId) {
 
   guardarCarrito(carrito);
   renderCarrito();
+
+  actualizarControlCard(idProducto, 0, proveedorId);
+
 }
 
 
