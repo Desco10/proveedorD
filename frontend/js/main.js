@@ -2534,11 +2534,13 @@ function actualizarControlCard(idProducto, cantidad, proveedorId) {
   // Si viene proveedorId, verifica que el catálogo abierto
   // sea del mismo proveedor antes de tocar la card.
   // Si no coincide, no hay card visible → salir silenciosamente.
-  if (proveedorId && proveedorActual && 
+  // Si hay proveedor diferente al activo Y la cantidad no es 0, salir
+  // Cuando es 0 (eliminación con X) siempre actualiza la card
+  if (cantidad > 0 && proveedorId && proveedorActual && 
       String(proveedorActual.id) !== String(proveedorId)) {
     return;
   }
-
+  
   const cardActions = document.querySelector(
     `[data-producto-id="${idProducto}"] .card-actions`
   );
