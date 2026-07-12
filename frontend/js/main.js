@@ -583,7 +583,7 @@ function filtrarCatalogo(texto) {
     <img 
       src="${prod.imagen}" 
       alt="${prod.nombre}"
-      onclick="abrirModalProducto('${prod.imagen}', '${prod.descripcion}')"
+      onclick="abrirModalProducto(${prod.id})"
     />
   </div>
 
@@ -674,7 +674,7 @@ function mostrarProductos(animar = true) {
     <img 
       src="${prod.imagen}" 
       alt="${prod.nombre}"
-      onclick="abrirModalProducto('${prod.imagen}', '${prod.descripcion}')"
+      onclick="abrirModalProducto(${prod.id})"
     />
   </div>
 
@@ -1621,9 +1621,20 @@ if (mensajeTemporadaActivo) {
 // ============================
 
 
-function abrirModalProducto(imagen, descripcion) {
-  modalProductoImg.src = imagen;
-  modalProductoDesc.textContent = descripcion || "Descripción no disponible";
+function abrirModalProducto(id) {
+
+  const producto = productos.find(p => p.id === id);
+
+  if (!producto) return;
+
+  modalProductoImg.src = producto.imagen;
+
+  modalProductoDesc.textContent =
+      producto.descripcion || "Descripción no disponible";
+
+  // Guardamos el producto completo dentro del modal
+  modalProducto.producto = producto;
+
   modalProducto.classList.add("active");
 }
 
