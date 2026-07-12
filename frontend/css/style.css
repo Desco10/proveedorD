@@ -880,70 +880,267 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
 }
 
 /* =========================
-   MODAL PRODUCTO
+   MODAL PRODUCTO vista copartir 
 ========================= */
 
-.modal-producto {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.7);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  padding: 16px;
+/* =========================================================
+   MODAL DETALLE PRODUCTO - DESCOAPP PREMIUM
+========================================================= */
+
+.modal-producto{
+
+    position:fixed;
+    inset:0;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:rgba(0,0,0,.70);
+
+    backdrop-filter:blur(8px);
+
+    opacity:0;
+    visibility:hidden;
+
+    transition:.30s;
+
+    z-index:99999;
+
 }
 
-.modal-producto.active {
-  display: flex;
+.modal-producto.active{
+
+    opacity:1;
+    visibility:visible;
+
 }
 
-.modal-producto-content {
-  background: #ffffff;
-  max-width: 320px;
-  width: 100%;
-  border-radius: 16px;
-  padding: 14px 14px 18px;
-  text-align: center;
-  position: relative;
-  animation: modalFade 0.22s ease;
+.modal-producto-content{
+
+    width:92%;
+    max-width:430px;
+
+    background:#ffffff;
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,.35);
+
+    animation:modalProducto .35s ease;
+
+    position:relative;
+
+}
+
+@keyframes modalProducto{
+
+    from{
+
+        opacity:0;
+        transform:translateY(35px) scale(.96);
+
+    }
+
+    to{
+
+        opacity:1;
+        transform:translateY(0) scale(1);
+
+    }
+
+}
+
+.modal-producto-content img{
+
+    width:100%;
+
+    height:300px;
+
+    object-fit:contain;
+
+    background:#f8f8f8;
+
+    padding:18px;
+
+}
+
+#modalProductoDesc{
+
+    padding:22px;
+
+    font-size:15px;
+
+    line-height:1.65;
+
+    color:#444;
+
+    text-align:left;
+
+}
+
+.modal-close{
+
+    position:absolute;
+
+    top:12px;
+
+    right:14px;
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:24px;
+
+    font-weight:bold;
+
+    color:#444;
+
+    cursor:pointer;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.18);
+
+    transition:.25s;
+
+    z-index:100;
+
+}
+
+.modal-close:hover{
+
+    background:#0B74A8;
+
+    color:#fff;
+
+    transform:rotate(90deg);
+
+}
+
+/*=====================================================
+    ACCIONES PRODUCTO
+=====================================================*/
+
+.producto-share-bar{
+
+    display:flex;
+
+    justify-content:space-evenly;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:18px 22px 24px;
+
+    background:#fff;
+
+}
+
+.producto-share-btn{
+
+    flex:1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:8px;
+
+    border:none;
+
+    border-radius:18px;
+
+    padding:16px;
+
+    cursor:pointer;
+
+    color:#fff;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    transition:.25s;
+
+}
+
+.producto-share-btn i{
+
+    font-size:24px;
+
+}
+
+.producto-copy-btn{
+
+    background:linear-gradient(135deg,#1677ff,#00b4ff);
+
+}
+
+.producto-send-btn{
+
+    background:linear-gradient(135deg,#17b857,#31d66b);
+
+}
+
+.producto-share-btn:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 15px 35px rgba(0,0,0,.20);
+
+}
+
+.producto-share-btn:active{
+
+    transform:scale(.96);
+
+}
+
+@media(max-width:600px){
+
+.producto-share-bar{
+
+    flex-direction:row;
+
+    padding:16px;
+
+}
+
+.producto-share-btn{
+
+    padding:14px;
+
+    font-size:13px;
+
+}
+
+.producto-share-btn i{
+
+    font-size:21px;
+
+}
+
 }
 
 
-.modal-producto-content img {
-  width: 100%;
-  max-height: 200px;
-  object-fit: contain;
-  border-radius: 12px;
-  margin-bottom: 10px;
-}
-
-.modal-producto-content p {
-  font-size: 0.9rem;
-  color: #333;
-  line-height: 1.35;
-}
-
-
-.modal-close {
-  position: absolute;
-  top: 12px;
-  right: 16px;
-  font-size: 1.6rem;
-  cursor: pointer;
-  color: #333;
-}
-
-@keyframes modalFade {
-  from {
-    transform: scale(0.92);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
 
 /* Footer */
 /*.footer { margin-top:30px; background:#0a97e9; color: #ffffff; padding:22px 16px; text-align:center; }
@@ -3425,96 +3622,3 @@ footer .mensaje-temporada.active {
 
 
 
-/*=====================================================
-    ACCIONES DEL MODAL DE PRODUCTO
-======================================================*/
-
-.producto-share-bar{
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:16px;
-
-    margin-top:22px;
-    padding-top:18px;
-
-    border-top:1px solid rgba(0,0,0,.08);
-
-}
-
-.producto-share-btn{
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:10px;
-
-    min-width:170px;
-
-    padding:12px 18px;
-
-    border:none;
-    outline:none;
-
-    border-radius:14px;
-
-    cursor:pointer;
-
-    font-size:15px;
-    font-weight:700;
-
-    color:#fff;
-
-    transition:all .25s ease;
-
-}
-
-.producto-share-btn i{
-
-    font-size:16px;
-
-}
-
-.producto-copy-btn{
-
-    background:linear-gradient(135deg,#0B74A8,#2EA6E6);
-
-}
-
-.producto-send-btn{
-
-    background:linear-gradient(135deg,#16A34A,#22C55E);
-
-}
-
-.producto-share-btn:hover{
-
-    transform:translateY(-3px);
-
-    box-shadow:0 10px 25px rgba(0,0,0,.18);
-
-}
-
-.producto-share-btn:active{
-
-    transform:scale(.97);
-
-}
-
-@media(max-width:600px){
-
-    .producto-share-bar{
-
-        flex-direction:column;
-
-    }
-
-    .producto-share-btn{
-
-        width:100%;
-        min-width:0;
-
-    }
-
-}
