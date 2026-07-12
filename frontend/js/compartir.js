@@ -1,55 +1,100 @@
-const Compartir = {
+/* ==========================================
+   COMPARTIR.JS
+   Sistema centralizado de URLs y Slugs
+========================================== */
 
-    crearSlug(texto) {
+const Compartir = (() => {
 
+    // Convierte cualquier nombre en slug
+    function crearSlug(texto = "") {
         return texto
-            .toLowerCase()
+            .toString()
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "")
-            .replace(/ñ/g, "n")
+            .toLowerCase()
+            .trim()
             .replace(/[^a-z0-9]+/g, "-")
-            .replace(/^-|-$/g, "");
+            .replace(/^-+|-+$/g, "");
+    }
 
-    },
+    // Construye la URL completa del producto
+    function crearUrl(producto) {
 
-    crearUrl(proveedor, producto) {
+        if (!producto) return "";
 
-        return `${window.location.origin}/${proveedor.slug}/${this.crearSlug(producto.nombre)}`;
+        if (!proveedorActual || !proveedorActual.slug) {
+            console.error("Proveedor actual no disponible.");
+            return "";
+        }
 
-    },
+        const slugProducto = crearSlug(producto.nombre);
 
-    async copiar(proveedor, producto) {
+        return `${window.location.origin}/${proveedorActual.slug}/${slugProducto}`;
+    }
 
-        const url = this.crearUrl(proveedor, producto);
+    // Copiar URL
+    async function copiar(producto) {
 
-        await navigator.clipboard.writeText(url);
+        const url = crearUrl(producto);
 
-        alert("✅ Enlace copiado");
+        if (!url) return;
 
-    },
+        try {
 
-    async compartir(proveedor, producto) {
+            await navigator.clipboard.writeText(url);
 
-        const url = this.crearUrl(proveedor, producto);
+            alert("✅ Enlace copiado correctamente");
 
-        if (navigator.share) {
+        } catch (err) {
 
-            await navigator.share({
+            console.error(err);
 
-                title: producto.nombre,
-
-                text: producto.descripcion,
-
-                url
-
-            });
-
-        } else {
-
-            this.copiar(proveedor, producto);
+            alert("No fue posible copiar el enlace.");
 
         }
 
     }
 
-};
+    // Compartir usando Web Share API
+    async function compartir(producto) {
+
+        const url = crearUrl(producto);
+
+        if (!url) return;
+
+        const datos = {
+            title: producto.nombre,
+            text: producto.descripcion || producto.nombre,
+            url
+        };
+
+        if (navigator.share) {
+
+            try {
+
+                await navigator.share(datos);
+
+            } catch (e) {
+
+                console.log("Compartir cancelado");
+
+            }
+
+        } else {
+
+            copiar(producto);
+
+        }
+
+    }
+
+    return {
+
+        crearSlug,
+        crearUrl,
+        copiar,
+        compartir
+
+    };
+
+})();

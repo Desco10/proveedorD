@@ -412,7 +412,7 @@ async function abrirProveedor(id, nombre) {
     productos = await res.json();
 
     paginaActual = 1;
-    proveedorActual = { id, nombre };
+    proveedorActual = proveedorData || { id, nombre };
 
     let proveedorData = null;
     try {
