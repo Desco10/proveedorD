@@ -1495,31 +1495,42 @@ window.addEventListener("DOMContentLoaded", () => {
   autologinBackend();
 
   if (contenedorProveedores) {
+
     console.log("🟢 Cargando proveedores...");
+
     cargarProveedores().then(() => {
-  const slug = obtenerSlugDesdeURL();
-  if (slug) {
-    abrirProveedorPorSlug(slug);
-  }
-});
 
-  }
+        const slug = obtenerSlugDesdeURL();
 
-  if (contenedorCarrusel) {
+        if (slug) {
+            abrirProveedorPorSlug(slug);
+        }
+
+        console.log("✅ Aplicación inicializada correctamente");
+
+        document.dispatchEvent(
+            new CustomEvent("descoapp:ready")
+        );
+
+    });
+
+}
+
+if (contenedorCarrusel) {
+
     console.log("🟢 Cargando ofertas...");
+
     cargarOfertas();
-  }
 
-  const seccionCatalogo = document.querySelector(".catalogo");
-  if (seccionCatalogo) {
+}
+
+const seccionCatalogo = document.querySelector(".catalogo");
+
+if (seccionCatalogo) {
+
     seccionCatalogo.style.display = "none";
-  }
 
-  console.log("✅ Aplicación inicializada correctamente");
-
-document.dispatchEvent(
-    new CustomEvent("descoapp:ready")
-);
+}
 });
 
 // Autologin backend
