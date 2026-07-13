@@ -581,13 +581,7 @@ function filtrarCatalogo(texto) {
    card.innerHTML = `
   <div class="img-wrapper">
 
-   <button
-        class="btn-share-producto"
-        onclick="event.stopPropagation();Compartir.compartirPorId(${prod.id},${prod.proveedorId})">
-
-        <i class="fas fa-share-alt"></i>
-
-    </button>
+   
     <img 
       src="${prod.imagen}" 
       alt="${prod.nombre}"
@@ -680,13 +674,7 @@ function mostrarProductos(animar = true) {
       card.innerHTML = `
   <div class="img-wrapper">
 
-    <button
-        class="btn-share-producto"
-        onclick="event.stopPropagation();Compartir.compartirPorId(${prod.id},${prod.proveedorId})">
-
-        <i class="fas fa-share-alt"></i>
-
-    </button>
+    
 
     <img
         src="${prod.imagen}"

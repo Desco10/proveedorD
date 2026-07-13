@@ -3514,39 +3514,29 @@ footer .mensaje-temporada.active {
 
 
 
-/* ==========================================================
-   DESCOAPP - BOTONES COMPARTIR PRODUCTO
-========================================================== */
+/* ==========================================
+   BOTÓN COMPARTIR MODAL
+========================================== */
 
-/*====================================================
-   BOTÓN FLOTANTE COMPARTIR PRODUCTO
-====================================================*/
+.btn-compartir-modal{
 
-.img-wrapper{
+    width:calc(100% - 40px);
 
-    position:relative;
+    margin:20px;
 
-}
-
-.btn-share-producto{
-
-    position:absolute;
-
-    top:10px;
-
-    right:10px;
-
-    width:42px;
-
-    height:42px;
+    height:52px;
 
     border:none;
 
-    border-radius:50%;
+    border-radius:16px;
 
-    background:rgba(255,255,255,.95);
+    background:linear-gradient(135deg,#17b857,#25D366);
 
-    color:#0B74A8;
+    color:#fff;
+
+    font-size:16px;
+
+    font-weight:700;
 
     display:flex;
 
@@ -3554,30 +3544,24 @@ footer .mensaje-temporada.active {
 
     align-items:center;
 
+    gap:10px;
+
     cursor:pointer;
-
-    font-size:18px;
-
-    z-index:20;
-
-    box-shadow:0 8px 20px rgba(0,0,0,.25);
 
     transition:.25s;
 
 }
 
-.btn-share-producto:hover{
+.btn-compartir-modal:hover{
 
-    transform:scale(1.08);
+    transform:translateY(-3px);
 
-    background:#0B74A8;
-
-    color:#fff;
+    box-shadow:0 12px 25px rgba(0,0,0,.20);
 
 }
 
-.btn-share-producto:active{
+.btn-compartir-modal i{
 
-    transform:scale(.94);
+    font-size:22px;
 
 }
