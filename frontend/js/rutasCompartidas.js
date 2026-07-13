@@ -32,15 +32,43 @@ const RutasCompartidas = (() => {
 
     }
 
-    return {
+    return{
 
-        obtenerSlugs
+    obtenerSlugs,
 
-    };
+    obtenerProveedor
+
+ };
 
 })();
 
 
+function obtenerProveedor(slug){
+
+    if(!slug) return null;
+
+    const cache =
+        JSON.parse(localStorage.getItem("proveedores_cache")) || [];
+
+    return cache.find(p =>
+        p.slug === slug &&
+        p.urlActiva === true
+    ) || null;
+
+}
+
+
+
+
 const ruta = RutasCompartidas.obtenerSlugs();
 
-console.log("RUTA DETECTADA:", ruta);
+if(ruta){
+
+    const proveedor =
+        RutasCompartidas.obtenerProveedor(ruta.proveedorSlug);
+
+    console.log("RUTA:",ruta);
+
+    console.log("PROVEEDOR:",proveedor);
+
+}
