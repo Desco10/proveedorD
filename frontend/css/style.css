@@ -1108,6 +1108,47 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
 }
 
 
+
+/* ===========================
+   BOTONES MODAL PRODUCTO
+   (clases usadas en el HTML)
+=========================== */
+.producto-share-btn {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 160px;
+  height: 48px;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  transition: all 0.25s ease;
+}
+
+.producto-copy-btn {
+  background: #0b74a8;
+}
+
+.producto-send-btn {
+  background: #18a957;
+}
+
+.producto-share-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.20);
+  opacity: 0.92;
+}
+
+.producto-share-btn i {
+  font-size: 16px;
+}
+
 /* Footer */
 /*footer { margin-top:30px; background:#0a97e9; color: #ffffff; padding:22px 16px; text-align:center; }
 .footer a { color: #ffffff; margin:0 8px; font-size:18px; }
