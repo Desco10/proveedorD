@@ -3514,23 +3514,33 @@ footer .mensaje-temporada.active {
 
 
 
-/* ==========================================
-   BOTÓN COMPARTIR MODAL
-========================================== */
+/*=========================================
+  BOTÓN COMPARTIR DEL MODAL
+=========================================*/
 
-.btn-compartir-modal{
+.btn-modal-share{
 
-    width:calc(100% - 40px);
-
-    margin:20px;
+    width:90%;
 
     height:52px;
 
+    margin:18px auto 22px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:12px;
+
     border:none;
 
-    border-radius:16px;
+    border-radius:14px;
 
-    background:linear-gradient(135deg,#17b857,#25D366);
+    cursor:pointer;
+
+    background:linear-gradient(135deg,#0B74A8,#22A6F2);
 
     color:#fff;
 
@@ -3538,30 +3548,46 @@ footer .mensaje-temporada.active {
 
     font-weight:700;
 
-    display:flex;
+    letter-spacing:.3px;
 
-    justify-content:center;
+    transition:all .25s ease;
 
-    align-items:center;
-
-    gap:10px;
-
-    cursor:pointer;
-
-    transition:.25s;
+    box-shadow:0 10px 25px rgba(11,116,168,.28);
 
 }
 
-.btn-compartir-modal:hover{
+.btn-modal-share i{
 
-    transform:translateY(-3px);
-
-    box-shadow:0 12px 25px rgba(0,0,0,.20);
+    font-size:20px;
 
 }
 
-.btn-compartir-modal i{
+.btn-modal-share:hover{
 
-    font-size:22px;
+    transform:translateY(-2px);
+
+    box-shadow:0 15px 30px rgba(11,116,168,.35);
+
+    filter:brightness(1.05);
+
+}
+
+.btn-modal-share:active{
+
+    transform:scale(.97);
+
+}
+
+@media(max-width:768px){
+
+.btn-modal-share{
+
+    width:92%;
+
+    height:48px;
+
+    font-size:15px;
+
+}
 
 }

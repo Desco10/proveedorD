@@ -5,8 +5,11 @@
 
 const Compartir = (() => {
 
-    // Convierte cualquier nombre en slug
+    // ==========================
+    // Crear slug
+    // ==========================
     function crearSlug(texto = "") {
+
         return texto
             .toString()
             .normalize("NFD")
@@ -15,24 +18,50 @@ const Compartir = (() => {
             .trim()
             .replace(/[^a-z0-9]+/g, "-")
             .replace(/^-+|-+$/g, "");
+
     }
 
-    // Construye la URL completa del producto
+    // ==========================
+    // Buscar proveedor por ID
+    // ==========================
+    function obtenerProveedor(id) {
+
+        const cache = JSON.parse(
+            localStorage.getItem("proveedores_cache")
+        ) || [];
+
+        return cache.find(
+            p => String(p.id) === String(id)
+        );
+
+    }
+
+    // ==========================
+    // Construir URL
+    // ==========================
     function crearUrl(producto) {
 
         if (!producto) return "";
 
-        if (!proveedorActual || !proveedorActual.slug) {
-            console.error("Proveedor actual no disponible.");
+        const proveedor = obtenerProveedor(producto.proveedorId);
+
+        if (!proveedor) {
+
+            console.error("Proveedor no encontrado.");
+
             return "";
+
         }
 
         const slugProducto = crearSlug(producto.nombre);
 
-        return `${window.location.origin}/${proveedorActual.slug}/${slugProducto}`;
+        return `${window.location.origin}/${proveedor.slug}/${slugProducto}`;
+
     }
 
-    // Copiar URL
+    // ==========================
+    // Copiar enlace
+    // ==========================
     async function copiar(producto) {
 
         const url = crearUrl(producto);
@@ -55,7 +84,9 @@ const Compartir = (() => {
 
     }
 
-    // Compartir usando Web Share API
+    // ==========================
+    // Compartir
+    // ==========================
     async function compartir(producto) {
 
         const url = crearUrl(producto);
@@ -63,9 +94,13 @@ const Compartir = (() => {
         if (!url) return;
 
         const datos = {
+
             title: producto.nombre,
+
             text: producto.descripcion || producto.nombre,
+
             url
+
         };
 
         if (navigator.share) {
@@ -91,8 +126,11 @@ const Compartir = (() => {
     return {
 
         crearSlug,
+
         crearUrl,
+
         copiar,
+
         compartir
 
     };

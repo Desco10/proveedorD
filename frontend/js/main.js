@@ -582,6 +582,7 @@ function filtrarCatalogo(texto) {
   <div class="img-wrapper">
 
    
+
     <img 
       src="${prod.imagen}" 
       alt="${prod.nombre}"
@@ -1643,6 +1644,7 @@ function abrirModalProducto(id) {
 
   // Guardamos el producto completo dentro del modal
   modalProducto.producto = producto;
+   
 
   modalProducto.classList.add("active");
 }
@@ -2586,4 +2588,13 @@ function actualizarControlCard(idProducto, cantidad, proveedorId) {
   }
 }
 
+// para modal compartir img
+document
+.getElementById("btnCompartirProducto")
+.addEventListener("click",()=>{
 
+    if(!modalProducto.producto) return;
+
+    Compartir.compartir(modalProducto.producto);
+
+});
