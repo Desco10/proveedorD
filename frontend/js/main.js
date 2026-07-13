@@ -688,6 +688,23 @@ function mostrarProductos(animar = true) {
   <div class="card-actions">
   ${generarHtmlAccionCard(prod)}
 </div>
+<div class="card-share">
+
+    <button
+        class="btn-copiar-link"
+        onclick="Compartir.copiarPorId(${prod.id}, ${prod.proveedorId})">
+
+        <i class="fas fa-link"></i>
+
+    </button>
+
+    <button
+        class="btn-compartir-link"
+        onclick="Compartir.compartirPorId(${prod.id}, ${prod.proveedorId})">
+
+        <i class="fas fa-share-alt"></i>
+
+    </button>
      
   </div>
 `;
