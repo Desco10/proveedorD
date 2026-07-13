@@ -87,6 +87,12 @@ document.addEventListener("descoapp:ready", () => {
 // Esperamos que el catálogo termine de renderizar
 setTimeout(() => {
 
+    console.log(productos.map(p => ({
+    nombre: p.nombre,
+    slug: p.slug,
+    generado: Compartir.crearSlug(p.nombre)
+})));
+
     const producto = productos.find(p => {
 
     const slug =
