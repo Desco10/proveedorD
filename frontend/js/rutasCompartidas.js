@@ -80,9 +80,9 @@ document.addEventListener("descoapp:ready", () => {
     console.log("Aplicación lista.");
 
     console.log("Proveedor encontrado:", proveedor);
-    console.log("Proveedor encontrado:", proveedor);
+    
 
-await abrirProveedor(proveedor.id, proveedor.nombre);
+    abrirProveedor(proveedor.id, proveedor.nombre);
 
 // Esperamos que el catálogo termine de renderizar
 setTimeout(() => {
