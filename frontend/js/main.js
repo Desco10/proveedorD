@@ -204,6 +204,8 @@ const sonidoAgregarCarrito = new Audio("/sounds/add-cart.mp3");
 sonidoAgregarCarrito.volume = 0.35;
 /*sonido compras*/
 
+
+let productoDeepLink = null;
 // ==========================
 // SONIDO AL AGREGAR AL CARRITO
 // ==========================
@@ -1674,13 +1676,65 @@ function abrirModalProducto(id) {
 }
 
 cerrarModalProducto.addEventListener("click", () => {
-  modalProducto.classList.remove("active");
+
+    modalProducto.classList.remove("active");
+
+    if(productoDeepLink){
+
+        setTimeout(()=>{
+
+            const card = document.querySelector(
+                `[data-producto-id="${productoDeepLink}"]`
+            );
+
+            if(card){
+
+                card.scrollIntoView({
+
+                    behavior:"smooth",
+
+                    block:"center"
+
+                });
+
+            }
+
+        },250);
+
+    }
+
 });
 
-modalProducto.addEventListener("click", (e) => {
-  if (e.target === modalProducto) {
+modalProducto.addEventListener("click",(e)=>{
+
+    if(e.target!==modalProducto) return;
+
     modalProducto.classList.remove("active");
-  }
+
+    if(productoDeepLink){
+
+        setTimeout(()=>{
+
+            const card=document.querySelector(
+                `[data-producto-id="${productoDeepLink}"]`
+            );
+
+            if(card){
+
+                card.scrollIntoView({
+
+                    behavior:"smooth",
+
+                    block:"center"
+
+                });
+
+            }
+
+        },250);
+
+    }
+
 });
 
 

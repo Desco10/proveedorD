@@ -111,6 +111,7 @@ setTimeout(() => {
     }
 
     console.log("Producto encontrado:", producto);
+    productoDeepLink = producto.id;
 
     abrirModalProducto(producto.id);
 
