@@ -60,15 +60,25 @@ function obtenerProveedor(slug){
 
 
 
-const ruta = RutasCompartidas.obtenerSlugs();
+document.addEventListener("descoapp:ready", () => {
 
-if(ruta){
+    const ruta = RutasCompartidas.obtenerSlugs();
+
+    if (!ruta) return;
 
     const proveedor =
         RutasCompartidas.obtenerProveedor(ruta.proveedorSlug);
 
-    console.log("RUTA:",ruta);
+    if (!proveedor) {
 
-    console.log("PROVEEDOR:",proveedor);
+        console.warn("Proveedor no encontrado.");
 
-}
+        return;
+
+    }
+
+    console.log("Aplicación lista.");
+
+    console.log("Proveedor encontrado:", proveedor);
+
+});

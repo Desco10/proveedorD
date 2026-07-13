@@ -424,7 +424,7 @@ async function abrirProveedor(id, nombre) {
     }
    
     proveedorActual = proveedorData || { id, nombre };
-    
+
     const tituloEl = document.getElementById("tituloCatalogo");
     if (tituloEl) {
       const logoHtml = proveedorData && proveedorData.logo ? `<img src="${proveedorData.logo}" alt="${nombre}" class="catalogo-logo" />` : "";
@@ -1509,6 +1509,10 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   console.log("✅ Aplicación inicializada correctamente");
+
+document.dispatchEvent(
+    new CustomEvent("descoapp:ready")
+);
 });
 
 // Autologin backend
