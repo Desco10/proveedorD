@@ -681,29 +681,12 @@ function mostrarProductos(animar = true) {
   <h3 class="producto-nombre">${prod.nombre}</h3>
 
   <p class="producto-precio">${prod.precio}</p>
+
+  <p style="color:red;font-weight:bold;">
+PRUEBA
+</p>
   
  
-<div class="producto-share-card">
-
-    <button
-        class="producto-share-copy"
-        onclick="Compartir.copiarPorId(${prod.id}, ${prod.proveedorId})">
-
-        <i class="fas fa-link"></i>
-        Copiar
-
-    </button>
-
-    <button
-        class="producto-share-send"
-        onclick="Compartir.compartirPorId(${prod.id}, ${prod.proveedorId})">
-
-        <i class="fas fa-share-alt"></i>
-        Compartir
-
-    </button>
-
-</div>
 
  
   <div class="card-actions">
