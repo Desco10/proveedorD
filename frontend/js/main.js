@@ -411,6 +411,13 @@ async function abrirProveedor(id, nombre) {
     const res = await fetch(`/data/productos_proveedor_${id}.json`);
     productos = await res.json();
 
+    productos = productos.map(prod => ({
+    ...prod,
+    imagen: prod.imagen.startsWith("/")
+        ? prod.imagen
+        : "/" + prod.imagen
+  }));
+
     paginaActual = 1;
     
 
