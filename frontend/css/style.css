@@ -1034,116 +1034,82 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
     ACCIONES PRODUCTO
 =====================================================*/
 
-.producto-share-bar{
+/* ==========================================
+   BOTONES DEL MODAL PRODUCTO
+========================================== */
 
-    display:flex;
+#btnCopiarProducto,
+#btnCompartirProducto{
 
-    justify-content:space-evenly;
+    appearance:none;
+    -webkit-appearance:none;
+
+    display:inline-flex;
 
     align-items:center;
-
-    gap:15px;
-
-    padding:18px 22px 24px;
-
-    background:#fff;
-
-}
-
-.producto-share-btn{
-
-    flex:1;
-
-    display:flex;
-
-    flex-direction:column;
-
     justify-content:center;
+    gap:10px;
 
-    align-items:center;
+    width:180px;
+    height:52px;
 
-    gap:8px;
-
-    border:none;
-
-    border-radius:18px;
-
-    padding:16px;
+    border:none !important;
+    border-radius:16px !important;
 
     cursor:pointer;
 
-    color:#fff;
-
-    font-size:14px;
-
+    font-size:15px;
     font-weight:700;
+
+    color:#fff !important;
 
     transition:.25s;
 
 }
 
-.producto-share-btn i{
+#btnCopiarProducto{
 
-    font-size:24px;
-
-}
-
-.producto-copy-btn{
-
-    background:linear-gradient(135deg,#1677ff,#00b4ff);
+    background:#0B74A8 !important;
 
 }
 
-.producto-send-btn{
+#btnCompartirProducto{
 
-    background:linear-gradient(135deg,#17b857,#31d66b);
-
-}
-
-.producto-share-btn:hover{
-
-    transform:translateY(-4px);
-
-    box-shadow:0 15px 35px rgba(0,0,0,.20);
+    background:#18A957 !important;
 
 }
 
-.producto-share-btn:active{
+#btnCopiarProducto:hover,
+#btnCompartirProducto:hover{
 
-    transform:scale(.96);
+    transform:translateY(-3px);
+
+    box-shadow:0 10px 25px rgba(0,0,0,.20);
 
 }
 
-@media(max-width:600px){
+#btnCopiarProducto i,
+#btnCompartirProducto i{
+
+    font-size:18px;
+
+}
 
 .producto-share-bar{
 
-    flex-direction:row;
+    display:flex;
 
-    padding:16px;
+    justify-content:center;
 
-}
+    gap:14px;
 
-.producto-share-btn{
-
-    padding:14px;
-
-    font-size:13px;
+    margin-top:18px;
 
 }
-
-.producto-share-btn i{
-
-    font-size:21px;
-
-}
-
-}
-
 
 
 /* Footer */
-/*.footer { margin-top:30px; background:#0a97e9; color: #ffffff; padding:22px 16px; text-align:center; }
+/*footer { margin-top:30px; background:#0a97e9; color: #ffffff; padding:22px 16px; text-align:center; }
 .footer a { color: #ffffff; margin:0 8px; font-size:18px; }
 
 /* Responsive */
