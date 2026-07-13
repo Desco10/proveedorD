@@ -89,17 +89,17 @@ setTimeout(() => {
 
     const producto = productos.find(p => {
 
-        const slug =
-            p.slug ||
-            Compartir.crearSlug(p.nombre);
+    const slug =
+        p.slug ||
+        Compartir.crearSlug(p.nombre);
 
-        return slug === productoSlug;
+    return slug === ruta.productoSlug;
 
-    });
+});
 
     if (!producto) {
 
-        console.warn("Producto no encontrado:", productoSlug);
+        console.warn("Producto no encontrado:", ruta.productoSlug);
         return;
 
     }
