@@ -688,23 +688,7 @@ function mostrarProductos(animar = true) {
   <div class="card-actions">
   ${generarHtmlAccionCard(prod)}
 </div>
-<div class="card-share">
 
-    <button
-        class="btn-copiar-link"
-        onclick="Compartir.copiarPorId(${prod.id}, ${prod.proveedorId})">
-
-        <i class="fas fa-link"></i>
-
-    </button>
-
-    <button
-        class="btn-compartir-link"
-        onclick="Compartir.compartirPorId(${prod.id}, ${prod.proveedorId})">
-
-        <i class="fas fa-share-alt"></i>
-
-    </button>
      
   </div>
 `;
@@ -2531,31 +2515,51 @@ function decrementarEnCard(idProducto) {
 // ================================================
 // GENERA EL HTML CORRECTO SEGÚN ESTADO DEL CARRITO
 // ================================================
+// ================================================
+// GENERA EL HTML CORRECTO SEGÚN ESTADO DEL CARRITO
+// ================================================
+
 function generarHtmlAccionCard(prod) {
+
   const carrito = obtenerCarrito();
+
   const item = carrito.items.find(
     p => p.id === prod.id && p.proveedorId === prod.proveedorId
   );
 
   if (item && item.cantidad > 0) {
-    // Ya está en carrito → mostrar control de cantidad
+
     return `
+
       <div class="card-cantidad-control">
+
         <button class="card-qty-btn" onclick="decrementarEnCard(${prod.id})">−</button>
+
         <span class="card-qty-num">${item.cantidad}</span>
+
         <button class="card-qty-btn card-qty-add" onclick="incrementarEnCard(${prod.id})">+</button>
+
       </div>
+
+      ${generarHtmlCompartir(prod)}
+
     `;
   }
 
-  // No está en carrito → mostrar botón COMPRAR
   return `
+
     <button class="btn-wsp" onclick="agregarDesdeCard(${prod.id})">
-      <i class="fab fa-whatsapp"></i> COMPRAR
+
+      <i class="fab fa-whatsapp"></i>
+
+      COMPRAR
+
     </button>
+
+    ${generarHtmlCompartir(prod)}
+
   `;
 }
-
 
 
 function actualizarControlCard(idProducto, cantidad, proveedorId) {
@@ -2590,3 +2594,29 @@ function actualizarControlCard(idProducto, cantidad, proveedorId) {
     `;
   }
 }
+
+
+function generarHtmlCompartir(prod){
+    return `
+        <div class="card-share">
+
+            <button
+                class="btn-copiar-link"
+                onclick="Compartir.copiarPorId(${prod.id},${prod.proveedorId})">
+
+                <i class="fas fa-link"></i>
+
+            </button>
+
+            <button
+                class="btn-compartir-link"
+                onclick="Compartir.compartirPorId(${prod.id},${prod.proveedorId})">
+
+                <i class="fas fa-share-alt"></i>
+
+            </button>
+
+        </div>
+    `;
+}
+
