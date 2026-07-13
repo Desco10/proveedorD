@@ -80,6 +80,34 @@ document.addEventListener("descoapp:ready", () => {
     console.log("Aplicación lista.");
 
     console.log("Proveedor encontrado:", proveedor);
-    abrirProveedor(proveedor.id, proveedor.nombre);
+    console.log("Proveedor encontrado:", proveedor);
+
+await abrirProveedor(proveedor.id, proveedor.nombre);
+
+// Esperamos que el catálogo termine de renderizar
+setTimeout(() => {
+
+    const producto = productos.find(p => {
+
+        const slug =
+            p.slug ||
+            Compartir.crearSlug(p.nombre);
+
+        return slug === productoSlug;
+
+    });
+
+    if (!producto) {
+
+        console.warn("Producto no encontrado:", productoSlug);
+        return;
+
+    }
+
+    console.log("Producto encontrado:", producto);
+
+    abrirModalProducto(producto.id);
+
+}, 600);
 
 });
