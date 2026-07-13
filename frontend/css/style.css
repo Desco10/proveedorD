@@ -3518,21 +3518,23 @@ footer .mensaje-temporada.active {
    DESCOAPP - BOTONES COMPARTIR PRODUCTO
 ========================================================== */
 
-.card-share{
+/*====================================================
+   BOTÓN FLOTANTE COMPARTIR PRODUCTO
+====================================================*/
 
-    display:flex;
+.img-wrapper{
 
-    justify-content:center;
-
-    align-items:center;
-
-    gap:10px;
-
-    margin-top:12px;
+    position:relative;
 
 }
 
-.card-share button{
+.btn-share-producto{
+
+    position:absolute;
+
+    top:10px;
+
+    right:10px;
 
     width:42px;
 
@@ -3540,9 +3542,11 @@ footer .mensaje-temporada.active {
 
     border:none;
 
-    border-radius:14px;
+    border-radius:50%;
 
-    cursor:pointer;
+    background:rgba(255,255,255,.95);
+
+    color:#0B74A8;
 
     display:flex;
 
@@ -3550,50 +3554,30 @@ footer .mensaje-temporada.active {
 
     align-items:center;
 
+    cursor:pointer;
+
     font-size:18px;
+
+    z-index:20;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.25);
+
+    transition:.25s;
+
+}
+
+.btn-share-producto:hover{
+
+    transform:scale(1.08);
+
+    background:#0B74A8;
 
     color:#fff;
 
-    transition:all .25s ease;
-
-    box-shadow:0 6px 15px rgba(0,0,0,.15);
-
 }
 
-.card-share button:hover{
+.btn-share-producto:active{
 
-    transform:translateY(-3px);
-
-    box-shadow:0 10px 22px rgba(0,0,0,.22);
-
-}
-
-.card-share button:active{
-
-    transform:scale(.92);
-
-}
-
-.btn-copiar-link{
-
-    background:linear-gradient(135deg,#1976D2,#42A5F5);
-
-}
-
-.btn-compartir-link{
-
-    background:linear-gradient(135deg,#00A651,#34D16A);
-
-}
-
-.btn-copiar-link:hover{
-
-    background:linear-gradient(135deg,#1565C0,#2196F3);
-
-}
-
-.btn-compartir-link:hover{
-
-    background:linear-gradient(135deg,#008C46,#1DB954);
+    transform:scale(.94);
 
 }

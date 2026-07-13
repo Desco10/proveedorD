@@ -671,12 +671,22 @@ function mostrarProductos(animar = true) {
 
       card.innerHTML = `
   <div class="img-wrapper">
-    <img 
-      src="${prod.imagen}" 
-      alt="${prod.nombre}"
-      onclick="abrirModalProducto(${prod.id})"
+
+    <button
+        class="btn-share-producto"
+        onclick="event.stopPropagation();Compartir.compartirPorId(${prod.id},${prod.proveedorId})">
+
+        <i class="fas fa-share-alt"></i>
+
+    </button>
+
+    <img
+        src="${prod.imagen}"
+        alt="${prod.nombre}"
+        onclick="abrirModalProducto(${prod.id})"
     />
-  </div>
+
+</div>
 
   <h3 class="producto-nombre">${prod.nombre}</h3>
 
