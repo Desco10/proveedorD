@@ -80,5 +80,6 @@ document.addEventListener("descoapp:ready", () => {
     console.log("Aplicación lista.");
 
     console.log("Proveedor encontrado:", proveedor);
+    abrirProveedor(proveedor.id, proveedor.nombre);
 
 });
