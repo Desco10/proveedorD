@@ -412,7 +412,7 @@ async function abrirProveedor(id, nombre) {
     productos = await res.json();
 
     paginaActual = 1;
-    proveedorActual = proveedorData || { id, nombre };
+    
 
     let proveedorData = null;
     try {
@@ -422,7 +422,9 @@ async function abrirProveedor(id, nombre) {
     } catch (err) {
       console.warn("No se pudo cargar datos adicionales del proveedor:", err);
     }
-
+   
+    proveedorActual = proveedorData || { id, nombre };
+    
     const tituloEl = document.getElementById("tituloCatalogo");
     if (tituloEl) {
       const logoHtml = proveedorData && proveedorData.logo ? `<img src="${proveedorData.logo}" alt="${nombre}" class="catalogo-logo" />` : "";
