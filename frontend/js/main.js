@@ -213,7 +213,7 @@ let sonidoCarrito;
 
 function reproducirSonidoCarrito() {
   if (!sonidoCarrito) {
-    sonidoCarrito = new Audio('public/sounds/bell1-445873.mp3');
+    sonidoCarrito = new Audio("/sounds/bell1-445873.mp3");
     sonidoCarrito.volume = 0.3;
   }
 
@@ -411,6 +411,14 @@ async function abrirProveedor(id, nombre) {
     aggressivePauseAllMedia({ resetTime: true, mute: true });
 
     const res = await fetch(`/data/productos_proveedor_${id}.json`);
+
+    if (!proveedorData.catalogoActivo) {
+
+    mostrarMensajeProveedor(proveedorData);
+
+    return;
+
+}
     productos = await res.json();
 
     productos = productos.map(prod => ({

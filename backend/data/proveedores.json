@@ -10,7 +10,9 @@
     "banner": "/img/logo.png",
     "colorDetalles": "#1565C0",
     "detalles": "Nuestro tope de pedido es de $ 100.000\nDespachamos  en todo el Departamento del Cauca ",
-    "visible": true
+    "visible": true,
+    "catalogoActivo": true,
+     "mensajeCatalogo": ""
 
 
 
