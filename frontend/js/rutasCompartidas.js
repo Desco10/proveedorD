@@ -111,9 +111,38 @@ setTimeout(() => {
     }
 
     console.log("Producto encontrado:", producto);
-    productoDeepLink = producto.id;
+    
+
+
+  const indice = productos.findIndex(p => p.id === producto.id);
+
+  paginaActual =
+    Math.floor(indice / productosPorPagina) + 1;
+
+    mostrarProductos(false);
+
+    setTimeout(()=>{
+
+    const card =
+        document.querySelector(
+            `[data-producto-id="${producto.id}"]`
+        );
+
+    if(card){
+
+        card.scrollIntoView({
+            behavior: "smooth",
+            block:"center"
+        });
+
+    }
 
     abrirModalProducto(producto.id);
+
+  },150);
+
+
+    
 
 }, 600);
 
