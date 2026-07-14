@@ -412,13 +412,7 @@ async function abrirProveedor(id, nombre) {
 
     const res = await fetch(`/data/productos_proveedor_${id}.json`);
 
-    if (!proveedorData.catalogoActivo) {
-
-    mostrarMensajeProveedor(proveedorData);
-
-    return;
-
-}
+    
     productos = await res.json();
 
     productos = productos.map(prod => ({
