@@ -445,20 +445,29 @@ if (proveedorData && proveedorData.catalogoDisponible === false) {
 
   if (tituloEl) {
 
-    tituloEl.innerHTML = `
-      <div class="proveedor-pausado">
+   tituloEl.innerHTML = `
+<div class="proveedor-pausado">
 
-        <h2>🚧 ${proveedorData.nombre}</h2>
+    <button
+        class="btn-volver"
+        onclick="volverAProveedores()">
 
-        <p>${proveedorData.mensaje}</p>
+        <i class="fas fa-arrow-left"></i>
+        <span>Volver a proveedores</span>
 
-      </div>
-    `;
+    </button>
+
+    <h2>🚧 ${proveedorData.nombre}</h2>
+
+    <p>${proveedorData.mensaje}</p>
+
+</div>
+`;
 
   }
   // hasta aqui proveedor pausado 
 
-  
+
   const seccionVideos = document.querySelector(".video-stories") || document.querySelector(".videos");
   const seccionOfertas = document.querySelector(".ofertas");
   const seccionProveedores = document.querySelector(".proveedores") || contenedorProveedores;
