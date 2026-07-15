@@ -200,9 +200,7 @@ const modalProductoImg = document.getElementById("modalProductoImg");
 const modalProductoDesc = document.getElementById("modalProductoDesc");
 const cerrarModalProducto = document.getElementById("cerrarModalProducto");
 
-const sonidoAgregarCarrito = new Audio("/sounds/add-cart.mp3");
-sonidoAgregarCarrito.volume = 0.35;
-/*sonido compras*/
+
 
 
 
@@ -213,7 +211,7 @@ let sonidoCarrito;
 
 function reproducirSonidoCarrito() {
   if (!sonidoCarrito) {
-    sonidoCarrito = new Audio("/sounds/bell1-445873.mp3");
+   sonidoCarrito = new Audio("/public/sounds/bell1-445873.mp3");
     sonidoCarrito.volume = 0.3;
   }
 
