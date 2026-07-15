@@ -1930,6 +1930,13 @@ if (!window._abandonoListenerActivo) {
   });
 }
 
+// ============================
+// 5️⃣ ACTUALIZAR CATÁLOGO
+// ============================
+if (typeof mostrarProductos === "function") {
+  mostrarProductos(false);
+}
+
 } catch (error) {
   console.error("Error agregando producto al carrito:", error);
 }
@@ -2553,11 +2560,8 @@ function agregarDesdeCard(idProducto) {
 
     const producto = normalizarProductoParaCompra(productoBase);
 
-    // Agrega al carrito con cantidad 1
-    agregarProductoAlCarrito(producto);
+    decidirCompra(producto);
 
-    // Transforma el botón en control de cantidad
-    actualizarControlCard(idProducto, 1);
   });
 }
 
