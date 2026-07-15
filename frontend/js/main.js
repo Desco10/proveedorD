@@ -436,6 +436,45 @@ async function abrirProveedor(id, nombre) {
    
     proveedorActual = proveedorData || { id, nombre };
 
+    // ===========================================
+// PROVEEDOR TEMPORALMENTE FUERA DE SERVICIO
+// ===========================================
+if (proveedorData && proveedorData.catalogoDisponible === false) {
+
+  const tituloEl = document.getElementById("tituloCatalogo");
+
+  if (tituloEl) {
+
+    tituloEl.innerHTML = `
+      <div class="proveedor-pausado">
+
+        <h2>🚧 ${proveedorData.nombre}</h2>
+
+        <p>${proveedorData.mensaje}</p>
+
+      </div>
+    `;
+
+  }
+  // hasta aqui proveedor pausado 
+
+  
+  const seccionVideos = document.querySelector(".video-stories") || document.querySelector(".videos");
+  const seccionOfertas = document.querySelector(".ofertas");
+  const seccionProveedores = document.querySelector(".proveedores") || contenedorProveedores;
+  const seccionCatalogo = document.querySelector(".catalogo");
+
+  if (seccionVideos) seccionVideos.style.display = "none";
+  if (seccionOfertas) seccionOfertas.style.display = "none";
+  if (seccionProveedores) seccionProveedores.style.display = "none";
+  if (seccionCatalogo) seccionCatalogo.style.display = "block";
+
+  contenedorProductos.innerHTML = "";
+
+  return;
+
+}
+
     const tituloEl = document.getElementById("tituloCatalogo");
     if (tituloEl) {
       const logoHtml = proveedorData && proveedorData.logo ? `<img src="${proveedorData.logo}" alt="${nombre}" class="catalogo-logo" />` : "";
