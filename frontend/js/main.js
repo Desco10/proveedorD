@@ -909,6 +909,8 @@ function onLoginExitoso(cliente) {
   localStorage.setItem("cliente_id", cliente.id);
   localStorage.setItem("loginTime", Date.now());
   usuarioActual = cliente;
+  // Reiniciar la decisión de compra en cada nuevo login
+sessionStorage.removeItem(DECISION_COMPRA_KEY);
 
   cerrarModalAuth();
   actualizarMensajeBienvenida();
