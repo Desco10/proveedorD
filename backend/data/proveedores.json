@@ -11,7 +11,7 @@
     "colorDetalles": "#1565C0",
     "detalles": "Nuestro tope de pedido es de $ 100.000\nDespachamos  en todo el Departamento del Cauca ",
     "visible": true,
-    "catalogoDisponible": false,
+    "catalogoDisponible": true,
 
      "mensaje": "🚧 Estamos mejorando este catálogo. Muy pronto volverá a estar disponible. Mientras tanto te invitamos a visitar nuestros demás proveedores."
     
@@ -29,7 +29,11 @@
     "banner": "/img/logo.png",
     "colorDetalles": "#1565C0",
     "detalles": "Nuestro tope de pedido es de $ 100.000\nDespachamos  en todo el Departamento del Cauca ",
-    "visible": true
+    "visible": true,
+    "catalogoDisponible": true,
+
+     "mensaje": "🚧 Estamos mejorando este catálogo. Muy pronto volverá a estar disponible. Mientras tanto te invitamos a visitar nuestros demás proveedores."
+    
   },
   
   {
@@ -43,7 +47,11 @@
     "banner":"/img/iniciobanner.jpg",
     "colorDetalles": "#42A5F5",
     "detalles": "Nuestro tope de pedido es de $ 100.000\nDescuentos hoy\nestamos ubicados  en POPAYAN ",
-    "visible": true
+    "visible": true,
+    "catalogoDisponible": true,
+
+     "mensaje": "🚧 Estamos mejorando este catálogo. Muy pronto volverá a estar disponible. Mientras tanto te invitamos a visitar nuestros demás proveedores."
+    
 
 
   },
@@ -60,6 +68,10 @@
     "colorDetalles": "#ff6f00",
     "detalles": "Tope de pedido $40.000\nDías de entrega: Lunes, Miércoles y Viernes\nPopayán\nPago contra entrega",
     "visible": true,
+    "catalogoDisponible": true,
+
+     "mensaje": "🚧 Estamos mejorando este catálogo. Muy pronto volverá a estar disponible. Mientras tanto te invitamos a visitar nuestros demás proveedores.",
+    
 
     "whatsapp": {
     "activo": true,
