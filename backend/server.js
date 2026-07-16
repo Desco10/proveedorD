@@ -6,6 +6,7 @@ const path = require("path");
 const compression = require("compression"); //AGREGE ESTO
 
 const app = express();
+const fs = require("fs").promises;
 
 // =====================
 // CONFIGURACIÓN PRODUCCIÓN
@@ -105,6 +106,87 @@ app.use(express.static(FRONTEND_PATH, {
 app.get("/", (req, res) => {
   res.sendFile(path.join(FRONTEND_PATH, "index.html"));
 });
+
+// =====================
+// META OG PRODUCTOS
+// =====================
+
+app.get("/:proveedorSlug/:productoSlug", async (req, res) => {
+
+  try {
+
+    const { proveedorSlug, productoSlug } = req.params;
+
+    // leer proveedores
+    const proveedores = JSON.parse(
+      await fsp.readFile(
+        path.join(DATA_PATH, "proveedores.json"),
+        "utf8"
+      )
+    );
+
+    const proveedor = proveedores.find(
+      p => p.slug === proveedorSlug
+    );
+
+    if (!proveedor) {
+      return res.sendFile(
+        path.join(FRONTEND_PATH, "index.html")
+      );
+    }
+
+    // leer productos del proveedor
+    const productos = JSON.parse(
+      await fsp.readFile(
+        path.join(
+          DATA_PATH,
+          `productos_proveedor_${proveedor.id}.json`
+        ),
+        "utf8"
+      )
+    );
+
+    const producto = productos.find(p => {
+
+      const slug =
+        p.slug ||
+        p.nombre
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/(^-|-$)/g, "");
+
+      return slug === productoSlug;
+
+    });
+
+    if (!producto) {
+      return res.sendFile(
+        path.join(FRONTEND_PATH, "index.html")
+      );
+    }
+
+    // hasta aquí llega el paso 2
+
+    res.send("PASO 2 OK");
+
+  } catch (err) {
+
+    console.error(err);
+
+    res.sendFile(
+      path.join(FRONTEND_PATH, "index.html")
+    );
+
+  }
+
+});
+
+
+
+
+
 
 // =====================
 // CATCH-ALL (SOLO FRONTEND)
