@@ -96,6 +96,12 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(FRONTEND_PATH, "index.html"));
 });
 
+app.get("/prueba", (req, res) => {
+  res.send("RUTA PRUEBA OK");
+});
+
+
+
 // =====================
 // META OG PRODUCTOS
 // =====================
