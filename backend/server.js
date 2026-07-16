@@ -3,19 +3,16 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
-const compression = require("compression"); //AGREGE ESTO
+const compression = require("compression");
 
 const app = express();
-const fs = require("fs");
-const fsp = fs.promises;
 
 // =====================
 // CONFIGURACIÓN PRODUCCIÓN
 // =====================
-app.disable("x-powered-by");//AGREGE ESTO
-app.set("trust proxy", 1); //ESTO
-app.set("etag", "strong"); //ESTO
-
+app.disable("x-powered-by");
+app.set("trust proxy", 1);
+app.set("etag", "strong");
 
 // =====================
 // MIDDLEWARES GLOBALES
@@ -32,15 +29,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // =====================
-// COMPRESIÓN HTTP  AGREGE ESTO 
+// COMPRESIÓN HTTP
 // =====================
 app.use(compression({
   level: 6,
   threshold: 1024
 }));
-
-//HASTA AQUI 
-
 
 // =====================
 // DB
@@ -54,7 +48,7 @@ require("./config/db");
 // CLIENTES
 app.use("/api/clientes", require("./routes/clientes"));
 
-// CARRITOS (UNA SOLA FUENTE DE VERDAD)
+// CARRITOS
 app.use("/api/carritos", require("./routes/carritos"));
 
 // ADMIN
@@ -66,14 +60,13 @@ app.use("/api/admin", require("./routes/admin.routes"));
 const FRONTEND_PATH = path.join(__dirname, "..", "frontend");
 const DATA_PATH = path.join(__dirname, "data");
 
-
+const fs = require("fs");
 
 console.log("FRONTEND_PATH:", FRONTEND_PATH);
 console.log(
   "EXISTE INDEX:",
   fs.existsSync(path.join(FRONTEND_PATH, "index.html"))
 );
-//HASTA AQUI 54
 
 // =====================
 // DATA ESTÁTICA (JSON)
@@ -83,122 +76,8 @@ app.use("/data", express.static(DATA_PATH, {
   lastModified: true,
   maxAge: "1h"
 }));
-// ESTO ARRIBA
-
-
-
-
 
 // =====================
-// SPA ENTRY POINT
-// =====================
-app.get("/", (req, res) => {
-  res.sendFile(path.join(FRONTEND_PATH, "index.html"));
-});
-
-app.get("/prueba", (req, res) => {
-  res.send("RUTA PRUEBA OK");
-});
-
-
-
-// =====================
-// META OG PRODUCTOS
-// =====================
-
-app.get("/:proveedorSlug/:productoSlug", async (req, res) => {
-
-  try {
-
-    const { proveedorSlug, productoSlug } = req.params;
-
-    // leer proveedores
-    const proveedores = JSON.parse(
-      await fsp.readFile(
-        path.join(DATA_PATH, "proveedores.json"),
-        "utf8"
-      )
-    );
-
-    const proveedor = proveedores.find(
-      p => p.slug === proveedorSlug
-    );
-
-    if (!proveedor) {
-      return res.sendFile(
-        path.join(FRONTEND_PATH, "index.html")
-      );
-    }
-
-    // leer productos del proveedor
-    const productos = JSON.parse(
-      await fsp.readFile(
-        path.join(
-          DATA_PATH,
-          `productos_proveedor_${proveedor.id}.json`
-        ),
-        "utf8"
-      )
-    );
-
-    const producto = productos.find(p => {
-
-      const slug =
-        p.slug ||
-        p.nombre
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .replace(/[^a-z0-9]+/g, "-")
-          .replace(/(^-|-$)/g, "");
-
-      return slug === productoSlug;
-
-    });
-
-    if (!producto) {
-      return res.sendFile(
-        path.join(FRONTEND_PATH, "index.html")
-      );
-    }
-
-    // hasta aquí llega el paso 2
-
-   console.log("✅ META OG:", proveedorSlug, productoSlug);
-
-res.send(`
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <title>Prueba Meta OG</title>
-</head>
-<body>
-
-<h1>META OG FUNCIONANDO</h1>
-
-<p>Proveedor: ${proveedorSlug}</p>
-
-<p>Producto: ${productoSlug}</p>
-
-</body>
-</html>
-`);
-
-  } catch (err) {
-
-    console.error(err);
-
-    res.sendFile(
-      path.join(FRONTEND_PATH, "index.html")
-    );
-
-  }
-
-});
-
-
-
-  // =====================
 // FRONTEND
 // =====================
 app.use(express.static(FRONTEND_PATH, {
@@ -209,13 +88,19 @@ app.use(express.static(FRONTEND_PATH, {
   redirect: false,
   fallthrough: true
 }));
- // ARRIBA  ESTO 
 
+// =====================
+// SPA ENTRY POINT
+// =====================
+app.get("/", (req, res) => {
+  res.sendFile(path.join(FRONTEND_PATH, "index.html"));
+});
 
 // =====================
 // CATCH-ALL (SOLO FRONTEND)
 // =====================
 app.get("*", (req, res) => {
+
   if (req.path.startsWith("/api")) {
     return res.status(404).json({
       ok: false,
@@ -234,12 +119,6 @@ app.get("*", (req, res) => {
 });
 
 // =====================
-// SERVER
-// =====================
-
-
-
-// =====================
 // MANEJO GLOBAL DE ERRORES
 // =====================
 app.use((err, req, res, next) => {
@@ -251,7 +130,9 @@ app.use((err, req, res, next) => {
   });
 });
 
-
+// =====================
+// SERVER
+// =====================
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
