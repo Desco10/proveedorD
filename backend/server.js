@@ -6,7 +6,8 @@ const path = require("path");
 const compression = require("compression"); //AGREGE ESTO
 
 const app = express();
-const fs = require("fs").promises;
+const fs = require("fs");
+const fsp = fs.promises;
 
 // =====================
 // CONFIGURACIÓN PRODUCCIÓN
@@ -65,8 +66,7 @@ app.use("/api/admin", require("./routes/admin.routes"));
 const FRONTEND_PATH = path.join(__dirname, "..", "frontend");
 const DATA_PATH = path.join(__dirname, "data");
 
-//AGREGESTO  46
-const fs = require("fs");
+
 
 console.log("FRONTEND_PATH:", FRONTEND_PATH);
 console.log(
@@ -86,18 +86,7 @@ app.use("/data", express.static(DATA_PATH, {
 // ESTO ARRIBA
 
 
-// =====================
-// FRONTEND
-// =====================
-app.use(express.static(FRONTEND_PATH, {
-  etag: true,
-  lastModified: true,
-  maxAge: "7d",
-  index: false,
-  redirect: false,
-  fallthrough: true
-}));
- // ARRIBA  ESTO 
+
 
 
 // =====================
@@ -169,7 +158,25 @@ app.get("/:proveedorSlug/:productoSlug", async (req, res) => {
 
     // hasta aquí llega el paso 2
 
-    res.send("PASO 2 OK");
+   console.log("✅ META OG:", proveedorSlug, productoSlug);
+
+res.send(`
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Prueba Meta OG</title>
+</head>
+<body>
+
+<h1>META OG FUNCIONANDO</h1>
+
+<p>Proveedor: ${proveedorSlug}</p>
+
+<p>Producto: ${productoSlug}</p>
+
+</body>
+</html>
+`);
 
   } catch (err) {
 
@@ -185,7 +192,18 @@ app.get("/:proveedorSlug/:productoSlug", async (req, res) => {
 
 
 
-
+  // =====================
+// FRONTEND
+// =====================
+app.use(express.static(FRONTEND_PATH, {
+  etag: true,
+  lastModified: true,
+  maxAge: "7d",
+  index: false,
+  redirect: false,
+  fallthrough: true
+}));
+ // ARRIBA  ESTO 
 
 
 // =====================
