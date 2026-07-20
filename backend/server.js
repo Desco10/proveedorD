@@ -6,7 +6,7 @@ const path = require("path");
 const compression = require("compression");
 
 const app = express();
-const ogMetaMiddleware = require("./og-meta");
+const ogMetaMiddleware = require("./og-meta"); // archivo que contiene la lógica para generar las meta tags OG
 // =====================
 // CONFIGURACIÓN PRODUCCIÓN
 // =====================
@@ -38,6 +38,16 @@ app.use(compression({
 }));
 
 // =====================
+// META TAGS OG (compartir productos)
+// =====================
+app.use(ogMetaMiddleware); // middleware para generar meta tags OG dinámicas para productos compartidos
+
+// =====================
+
+
+
+
+// =====================
 // DB
 // =====================
 require("./config/db");
@@ -55,7 +65,7 @@ app.use("/api/carritos", require("./routes/carritos"));
 // ADMIN
 app.use("/api/admin", require("./routes/admin.routes"));
 
-app.use("/api/og-test", require("./routes/og-test"));
+
 // =====================
 // PATHS
 // =====================
@@ -90,15 +100,6 @@ app.use(express.static(FRONTEND_PATH, {
   redirect: false,
   fallthrough: true
 }));
-
-
-
-// =====================
-// META TAGS OG (compartir productos)
-// =====================
-app.use(ogMetaMiddleware);
-
-// =====================
 
 
 

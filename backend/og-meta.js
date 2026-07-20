@@ -1,154 +1,365 @@
 /*=========================================================
-    OG-META.JS
-    Genera meta tags Open Graph / Twitter Card dinámicos
-    para /:proveedorSlug/:productoSlug, leyendo los JSON
-    de /data. No genera HTML por producto: todo es al vuelo.
+    CACHE INTELIGENTE
 =========================================================*/
 
-const fs = require("fs");
-const path = require("path");
+const cache = {
+    proveedores: null,
+    proveedoresMTime: 0,
+    productos: {}
+};
 
-const DATA_PATH = path.join(__dirname, "data");
-const SITE_URL = "https://descoapp.com";
+function obtenerMTime(ruta) {
 
-// =====================
-// Mismo algoritmo de slug que el frontend (Compartir.js)
-// =====================
-function crearSlug(texto = "") {
-  return texto
-    .toString()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+    try {
+        return fs.statSync(ruta).mtimeMs;
+    } catch (err) {
+        return 0;
+    }
+
 }
 
-// =====================
-// Escapar HTML (evita romper las meta tags)
-// =====================
-function escapeHtml(str = "") {
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
+function cargarProveedores() {
+
+    const mtime = obtenerMTime(PROVIDERS_FILE);
+
+    if (
+        !cache.proveedores ||
+        cache.proveedoresMTime !== mtime
+    ) {
+
+        cache.proveedores = leerJSON(PROVIDERS_FILE);
+        cache.proveedoresMTime = mtime;
+
+    }
+
+    return cache.proveedores;
+
 }
 
-// =====================
-// Leer JSON de forma segura
-// =====================
-function leerJSON(rutaAbsoluta) {
-  try {
-    const raw = fs.readFileSync(rutaAbsoluta, "utf8");
-    return JSON.parse(raw);
-  } catch (err) {
-    return null;
-  }
-}
+function cargarProductos(proveedorId) {
 
-// =====================
-// Buscar proveedor por slug
-// =====================
-function buscarProveedor(slug) {
-  const proveedores = leerJSON(path.join(DATA_PATH, "proveedores.json")) || [];
-  return proveedores.find(p => p.slug === slug && p.urlActiva === true) || null;
-}
+    const archivo = path.join(
+        DATA_DIR,
+        `productos_proveedor_${proveedorId}.json`
+    );
 
-// =====================
-// Buscar producto por slug dentro de un proveedor
-// =====================
-function buscarProducto(proveedorId, productoSlug) {
-  const archivo = path.join(DATA_PATH, `productos_proveedor_${proveedorId}.json`);
-  const productos = leerJSON(archivo) || [];
+    const mtime = obtenerMTime(archivo);
 
-  return productos.find(p => {
-    const slug = p.slug || crearSlug(p.nombre);
-    return slug === productoSlug;
-  }) || null;
-}
+    if (
+        !cache.productos[proveedorId] ||
+        cache.productos[proveedorId].mtime !== mtime
+    ) {
 
-// =====================
-// Detectar bots / crawlers de redes sociales
-// =====================
-const BOT_REGEX = /facebookexternalhit|Facebot|Twitterbot|WhatsApp|TelegramBot|Slackbot|Discordbot|LinkedInBot|Googlebot|Pinterest|SkypeUriPreview|vkShare|redditbot|Applebot|W3C_Validator/i;
+        cache.productos[proveedorId] = {
+            mtime,
+            datos: leerJSON(archivo)
+        };
 
-function esBot(userAgent = "") {
-  return BOT_REGEX.test(userAgent);
-}
+    }
 
-// =====================
-// Construir el HTML con las meta tags
-// =====================
-function construirHtml({ proveedor, producto, urlActual }) {
-  const titulo = escapeHtml(producto.nombre);
-  const descripcion = escapeHtml(producto.descripcion || producto.nombre);
-  const precio = escapeHtml(producto.precio || "");
+    return cache.productos[proveedorId].datos;
 
-  const imagenRel = producto.imagen.startsWith("/")
-    ? producto.imagen
-    : `/${producto.imagen}`;
-  const imagenUrl = producto.imagen.startsWith("http")
-    ? producto.imagen
-    : `${SITE_URL}${imagenRel}`;
+} 
 
-  return `<!DOCTYPE html>
+
+
+/*=========================================================
+    GENERADOR HTML OPEN GRAPH
+=========================================================*/
+
+function construirHTML(proveedor, producto, urlActual) {
+
+    const titulo = escapeHtml(producto.nombre);
+
+    const descripcion = escapeHtml(
+        producto.descripcion ||
+        proveedor.descripcion ||
+        producto.nombre
+    );
+
+    const precio = escapeHtml(producto.precio || "");
+
+    const imagen = imagenAbsoluta(producto.imagen, proveedor);
+
+    const proveedorNombre = escapeHtml(proveedor.nombre);
+
+    return `<!DOCTYPE html>
 <html lang="es">
 <head>
+
 <meta charset="UTF-8">
-<title>${titulo} | ${escapeHtml(proveedor.nombre)}</title>
 
-<meta property="og:type" content="product">
-<meta property="og:site_name" content="Descoapp">
-<meta property="og:title" content="${titulo}">
-<meta property="og:description" content="${descripcion}${precio ? " - " + precio : ""}">
-<meta property="og:image" content="${imagenUrl}">
-<meta property="og:image:secure_url" content="${imagenUrl}">
-<meta property="og:url" content="${urlActual}">
+<title>${titulo} | ${proveedorNombre}</title>
 
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="${titulo}">
-<meta name="twitter:description" content="${descripcion}">
-<meta name="twitter:image" content="${imagenUrl}">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<meta http-equiv="refresh" content="0; url=${urlActual}">
+<meta name="description"
+content="${descripcion}">
+
+<link rel="canonical"
+href="${urlActual}">
+
+<meta name="theme-color"
+content="${proveedor.color || "#1976d2"}">
+
+<meta property="og:type"
+content="product">
+
+<meta property="og:site_name"
+content="DescoApp">
+
+<meta property="og:title"
+content="${titulo}">
+
+<meta property="og:description"
+content="${descripcion}${precio ? " - " + precio : ""}">
+
+<meta property="og:url"
+content="${urlActual}">
+
+<meta property="og:image"
+content="${imagen}">
+
+<meta property="og:image:secure_url"
+content="${imagen}">
+
+<meta property="og:image:type"
+content="image/jpeg">
+
+<meta property="og:image:width"
+content="1200">
+
+<meta property="og:image:height"
+content="630">
+
+<meta property="og:image:alt"
+content="${titulo}">
+
+<meta property="product:price:amount"
+content="${precio.replace(/[^0-9]/g,"")}">
+
+<meta property="product:price:currency"
+content="COP">
+
+<meta name="twitter:card"
+content="summary_large_image">
+
+<meta name="twitter:title"
+content="${titulo}">
+
+<meta name="twitter:description"
+content="${descripcion}">
+
+<meta name="twitter:image"
+content="${imagen}">
+
+<meta http-equiv="refresh"
+content="0;url=${urlActual}">
+
+<style>
+
+html,
+body{
+
+margin:0;
+padding:0;
+font-family:Arial,Helvetica,sans-serif;
+background:#ffffff;
+color:#333;
+height:100%;
+
+}
+
+body{
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+}
+
+main{
+
+text-align:center;
+padding:40px;
+
+}
+
+img{
+
+max-width:260px;
+margin-bottom:20px;
+
+}
+
+h1{
+
+font-size:26px;
+margin-bottom:10px;
+
+}
+
+p{
+
+font-size:16px;
+line-height:1.6;
+
+}
+
+a{
+
+color:#1976d2;
+text-decoration:none;
+
+}
+
+</style>
+
 </head>
+
 <body>
-  <p>Redirigiendo a <a href="${urlActual}">${titulo}</a>...</p>
+
+<main>
+
+<img src="${imagen}" alt="${titulo}">
+
+<h1>${titulo}</h1>
+
+<p>${descripcion}</p>
+
+${
+precio
+?
+`<p><strong>${precio}</strong></p>`
+:
+""
+}
+
+<p>
+
+Redirigiendo a
+<strong>DescoApp</strong>...
+
+</p>
+
+<p>
+
+<a href="${urlActual}">
+Abrir producto
+</a>
+
+</p>
+
+</main>
+
 </body>
+
 </html>`;
+
 }
 
-// =====================
-// Middleware exportado
-// =====================
-function ogMetaMiddleware(req, res, next) {
-  // Solo nos interesan rutas tipo /proveedorSlug/productoSlug
-  const partes = req.path.replace(/^\/+|\/+$/g, "").split("/");
+/*=========================================================
+    MIDDLEWARE
+=========================================================*/
 
-  if (partes.length !== 2) return next();
-  if (partes[0] === "api" || partes[0] === "data") return next();
+function ogMetaMiddleware(req,res,next){
 
-  const [proveedorSlug, productoSlug] = partes;
+    const partes = req.path
+        .replace(/^\/+|\/+$/g,"")
+        .split("/");
 
-  const proveedor = buscarProveedor(proveedorSlug);
-  if (!proveedor) return next();
+    if(partes.length!==2){
+        return next();
+    }
 
-  const producto = buscarProducto(proveedor.id, productoSlug);
-  if (!producto) return next();
+    if(
+        partes[0]==="api" ||
+        partes[0]==="data" ||
+        partes[0]==="img" ||
+        partes[0]==="css" ||
+        partes[0]==="js" ||
+        partes[0]==="favicon.ico"
+    ){
+        return next();
+    }
 
-  // Si NO es un bot/crawler, dejamos pasar la petición normal (tu SPA sigue igual)
-  const userAgent = req.headers["user-agent"] || "";
-  if (!esBot(userAgent)) return next();
+    const proveedorSlug = partes[0];
+    const productoSlug = partes[1];
 
-  // Si es un bot, respondemos con HTML enriquecido con OG tags
-  const urlActual = `${SITE_URL}${req.originalUrl}`;
-  const html = construirHtml({ proveedor, producto, urlActual });
+    const proveedor = buscarProveedor(proveedorSlug);
 
-  res.set("Cache-Control", "public, max-age=3600");
-  return res.status(200).send(html);
+    if(!proveedor){
+        return next();
+    }
+
+    const producto =
+        buscarProducto(
+            proveedor.id,
+            productoSlug
+        );
+
+    if(!producto){
+        return next();
+    }
+
+    const userAgent =
+        req.headers["user-agent"] || "";
+
+    if(!esBot(userAgent)){
+        return next();
+    }
+
+    const urlActual =
+        SITE_URL + req.originalUrl;
+
+    const html =
+        construirHTML(
+            proveedor,
+            producto,
+            urlActual
+        );
+
+    res.setHeader(
+        "Content-Type",
+        "text/html; charset=utf-8"
+    );
+
+    res.setHeader(
+        "Cache-Control",
+        "public,max-age=3600"
+    );
+
+    return res.status(200).send(html);
+
 }
 
-module.exports = ogMetaMiddleware;
+/*=========================================================
+    MANEJO DE ERRORES
+=========================================================*/
+
+function ogMeta(req, res, next) {
+
+    try {
+        return ogMetaMiddleware(req, res, next);
+    } catch (err) {
+
+        console.error("========================================");
+        console.error("ERROR EN OG-META");
+        console.error(err);
+        console.error("========================================");
+
+        return next();
+    }
+
+}
+
+/*=========================================================
+    LIMPIEZA AUTOMÁTICA DE CACHE
+=========================================================*/
+
+
+/*=========================================================
+    EXPORTACIÓN
+=========================================================*/
+
+module.exports = ogMeta;
