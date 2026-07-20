@@ -87,41 +87,64 @@ const Compartir = (() => {
     // ==========================
     // Compartir
     // ==========================
-    async function compartir(producto) {
+// Compartir
+// ==========================
+async function compartir(producto) {
 
-        const url = crearUrl(producto);
+    const url = crearUrl(producto);
 
-        if (!url) return;
+    if (!url) return;
 
-        const datos = {
+    const proveedor = obtenerProveedor(producto.proveedorId);
 
-            title: producto.nombre,
+    const descripcion = (producto.descripcion || "").trim();
+    const precio = (producto.precio || "").trim();
 
-            text: producto.descripcion || producto.nombre,
+    const mensaje =
+`🛒 *${producto.nombre}*
 
-            url
+${descripcion ? "💊 " + descripcion + "\n\n" : ""}${precio ? `💰 *Precio:*
+${precio}
 
-        };
+` : ""}${proveedor ? `🏪 *Disponible en:*
+${proveedor.nombre}
 
-        if (navigator.share) {
+` : ""}👇 *Ver producto*
 
-            try {
+${url}
 
-                await navigator.share(datos);
+🟢 Compra fácil y rápido con DescoApp.`;
 
-            } catch (e) {
+    // Si el navegador soporta Web Share API
+    if (navigator.share) {
 
-                console.log("Compartir cancelado");
+        try {
 
-            }
+            await navigator.share({
 
-        } else {
+                title: producto.nombre,
 
-            copiar(producto);
+                text: mensaje
+
+            });
+
+            return;
+
+        } catch (e) {
+
+            console.log("Compartir cancelado");
 
         }
 
     }
+
+    // Fallback: abrir WhatsApp directamente
+    window.open(
+        `https://wa.me/?text=${encodeURIComponent(mensaje)}`,
+        "_blank"
+    );
+
+}
 
     return {
 
