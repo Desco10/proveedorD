@@ -87,42 +87,41 @@ const Compartir = (() => {
     // ==========================
     // Compartir
     // ==========================
-// Compartir
-// ==========================
-// Compartir por WhatsApp
-// ==========================
-function compartir(producto) {
+    async function compartir(producto) {
 
-    const url = crearUrl(producto);
+        const url = crearUrl(producto);
 
-    if (!url) return;
+        if (!url) return;
 
-    const proveedor = obtenerProveedor(producto.proveedorId);
+        const datos = {
 
-    const descripcion = (producto.descripcion || "").trim();
-    const precio = (producto.precio || "").trim();
+            title: producto.nombre,
 
-    const mensaje =
-`🛒 *${producto.nombre}*
+            text: producto.descripcion || producto.nombre,
 
-${descripcion ? "💊 " + descripcion + "\n\n" : ""}${precio ? `💰 *Precio:*
-${precio}
+            url
 
-` : ""}${proveedor ? `🏪 *Disponible en:*
-${proveedor.nombre}
+        };
 
-` : ""}👇 *Ver producto*
+        if (navigator.share) {
 
-${url}
+            try {
 
-🟢 Compra fácil y rápido con DescoApp.`;
+                await navigator.share(datos);
 
-    window.open(
-        `https://wa.me/?text=${encodeURIComponent(mensaje)}`,
-        "_blank"
-    );
+            } catch (e) {
 
-}
+                console.log("Compartir cancelado");
+
+            }
+
+        } else {
+
+            copiar(producto);
+
+        }
+
+    }
 
     return {
 
