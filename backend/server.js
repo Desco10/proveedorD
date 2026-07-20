@@ -28,6 +28,7 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
 // =====================
 // COMPRESIÓN HTTP
 // =====================
@@ -54,6 +55,7 @@ app.use("/api/carritos", require("./routes/carritos"));
 // ADMIN
 app.use("/api/admin", require("./routes/admin.routes"));
 
+app.use("/api/og-test", require("./routes/og-test"));
 // =====================
 // PATHS
 // =====================
