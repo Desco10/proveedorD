@@ -99,7 +99,7 @@ const Compartir = (() => {
 
             text: producto.descripcion || producto.nombre,
 
-            
+            url
 
         };
 
