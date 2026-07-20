@@ -6,7 +6,7 @@ const path = require("path");
 const compression = require("compression");
 
 const app = express();
-const ogMetaMiddleware = require("./og-meta"); // archivo que contiene la lógica para generar las meta tags OG
+//const ogMetaMiddleware = require("./og-meta"); // archivo que contiene la lógica para generar las meta tags OG
 // =====================
 // CONFIGURACIÓN PRODUCCIÓN
 // =====================
@@ -40,7 +40,7 @@ app.use(compression({
 // =====================
 // META TAGS OG (compartir productos)
 // =====================
-app.use(ogMetaMiddleware); // middleware para generar meta tags OG dinámicas para productos compartidos
+// app.use(ogMetaMiddleware); // middleware para generar meta tags OG dinámicas para productos compartidos
 
 // =====================
 

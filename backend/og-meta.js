@@ -6,7 +6,7 @@
 =========================================================
 */
 
-const fs = require("fs");
+/*const fs = require("fs");
 const path = require("path");
 
 const SITE_URL = "https://descoapp.com";
@@ -26,7 +26,7 @@ let cache = {
     UTILIDADES
 =========================================================*/
 
-function crearSlug(texto = "") {
+/*function crearSlug(texto = "") {
     return texto
         .toString()
         .normalize("NFD")
@@ -77,7 +77,7 @@ function leerJSON(ruta) {
     CACHE
 =========================================================*/
 
-function cacheExpirada() {
+/*function cacheExpirada() {
 
     return (Date.now() - cache.loadedAt) > CACHE_TIME;
 
@@ -117,7 +117,7 @@ function cargarProductos(proveedorId) {
     BÚSQUEDA DE PROVEEDORES
 =========================================================*/
 
-function buscarProveedor(slug) {
+/*function buscarProveedor(slug) {
 
     const proveedores = cargarProveedores();
 
@@ -144,7 +144,7 @@ function buscarProveedor(slug) {
     BÚSQUEDA DE PRODUCTOS
 =========================================================*/
 
-function buscarProducto(proveedorId, productoSlug) {
+/*function buscarProducto(proveedorId, productoSlug) {
 
     const productos = cargarProductos(proveedorId);
 
@@ -170,7 +170,7 @@ function buscarProducto(proveedorId, productoSlug) {
     DETECCIÓN DE BOTS
 =========================================================*/
 
-const BOT_REGEX =
+/*const BOT_REGEX =
 /facebookexternalhit|Facebot|WhatsApp|Twitterbot|TelegramBot|LinkedInBot|Slackbot|Discordbot|Pinterest|SkypeUriPreview|redditbot|Googlebot|Applebot|bingbot|YandexBot/i;
 
 function esBot(userAgent = "") {
@@ -183,7 +183,7 @@ function esBot(userAgent = "") {
     IMAGEN ABSOLUTA
 =========================================================*/
 
-function imagenAbsoluta(imagen, proveedor) {
+/*/*function imagenAbsoluta(imagen, proveedor) {
 
     if (!imagen || imagen === "") {
 
@@ -217,7 +217,7 @@ function imagenAbsoluta(imagen, proveedor) {
     GENERADOR HTML OPEN GRAPH
 =========================================================*/
 
-function construirHTML(proveedor, producto, urlActual) {
+/*function construirHTML(proveedor, producto, urlActual) {
 
     const titulo = escapeHtml(producto.nombre);
 
@@ -412,7 +412,7 @@ Abrir producto
     MIDDLEWARE
 =========================================================*/
 
-function ogMetaMiddleware(req,res,next){
+/*function ogMetaMiddleware(req,res,next){
 
     const partes = req.path
         .replace(/^\/+|\/+$/g,"")
@@ -487,7 +487,7 @@ function ogMetaMiddleware(req,res,next){
     MANEJO DE ERRORES
 =========================================================*/
 
-function ogMeta(req, res, next) {
+/*/*function ogMeta(req, res, next) {
 
     try {
         return ogMetaMiddleware(req, res, next);
@@ -512,4 +512,4 @@ function ogMeta(req, res, next) {
     EXPORTACIÓN
 =========================================================*/
 
-module.exports = ogMeta;
+/*module.exports = ogMeta;*/
