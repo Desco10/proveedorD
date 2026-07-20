@@ -89,7 +89,9 @@ const Compartir = (() => {
     // ==========================
 // Compartir
 // ==========================
-async function compartir(producto) {
+// Compartir por WhatsApp
+// ==========================
+function compartir(producto) {
 
     const url = crearUrl(producto);
 
@@ -115,30 +117,6 @@ ${url}
 
 🟢 Compra fácil y rápido con DescoApp.`;
 
-    // Si el navegador soporta Web Share API
-    if (navigator.share) {
-
-        try {
-
-            await navigator.share({
-
-                title: producto.nombre,
-
-                text: mensaje
-
-            });
-
-            return;
-
-        } catch (e) {
-
-            console.log("Compartir cancelado");
-
-        }
-
-    }
-
-    // Fallback: abrir WhatsApp directamente
     window.open(
         `https://wa.me/?text=${encodeURIComponent(mensaje)}`,
         "_blank"
