@@ -2009,27 +2009,10 @@ Dirección: ${direccionCliente}
   mensaje += `✅ Quedo atento para confirmar disponibilidad y envío.`;
 
   // 📤 Abrir WhatsApp
-  
-  // 🧾 Generar remisión PNG
-await generarRemisionPNG({
-
-  cliente: {
-    nombre: nombreCompleto,
-    cedula: cedulaCliente,
-    telefono: telefonoCliente,
-    direccion: direccionCliente
-  },
-
-  proveedores,
-  total: totalGeneral
-
-});
-
-// 📤 Abrir WhatsApp
-window.open(
-  `https://wa.me/${WHATSAPP_EMPRESA}?text=${encodeURIComponent(mensaje)}`,
-  "_blank"
-);
+  window.open(
+    `https://wa.me/${WHATSAPP_EMPRESA}?text=${encodeURIComponent(mensaje)}`,
+    "_blank"
+  );
 
   // 🔗 MARCAR CARRITO COMO ENVIADO EN BACKEND (si existe)
   const carritoId = localStorage.getItem("carrito_backend_id");
