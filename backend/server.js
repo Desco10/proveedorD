@@ -6,7 +6,7 @@ const path = require("path");
 const compression = require("compression");
 
 const app = express();
-
+const ogMetaMiddleware = require("./og-meta");
 // =====================
 // CONFIGURACIÓN PRODUCCIÓN
 // =====================
@@ -88,6 +88,17 @@ app.use(express.static(FRONTEND_PATH, {
   redirect: false,
   fallthrough: true
 }));
+
+
+
+// =====================
+// META TAGS OG (compartir productos)
+// =====================
+app.use(ogMetaMiddleware);
+
+// =====================
+
+
 
 // =====================
 // SPA ENTRY POINT
