@@ -9,6 +9,10 @@
 const fs = require("fs");
 const path = require("path");
 
+console.log("======================================");
+console.log("OG-META CARGADO");
+console.log("======================================");
+
 const SITE_URL = "https://descoapp.com";
 const DATA_DIR = path.join(__dirname, "data");
 const PROVIDERS_FILE = path.join(DATA_DIR, "proveedores.json");
