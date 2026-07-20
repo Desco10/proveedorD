@@ -1,34 +1,94 @@
-/*=========================================================
-    CACHE INTELIGENTE
-=========================================================*/
+/*
+=========================================================
+ DescoApp - Open Graph Middleware
+ Archivo: backend/og-meta.js
+ Versión: Producción
+=========================================================
+*/
 
-const cache = {
+const fs = require("fs");
+const path = require("path");
+
+const SITE_URL = "https://descoapp.com";
+const DATA_DIR = path.join(__dirname, "data");
+
+const PROVIDERS_FILE = path.join(DATA_DIR, "proveedores.json");
+
+const CACHE_TIME = 60000;
+
+let cache = {
     proveedores: null,
-    proveedoresMTime: 0,
-    productos: {}
+    productos: {},
+    loadedAt: 0
 };
 
-function obtenerMTime(ruta) {
+/*=========================================================
+    UTILIDADES
+=========================================================*/
+
+function crearSlug(texto = "") {
+    return texto
+        .toString()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+}
+
+function escapeHtml(texto = "") {
+
+    return String(texto)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
+function leerJSON(ruta) {
 
     try {
-        return fs.statSync(ruta).mtimeMs;
+
+        if (!fs.existsSync(ruta)) {
+            return [];
+        }
+
+        const contenido = fs.readFileSync(ruta, "utf8");
+
+        if (!contenido.trim()) {
+            return [];
+        }
+
+        return JSON.parse(contenido);
+
     } catch (err) {
-        return 0;
+
+        console.error("[OG] Error leyendo:", ruta);
+        console.error(err.message);
+
+        return [];
     }
+
+}
+
+/*=========================================================
+    CACHE
+=========================================================*/
+
+function cacheExpirada() {
+
+    return (Date.now() - cache.loadedAt) > CACHE_TIME;
 
 }
 
 function cargarProveedores() {
 
-    const mtime = obtenerMTime(PROVIDERS_FILE);
-
-    if (
-        !cache.proveedores ||
-        cache.proveedoresMTime !== mtime
-    ) {
+    if (!cache.proveedores || cacheExpirada()) {
 
         cache.proveedores = leerJSON(PROVIDERS_FILE);
-        cache.proveedoresMTime = mtime;
+        cache.loadedAt = Date.now();
 
     }
 
@@ -38,30 +98,120 @@ function cargarProveedores() {
 
 function cargarProductos(proveedorId) {
 
+    if (cache.productos[proveedorId] && !cacheExpirada()) {
+        return cache.productos[proveedorId];
+    }
+
     const archivo = path.join(
         DATA_DIR,
         `productos_proveedor_${proveedorId}.json`
     );
 
-    const mtime = obtenerMTime(archivo);
+    cache.productos[proveedorId] = leerJSON(archivo);
 
-    if (
-        !cache.productos[proveedorId] ||
-        cache.productos[proveedorId].mtime !== mtime
-    ) {
+    return cache.productos[proveedorId];
 
-        cache.productos[proveedorId] = {
-            mtime,
-            datos: leerJSON(archivo)
-        };
+}
+
+/*=========================================================
+    BÚSQUEDA DE PROVEEDORES
+=========================================================*/
+
+function buscarProveedor(slug) {
+
+    const proveedores = cargarProveedores();
+
+    for (const proveedor of proveedores) {
+
+        const proveedorSlug =
+            proveedor.slug ||
+            crearSlug(proveedor.nombre);
+
+        if (
+            proveedorSlug === slug &&
+            proveedor.urlActiva === true
+        ) {
+            return proveedor;
+        }
 
     }
 
-    return cache.productos[proveedorId].datos;
+    return null;
 
-} 
+}
 
+/*=========================================================
+    BÚSQUEDA DE PRODUCTOS
+=========================================================*/
 
+function buscarProducto(proveedorId, productoSlug) {
+
+    const productos = cargarProductos(proveedorId);
+
+    for (const producto of productos) {
+
+        const slug =
+            producto.slug ||
+            crearSlug(producto.nombre);
+
+        if (slug === productoSlug) {
+
+            return producto;
+
+        }
+
+    }
+
+    return null;
+
+}
+
+/*=========================================================
+    DETECCIÓN DE BOTS
+=========================================================*/
+
+const BOT_REGEX =
+/facebookexternalhit|Facebot|WhatsApp|Twitterbot|TelegramBot|LinkedInBot|Slackbot|Discordbot|Pinterest|SkypeUriPreview|redditbot|Googlebot|Applebot|bingbot|YandexBot/i;
+
+function esBot(userAgent = "") {
+
+    return BOT_REGEX.test(userAgent);
+
+}
+
+/*=========================================================
+    IMAGEN ABSOLUTA
+=========================================================*/
+
+function imagenAbsoluta(imagen, proveedor) {
+
+    if (!imagen || imagen === "") {
+
+        if (proveedor.logo) {
+
+            if (proveedor.logo.startsWith("http")) {
+                return proveedor.logo;
+            }
+
+            return SITE_URL + proveedor.logo;
+
+        }
+
+        return SITE_URL + "/img/logo.png";
+
+    }
+
+    if (imagen.startsWith("http")) {
+        return imagen;
+    }
+
+    if (imagen.startsWith("/")) {
+        return SITE_URL + imagen;
+    }
+
+    return SITE_URL + "/" + imagen;
+
+}
 
 /*=========================================================
     GENERADOR HTML OPEN GRAPH
