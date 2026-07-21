@@ -76,6 +76,11 @@ console.log(
   fs.existsSync(path.join(FRONTEND_PATH, "index.html"))
 );
 
+
+
+app.get("/descotiendas/:producto", (req, res) => {
+    res.send("LLEGÓ A EXPRESS");
+});
 // =====================
 // DATA ESTÁTICA (JSON)
 // =====================
