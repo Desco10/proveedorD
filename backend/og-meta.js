@@ -9,9 +9,9 @@
 const fs = require("fs");
 const path = require("path");
 
-console.log("======================================");
-console.log("OG-META CARGADO");
-console.log("======================================");
+console.log("✅ og-meta.js cargado");
+
+
 
 const SITE_URL = "https://descoapp.com";
 const DATA_DIR = path.join(__dirname, "data");
@@ -215,6 +215,7 @@ ${precio ? `<p><strong>${precio}</strong></p>` : ""}
    MIDDLEWARE PRINCIPAL
 ========================================================= */
 function ogMetaMiddleware(req, res, next) {
+   console.log("OG:", req.originalUrl);
   const partes = req.path.replace(/^\/+|\/+$/g, "").split("/");
 
   log("---- petición:", req.path, "| UA:", req.headers["user-agent"] || "(sin UA)");
