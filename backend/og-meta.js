@@ -5,7 +5,9 @@
  Archivo: backend/og-meta.js
 =========================================================
 */
-
+console.log("=================================");
+console.log("OG META EJECUTÁNDOSE");
+console.log("=================================");
 const fs = require("fs");
 const path = require("path");
 
@@ -324,6 +326,13 @@ location.replace("${urlActual}");
 ====================================================== */
 
 function ogMeta(req, res, next) {
+ console.log("");
+console.log("================================");
+console.log("ENTRÓ AL MIDDLEWARE OG");
+console.log(req.method, req.originalUrl);
+console.log(req.headers["user-agent"]);
+console.log("================================");
+console.log("");
 
     const partes =
         req.path
