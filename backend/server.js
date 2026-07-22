@@ -1,3 +1,5 @@
+ESTO_ES_UN_ERROR_A_PROPOSITO require("dotenv").config();
+
 require("dotenv").config();
 
 const express = require("express");
