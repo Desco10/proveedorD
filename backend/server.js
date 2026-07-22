@@ -133,7 +133,7 @@ app.get("*", (req, res) => {
     });
   }
 
-  res.sendFile(path.join(FRONTEND_PATH, "index.html"));
+  res.send("CATCHALL-TEST-999 - " + new Date().toISOString());
 });
 
 // =====================
