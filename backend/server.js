@@ -6,6 +6,11 @@ const path = require("path");
 const compression = require("compression");
 
 const app = express();
+
+app.get("/og-test-12345", (req, res) => {
+  res.send("OG TEST FUNCIONANDO - " + new Date().toISOString());
+});
+
 const ogMetaMiddleware = require("./og-meta"); // archivo que contiene la lógica para generar las meta tags OG
 
 
@@ -78,9 +83,7 @@ console.log(
 
 
 
-app.get("/descotiendas/:producto", (req, res) => {
-    res.send("LLEGÓ A EXPRESS");
-});
+
 // =====================
 // DATA ESTÁTICA (JSON)
 // =====================
