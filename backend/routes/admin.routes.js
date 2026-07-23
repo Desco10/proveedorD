@@ -17,6 +17,8 @@ const {
   actualizarEstadoCarrito
 } = require("../controllers/adminCarritosController");
 
+const { obtenerRemisionDeCarrito } = require("../routes/remisiones"); // 🆕 NUEVO
+
 // ===============================
 // AUTH
 // ===============================
@@ -34,6 +36,7 @@ router.get("/dashboard/metricas", metricasDashboard);
 router.get("/carritos", listarCarritosAdmin);
 router.get("/carritos/:id/detalle", detalleCarritoAdmin);
 router.put("/carritos/:id/estado", actualizarEstadoCarrito);
+router.get("/remision-de-carrito/:carritoId", obtenerRemisionDeCarrito); // 🆕 NUEVO
 
 // ===============================
 module.exports = router;
