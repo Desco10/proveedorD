@@ -65,6 +65,13 @@ app.use("/api/carritos", require("./routes/carritos"));
 app.use("/api/admin", require("./routes/admin.routes"));
 
 
+
+const { crearRemision, verRemision } = require("./routes/remisiones");
+
+app.post("/api/remisiones", crearRemision);
+app.get("/remision/:numero", verRemision);
+
+
 // =====================
 // PATHS
 // =====================
