@@ -144,7 +144,7 @@ function imagenAbsoluta(imagen, proveedor) {
 }
 
 /* =========================================================
-   GENERADOR HTML OPEN GRAPH
+   GENERADOR HTML OPEN GRAPH — PRODUCTO
 ========================================================= */
 function construirHTML(proveedor, producto, urlActual) {
   const titulo = escapeHtml(producto.nombre);
@@ -208,22 +208,112 @@ ${precio ? `<p><strong>${precio}</strong></p>` : ""}
 }
 
 /* =========================================================
+   GENERADOR HTML OPEN GRAPH — PROVEEDOR (catálogo completo)
+========================================================= */
+function construirHTMLProveedor(proveedor, urlActual) {
+  const titulo = escapeHtml(proveedor.nombre);
+  const descripcion = escapeHtml(proveedor.descripcion || `Catálogo de ${proveedor.nombre} en DescoApp`);
+  const imagen = imagenAbsoluta(proveedor.banner || proveedor.logo, proveedor);
+
+  return `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>${titulo} | DescoApp</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="${descripcion}">
+<link rel="canonical" href="${urlActual}">
+<meta name="theme-color" content="${proveedor.color || "#1976d2"}">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DescoApp">
+<meta property="og:title" content="${titulo}">
+<meta property="og:description" content="${descripcion}">
+<meta property="og:url" content="${urlActual}">
+<meta property="og:image" content="${imagen}">
+<meta property="og:image:secure_url" content="${imagen}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="${titulo}">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${titulo}">
+<meta name="twitter:description" content="${descripcion}">
+<meta name="twitter:image" content="${imagen}">
+
+<meta http-equiv="refresh" content="0;url=${urlActual}">
+
+<style>
+html,body{margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;background:#fff;color:#333;height:100%}
+body{display:flex;align-items:center;justify-content:center}
+main{text-align:center;padding:40px}
+img{max-width:260px;margin-bottom:20px}
+h1{font-size:26px;margin-bottom:10px}
+p{font-size:16px;line-height:1.6}
+a{color:#1976d2;text-decoration:none}
+</style>
+</head>
+<body>
+<main>
+<img src="${imagen}" alt="${titulo}">
+<h1>${titulo}</h1>
+<p>${descripcion}</p>
+<p>Redirigiendo a <strong>DescoApp</strong>...</p>
+<p><a href="${urlActual}">Ver catálogo</a></p>
+</main>
+</body>
+</html>`;
+}
+
+/* =========================================================
    MIDDLEWARE PRINCIPAL
 ========================================================= */
 function ogMetaMiddleware(req, res, next) {
-  const partes = req.path.replace(/^\/+|\/+$/g, "").split("/");
+  const partes = req.path.replace(/^\/+|\/+$/g, "").split("/").filter(Boolean);
 
   log("---- petición:", req.path, "| UA:", req.headers["user-agent"] || "(sin UA)");
 
-  if (partes.length !== 2 || partes[0] === "" || partes[1] === "") {
+  if (partes.length === 0 || partes.length > 2) {
     return next();
   }
 
-  const RESERVADAS = ["api", "data", "img", "css", "js", "favicon.ico"];
+  const RESERVADAS = ["api", "data", "img", "css", "js", "favicon.ico", "share", "remision", "robots.txt", "sitemap.xml"];
   if (RESERVADAS.includes(partes[0])) {
     return next();
   }
 
+  const userAgent = req.headers["user-agent"] || "";
+
+  // =====================
+  // CASO 1: /:proveedorSlug  → página del catálogo del proveedor
+  // =====================
+  if (partes.length === 1) {
+    const proveedorSlug = partes[0];
+    const proveedor = buscarProveedor(proveedorSlug);
+
+    if (!proveedor) {
+      log("❌ (proveedor-solo) proveedor no encontrado:", proveedorSlug);
+      return next();
+    }
+
+    if (!esBot(userAgent)) {
+      log("ok: (proveedor-solo) encontrado pero no es bot, sirviendo SPA normal");
+      return next();
+    }
+
+    const urlActual = SITE_URL + req.originalUrl;
+    const html = construirHTMLProveedor(proveedor, urlActual);
+
+    log("✅ sirviendo HTML de OG para proveedor:", proveedor.nombre);
+
+    res.setHeader("Content-Type", "text/html; charset=utf-8");
+    res.setHeader("Cache-Control", "public,max-age=3600");
+    return res.status(200).send(html);
+  }
+
+  // =====================
+  // CASO 2: /:proveedorSlug/:productoSlug  → página del producto
+  // =====================
   const proveedorSlug = partes[0];
   const productoSlug = partes[1];
 
@@ -239,7 +329,6 @@ function ogMetaMiddleware(req, res, next) {
     return next();
   }
 
-  const userAgent = req.headers["user-agent"] || "";
   if (!esBot(userAgent)) {
     log("ok: encontrado pero no es bot, sirviendo SPA normal");
     return next();
