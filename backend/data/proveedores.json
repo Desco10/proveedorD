@@ -4,14 +4,14 @@
    "nombre": "AUTENTICA COSMETICS ",
    "slug": "autentica",
     "urlActiva": true,
-    "logo": "/img/banner.jpeg",
+    "logo": "/img/p1/autentica.png",
     "descripcion": "Medicamentos y productos de cuidado personal.",
     "color": "#E3F2FD",
-    "banner": "/img/logo.png",
+    "banner": "/img/p1/logo.png",
     "colorDetalles": "#1565C0",
     "detalles": "Nuestro tope de pedido es de $ 100.000\nDespachamos  en todo el Departamento del Cauca ",
     "visible": true,
-    "catalogoDisponible": true,
+    "catalogoDisponible": false,
 
      "mensaje": "🚧 Estamos mejorando este catálogo. Muy pronto volverá a estar disponible. Mientras tanto te invitamos a visitar nuestros demás proveedores."
     
@@ -20,17 +20,17 @@
 },
   {
     "id": 2,
-    "nombre": "Laboratorios Salud Total",
-    "slug": "labsalud",
+    "nombre": "Arepas  ",
+    "slug": "Arepas",
     "urlActiva": true,
-    "logo": "/img/banner.jpeg",
+    "logo": "/img/p2/AREPAS.png",
     "descripcion": "Medicamentos y productos de cuidado personal.",
     "color": "#E3F2FD",
-    "banner": "/img/logo.png",
+    "banner": "/img/p1/logo.png",
     "colorDetalles": "#1565C0",
     "detalles": "Nuestro tope de pedido es de $ 100.000\nDespachamos  en todo el Departamento del Cauca ",
     "visible": true,
-    "catalogoDisponible": true,
+    "catalogoDisponible": false,
 
      "mensaje": "🚧 Estamos mejorando este catálogo. Muy pronto volverá a estar disponible. Mientras tanto te invitamos a visitar nuestros demás proveedores."
     
@@ -38,17 +38,17 @@
   
   {
     "id": 3,
-    "nombre": "Super Alimentos del Cauca",
-    "slug": "superalimentos",
+    "nombre": "DistriAndina del Cauca",
+    "slug": "distriandina-del-cauca",
     "urlActiva": true,
-    "logo": "/img/bianchi.jpg",
+    "logo": "/img/p3/DISTRIANDINA.png",
     "descripcion": "Snacks, bebidas y productos comestibles.",
     "color": "#FFF3E0",
     "banner":"/img/iniciobanner.jpg",
     "colorDetalles": "#42A5F5",
     "detalles": "Nuestro tope de pedido es de $ 100.000\nDescuentos hoy\nestamos ubicados  en POPAYAN ",
     "visible": true,
-    "catalogoDisponible": true,
+    "catalogoDisponible": false,
 
      "mensaje": "🚧 Estamos mejorando este catálogo. Muy pronto volverá a estar disponible. Mientras tanto te invitamos a visitar nuestros demás proveedores."
     
