@@ -288,7 +288,7 @@ function ogMetaMiddleware(req, res, next) {
   // =====================
   // CASO 1: /:proveedorSlug  → página del catálogo del proveedor
   // =====================
-  /*if (partes.length === 1) {
+  if (partes.length === 1) {
     const proveedorSlug = partes[0];
     const proveedor = buscarProveedor(proveedorSlug);
 
@@ -310,7 +310,7 @@ function ogMetaMiddleware(req, res, next) {
     res.setHeader("Content-Type", "text/html; charset=utf-8");
     res.setHeader("Cache-Control", "public,max-age=3600");
     return res.status(200).send(html);
-  }*/
+  }
 
   // =====================
   // CASO 2: /:proveedorSlug/:productoSlug  → página del producto
