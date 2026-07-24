@@ -10,7 +10,7 @@ const app = express();
 
 
 const ogMetaMiddleware = require("./og-meta"); // archivo que contiene la lógica para generar las meta tags OG
-
+const ogProveedor = require("./og-proveedores");
 
 // CONFIGURACIÓN PRODUCCIÓN
 // =====================
@@ -46,7 +46,9 @@ app.use(compression({
 // =====================
 app.use(ogMetaMiddleware); // middleware para generar meta tags OG dinámicas para productos compartidos
 
-
+// META TAGS OG (proveedores)
+// =====================
+app.use(ogProveedor);
 // DB
 // =====================
 require("./config/db");
