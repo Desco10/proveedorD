@@ -15,7 +15,7 @@ const PROVIDERS_FILE = path.join(DATA_DIR, "proveedores.json");
 const LOG_FILE = path.join(__dirname, "og-meta-debug.log");
 
 const CACHE_TIME = 60000; // 60 segundos
-const ogProveedor = require("./og-proveedores");//ajuste para archivo  og-proveedores.js
+
 
 let cache = {
   proveedores: null,
@@ -211,7 +211,7 @@ ${precio ? `<p><strong>${precio}</strong></p>` : ""}
 /* =========================================================
    GENERADOR HTML OPEN GRAPH — PROVEEDOR (catálogo completo)
 ========================================================= */
-/*function construirHTMLProveedor(proveedor, urlActual) {
+function construirHTMLProveedor(proveedor, urlActual) {
   const titulo = escapeHtml(proveedor.nombre);
   const descripcion = escapeHtml(proveedor.descripcion || `Catálogo de ${proveedor.nombre} en DescoApp`);
   const imagen = imagenAbsoluta(proveedor.banner || proveedor.logo, proveedor);
