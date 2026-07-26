@@ -275,6 +275,11 @@ function servirProveedor(req, res, next, proveedorSlug) {
 
     const proveedor = buscarProveedor(proveedorSlug);
 
+log(
+    "5) RESULTADO buscarProveedor:",
+    proveedor ? proveedor.slug : "NO ENCONTRADO"
+);
+
     if (!proveedor) {
         return next();
     }
@@ -292,6 +297,8 @@ function servirProveedor(req, res, next, proveedorSlug) {
 
     res.setHeader("Content-Type", "text/html; charset=utf-8");
     res.setHeader("Cache-Control", "public,max-age=3600");
+
+    log("6) ENVIANDO HTML OG DEL PROVEEDOR");
 
     return res.status(200).send(html);
 
@@ -358,6 +365,13 @@ function ogMetaMiddleware(req, res, next) {
         req.headers["user-agent"] || "(sin UA)"
     );
 
+    log("1) PETICIÓN:", req.path);
+  log("2) PARTES:", JSON.stringify(partes));
+  log("3) UA:", req.headers["user-agent"] || "(sin UA)");
+
+
+
+
     if (partes.length === 0)
         return next();
 
@@ -392,6 +406,11 @@ function ogMetaMiddleware(req, res, next) {
     //========================================
 
     if (partes.length === 1) {
+
+
+      log("4) ENTRÓ AL BLOQUE PROVEEDOR");
+
+    const proveedorSlug = partes[0];
 
         return servirProveedor(
             req,
