@@ -1959,6 +1959,18 @@
     "oferta": true,
     "proveedorId": 4
 
+  },
+  
+  {
+   "id": 1000,
+    "nombre": " CATALOGO",
+    "slug":"catalogo",
+    "precio": "$49.078 ( Paca x 24 )",
+    "imagen": "img/p4/produc/179-ponybotella.png",
+    "descripcion": "Pony Malta (botella): bebida maltada sin alcohol con maltas y extractos de malta de cebada; sirve como bebida energética y nutritiva, ideal para hidratación y aporte de carbohidratos.",
+    "oferta": true,
+    "proveedorId": 4,
+    "oculto":true
   }
 
 

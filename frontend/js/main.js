@@ -709,8 +709,16 @@ function resetearBotonSalirProveedor(btn) {
 
 // MOSTRAR PRODUCTOS
 
+// ========================================
+// MOSTRAR PRODUCTOS
+// ========================================
+
 function mostrarProductos(animar = true) {
-  if (!productos.length) {
+
+  // SOLO PRODUCTOS VISIBLES
+  const productosVisibles = productos.filter(prod => !prod.oculto);
+
+  if (!productosVisibles.length) {
     contenedorProductos.innerHTML = "<p>No hay productos disponibles.</p>";
     return;
   }
@@ -718,66 +726,75 @@ function mostrarProductos(animar = true) {
   const contenedor = document.getElementById("productos");
   if (!contenedor) return;
 
-  if (animar) contenedor.classList.add("efecto-pagina");
+  if (animar)
+    contenedor.classList.add("efecto-pagina");
 
   setTimeout(() => {
+
     contenedor.innerHTML = "";
+
     const inicio = (paginaActual - 1) * productosPorPagina;
     const fin = inicio + productosPorPagina;
-    const productosPagina = productos.slice(inicio, fin);
+
+    // PAGINACIÓN SOBRE LOS VISIBLES
+    const productosPagina = productosVisibles.slice(inicio, fin);
 
     productosPagina.forEach(prod => {
+
       const card = document.createElement("div");
+
       card.className = "card animar-entrada";
       card.setAttribute("data-producto-id", prod.id);
 
       card.innerHTML = `
-  <div class="img-wrapper">
+        <div class="img-wrapper">
 
-    
+          <img
+              src="${prod.imagen}"
+              alt="${prod.nombre}"
+              onclick="abrirModalProducto(${prod.id})"
+          />
 
-    <img
-        src="${prod.imagen}"
-        alt="${prod.nombre}"
-        onclick="abrirModalProducto(${prod.id})"
-    />
+        </div>
 
-</div>
+        <h3 class="producto-nombre">${prod.nombre}</h3>
 
-  <h3 class="producto-nombre">${prod.nombre}</h3>
+        <p class="producto-precio">${prod.precio}</p>
 
-  <p class="producto-precio">${prod.precio}</p>
-
-  
-  
- 
-
- 
-  <div class="card-actions">
-  ${generarHtmlAccionCard(prod)}
-</div>
-
-     
-  </div>
-`;
-
+        <div class="card-actions">
+          ${generarHtmlAccionCard(prod)}
+        </div>
+      `;
 
       contenedor.appendChild(card);
+
     });
 
     const paginaActualEl = document.getElementById("paginaActual");
-    if (paginaActualEl) paginaActualEl.textContent = `Página ${paginaActual}`;
 
-    if (animar) setTimeout(() => contenedor.classList.remove("efecto-pagina"), 700);
+    if (paginaActualEl)
+      paginaActualEl.textContent = `Página ${paginaActual}`;
+
+    if (animar)
+      setTimeout(() => {
+        contenedor.classList.remove("efecto-pagina");
+      }, 700);
 
   }, animar ? 200 : 0);
+
 }
 
 // PAGINACION
 
 function siguientePagina() {
   if (!proveedorActual) return;
-  const totalPaginas = Math.ceil(productos.length / productosPorPagina);
+  const productosVisibles = productos.filter(prod => !prod.oculto);
+
+const totalPaginas = Math.ceil(
+    productosVisibles.length / productosPorPagina
+);  
+
+
   if (paginaActual < totalPaginas) {
     paginaActual++;
     mostrarProductos();

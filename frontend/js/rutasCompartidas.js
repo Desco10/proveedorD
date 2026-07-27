@@ -114,32 +114,53 @@ setTimeout(() => {
     
 
 
-  const indice = productos.findIndex(p => p.id === producto.id);
+  //======================================================
+// PRODUCTO ESPECIAL PARA COMPARTIR EL PROVEEDOR
+//======================================================
 
-  paginaActual =
-    Math.floor(indice / productosPorPagina) + 1;
+if (producto.oculto === true) {
+
+    console.log("Producto oculto de proveedor.");
+
+    paginaActual = 1;
 
     mostrarProductos(false);
 
-    setTimeout(()=>{
+    return;
+}
 
-    const card =
-        document.querySelector(
-            `[data-producto-id="${producto.id}"]`
-        );
+//======================================================
+// PRODUCTO NORMAL
+//======================================================
 
-    if(card){
+const indice = productos.findIndex(p => p.id === producto.id);
+
+paginaActual =
+    Math.floor(indice / productosPorPagina) + 1;
+
+mostrarProductos(false);
+
+setTimeout(() => {
+
+    const card = document.querySelector(
+        `[data-producto-id="${producto.id}"]`
+    );
+
+    if (card) {
 
         card.scrollIntoView({
+
             behavior: "smooth",
-            block:"center"
+
+            block: "center"
+
         });
 
     }
 
     abrirModalProducto(producto.id);
 
-  },150);
+},150);
 
 
     
