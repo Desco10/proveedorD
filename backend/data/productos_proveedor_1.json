@@ -132,7 +132,7 @@
 
 {
     "id": 13,
-    "nombre": "Ibuprofeno 400mg",
+    "nombre": "Ibuprofeno ",
     "precio": "$7.900 caja x10",
     "imagen": "/img/p1/produc/58-IBUPROFENO.jpg",
     "descripcion": "Alivia dolor, inflamación y fiebre. Producto de alta rotación.",
@@ -141,7 +141,7 @@
   },
   {
     "id": 14,
-    "nombre": "Panadol Niños",
+    "nombre": "dolex Niños",
     "precio": "$12.500 frasco x120ml",
     "imagen": "/img/p1/produc/7-DOLEXNORMAL.png",
     "descripcion": "Jarabe suave para aliviar fiebre y dolor en niños.",
