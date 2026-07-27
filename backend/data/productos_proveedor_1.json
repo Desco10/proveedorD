@@ -127,7 +127,43 @@
     "descripcion": "Jarabe suave para aliviar fiebre y dolor en niños.",
     "oferta": false,
     "proveedorId": 1
+  },
+
+
+{
+    "id": 13,
+    "nombre": "Ibuprofeno 400mg",
+    "precio": "$7.900 caja x10",
+    "imagen": "/img/p1/produc/58-IBUPROFENO.jpg",
+    "descripcion": "Alivia dolor, inflamación y fiebre. Producto de alta rotación.",
+    "oferta": true,
+    "proveedorId": 1
+  },
+  {
+    "id": 14,
+    "nombre": "Panadol Niños",
+    "precio": "$12.500 frasco x120ml",
+    "imagen": "/img/p1/produc/7-DOLEXNORMAL.png",
+    "descripcion": "Jarabe suave para aliviar fiebre y dolor en niños.",
+    "oferta": false,
+    "proveedorId": 1
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
 ]
+
+
+
 
 
