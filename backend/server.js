@@ -123,19 +123,17 @@ app.get("/", (req, res) => {
 // CATCH-ALL (SOLO FRONTEND)
 // =====================
 app.get("*", (req, res) => {
-
   if (req.path.startsWith("/api")) {
-    return res.status(404).json({
-      ok: false,
-      message: "Ruta API no encontrada"
-    });
+    return res.status(404).json({ ok: false, message: "Ruta API no encontrada" });
+  }
+  if (req.path.startsWith("/data")) {
+    return res.status(404).json({ ok: false, message: "Archivo no encontrado" });
   }
 
-  if (req.path.startsWith("/data")) {
-    return res.status(404).json({
-      ok: false,
-      message: "Archivo no encontrado"
-    });
+  // Si es bot y llegó hasta aquí, el proveedor no existe — devuelve 404 esto es para og meta proveedores prueba
+  const BOT_REGEX = /facebookexternalhit|WhatsApp|Twitterbot|TelegramBot|LinkedInBot|Slackbot|Discordbot|Googlebot/i;
+  if (BOT_REGEX.test(req.headers["user-agent"] || "")) {
+    return res.status(404).send("Not found");
   }
 
   res.sendFile(path.join(FRONTEND_PATH, "index.html"));
