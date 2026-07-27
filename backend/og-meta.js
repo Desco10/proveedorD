@@ -24,7 +24,7 @@ let cache = {
 };
 
 /* =========================================================
-   LOG DE DIAGNÓSTICO (visible desde cPanel File Manager) prontamente quitar 
+   LOG DE DIAGNÓSTICO (visible desde cPanel File Manager)
 ========================================================= */
 function log(...partes) {
   const linea = `[${new Date().toISOString()}] ${partes.join(" ")}\n`;
@@ -104,7 +104,7 @@ function buscarProveedor(slug) {
   const proveedores = cargarProveedores();
   for (const proveedor of proveedores) {
     const proveedorSlug = proveedor.slug || crearSlug(proveedor.nombre);
-    if (proveedorSlug === slug && (proveedor.urlActiva === true || proveedor.urlActiva === "true")) {
+    if (proveedorSlug === slug && proveedor.urlActiva === true) {
       return proveedor;
     }
   }
@@ -266,121 +266,19 @@ a{color:#1976d2;text-decoration:none}
 </html>`;
 }
 
-
-
-/* =========================================================
-   FLUJO OG - PROVEEDOR
-========================================================= */
-function servirProveedor(req, res, next, proveedorSlug) {
-
-    const proveedor = buscarProveedor(proveedorSlug);
-
-log(
-    "5) RESULTADO buscarProveedor:",
-    proveedor ? proveedor.slug : "NO ENCONTRADO"
-);//prueba quitar log 1 de 4
-
-    if (!proveedor) {
-        return next();
-    }
-
-    if (!esBot(req.headers["user-agent"] || "")) {
-        return next();
-    }
-
-    const urlActual = SITE_URL + req.originalUrl;
-
-    const html = construirHTMLProveedor(
-        proveedor,
-        urlActual
-    );
-
-    res.setHeader("Content-Type", "text/html; charset=utf-8");
-    res.setHeader("Cache-Control", "public,max-age=3600");
-
-    log("6) ENVIANDO HTML OG DEL PROVEEDOR");//prueba quitar log 2 de 4
-
-    return res.status(200).send(html);
-
-}
-
-
-/* =========================================================
-   FLUJO OG - PRODUCTO
-========================================================= */
-function servirProducto(req, res, next, proveedorSlug, productoSlug) {
-
-    const proveedor = buscarProveedor(proveedorSlug);
-
-    if (!proveedor) {
-        return next();
-    }
-
-    const producto = buscarProducto(
-        proveedor.id,
-        productoSlug
-    );
-
-    if (!producto) {
-        return next();
-    }
-
-    if (!esBot(req.headers["user-agent"] || "")) {
-        return next();
-    }
-
-    const urlActual = SITE_URL + req.originalUrl;
-
-    const html = construirHTML(
-        proveedor,
-        producto,
-        urlActual
-    );
-
-    res.setHeader("Content-Type", "text/html; charset=utf-8");
-    res.setHeader("Cache-Control", "public,max-age=3600");
-
-    return res.status(200).send(html);
-
-}
-
-
-
-
-
 /* =========================================================
    MIDDLEWARE PRINCIPAL
 ========================================================= */
 function ogMetaMiddleware(req, res, next) {
+  const partes = req.path.replace(/^\/+|\/+$/g, "").split("/").filter(Boolean);
 
-    const partes = req.path
-        .replace(/^\/+|\/+$/g, "")
-        .split("/")
-        .filter(Boolean);
+  log("---- petición:", req.path, "| UA:", req.headers["user-agent"] || "(sin UA)");
 
-    log(
-        "---- petición:",
-        req.path,
-        "| UA:",
-        req.headers["user-agent"] || "(sin UA)"
-    );
+  if (partes.length === 0 || partes.length > 2) {
+    return next();
+  }
 
-    log("1) PETICIÓN:", req.path);//prueba quitar log 3 de 4
-  log("2) PARTES:", JSON.stringify(partes));
-  log("3) UA:", req.headers["user-agent"] || "(sin UA)");
-//hasta aqui prueba log 3 de 4
-
-
-
-    if (partes.length === 0)
-        return next();
-
-    if (partes.length > 2)
-        return next();
-
-    const recurso = partes[0].toLowerCase();
-
-    const RESERVADAS = [
+  const RESERVADAS = [
 
         "api",
         "data",
@@ -397,49 +295,72 @@ function ogMetaMiddleware(req, res, next) {
         "remision"
 
     ];
-
-    if (RESERVADAS.includes(recurso))
-        return next();
-
-    //========================================
-    // RUTA DE PROVEEDOR
-    //========================================
-
-    if (partes.length === 1) {
-
-
-      log("4) ENTRÓ AL BLOQUE PROVEEDOR");//prueba quitar log 4 de 4
-
-    const proveedorSlug = partes[0];
-
-        return servirProveedor(
-            req,
-            res,
-            next,
-            partes[0]
-        );
-
-    }
-
-    //========================================
-    // RUTA DE PRODUCTO
-    //========================================
-
-    if (partes.length === 2) {
-
-        return servirProducto(
-            req,
-            res,
-            next,
-            partes[0],
-            partes[1]
-        );
-
-    }
-
+  if (RESERVADAS.includes(partes[0])) {
     return next();
+  }
 
+  const userAgent = req.headers["user-agent"] || "";
+
+  // =====================
+  // CASO 1: /:proveedorSlug  → página del catálogo del proveedor
+  // =====================
+  if (partes.length === 1) {
+    const proveedorSlug = partes[0];
+    const proveedor = buscarProveedor(proveedorSlug);
+
+    if (!proveedor) {
+      log("❌ (proveedor-solo) proveedor no encontrado:", proveedorSlug);
+      return next();
+    }
+
+    if (!esBot(userAgent)) {
+      log("ok: (proveedor-solo) encontrado pero no es bot, sirviendo SPA normal");
+      return next();
+    }
+
+    const urlActual = SITE_URL + req.originalUrl;
+    const html = construirHTMLProveedor(proveedor, urlActual);
+
+    log("✅ sirviendo HTML de OG para proveedor:", proveedor.nombre);
+
+    res.setHeader("Content-Type", "text/html; charset=utf-8");
+    res.setHeader("Cache-Control", "public,max-age=3600");
+    return res.status(200).send(html);
+  }
+
+  // =====================
+  // CASO 2: /:proveedorSlug/:productoSlug  → página del producto
+  // =====================
+  const proveedorSlug = partes[0];
+  const productoSlug = partes[1];
+
+  const proveedor = buscarProveedor(proveedorSlug);
+  if (!proveedor) {
+    log("❌ proveedor no encontrado:", proveedorSlug);
+    return next();
+  }
+
+  const producto = buscarProducto(proveedor.id, productoSlug);
+  if (!producto) {
+    log("❌ producto no encontrado:", productoSlug, "en proveedor", proveedor.id);
+    return next();
+  }
+
+  if (!esBot(userAgent)) {
+    log("ok: encontrado pero no es bot, sirviendo SPA normal");
+    return next();
+  }
+
+  const urlActual = SITE_URL + req.originalUrl;
+  const html = construirHTML(proveedor, producto, urlActual);
+
+  log("✅ sirviendo HTML de OG para:", producto.nombre);
+
+  res.setHeader("Content-Type", "text/html; charset=utf-8");
+  res.setHeader("Cache-Control", "public,max-age=3600");
+  return res.status(200).send(html);
 }
+
 /* =========================================================
    WRAPPER CON MANEJO DE ERRORES
 ========================================================= */
