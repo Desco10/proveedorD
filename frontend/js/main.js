@@ -2088,7 +2088,11 @@ mensaje += `_Programa tu presupuesto y mantén tu negocio siempre abastecido con
 mensaje += `🤝 *Gracias por elegir DESCOAPP.*\n`;
 mensaje += `🌐 ${window.location.origin}`;
 
-
+// 📤 Abrir WhatsApp
+window.open(
+  `https://wa.me/${WHATSAPP_EMPRESA}?text=${encodeURIComponent(mensaje)}`,
+  "_blank"
+);
 
   // 🔗 MARCAR CARRITO COMO ENVIADO EN BACKEND (si existe)
   const carritoId = localStorage.getItem("carrito_backend_id");
