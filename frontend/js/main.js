@@ -509,6 +509,9 @@ if (proveedorData && proveedorData.catalogoDisponible === false) {
             placeholder="Buscar en el catálogo de ${nombre}..."
             autocomplete="off"
           />
+          <div id="resultadosBusquedaCatalogo"
+     class="resultados-busqueda-catalogo">
+</div>
         </div>
       </div>
     </div>
@@ -535,6 +538,21 @@ if (proveedorData && proveedorData.colorDetalles) {
         });
       }
     }
+   
+  
+
+    // Cerrar resultados al perder el foco
+document.addEventListener("click", (e) => {
+
+  if (
+    !e.target.closest(".buscador-catalogo") &&
+    panelResultados
+  ) {
+    panelResultados.innerHTML = "";
+  }
+
+});
+
 
     const seccionVideos = document.querySelector(".video-stories") || document.querySelector(".videos");
     const seccionOfertas = document.querySelector(".ofertas");
@@ -600,21 +618,98 @@ function volverAProveedores() {
 function filtrarCatalogo(texto) {
   const q = (texto || "").toLowerCase().trim();
 
+
+  const panelResultados = document.getElementById("resultadosBusquedaCatalogo");
+
+if (panelResultados) {
+  panelResultados.innerHTML = "";
+}
+
   if (!q) {
-    paginaActual = 1;
-    mostrarProductos();
-    mostrarPaginacion();
-    return;
+
+  if (panelResultados) {
+    panelResultados.innerHTML = "";
   }
+
+  paginaActual = 1;
+  mostrarProductos();
+  mostrarPaginacion();
+  return;
+}
 
   const filtrados = productos.filter(p => {
     const data = `${p.nombre} ${p.descripcion} ${p.codigo}`.toLowerCase();
     return data.includes(q);
   });
 
+
+
+
+// ==============================
+// Vista previa con miniaturas
+// ==============================
+
+if (panelResultados) {
+
+  panelResultados.innerHTML = "";
+
+  filtrados.slice(0, 5).forEach(prod => {
+
+    const item = document.createElement("div");
+    item.className = "resultado-item";
+
+    item.innerHTML = `
+      <img src="${prod.imagen}" alt="${prod.nombre}">
+
+      <div class="resultado-info">
+        <strong>${prod.nombre}</strong>
+        <small>${prod.precio}</small>
+      </div>
+    `;
+
+    item.onclick = () => {
+
+      panelResultados.innerHTML = "";
+
+      document.getElementById("buscarCatalogo").value = prod.nombre;
+
+      // Mostrar únicamente ese producto
+      filtrarCatalogo(prod.nombre);
+
+      // Esperar a que se renderice
+      setTimeout(() => {
+
+        const tarjeta = document.querySelector(
+          `[data-producto-id="${prod.id}"]`
+        );
+
+        if (tarjeta) {
+          tarjeta.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+          });
+        }
+
+      }, 80);
+
+    };
+
+    panelResultados.appendChild(item);
+
+  });
+
+}
+
+
   paginaActual = 1;
 
   if (filtrados.length === 0) {
+
+    if (panelResultados) {
+    panelResultados.innerHTML = "";
+}
+
+
     document.getElementById("productos").innerHTML = `
       <div class="mensaje-no-resultados">
         <p>Lo sentimos, por ahora no tenemos ese producto disponible.</p>
