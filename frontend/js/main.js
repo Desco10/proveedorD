@@ -2033,52 +2033,62 @@ async function finalizarCompra() {
   // =====================
   // 2) Armar el mensaje de WhatsApp
   // =====================
-  let mensaje =
-`🧾 *RESUMEN FINAL DE COMPRA*
+let mensaje =
+`━━━━━━━━━━━━━━━━━━━━━━
+🔷 *DESCOAPP*
+_Compra registrada exitosamente_
+━━━━━━━━━━━━━━━━━━━━━━
 
 👤 *DATOS DEL CLIENTE*
 
-Nombre: ${nombreCompleto}
-Cédula: ${cedulaCliente}
-Teléfono: ${telefonoCliente}
-Dirección: ${direccionCliente}
+▪️ *Nombre:* ${nombreCompleto}
+🪪 *Cédula:* ${cedulaCliente}
+📱 *Celular:* ${telefonoCliente}
+📍 *Dirección:* ${direccionCliente}
 
---------------------------------
+━━━━━━━━━━━━━━━━━━━━━━
 
 `;
 
-  proveedores.forEach(prov => {
-    mensaje += `🏪 *${prov.proveedorNombre}*\n`;
+proveedores.forEach(prov => {
 
-    prov.productos.forEach(p => {
-      const presentacion = p.precio?.includes("(")
-        ? p.precio.split("(")[1].replace(")", "")
-        : "";
+  mensaje += `🏬 *${prov.proveedorNombre.toUpperCase()}*\n\n`;
 
-      const nombreConPres = presentacion
-        ? `${p.nombre} (${presentacion})`
-        : p.nombre;
+  prov.productos.forEach(p => {
 
-      mensaje += `- ${nombreConPres} x${p.cantidad} → ${formatearPrecio(p.subtotalProducto)}\n`;
-    });
+    const presentacion = p.precio?.includes("(")
+      ? p.precio.split("(")[1].replace(")", "")
+      : "";
 
-    mensaje += `Subtotal: ${formatearPrecio(prov.subtotal)}\n\n`;
+    const nombreConPres = presentacion
+      ? `${p.nombre} (${presentacion})`
+      : p.nombre;
+
+    mensaje += `🔹 _${nombreConPres}_\n`;
+    mensaje += `   📦 Cantidad: *${p.cantidad}*\n`;
+    mensaje += `   💵 Valor: *${formatearPrecio(p.subtotalProducto)}*\n\n`;
+
   });
 
-  mensaje += `🧮 *TOTAL GENERAL: ${formatearPrecio(totalGeneral)}*\n\n`;
+  mensaje += `💼 *Subtotal:* ${formatearPrecio(prov.subtotal)}\n`;
+  mensaje += `━━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
-  if (urlRemision) {
-    mensaje += `🧾 *Ver remisión de tu compra:*\n${urlRemision}\n\n`;
-  }
+});
 
-  mensaje += `✅ Quedo atento para confirmar disponibilidad y envío.\n\n`;
-  mensaje += `🛍️ Seguir comprando: ${window.location.origin}`;
+mensaje += `💰 *TOTAL DEL PEDIDO*\n`;
+mensaje += `✨ *${formatearPrecio(totalGeneral)}*\n\n`;
 
-  // 📤 Abrir WhatsApp
-  window.open(
-    `https://wa.me/${WHATSAPP_EMPRESA}?text=${encodeURIComponent(mensaje)}`,
-    "_blank"
-  );
+if (urlRemision) {
+  mensaje += `📄 *REMISIÓN DE COMPRA*\n`;
+  mensaje += `🔗 ${urlRemision}\n\n`;
+}
+
+mensaje += `🚀 *Pedido listo para despacho*\n`;
+mensaje += `_Programa tu presupuesto y mantén tu negocio siempre abastecido con DESCOAPP._\n\n`;
+mensaje += `🤝 *Gracias por elegir DESCOAPP.*\n`;
+mensaje += `🌐 ${window.location.origin}`;
+
+
 
   // 🔗 MARCAR CARRITO COMO ENVIADO EN BACKEND (si existe)
   const carritoId = localStorage.getItem("carrito_backend_id");
