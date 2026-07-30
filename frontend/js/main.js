@@ -2048,7 +2048,7 @@ _Compra registrada exitosamente_
 `;
 
   proveedores.forEach(prov => {
-    mensaje += `🏪 *${prov.proveedorNombre}*\n`;
+    mensaje += `🏢 *${prov.proveedorNombre}*\n`;
 
     prov.productos.forEach(p => {
       const presentacion   = p.precio?.includes("(")
@@ -2061,24 +2061,24 @@ _Compra registrada exitosamente_
       mensaje += `- ${nombreConPres} x${p.cantidad} → ${formatearPrecio(p.subtotalProducto)}\n`;
     });
 
-    mensaje += `Subtotal: ${formatearPrecio(prov.subtotal)}\n\n`;
+    mensaje += `🔹_Subtotal: ${formatearPrecio(prov.subtotal)}\n\n`;
   });
 
-  mensaje += `🧮 *TOTAL GENERAL: ${formatearPrecio(totalGeneral)}*\n\n`;
+  mensaje += `💼 *TOTAL GENERAL: ${formatearPrecio(totalGeneral)}*\n\n`;
 
   if (urlRemision) {
     mensaje += `🧾 *Ver remisión de tu compra:*\n${urlRemision}\n\n`;
   }
 
- mensaje += `🚚 *¡Pedido recibido con éxito!*\n\n`;
+ mensaje += `📦_ *¡Pedido recibido con éxito!*\n\n`;
 
-mensaje += `🚚_Nuestro equipo ya recibió tu solicitud y comenzará el proceso de preparación para el despacho._\n\n`;
+mensaje += `🚛*_Nuestro equipo ya recibió tu solicitud y comenzará el proceso de envio._*\n\n`;
 
-mensaje += `_Programa tu presupuesto y mantén tu negocio siempre abastecido con DESCOAPP._\n\n`;
+mensaje += `📊*_Programa tu presupuesto y mantén tu negocio siempre abastecido con DESCOAPP._*\n\n`;
 
-mensaje += `🤝 _Gracias por confiar en_ *DESCOAPP*.\n\n`;
+mensaje += `🤝✨  ___Gracias por confiar en____*DESCOAPP*.\n\n`;
 
-mensaje += `🌐 ${window.location.origin}`;
+mensaje += ` ${window.location.origin}`;
 
   // 📤 Abrir WhatsApp
   window.open(
