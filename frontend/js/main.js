@@ -2070,8 +2070,15 @@ _Compra registrada exitosamente_
     mensaje += `🧾 *Ver remisión de tu compra:*\n${urlRemision}\n\n`;
   }
 
-  mensaje += `✅ Quedo atento para confirmar disponibilidad y envío.\n\n`;
-  mensaje += `🛍️ Seguir comprando: ${window.location.origin}`;
+ mensaje += `🚚 *¡Pedido recibido con éxito!*\n\n`;
+
+mensaje += `🚚_Nuestro equipo ya recibió tu solicitud y comenzará el proceso de preparación para el despacho._\n\n`;
+
+mensaje += `_Programa tu presupuesto y mantén tu negocio siempre abastecido con DESCOAPP._\n\n`;
+
+mensaje += `🤝 _Gracias por confiar en_ *DESCOAPP*.\n\n`;
+
+mensaje += `🌐 ${window.location.origin}`;
 
   // 📤 Abrir WhatsApp
   window.open(
