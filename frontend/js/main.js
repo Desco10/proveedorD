@@ -2030,14 +2030,21 @@ async function finalizarCompra() {
   // =====================
   // 2) Armar el mensaje de WhatsApp
   // =====================
-  let mensaje = `🧾 *RESUMEN FINAL DE COMPRA*
+  let mensaje =
+`━━━━━━━━━━━━━━━━━━━━━━
+🔷 *DESCOAPP*
+_Compra registrada exitosamente_
+━━━━━━━━━━━━━━━━━━━━━━
 
 👤 *DATOS DEL CLIENTE*
-Nombre: ${nombreCompleto}
-Cédula: ${cedulaCliente}
-Teléfono: ${telefonoCliente}
-Dirección: ${direccionCliente}
---------------------------------
+
+▪️ *Nombre:* ${nombreCompleto}
+🪪 *Cédula:* ${cedulaCliente}
+📱 *Celular:* ${telefonoCliente}
+📍 *Dirección:* ${direccionCliente}
+
+━━━━━━━━━━━━━━━━━━━━━━
+
 `;
 
   proveedores.forEach(prov => {
