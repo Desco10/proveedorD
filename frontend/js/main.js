@@ -661,10 +661,7 @@ if (panelResultados) {
     item.innerHTML = `
       <img src="${prod.imagen}" alt="${prod.nombre}">
 
-      <div class="resultado-info">
-        <strong>${prod.nombre}</strong>
-        <small>${prod.precio}</small>
-      </div>
+      
     `;
 
     item.onclick = () => {

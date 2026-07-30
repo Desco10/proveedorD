@@ -3596,50 +3596,63 @@ footer .mensaje-temporada.active {
 
 
 
+/* MINIATURAS DEL BUSCADOR
+========================================== */
+
 .resultados-busqueda-catalogo{
-    margin-top:8px;
+    margin-top:10px;
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    padding:6px 2px 10px;
+    scrollbar-width:thin;
+}
+
+.resultados-busqueda-catalogo::-webkit-scrollbar{
+    height:6px;
+}
+
+.resultados-busqueda-catalogo::-webkit-scrollbar-thumb{
+    background:#c9d2dc;
+    border-radius:20px;
 }
 
 .resultado-item{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:8px;
-    border-radius:8px;
+    flex:0 0 auto;
     cursor:pointer;
-    transition:.2s;
+    transition:.25s;
 }
 
 .resultado-item:hover{
-    background:#f4f7fb;
+    transform:translateY(-3px);
 }
 
 .resultado-item img{
-    width:55px;
-    height:55px;
+    width:72px;
+    height:72px;
     object-fit:contain;
-    border-radius:6px;
+    border-radius:10px;
     background:#fff;
+    border:1px solid #e5e5e5;
+    padding:5px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+    transition:.25s;
 }
 
-.resultado-info{
-    flex:1;
-}
-
-.resultado-info strong{
-    display:block;
-}
-
-.resultado-info small{
-    color:#666;
+.resultado-item img:hover{
+    border-color:#1976d2;
+    box-shadow:0 4px 14px rgba(25,118,210,.25);
 }
 
 
-
+/* ==========================================
+   PRODUCTO ENCONTRADO
+========================================== */
 
 .producto-encontrado{
 
-    animation: resaltarProducto 1.8s ease;
+    animation:resaltarProducto 1.8s ease;
 
     border:3px solid #1E88E5;
 
