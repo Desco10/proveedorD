@@ -478,7 +478,15 @@ if (proveedorData && proveedorData.catalogoDisponible === false) {
 
   contenedorProductos.innerHTML = "";
 
-  return;
+// Llevar la vista al mensaje del proveedor pausado
+setTimeout(() => {
+  tituloEl.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}, 100);
+
+return;
 
 }
 
