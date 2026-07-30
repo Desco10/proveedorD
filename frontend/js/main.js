@@ -2080,13 +2080,7 @@ mensaje += `🤝✨  Gracias por confiar en_ *DESCOAPP*.\n\n`;
 
 mensaje += ` ${window.location.origin}`;
 
-  // 📤 Abrir WhatsApp
-  window.open(
-    `https://wa.me/${WHATSAPP_EMPRESA}?text=${encodeURIComponent(mensaje)}`,
-    "_blank"
-  );
-
-  // 🔗 MARCAR CARRITO COMO ENVIADO EN BACKEND (si existe)
+ // 🔗 MARCAR CARRITO COMO ENVIADO EN BACKEND (si existe)
   const carritoId = localStorage.getItem("carrito_backend_id");
 
   if (carritoId) {
@@ -2113,7 +2107,7 @@ mensaje += ` ${window.location.origin}`;
     console.warn("No se pudo sincronizar el carrito con el backend");
   }
 
-  // ♻️ RESET TOTAL DEL CICLO
+  // ♻️ RESET TOTAL DEL CICLO — va ANTES de abrir WhatsApp
   cancelarTimerAbandono();
   limpiarCarrito();
   localStorage.removeItem("carrito_backend_id");
@@ -2124,8 +2118,13 @@ mensaje += ` ${window.location.origin}`;
   // Cerrar panel visualmente
   const panel = document.getElementById("carritoPanel");
   if (panel) panel.classList.add("oculto");
-}
 
+  // 📤 Abrir WhatsApp — siempre al final, después del reset
+  window.open(
+    `https://wa.me/${WHATSAPP_EMPRESA}?text=${encodeURIComponent(mensaje)}`,
+    "_blank"
+  );
+}
 
 
 /**
