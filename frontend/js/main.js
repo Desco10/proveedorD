@@ -1962,9 +1962,9 @@ if (typeof mostrarProductos === "function") {
 
 
 
-
 /**
  * Finaliza la compra y envía resumen por WhatsApp
+ */
 /**
  * Finaliza la compra: genera la remisión en el servidor
  * y envía el resumen + link de la remisión por WhatsApp
@@ -2030,25 +2030,18 @@ async function finalizarCompra() {
   // =====================
   // 2) Armar el mensaje de WhatsApp
   // =====================
-  let mensaje =
-`━━━━━━━━━━━━━━━━━━━━━━
-🔷 *DESCOAPP*
-_Compra registrada exitosamente_
-━━━━━━━━━━━━━━━━━━━━━━
+  let mensaje = `🧾 *RESUMEN FINAL DE COMPRA*
 
 👤 *DATOS DEL CLIENTE*
-
-▪️ *Nombre:* ${nombreCompleto}
-🪪 *Cédula:* ${cedulaCliente}
-📱 *Celular:* ${telefonoCliente}
-📍 *Dirección:* ${direccionCliente}
-
-━━━━━━━━━━━━━━━━━━━━━━
-
+Nombre: ${nombreCompleto}
+Cédula: ${cedulaCliente}
+Teléfono: ${telefonoCliente}
+Dirección: ${direccionCliente}
+--------------------------------
 `;
 
   proveedores.forEach(prov => {
-    mensaje += `🏢 *${prov.proveedorNombre}*\n`;
+    mensaje += `🏪 *${prov.proveedorNombre}*\n`;
 
     prov.productos.forEach(p => {
       const presentacion   = p.precio?.includes("(")
@@ -2061,26 +2054,25 @@ _Compra registrada exitosamente_
       mensaje += `- ${nombreConPres} x${p.cantidad} → ${formatearPrecio(p.subtotalProducto)}\n`;
     });
 
-    mensaje += `🔹Subtotal: ${formatearPrecio(prov.subtotal)}\n\n`;
+    mensaje += `Subtotal: ${formatearPrecio(prov.subtotal)}\n\n`;
   });
 
-  mensaje += `💼 *TOTAL GENERAL: ${formatearPrecio(totalGeneral)}*\n\n`;
+  mensaje += `🧮 *TOTAL GENERAL: ${formatearPrecio(totalGeneral)}*\n\n`;
 
   if (urlRemision) {
     mensaje += `🧾 *Ver remisión de tu compra:*\n${urlRemision}\n\n`;
   }
 
- mensaje += `📦*¡Pedido recibido con éxito!*\n\n`;
+  mensaje += `✅ Quedo atento para confirmar disponibilidad y envío.\n\n`;
+  mensaje += `🛍️ Seguir comprando: ${window.location.origin}`;
 
-mensaje += `🚛*_Nuestro equipo ya recibió tu solicitud y comenzará el proceso de envio._*\n\n`;
+  // 📤 Abrir WhatsApp
+  window.open(
+    `https://wa.me/${WHATSAPP_EMPRESA}?text=${encodeURIComponent(mensaje)}`,
+    "_blank"
+  );
 
-mensaje += `📊*_Programa tu presupuesto y mantén tu negocio siempre abastecido con DESCOAPP._*\n\n`;
-
-mensaje += `🤝✨  Gracias por confiar en_ *DESCOAPP*.\n\n`;
-
-mensaje += ` ${window.location.origin}`;
-
- // 🔗 MARCAR CARRITO COMO ENVIADO EN BACKEND (si existe)
+  // 🔗 MARCAR CARRITO COMO ENVIADO EN BACKEND (si existe)
   const carritoId = localStorage.getItem("carrito_backend_id");
 
   if (carritoId) {
@@ -2107,7 +2099,7 @@ mensaje += ` ${window.location.origin}`;
     console.warn("No se pudo sincronizar el carrito con el backend");
   }
 
-  // ♻️ RESET TOTAL DEL CICLO — va ANTES de abrir WhatsApp
+  // ♻️ RESET TOTAL DEL CICLO
   cancelarTimerAbandono();
   limpiarCarrito();
   localStorage.removeItem("carrito_backend_id");
@@ -2118,14 +2110,7 @@ mensaje += ` ${window.location.origin}`;
   // Cerrar panel visualmente
   const panel = document.getElementById("carritoPanel");
   if (panel) panel.classList.add("oculto");
-
-  // 📤 Abrir WhatsApp — siempre al final, después del reset
-  window.open(
-    `https://wa.me/${WHATSAPP_EMPRESA}?text=${encodeURIComponent(mensaje)}`,
-    "_blank"
-  );
 }
-
 
 /**
  * Detecta carrito pendiente (recuperación)
