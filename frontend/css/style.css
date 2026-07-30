@@ -3744,3 +3744,80 @@ footer .mensaje-temporada.active {
     }
 
 }
+
+
+
+
+/* ==========================================
+   PROVEEDOR EN PAUSA
+========================================== */
+
+.proveedor-pausado{
+
+    width:100%;
+    max-width:900px;
+    margin:40px auto;
+    padding:24px 28px;
+
+    text-align:center;
+
+    background:#fff;
+    border-radius:18px;
+
+    border:1px solid #e8e8e8;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+
+    box-sizing:border-box;
+
+}
+
+.proveedor-pausado h2{
+
+    margin:18px 0 12px;
+    font-size:2rem;
+    color:#333;
+
+}
+
+.proveedor-pausado p{
+
+    max-width:700px;
+    margin:0 auto;
+
+    font-size:1.08rem;
+    line-height:1.7;
+
+    color:#666;
+
+}
+
+/* Móvil */
+
+@media (max-width:768px){
+
+    .proveedor-pausado{
+
+        width:calc(100% - 32px);
+
+        margin:25px auto;
+
+        padding:20px;
+
+    }
+
+    .proveedor-pausado h2{
+
+        font-size:1.5rem;
+
+    }
+
+    .proveedor-pausado p{
+
+        font-size:1rem;
+
+        line-height:1.6;
+
+    }
+
+}
