@@ -3599,52 +3599,117 @@ footer .mensaje-temporada.active {
 /* MINIATURAS DEL BUSCADOR
 ========================================== */
 
-.resultados-busqueda-catalogo{
-    margin-top:10px;
-    display:flex;
-    gap:10px;
-    overflow-x:auto;
-    overflow-y:hidden;
-    padding:6px 2px 10px;
-    scrollbar-width:thin;
+/* ==========================================================
+   RESULTADOS DEL BUSCADOR DEL CATÁLOGO
+========================================================== */
+
+.buscador-catalogo{
+    position:relative;
+    width:100%;
 }
 
+/* Panel flotante de resultados */
+.resultados-busqueda-catalogo{
+
+    position:absolute;
+
+    top:calc(100% + 8px);
+
+    left:0;
+
+    right:0;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:10px;
+
+    background:#ffffff;
+
+    border:1px solid #e6e6e6;
+
+    border-radius:14px;
+
+    box-shadow:0 10px 28px rgba(0,0,0,.12);
+
+    overflow-x:auto;
+
+    overflow-y:hidden;
+
+    scrollbar-width:thin;
+
+    z-index:9999;
+
+}
+
+/* Scroll moderno */
+
 .resultados-busqueda-catalogo::-webkit-scrollbar{
+
     height:6px;
+
 }
 
 .resultados-busqueda-catalogo::-webkit-scrollbar-thumb{
-    background:#c9d2dc;
+
+    background:#cfd8dc;
+
     border-radius:20px;
+
 }
+
+/* Cada miniatura */
 
 .resultado-item{
+
     flex:0 0 auto;
+
+    width:78px;
+
     cursor:pointer;
+
     transition:.25s;
+
 }
 
-.resultado-item:hover{
-    transform:translateY(-3px);
-}
+/* Imagen */
 
 .resultado-item img{
-    width:72px;
-    height:72px;
+
+    width:78px;
+
+    height:78px;
+
     object-fit:contain;
-    border-radius:10px;
+
+    padding:6px;
+
     background:#fff;
+
     border:1px solid #e5e5e5;
-    padding:5px;
+
+    border-radius:12px;
+
     box-shadow:0 2px 8px rgba(0,0,0,.08);
+
     transition:.25s;
+
 }
 
-.resultado-item img:hover{
-    border-color:#1976d2;
-    box-shadow:0 4px 14px rgba(25,118,210,.25);
-}
+/* Hover */
 
+.resultado-item:hover img{
+
+    transform:translateY(-3px);
+
+    border-color:#1565C0;
+
+    box-shadow:0 6px 18px rgba(21,101,192,.22);
+
+}
 
 /* ==========================================
    PRODUCTO ENCONTRADO
