@@ -2061,7 +2061,7 @@ _Compra registrada exitosamente_
       mensaje += `- ${nombreConPres} x${p.cantidad} → ${formatearPrecio(p.subtotalProducto)}\n`;
     });
 
-    mensaje += `🔹_Subtotal: ${formatearPrecio(prov.subtotal)}\n\n`;
+    mensaje += `🔹Subtotal: ${formatearPrecio(prov.subtotal)}\n\n`;
   });
 
   mensaje += `💼 *TOTAL GENERAL: ${formatearPrecio(totalGeneral)}*\n\n`;
@@ -2070,13 +2070,13 @@ _Compra registrada exitosamente_
     mensaje += `🧾 *Ver remisión de tu compra:*\n${urlRemision}\n\n`;
   }
 
- mensaje += `📦_ *¡Pedido recibido con éxito!*\n\n`;
+ mensaje += `📦*¡Pedido recibido con éxito!*\n\n`;
 
 mensaje += `🚛*_Nuestro equipo ya recibió tu solicitud y comenzará el proceso de envio._*\n\n`;
 
 mensaje += `📊*_Programa tu presupuesto y mantén tu negocio siempre abastecido con DESCOAPP._*\n\n`;
 
-mensaje += `🤝✨  ___Gracias por confiar en____*DESCOAPP*.\n\n`;
+mensaje += `🤝✨  Gracias por confiar en_ *DESCOAPP*.\n\n`;
 
 mensaje += ` ${window.location.origin}`;
 
