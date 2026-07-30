@@ -26,14 +26,14 @@ let cache = {
 /* =========================================================
    LOG DE DIAGNÓSTICO (visible desde cPanel File Manager)
 ========================================================= */
-/*function log(...partes) {
+function log(...partes) {
   const linea = `[${new Date().toISOString()}] ${partes.join(" ")}\n`;
   try {
     fs.appendFileSync(LOG_FILE, linea);
   } catch (e) {
     // nunca debe romper la petición por un fallo de log
   }
-}*/
+}
 
 /* =========================================================
    UTILIDADES
