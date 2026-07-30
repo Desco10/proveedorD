@@ -1986,19 +1986,22 @@ const nombreCompleto =
 const cedulaCliente = cliente.cedula || "No registrada";
 const telefonoCliente = cliente.telefono || "No registrado";
 const direccionCliente = cliente.direccion || "No registrada";
-  let mensaje =
-`🧾 *RESUMEN FINAL DE COMPRA*
+ let mensaje =
+`━━━━━━━━━━━━━━━━━━━━━━
+🔷 *DESCOAPP*
+_Compra registrada exitosamente_
+━━━━━━━━━━━━━━━━━━━━━━
 
 👤 *DATOS DEL CLIENTE*
 
-Nombre: ${nombreCompleto}
-Cédula: ${cedulaCliente}
-Teléfono: ${telefonoCliente}
-Dirección: ${direccionCliente}
+▪️ *Nombre:* ${nombreCompleto}
+🆔 *Cédula:* ${cedulaCliente}
+📞 *Teléfono:* ${telefonoCliente}
+📌 *Dirección:* ${direccionCliente}
 
---------------------------------
+━━━━━━━━━━━━━━━━━━━━━━
 
-`; 
+`;
 
 
   let totalGeneral = 0;
@@ -2061,7 +2064,7 @@ try {
   console.warn("Remisión:", err);
 }
 
-mensaje += `🧮 *TOTAL GENERAL: ${formatearPrecio(totalGeneral)}*\n\n`;
+mensaje += `💼 *TOTAL GENERAL: ${formatearPrecio(totalGeneral)}*\n\n`;
 
 if (urlRemision) {
 
@@ -2073,7 +2076,9 @@ ${urlRemision}
 
 }
 
-mensaje += `✅ Quedo atento para confirmar disponibilidad y envío.`;
+mensaje += `📈 _Programa tu presupuesto y mantén tu negocio siempre abastecido con_ *DESCOAPP*.\n\n`;
+
+mensaje += `⭐ *Gracias por confiar en DESCOAPP.*`;
   // 📤 Abrir WhatsApp
   window.open(
     `https://wa.me/${WHATSAPP_EMPRESA}?text=${encodeURIComponent(mensaje)}`,
