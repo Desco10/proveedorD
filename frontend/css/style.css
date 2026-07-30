@@ -3600,78 +3600,46 @@ footer .mensaje-temporada.active {
 ========================================== */
 
 /* ==========================================================
-   RESULTADOS DEL BUSCADOR DEL CATÁLOGO
+   MINIATURAS DEL BUSCADOR DEL CATÁLOGO
 ========================================================== */
 
-.buscador-catalogo{
-    position:relative;
-    width:100%;
-}
-
-/* Panel flotante de resultados */
 .resultados-busqueda-catalogo{
 
-    position:absolute;
-
-    top:calc(100% + 8px);
-
-    left:0;
-
-    right:0;
-
     display:flex;
-
+    flex-wrap:wrap;
+    justify-content:center;
     align-items:center;
-
     gap:12px;
 
-    padding:10px;
+    margin-top:12px;
+    margin-bottom:12px;
 
-    background:#ffffff;
-
-    border:1px solid #e6e6e6;
-
-    border-radius:14px;
-
-    box-shadow:0 10px 28px rgba(0,0,0,.12);
-
-    overflow-x:auto;
-
-    overflow-y:hidden;
-
-    scrollbar-width:thin;
-
-    z-index:9999;
+    width:100%;
+    min-height:92px;
 
 }
 
-/* Scroll moderno */
-
-.resultados-busqueda-catalogo::-webkit-scrollbar{
-
-    height:6px;
-
-}
-
-.resultados-busqueda-catalogo::-webkit-scrollbar-thumb{
-
-    background:#cfd8dc;
-
-    border-radius:20px;
-
-}
-
-/* Cada miniatura */
+/* Tarjeta miniatura */
 
 .resultado-item{
 
-    flex:0 0 auto;
-
     width:78px;
+    height:78px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:#ffffff;
+
+    border:1px solid #e5e5e5;
+    border-radius:12px;
 
     cursor:pointer;
 
     transition:.25s;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
 
 }
 
@@ -3679,35 +3647,69 @@ footer .mensaje-temporada.active {
 
 .resultado-item img{
 
-    width:78px;
-
-    height:78px;
+    width:62px;
+    height:62px;
 
     object-fit:contain;
 
-    padding:6px;
-
-    background:#fff;
-
-    border:1px solid #e5e5e5;
-
-    border-radius:12px;
-
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
-
-    transition:.25s;
+    pointer-events:none;
 
 }
 
 /* Hover */
 
-.resultado-item:hover img{
+.resultado-item:hover{
 
     transform:translateY(-3px);
 
     border-color:#1565C0;
 
-    box-shadow:0 6px 18px rgba(21,101,192,.22);
+    box-shadow:0 8px 22px rgba(21,101,192,.22);
+
+}
+
+/* Responsive */
+
+@media (max-width:768px){
+
+    .resultados-busqueda-catalogo{
+
+        gap:8px;
+
+        justify-content:flex-start;
+
+        overflow-x:auto;
+        overflow-y:hidden;
+
+        flex-wrap:nowrap;
+
+        padding-bottom:6px;
+
+        scrollbar-width:none;
+
+    }
+
+    .resultados-busqueda-catalogo::-webkit-scrollbar{
+
+        display:none;
+
+    }
+
+    .resultado-item{
+
+        flex:0 0 auto;
+
+        width:70px;
+        height:70px;
+
+    }
+
+    .resultado-item img{
+
+        width:56px;
+        height:56px;
+
+    }
 
 }
 

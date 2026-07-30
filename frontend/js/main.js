@@ -501,18 +501,26 @@ if (proveedorData && proveedorData.catalogoDisponible === false) {
       <h2>Catálogo de ${nombre}</h2>
 
       <div class="buscador-catalogo">
-        <div class="search-glow">
-          <i class="fas fa-search"></i>
-          <input 
+
+    <div class="search-glow">
+
+        <i class="fas fa-search"></i>
+
+        <input
             id="buscarCatalogo"
             type="text"
             placeholder="Buscar en el catálogo de ${nombre}..."
             autocomplete="off"
-          />
-          <div id="resultadosBusquedaCatalogo"
-     class="resultados-busqueda-catalogo">
+        />
+
+    </div>
+
 </div>
-        </div>
+
+<div
+    id="resultadosBusquedaCatalogo"
+    class="resultados-busqueda-catalogo">
+</div>
       </div>
     </div>
   </div>
