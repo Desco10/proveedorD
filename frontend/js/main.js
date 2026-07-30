@@ -1965,12 +1965,7 @@ if (typeof mostrarProductos === "function") {
 /**
  * Finaliza la compra y envía resumen por WhatsApp
  */
-/**
- * Finaliza la compra: genera la remisión en el servidor
- * y envía el resumen + link de la remisión por WhatsApp
- */
 async function finalizarCompra() {
-
   const carrito = obtenerCarrito();
 
   if (!carrito.items.length) {
@@ -1978,94 +1973,107 @@ async function finalizarCompra() {
     return;
   }
 
-  const proveedores    = agruparPorProveedor(carrito.items);
-  const cliente        = JSON.parse(localStorage.getItem("cliente") || "{}");
-  const nombreCliente  = cliente.nombre   || "";
-  const apellidoCliente = cliente.apellido || "";
-  const nombreCompleto  = `${nombreCliente} ${apellidoCliente}`.trim() || "No registrado";
-  const cedulaCliente   = cliente.cedula    || "No registrada";
-  const telefonoCliente = cliente.telefono  || "No registrado";
-  const direccionCliente = cliente.direccion || "No registrada";
+  const proveedores = agruparPorProveedor(carrito.items);
 
-  let totalGeneral = 0;
-  proveedores.forEach(prov => {
-    totalGeneral += prov.subtotal;
-  });
+  const cliente = JSON.parse(localStorage.getItem("cliente") || "{}");
 
-  // =====================
-  // 1) Generar la remisión en el servidor (antes de abrir WhatsApp)
-  // =====================
-  let urlRemision = null;
-  const carritoBackendId = localStorage.getItem("carrito_backend_id");
+const nombreCliente = cliente.nombre || "";
+const apellidoCliente = cliente.apellido || "";
 
-  try {
-    const respuesta = await fetch("/api/remisiones", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        cliente: {
-          nombre:    nombreCompleto,
-          cedula:    cedulaCliente,
-          telefono:  telefonoCliente,
-          direccion: direccionCliente
-        },
-        proveedores,
-        total:      totalGeneral,
-        carritoId:  carritoBackendId ? Number(carritoBackendId) : null
-      })
-    });
+const nombreCompleto =
+`${nombreCliente} ${apellidoCliente}`.trim() || "No registrado";
 
-    const data = await respuesta.json();
-
-    if (data.ok) {
-      urlRemision = data.url;
-    } else {
-      console.warn("No se pudo generar la remisión:", data.message);
-    }
-
-  } catch (e) {
-    console.warn("Error generando la remisión, se continúa sin ella:", e);
-  }
-
-  // =====================
-  // 2) Armar el mensaje de WhatsApp
-  // =====================
-  let mensaje = `🧾 *RESUMEN FINAL DE COMPRA*
+const cedulaCliente = cliente.cedula || "No registrada";
+const telefonoCliente = cliente.telefono || "No registrado";
+const direccionCliente = cliente.direccion || "No registrada";
+  let mensaje =
+`🧾 *RESUMEN FINAL DE COMPRA*
 
 👤 *DATOS DEL CLIENTE*
+
 Nombre: ${nombreCompleto}
 Cédula: ${cedulaCliente}
 Teléfono: ${telefonoCliente}
 Dirección: ${direccionCliente}
+
 --------------------------------
-`;
+
+`; 
+
+
+  let totalGeneral = 0;
 
   proveedores.forEach(prov => {
     mensaje += `🏪 *${prov.proveedorNombre}*\n`;
 
     prov.productos.forEach(p => {
-      const presentacion   = p.precio?.includes("(")
-        ? p.precio.split("(")[1].replace(")", "")
-        : "";
-      const nombreConPres  = presentacion
-        ? `${p.nombre} (${presentacion})`
-        : p.nombre;
+  const presentacion = p.precio?.includes("(")
+    ? p.precio.split("(")[1].replace(")", "")
+    : "";
 
-      mensaje += `- ${nombreConPres} x${p.cantidad} → ${formatearPrecio(p.subtotalProducto)}\n`;
-    });
+  const nombreConPres = presentacion
+    ? `${p.nombre} (${presentacion})`
+    : p.nombre;
+
+  mensaje += `- ${nombreConPres} x${p.cantidad} → ${formatearPrecio(p.subtotalProducto)}\n`;
+});
+
 
     mensaje += `Subtotal: ${formatearPrecio(prov.subtotal)}\n\n`;
+    totalGeneral += prov.subtotal;
   });
 
-  mensaje += `🧮 *TOTAL GENERAL: ${formatearPrecio(totalGeneral)}*\n\n`;
+let urlRemision = "";
 
-  if (urlRemision) {
-    mensaje += `🧾 *Ver remisión de tu compra:*\n${urlRemision}\n\n`;
+try {
+
+  const carritoBackendId = localStorage.getItem("carrito_backend_id");
+
+  const respuesta = await fetch("/api/remisiones", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      cliente: {
+        nombre: nombreCompleto,
+        cedula: cedulaCliente,
+        telefono: telefonoCliente,
+        direccion: direccionCliente
+      },
+      proveedores,
+      total: totalGeneral,
+      carritoId: carritoBackendId
+        ? Number(carritoBackendId)
+        : null
+    })
+  });
+
+  if (respuesta.ok) {
+    const data = await respuesta.json();
+
+    if (data.ok) {
+      urlRemision = data.url;
+    }
   }
 
-  mensaje += `✅ Quedo atento para confirmar disponibilidad y envío.\n\n`;
-  mensaje += `🛍️ Seguir comprando: ${window.location.origin}`;
+} catch (err) {
+  console.warn("Remisión:", err);
+}
 
+mensaje += `🧮 *TOTAL GENERAL: ${formatearPrecio(totalGeneral)}*\n\n`;
+
+if (urlRemision) {
+
+  mensaje +=
+`🧾 *Ver remisión de compra*
+${urlRemision}
+
+`;
+
+}
+
+mensaje += `✅ Quedo atento para confirmar disponibilidad y envío.`;
   // 📤 Abrir WhatsApp
   window.open(
     `https://wa.me/${WHATSAPP_EMPRESA}?text=${encodeURIComponent(mensaje)}`,
@@ -2074,7 +2082,6 @@ Dirección: ${direccionCliente}
 
   // 🔗 MARCAR CARRITO COMO ENVIADO EN BACKEND (si existe)
   const carritoId = localStorage.getItem("carrito_backend_id");
-
   if (carritoId) {
     fetch("/api/carrito/enviar", {
       method: "POST",
@@ -2085,32 +2092,37 @@ Dirección: ${direccionCliente}
 
   // 🔄 SYNC REAL DEL CARRITO PARA DASHBOARD
   try {
-    await fetch("/api/carritos/sync", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        cliente_id:        localStorage.getItem("cliente_id") || 1,
-        items:             proveedores.flatMap(p => p.productos),
-        canal_envio:       "whatsapp",
-        carrito_origen_id: carritoBackendId ? Number(carritoBackendId) : null
-      })
-    });
+    const carritoBackendId = localStorage.getItem("carrito_backend_id");
+
+await fetch("/api/carritos/sync", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    cliente_id: localStorage.getItem("cliente_id") || 1,
+    items: proveedores.flatMap(p => p.productos),
+    canal_envio: "whatsapp",
+    carrito_origen_id: carritoBackendId ? Number(carritoBackendId) : null
+  })
+});
+
   } catch (e) {
     console.warn("No se pudo sincronizar el carrito con el backend");
   }
 
   // ♻️ RESET TOTAL DEL CICLO
-  cancelarTimerAbandono();
   limpiarCarrito();
   localStorage.removeItem("carrito_backend_id");
   renderCarrito();
 
   if (proveedorActual) mostrarProductos(false);
-
-  // Cerrar panel visualmente
+  
+  // cerrar panel visualmente
   const panel = document.getElementById("carritoPanel");
   if (panel) panel.classList.add("oculto");
 }
+
 
 /**
  * Detecta carrito pendiente (recuperación)
