@@ -2187,6 +2187,9 @@ ${urlRemision}
 mensaje += `📈 _Programa tu presupuesto y mantén tu negocio siempre abastecido con_ *DESCOAPP*.\n\n`;
 
 mensaje += `⭐ *Gracias por confiar en DESCOAPP.*`;
+mensaje += `🛍️ Seguir comprando: ${window.location.origin}`;
+
+
   // 📤 Abrir WhatsApp
 window.open(
   `https://api.whatsapp.com/send?phone=${WHATSAPP_EMPRESA}&text=${encodeURIComponent(mensaje)}`,
