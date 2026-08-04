@@ -187,17 +187,40 @@ async function verDetalle(id) {
     `$${Number(data.total).toLocaleString("es-CO")}`;
 
     // ===============================
+// ===============================
 // BOTÓN VER REMISIÓN
 // ===============================
 const btnRemision = document.getElementById("btnVerRemision");
 
 if (btnRemision) {
-  btnRemision.onclick = () => {
-    window.open(
-      `/api/admin/remision-de-carrito/${id}`,
-      "_blank"
-    );
+
+  btnRemision.onclick = async () => {
+
+    try {
+
+      const respuesta = await fetch(
+        `/api/admin/remision-de-carrito/${id}`
+      );
+
+      const data = await respuesta.json();
+
+      if (!data.ok) {
+        alert("Este carrito aún no tiene remisión.");
+        return;
+      }
+
+      window.open(data.url, "_blank");
+
+    } catch (err) {
+
+      console.error(err);
+
+      alert("No fue posible abrir la remisión.");
+
+    }
+
   };
+
 }
 
   const tbody = document.getElementById("detalleItems");
