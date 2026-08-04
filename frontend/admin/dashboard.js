@@ -186,6 +186,20 @@ async function verDetalle(id) {
   document.getElementById("detalleTotal").textContent =
     `$${Number(data.total).toLocaleString("es-CO")}`;
 
+    // ===============================
+// BOTÓN VER REMISIÓN
+// ===============================
+const btnRemision = document.getElementById("btnVerRemision");
+
+if (btnRemision) {
+  btnRemision.onclick = () => {
+    window.open(
+      `/api/admin/remision-de-carrito/${id}`,
+      "_blank"
+    );
+  };
+}
+
   const tbody = document.getElementById("detalleItems");
   tbody.innerHTML = "";
 
