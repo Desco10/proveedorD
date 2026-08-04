@@ -2191,9 +2191,9 @@ mensaje += `🛍️ Seguir comprando: ${window.location.origin}`;
 
 
   // 📤 Abrir WhatsApp
-window.open(
-  `https://api.whatsapp.com/send?phone=${WHATSAPP_EMPRESA}&text=${encodeURIComponent(mensaje)}`,
-  "_blank"
+abrirWhatsApp(
+    WHATSAPP_EMPRESA,
+    mensaje
 );
 
   // 🔗 MARCAR CARRITO COMO ENVIADO EN BACKEND (si existe)
