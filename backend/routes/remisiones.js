@@ -296,23 +296,94 @@ function verRemision(req, res) {
 
 // =====================
 // GET /api/admin/remision-de-carrito/:carritoId
-// Usado por el dashboard para saber si un carrito
-// ya tiene remisión, y obtener su link.
+// Busca la remisión del carrito.
+// Si no existe, intenta encontrarla utilizando
+// el carrito origen (carritos recuperados).
 // =====================
-function obtenerRemisionDeCarrito(req, res) {
-  const { carritoId } = req.params;
-  const indice = leerIndice();
-  const numero = indice[String(carritoId)];
+const pool = require("../config/db");
 
-  if (!numero) {
-    return res.json({ ok: false });
+async function obtenerRemisionDeCarrito(req, res) {
+
+  try {
+
+    const { carritoId } = req.params;
+
+    const indice = leerIndice();
+
+    // ------------------------------------------------
+    // 1️⃣ Buscar remisión directa
+    // ------------------------------------------------
+
+    let numero = indice[String(carritoId)];
+
+    if (numero) {
+
+      return res.json({
+        ok: true,
+        numero,
+        url: `${SITE_URL}/remision/${numero}`
+      });
+
+    }
+
+    // ------------------------------------------------
+    // 2️⃣ Si no existe, revisar si este carrito
+    //     proviene de otro (recuperado)
+    // ------------------------------------------------
+
+    const [[carrito]] = await pool.query(
+      `
+      SELECT carrito_origen_id
+      FROM carritos
+      WHERE id = ?
+      `,
+      [carritoId]
+    );
+
+    if (!carrito) {
+
+      return res.json({ ok: false });
+
+    }
+
+    // ------------------------------------------------
+    // 3️⃣ Buscar remisión del carrito origen
+    // ------------------------------------------------
+
+    if (carrito.carrito_origen_id) {
+
+      numero = indice[String(carrito.carrito_origen_id)];
+
+      if (numero) {
+
+        return res.json({
+          ok: true,
+          numero,
+          url: `${SITE_URL}/remision/${numero}`
+        });
+
+      }
+
+    }
+
+    // ------------------------------------------------
+    // 4️⃣ No existe remisión
+    // ------------------------------------------------
+
+    return res.json({
+      ok: false
+    });
+
+  } catch (err) {
+
+    console.error("obtenerRemisionDeCarrito:", err);
+
+    return res.status(500).json({
+      ok: false
+    });
+
   }
 
-  return res.json({
-    ok: true,
-    numero,
-    url: `${SITE_URL}/remision/${numero}`
-  });
 }
 
 module.exports = { crearRemision, verRemision, obtenerRemisionDeCarrito };

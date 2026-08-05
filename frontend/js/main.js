@@ -2095,7 +2095,7 @@ const cedulaCliente = cliente.cedula || "No registrada";
 const telefonoCliente = cliente.telefono || "No registrado";
 const direccionCliente = cliente.direccion || "No registrada";
  let mensaje =
-`━━━━━━━━━━━━━━━━━━━━━━
+`
 🔷 *DESCOAPP*
 _Compra registrada exitosamente_
 ━━━━━━━━━━━━━━━━━━━━━━
@@ -2103,9 +2103,9 @@ _Compra registrada exitosamente_
 👤 *DATOS DEL CLIENTE*
 
 ▪️ *Nombre:* ${nombreCompleto}
-🆔 *Cédula:* ${cedulaCliente}
-📞 *Teléfono:* ${telefonoCliente}
-📌 *Dirección:* ${direccionCliente}
+   *Cédula:* ${cedulaCliente}
+   *Teléfono:* ${telefonoCliente}
+   *Dirección:* ${direccionCliente}
 
 ━━━━━━━━━━━━━━━━━━━━━━
 
