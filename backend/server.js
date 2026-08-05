@@ -63,6 +63,8 @@ app.use("/api/carritos", require("./routes/carritos"));
 
 // ADMIN
 app.use("/api/admin", require("./routes/admin.routes"));
+// VIDEOS - contador de vistas real
+app.use("/api/videos", require("./routes/videos"));
 
 
 
