@@ -254,17 +254,25 @@ function cerrarModal() {
 // ===============================
 // WHATSAPP
 // ===============================
-function contactarCliente(carritoId, telefono, nombre) {
+async function contactarCliente(carritoId, telefono, nombre) {
+
   if (!telefono) {
     alert("Este cliente no tiene teléfono registrado");
     return;
   }
 
-  const mensaje = encodeURIComponent(
-    `Hola ${nombre}, tienes un carrito pendiente en DescoApp (#${carritoId}). ¿Deseas finalizar tu pedido?`
+  // Buscar el carrito completo dentro del dashboard
+  const carrito = CARROS_TODOS.find(c => c.id == carritoId);
+
+  // Obtener automáticamente el mensaje comercial
+  const mensaje = await obtenerMensajeComercial(carrito);
+
+  // Abrir WhatsApp con el mensaje generado
+  abrirWhatsApp(
+    "57" + telefono,
+    mensaje
   );
 
-  window.open(`https://wa.me/57${telefono}?text=${mensaje}`, "_blank");
 }
 
 // ===============================
