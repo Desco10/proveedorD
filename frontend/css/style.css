@@ -2126,6 +2126,44 @@ footer .mensaje-temporada.active {
   }
 }
 
+/* Punto "EN VIVO" junto al contador de vistas reales */
+.view-counter .live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ff3b3b;
+  display: inline-block;
+  margin-right: 2px;
+  animation: liveDotPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes liveDotPulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(255, 59, 59, 0.6);
+  }
+  50% {
+    opacity: 0.6;
+    box-shadow: 0 0 0 4px rgba(255, 59, 59, 0);
+  }
+}
+
+/* Pequeño "salto" suave cada vez que el número de vistas sube */
+.view-counter span {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.view-counter span.bump {
+  animation: viewBump 0.3s ease;
+}
+
+@keyframes viewBump {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
 /* ============================================
    CONTROLES DE VIDEO
    ============================================ */
@@ -2458,6 +2496,28 @@ footer .mensaje-temporada.active {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.6; }
 }
+
+/* Spinner visible mientras el video hace buffer/carga */
+.video-player-wrap.loading::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 3px solid rgba(255, 255, 255, 0.25);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  z-index: 40;
+  animation: bufferSpin 0.8s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes bufferSpin {
+  to { transform: rotate(360deg); }
+}
+
 
 #story-video::-webkit-media-controls {
   display: none !important;

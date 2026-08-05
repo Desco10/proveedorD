@@ -6,8 +6,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const overlayImg = document.getElementById("overlayImage");
   const overlayTitle = document.getElementById("overlayTitle");
   const overlayBtn = document.getElementById("overlayBtn");
-  
-  // Nuevos elementos de control
+
+  // Controles
   const playPauseBtn = document.getElementById("playPauseBtn");
   const volumeBtn = document.getElementById("volumeBtn");
   const timeBar = document.getElementById("timeBar");
@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const durationEl = document.getElementById("duration");
   const viewCountEl = document.getElementById("viewCount");
   const videoControls = document.querySelector(".video-controls");
+  const playerWrap = document.querySelector(".video-player-wrap");
 
   if (!videoEl) return;
 
@@ -24,9 +25,32 @@ document.addEventListener("DOMContentLoaded", async () => {
   let current = 0;
   let progressTimer = null;
   let isPausedExternally = false;
-  let viewCounts = {}; // Almacenar vistas por video
+  let countedThisLoad = false; // evita registrar 2 veces la misma reproducción (pausa/resume)
 
-  // === Cargar data inicial ===
+  // Reproducción más fluida
+  videoEl.preload = "auto";
+  videoEl.setAttribute("playsinline", "");
+
+  // Elemento oculto para precargar el SIGUIENTE video en segundo plano
+  const preloadEl = document.createElement("video");
+  preloadEl.muted = true;
+  preloadEl.preload = "auto";
+  preloadEl.style.display = "none";
+  preloadEl.setAttribute("playsinline", "");
+  document.body.appendChild(preloadEl);
+
+  function preloadNextVideo(idx) {
+    const nextIdx = (idx + 1) % videos.length;
+    const nextV = videos[nextIdx];
+    if (!nextV) return;
+    const absoluteSrc = new URL(nextV.src, window.location.href).href;
+    if (preloadEl.src !== absoluteSrc) {
+      preloadEl.src = nextV.src;
+      preloadEl.load();
+    }
+  }
+
+  // === Cargar data inicial (videos + proveedores) ===
   try {
     const [videosRes, provRes] = await Promise.all([
       fetch("/data/videos.json"),
@@ -34,20 +58,53 @@ document.addEventListener("DOMContentLoaded", async () => {
     ]);
     videos = await videosRes.json();
     proveedores = await provRes.json();
-    
-    // Inicializar contadores de vistas
-    videos.forEach((v, idx) => {
-      const storedViews = localStorage.getItem(`video_views_${idx}`);
-      viewCounts[idx] = storedViews ? parseInt(storedViews) : 0;
-    });
   } catch (err) {
     console.error("Error cargando archivos JSON:", err);
     return;
   }
 
+  // === Contador de vistas REAL (guardado en videos.json, sin base de datos) ===
+  // Muestra el valor que ya viene en videos.json y, cuando el video
+  // realmente se reproduce, suma 1 vista real en el servidor.
+  function showViewCount(v) {
+    if (viewCountEl) viewCountEl.textContent = formatViews(v.vistas || 0);
+  }
+
+  async function registerView(v) {
+    if (!v.id) return; // por seguridad, si algún video no tiene id, no se cuenta
+    try {
+      const res = await fetch(`/api/videos/${v.id}/view`, {
+        method: "POST",
+        keepalive: true,
+      });
+      if (res.ok) {
+        const data = await res.json();
+        v.vistas = data.vistas; // actualiza el valor real en memoria
+        if (videos[current] === v) {
+          animateViewCount(data.vistas);
+        }
+      }
+    } catch (err) {
+      console.warn("No se pudo registrar la vista:", err);
+    }
+  }
+
+  function animateViewCount(to) {
+    if (!viewCountEl) return;
+    viewCountEl.textContent = formatViews(to);
+    viewCountEl.classList.remove("bump");
+    // Forzar reflow para poder repetir la animación aunque ya tenga la clase
+    void viewCountEl.offsetWidth;
+    viewCountEl.classList.add("bump");
+  }
+
+  function formatViews(count) {
+    if (count >= 1000000) return (count / 1000000).toFixed(1) + "M";
+    if (count >= 1000) return (count / 1000).toFixed(1) + "K";
+    return count.toString();
+  }
+
   // === CONTROLES DE VIDEO ===
-  
-  // Play/Pause
   if (playPauseBtn) {
     playPauseBtn.addEventListener("click", () => {
       if (videoEl.paused) {
@@ -60,17 +117,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // Volumen
   if (volumeBtn) {
     volumeBtn.addEventListener("click", () => {
       videoEl.muted = !videoEl.muted;
-      volumeBtn.innerHTML = videoEl.muted 
-        ? '<i class="fas fa-volume-mute"></i>' 
+      volumeBtn.innerHTML = videoEl.muted
+        ? '<i class="fas fa-volume-mute"></i>'
         : '<i class="fas fa-volume-up"></i>';
     });
   }
 
-  // Barra de tiempo
   if (timeBar) {
     timeBar.addEventListener("click", (e) => {
       const rect = timeBar.getBoundingClientRect();
@@ -79,7 +134,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // Actualizar tiempo
   videoEl.addEventListener("timeupdate", () => {
     if (videoEl.duration) {
       const percent = (videoEl.currentTime / videoEl.duration) * 100;
@@ -88,10 +142,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
+  // Indicador de carga/buffer (usa la clase .loading ya existente en el CSS)
+  videoEl.addEventListener("waiting", () => {
+    if (playerWrap) playerWrap.classList.add("loading");
+  });
+  videoEl.addEventListener("playing", () => {
+    if (playerWrap) playerWrap.classList.remove("loading");
+    if (!countedThisLoad) {
+      countedThisLoad = true;
+      registerView(videos[current]);
+    }
+  });
+
   // Mostrar controles al mover el mouse
   let hideControlsTimeout;
-  const playerWrap = document.querySelector(".video-player-wrap");
-  
   if (playerWrap && videoControls) {
     playerWrap.addEventListener("mousemove", () => {
       videoControls.classList.add("show");
@@ -110,11 +174,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // === Función para formatear tiempo ===
   function formatTime(seconds) {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
   }
 
   // === Funciones globales para pausar/reanudar ===
@@ -138,34 +201,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   };
 
-  // === Incrementar y mostrar vistas ===
-  function incrementViews(videoIndex) {
-    viewCounts[videoIndex] = (viewCounts[videoIndex] || 0) + 1;
-    localStorage.setItem(`video_views_${videoIndex}`, viewCounts[videoIndex]);
-    
-    if (viewCountEl) {
-      // Animación de contador
-      const targetCount = viewCounts[videoIndex];
-      let currentCount = 0;
-      const increment = Math.ceil(targetCount / 20);
-      const timer = setInterval(() => {
-        currentCount += increment;
-        if (currentCount >= targetCount) {
-          currentCount = targetCount;
-          clearInterval(timer);
-        }
-        viewCountEl.textContent = formatViews(currentCount);
-      }, 30);
-    }
-  }
-
-  // Formatear número de vistas (1000 = 1K)
-  function formatViews(count) {
-    if (count >= 1000000) return (count / 1000000).toFixed(1) + "M";
-    if (count >= 1000) return (count / 1000).toFixed(1) + "K";
-    return count.toString();
-  }
-
   // === Cargar y reproducir video ===
   async function loadVideo(idx) {
     clearInterval(progressTimer);
@@ -175,12 +210,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     const v = videos[idx];
     if (!v) return;
 
-    // Incrementar vistas
-    incrementViews(idx);
+    countedThisLoad = false;
+
+    // Mostrar el conteo real que ya trae videos.json
+    showViewCount(v);
 
     // Configurar fuente de video
     videoEl.src = v.src;
     videoEl.load();
+
+    // Precargar el siguiente para que cargue instantáneo al hacer swipe/click
+    preloadNextVideo(idx);
 
     // Buscar proveedor correspondiente
     const proveedor = proveedores.find(
@@ -189,33 +229,25 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const proveedorUrl = proveedor ? `proveedor.html?id=${proveedor.id}` : "#";
 
-    // Actualizar overlay
     overlayImg.src = v.thumbnail || "./img/logo.png";
     overlayTitle.textContent =
       proveedor?.nombre || v.title || "Proveedor sin nombre";
     overlayBtn.textContent = "Ver catálogo";
 
     overlayBtn.onclick = (e) => {
-  e.preventDefault();
+      e.preventDefault();
 
-  if (!proveedor || typeof abrirProveedor !== "function") {
-    window.location.href = proveedorUrl;
-    return;
-  }
+      if (!proveedor || typeof abrirProveedor !== "function") {
+        window.location.href = proveedorUrl;
+        return;
+      }
 
-  // Pedir login, pero no pausar todavía
-  requireLogin(() => {
-    // Solo aquí pausamos y abrimos el catálogo si el login fue exitoso
-    pauseStory();
-    abrirProveedor(proveedor.id, proveedor.nombre);
-  });
+      requireLogin(() => {
+        pauseStory();
+        abrirProveedor(proveedor.id, proveedor.nombre);
+      });
+    };
 
-  // Si cierra el modal de login, no pasa nada, el video sigue reproduciéndose
-};
-
-
-
-    // Click sobre el video → pausa/play
     videoEl.onclick = () => {
       if (videoEl.paused) {
         videoEl.play();
@@ -226,30 +258,21 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     };
 
-    // Reproducir video y barra
     videoEl.onloadedmetadata = () => {
       const dur = isFinite(videoEl.duration) ? videoEl.duration : 15;
-      
-      // Actualizar duración
+
       if (durationEl) durationEl.textContent = formatTime(dur);
-      
-      // Detectar si el video es vertical (TikTok) u horizontal (YouTube)
+
       const videoWidth = videoEl.videoWidth;
       const videoHeight = videoEl.videoHeight;
       const aspectRatio = videoWidth / videoHeight;
-      
-      const playerWrap = document.querySelector(".video-player-wrap");
-      
+
       if (aspectRatio < 1) {
-        // Video vertical (TikTok/Reels/Stories)
         playerWrap.classList.add("vertical-video");
-        console.log("📱 Video vertical detectado (TikTok/Reels)");
       } else {
-        // Video horizontal (YouTube)
         playerWrap.classList.remove("vertical-video");
-        console.log("🎬 Video horizontal detectado (YouTube)");
       }
-      
+
       startProgress(dur);
       videoEl
         .play()
@@ -260,7 +283,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     };
   }
 
-  // === Barra de progreso ===
   function startProgress(duration) {
     const start = performance.now();
     clearInterval(progressTimer);
@@ -275,7 +297,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }, 100);
   }
 
-  // === Navegación entre videos ===
   function nextVideo() {
     current = (current + 1) % videos.length;
     loadVideo(current);
@@ -289,6 +310,5 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (nextBtn) nextBtn.addEventListener("click", nextVideo);
   if (prevBtn) prevBtn.addEventListener("click", prevVideo);
 
-  // === Iniciar el primer video ===
   loadVideo(current);
 });
