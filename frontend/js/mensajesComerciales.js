@@ -116,3 +116,60 @@ Si deseas realizar un nuevo pedido estaremos encantados de ayudarte.
 // =====================================================
 
 window.MensajesComerciales = MensajesComerciales;
+
+
+// =====================================================
+// Obtiene automáticamente el mensaje correcto
+// =====================================================
+async function obtenerMensajeComercial(carrito) {
+
+    let urlRemision = "";
+
+    try {
+
+        const res = await fetch(
+            `/api/admin/remision-de-carrito/${carrito.id}`
+        );
+
+        const data = await res.json();
+
+        if (data.ok) {
+            urlRemision = data.url;
+        }
+
+    } catch (e) {
+        console.warn("No se pudo obtener la remisión");
+    }
+
+    const nombre =
+        `${carrito.nombre} ${carrito.apellido || ""}`.trim();
+
+    // Carrito abandonado
+    if (carrito.fue_abandonado == 1) {
+        return MensajesComerciales.carritoAbandonado(
+            nombre,
+            urlRemision
+        );
+    }
+
+    // Pedido enviado
+    if (carrito.estado === "enviado") {
+        return MensajesComerciales.pedidoEnviado(
+            nombre,
+            urlRemision
+        );
+    }
+
+    // Carrito abierto
+    return `Hola *${nombre}*. 👋
+
+Vimos que tienes un carrito abierto en *DescoApp*.
+
+¿Deseas finalizar este pedido o prefieres crear uno nuevo?
+
+Estaremos atentos para ayudarte. 🤝`;
+
+}
+
+// Hacerla global para dashboard.js
+window.obtenerMensajeComercial = obtenerMensajeComercial;
