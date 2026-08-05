@@ -2074,6 +2074,19 @@ if (typeof mostrarProductos === "function") {
  * Finaliza la compra y envía resumen por WhatsApp
  */
 async function finalizarCompra() {
+
+  // ======================================
+// Evita doble envío del pedido
+// ======================================
+const boton = document.getElementById("btnFinalizarCompra");
+
+if (boton.disabled) {
+    return;
+}
+
+boton.disabled = true;
+boton.innerHTML = "Procesando pedido...";
+
   const carrito = obtenerCarrito();
 
   if (!carrito.items.length) {
@@ -2187,7 +2200,7 @@ ${urlRemision}
 mensaje += `📈 _Programa tu presupuesto y mantén tu negocio siempre abastecido con_ *DESCOAPP*.\n\n`;
 
 mensaje += `⭐ *Gracias por confiar en DESCOAPP.*`;
-mensaje += `🛍️ Seguir comprando: ${window.location.origin}`;
+mensaje += `🛒 Seguir comprando: ${window.location.origin}`;
 
 
   // 📤 Abrir WhatsApp
