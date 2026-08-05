@@ -268,10 +268,10 @@ async function contactarCliente(carritoId, telefono, nombre) {
   const mensaje = await obtenerMensajeComercial(carrito);
 
   // Abrir WhatsApp con el mensaje generado
-  abrirWhatsApp(
-    "57" + telefono,
-    mensaje
-  );
+  window.open(
+    `https://wa.me/57${telefono}?text=${encodeURIComponent(mensaje)}`,
+    "_blank"
+);
 
 }
 
