@@ -282,9 +282,7 @@ const productosPorPagina = 20;
 let usuarioActual = null;
 let proveedorActual = null;
 // ======================================
-// Evita doble ejecución del checkout
-// ======================================
-let compraEnProceso = false;
+
 // Mostrar modal si no hay usuario válido
 function mostrarModalSiNoHayUsuario() {
   const usuario = isLoginVigente() ? JSON.parse(localStorage.getItem("cliente")) : null;
@@ -2078,24 +2076,7 @@ if (typeof mostrarProductos === "function") {
  */
 async function finalizarCompra() {
 
-  // ======================================
-  // Evita doble ejecución
-  // ======================================
-  if (compraEnProceso) {
-    return;
-  }
-
-  compraEnProceso = true;
-
-  try {
-
-    const carrito = obtenerCarrito();
-
-    if (!carrito.items.length) {
-      alert("Tu carrito está vacío.");
-      return;
-    }
-
+  
 
   const carrito = obtenerCarrito();
 
@@ -2260,16 +2241,6 @@ await fetch("/api/carritos/sync", {
   // cerrar panel visualmente
   const panel = document.getElementById("carritoPanel");
   if (panel) panel.classList.add("oculto");
-  // cerrar panel visualmente
-  const panel = document.getElementById("carritoPanel");
-  if (panel) panel.classList.add("oculto");
-
-  } finally {
-
-    // Libera el checkout para una nueva compra
-    compraEnProceso = false;
-
-  }
 }
 
 
