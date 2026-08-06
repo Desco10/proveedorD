@@ -2,19 +2,14 @@
  * ==========================================================
  * DescoApp - Smart WhatsApp Launcher
  * ----------------------------------------------------------
- * Abre WhatsApp utilizando la mejor estrategia disponible
- * según el dispositivo del usuario.
+ * Abre WhatsApp utilizando la API oficial.
  *
- * Prioridad:
- * 1. Deep Link (whatsapp://)
- * 2. API oficial de WhatsApp
- *
- * Compatible con:
- * ✓ Android
- * ✓ iPhone
- * ✓ WhatsApp Messenger
- * ✓ WhatsApp Business
- * ✓ Navegadores de escritorio
+ * Objetivos:
+ * ✓ No modificar el historial de la página.
+ * ✓ Mantener estable el flujo de finalizarCompra().
+ * ✓ Funcionar en Android, iPhone y escritorio.
+ * ✓ Evitar que al regresar aparezca la página de
+ *   mensaje precargado sin funcionalidad.
  * ==========================================================
  */
 
@@ -26,35 +21,23 @@ function abrirWhatsApp(telefono, mensaje) {
     }
 
     const texto = encodeURIComponent(mensaje);
-    const apiUrl = `https://api.whatsapp.com/send?phone=${telefono}&text=${texto}`;
-    const deepLink = `whatsapp://send?phone=${telefono}&text=${texto}`;
 
-    const ua = navigator.userAgent.toLowerCase();
-    const esMovil = /android|iphone|ipad|ipod/.test(ua);
+    const url =
+        `https://api.whatsapp.com/send?phone=${telefono}&text=${texto}`;
 
-    // ==========================
-    // DISPOSITIVOS MÓVILES
-    // ==========================
-    if (esMovil) {
+    // Abrir en una nueva pestaña/ventana.
+    // Esto conserva la página actual de DescoApp
+    // y evita alterar el historial del navegador.
+    const nuevaVentana = window.open(
+        url,
+        "_blank",
+        "noopener,noreferrer"
+    );
 
-        // Intentar abrir directamente la aplicación instalada.
-        window.location.href = deepLink;
-
-        // Si el navegador continúa abierto,
-        // usar el enlace oficial como respaldo.
-        setTimeout(() => {
-
-            if (!document.hidden) {
-                window.location.href = apiUrl;
-            }
-
-        }, 1200);
-
-        return;
+    // Si el navegador bloqueó la ventana emergente,
+    // usar el mismo tab como último recurso.
+    if (!nuevaVentana) {
+        window.location.assign(url);
     }
 
-    // ==========================
-    // ESCRITORIO
-    // ==========================
-    window.open(apiUrl, "_blank", "noopener,noreferrer");
 }
