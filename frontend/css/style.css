@@ -323,7 +323,7 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
 .buscador-catalogo {
   display: flex;
   justify-content: center;
-  margin: 18px 0 8px;
+  margin: 8px 0 0cm;
 }
 
 /* CAJA PRINCIPAL */
