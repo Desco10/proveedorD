@@ -323,7 +323,7 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
 .buscador-catalogo {
   display: flex;
   justify-content: center;
-  margin: 18px 0 22px;
+  margin: 18px 0 8px;
 }
 
 /* CAJA PRINCIPAL */
@@ -474,12 +474,17 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
     opacity: 0.5;
   }
 }
-
-/* TABLET */
+/*movil*/
 @media (max-width: 768px) {
+
+  .buscador-catalogo {
+    margin: 10px 0 6px;
+  }
+
   .search-glow {
     max-width: 90%;
   }
+
 }
 
 /* MOBILE */
@@ -530,26 +535,6 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
   overflow: hidden; /* evita que el icono afecte scroll */
 }
 
-/* ICONO ANIMADO - centrado arriba del texto */
-/* CAMIÓN DE REPARTO */
-.catalogo-detalles::before {
-    content: "";
-    position: absolute;
-
-    width: 80px;
-    height: 80px;
-
-    top: 18px;
-    left: 50%;
-    transform: translateX(-50%);
-
-    background-image: url("/img/plataforma/camion.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-
-    animation: camionMover 2.5s ease-in-out infinite;
-}
 
 
 /* CAMIÓN DE REPARTO */
@@ -557,8 +542,8 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
     content: "";
     position: absolute;
 
-    width: 85px;
-    height: 85px;
+    width: 110px;
+    height: 110px;
 
     top: 15px;
     left: 50%;
@@ -587,31 +572,30 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
 /* ANIMACIÓN DEL CAMIÓN */
 @keyframes camionMove {
 
-    0% {
-        transform: translateX(-50%) translateY(0) scale(1);
+    0%{
+        transform:translateX(-50%) translateY(0);
     }
 
-    20% {
-        transform: translateX(calc(-50% + 4px)) translateY(-2px) scale(1.02);
+    25%{
+        transform:translateX(calc(-50% + 3px)) translateY(-1px);
     }
 
-    40% {
-        transform: translateX(calc(-50% + 10px)) translateY(0) scale(1.04);
+    50%{
+        transform:translateX(calc(-50% + 8px)) translateY(0);
     }
 
-    60% {
-        transform: translateX(calc(-50% + 16px)) translateY(-2px) scale(1.03);
+    75%{
+        transform:translateX(calc(-50% + 3px)) translateY(-1px);
     }
 
-    80% {
-        transform: translateX(calc(-50% + 10px)) translateY(0) scale(1.02);
-    }
-
-    100% {
-        transform: translateX(-50%) translateY(0) scale(1);
+    100%{
+        transform:translateX(-50%) translateY(0);
     }
 
 }
+
+
+
 /* FADE-IN */
 @keyframes fadeIn {
   0% { opacity: 0; transform: translateY(8px); }
@@ -2815,9 +2799,9 @@ footer .mensaje-temporada.active {
   }
 
   /* Centra y expande el buscador en PC */
-  .buscador-catalogo input {
+  /*.buscador-catalogo input {
       width: 700px;
-  }
+  }*/
 
   /* Aumento del tamaño del contenedor de video en PC */
   :root {
