@@ -323,7 +323,7 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
 .buscador-catalogo {
   display: flex;
   justify-content: center;
-  margin: 8px 0 0cm;
+  margin: 8px 0 0;
 }
 
 /* CAJA PRINCIPAL */
@@ -2661,7 +2661,7 @@ footer .mensaje-temporada.active {
 .catalogo-banner {
     width: 100%;
     max-width: 100%;
-    height: 130px; /* Altura tipo cinta fina */
+    height: 180px; /* Altura tipo cinta fina */
     border-radius: 10px;
     overflow: hidden;
     margin: 2px 0 5px 0;
