@@ -506,7 +506,7 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
   position: relative; /* contenedor para icono absoluto */
   width: 100%;
   margin: 0 auto 22px auto;
-  padding: 60px 20px 28px 20px; /* padding-top aumentado para espacio del icono */
+  padding: 95px 25px 38px 25px; /* padding-top aumentado para espacio del icono */
   text-align: center;
   background-color: #ffffff;
 
@@ -531,21 +531,46 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
 }
 
 /* ICONO ANIMADO - centrado arriba del texto */
+/* CAMIÓN DE REPARTO */
 .catalogo-detalles::before {
-    content: "\f48b";
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    font-size: 2rem;
-    color: #080401;
-    opacity: 0.95;
-
+    content: "";
     position: absolute;
+
+    width: 80px;
+    height: 80px;
+
     top: 18px;
     left: 50%;
     transform: translateX(-50%);
-    text-shadow: 0 2px 8px rgba(0,0,0,.25);
 
-    animation: iconMove 2s ease-in-out infinite;
+    background-image: url("/img/plataforma/camion.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+
+    animation: camionMover 2.5s ease-in-out infinite;
+}
+
+
+/* CAMIÓN DE REPARTO */
+.catalogo-detalles::before {
+    content: "";
+    position: absolute;
+
+    width: 85px;
+    height: 85px;
+
+    top: 15px;
+    left: 50%;
+
+    transform: translateX(-50%);
+    transform-origin: center center;
+
+    background: url("/img/plataforma/camion.png") center center / contain no-repeat;
+
+    opacity: 0.95;
+
+    animation: camionMove 2.8s ease-in-out infinite;
 }
 
 /* SEPARADOR */
@@ -559,14 +584,34 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
 }
 
 /* ANIMACIÓN DEL ICONO */
-@keyframes iconMove {
-  0% { transform: translateX(-50%) translateZ(0) scale(1); opacity: 0.8; }
-  25% { transform: translateX(calc(-50% + 5px)) scale(1.05) rotate(2deg); opacity: 1; }
-  50% { transform: translateX(calc(-50% + 15px)) scale(1.1) rotate(-2deg); opacity: 1; }
-  75% { transform: translateX(calc(-50% + 25px)) scale(1.05) rotate(2deg); opacity: 1; }
-  100% { transform: translateX(-50%) scale(1); opacity: 0.8; }
-}
+/* ANIMACIÓN DEL CAMIÓN */
+@keyframes camionMove {
 
+    0% {
+        transform: translateX(-50%) translateY(0) scale(1);
+    }
+
+    20% {
+        transform: translateX(calc(-50% + 4px)) translateY(-2px) scale(1.02);
+    }
+
+    40% {
+        transform: translateX(calc(-50% + 10px)) translateY(0) scale(1.04);
+    }
+
+    60% {
+        transform: translateX(calc(-50% + 16px)) translateY(-2px) scale(1.03);
+    }
+
+    80% {
+        transform: translateX(calc(-50% + 10px)) translateY(0) scale(1.02);
+    }
+
+    100% {
+        transform: translateX(-50%) translateY(0) scale(1);
+    }
+
+}
 /* FADE-IN */
 @keyframes fadeIn {
   0% { opacity: 0; transform: translateY(8px); }
@@ -2639,7 +2684,7 @@ footer .mensaje-temporada.active {
 .catalogo-banner {
     width: 100%;
     max-width: 100%;
-    height: 120px; /* Altura tipo cinta fina */
+    height: 180px; /* Altura tipo cinta fina */
     border-radius: 10px;
     overflow: hidden;
     margin: 2px 0 5px 0;
@@ -2688,7 +2733,7 @@ footer .mensaje-temporada.active {
 /* RESPONSIVO */
 @media (max-width: 768px) {
     .catalogo-banner {
-        height: 90px; /* Más delgado en celular */
+        height: 140px; /* Más delgado en celular */
     }
     .catalogo-banner .banner-texto {
         font-size: 18px;
@@ -2697,7 +2742,7 @@ footer .mensaje-temporada.active {
 
 @media (max-width: 480px) {
     .catalogo-banner {
-        height: 70px; /* Forma de cinta muy delgada */
+        height: 120px; /* Forma de cinta muy delgada */
     }
     .catalogo-banner .banner-texto {
         font-size: 16px;
