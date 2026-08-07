@@ -532,20 +532,20 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
 
 /* ICONO ANIMADO - centrado arriba del texto */
 .catalogo-detalles::before {
-  content: "\f48b \f21c"; /* camión + motor/chispa */
-  font-family: "Font Awesome 5 Free";
-  font-weight: 900;
-  font-size: 1.6rem;
-  opacity: 0.9;
+    content: "\f48b";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 2rem;
+    color: #080401;
+    opacity: 0.95;
 
-  position: absolute;
-  top: 16px; /* margen superior */
-  left: 50%;
-  transform: translateX(-50%) translateZ(0);
-  will-change: transform;
+    position: absolute;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-shadow: 0 2px 8px rgba(0,0,0,.25);
 
-  text-shadow: 1px 1px 0 rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.3);
-  animation: iconMove 2s ease-in-out infinite;
+    animation: iconMove 2s ease-in-out infinite;
 }
 
 /* SEPARADOR */
