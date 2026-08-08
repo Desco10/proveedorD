@@ -478,7 +478,7 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
 @media (max-width: 768px) {
 
   .buscador-catalogo {
-    margin: 10px 0 6px;
+    margin: 32px 0 5px;
   }
 
   .search-glow {
@@ -2710,7 +2710,7 @@ footer .mensaje-temporada.active {
 /* RESPONSIVO */
 @media (max-width: 768px) {
     .catalogo-banner {
-        height: 140px; /* Más delgado en celular */
+        height: 180px; /* Más delgado en celular */
     }
     .catalogo-banner .banner-texto {
         font-size: 18px;
@@ -2719,7 +2719,7 @@ footer .mensaje-temporada.active {
 
 @media (max-width: 480px) {
     .catalogo-banner {
-        height: 120px; /* Forma de cinta muy delgada */
+        height: 180px; /* Forma de cinta muy delgada */
     }
     .catalogo-banner .banner-texto {
         font-size: 16px;
