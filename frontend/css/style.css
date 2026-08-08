@@ -1964,13 +1964,13 @@ footer .mensaje-temporada.active {
 
 .video-stories {
   width: 100%;
-  padding: 30px 15px;
+  padding: 8px 0;   /* 👈 CAMBIO: antes 30px 15px */
   background: var(--video-bg);
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  margin: 0 auto 30px;
+  margin: 0 auto 12px;   /* 👈 CAMBIO: antes 0 auto 30px */
   position: relative;
   
   /* Efecto de partículas brillantes animadas */
@@ -2065,8 +2065,9 @@ footer .mensaje-temporada.active {
 /* Contenedor del reproductor */
 .video-player-wrap {
   position: relative;
-  width: 150%;
-  max-width: 500px;
+  width: 100%;              /* 👈 CAMBIO: antes 150% (causaba el recorte/desfase) */
+  max-width: 680px;         /* 👈 CAMBIO: antes 500px */
+  margin: 0 auto;           /* 👈 AGREGADO: centra correctamente */
   height: var(--video-container-height); /* Altura fija */
   background: #ffffff2a;
   border-radius: 5px;
@@ -2453,17 +2454,19 @@ footer .mensaje-temporada.active {
 
 @media (max-width: 768px) {
   :root {
-    --video-container-height: 320px;
+    --video-container-height: 400px;   /* 👈 CAMBIO: antes 320px, video más grande/inmersivo */
   }
   
   .video-stories {
-    padding: 20px 10px;
+    padding: 0;    /* 👈 CAMBIO: antes 20px 10px — elimina el margen blanco lateral */
   }
 
   .video-player-wrap {
+    width: 100%;
     max-width: 100%;
-    border-radius: 12px;
+    border-radius: 0;   /* 👈 CAMBIO: antes 12px — pegado a los bordes, estilo feed nativo */
   }
+  
 
   .video-player-wrap.vertical-video {
     max-width: 240px;
