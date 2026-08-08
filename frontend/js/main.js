@@ -561,12 +561,16 @@ if (proveedorData && proveedorData.colorDetalles) {
     // Cerrar resultados al perder el foco
 document.addEventListener("click", (e) => {
 
-  if (
-    !e.target.closest(".buscador-catalogo") &&
-    panelResultados
-  ) {
-    panelResultados.innerHTML = "";
-  }
+    if (!e.target.closest(".buscador-catalogo")) {
+
+        const panelResultados =
+            document.getElementById("resultadosBusquedaCatalogo");
+
+        if (panelResultados) {
+            panelResultados.innerHTML = "";
+        }
+
+    }
 
 });
 

@@ -31,6 +31,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   videoEl.preload = "auto";
   videoEl.setAttribute("playsinline", "");
 
+ // Volumen moderado por defecto (el usuario lo ajusta con los controles)
+  videoEl.volume = 0.4;
+  videoEl.muted = false;
+
   // Elemento oculto para precargar el SIGUIENTE video en segundo plano
   const preloadEl = document.createElement("video");
   preloadEl.muted = true;
@@ -123,6 +127,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       volumeBtn.innerHTML = videoEl.muted
         ? '<i class="fas fa-volume-mute"></i>'
         : '<i class="fas fa-volume-up"></i>';
+      if (!videoEl.muted) hideSoundHint();
     });
   }
 
@@ -201,6 +206,32 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   };
 
+
+   // Aviso sutil de "toca para activar sonido" (solo si el navegador forzó el mute)
+  let soundHintEl = null;
+  function showSoundHint() {
+    if (!playerWrap) return;
+    if (!soundHintEl) {
+      soundHintEl = document.createElement("div");
+      soundHintEl.className = "sound-hint";
+      soundHintEl.innerHTML = '<i class="fas fa-volume-mute"></i> Toca para activar sonido';
+      soundHintEl.addEventListener("click", (e) => {
+        e.stopPropagation();
+        videoEl.muted = false;
+        videoEl.volume = 0.4;
+        if (volumeBtn) volumeBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+        hideSoundHint();
+      });
+      playerWrap.appendChild(soundHintEl);
+    }
+    soundHintEl.classList.add("show");
+  }
+
+  function hideSoundHint() {
+    if (soundHintEl) soundHintEl.classList.remove("show");
+  }
+
+
   // === Cargar y reproducir video ===
   async function loadVideo(idx) {
     clearInterval(progressTimer);
@@ -274,12 +305,28 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
 
       startProgress(dur);
+      videoEl.muted = false;
+      videoEl.volume = 0.4;
+
       videoEl
         .play()
         .then(() => {
           if (playPauseBtn) playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+          if (volumeBtn) volumeBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
         })
-        .catch((err) => console.warn("Autoplay bloqueado:", err));
+        .catch((err) => {
+          // El navegador bloqueó el autoplay CON sonido: reintenta silenciado
+          console.warn("Autoplay con sonido bloqueado, reintentando silenciado:", err);
+          videoEl.muted = true;
+          videoEl
+            .play()
+            .then(() => {
+              if (playPauseBtn) playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+              if (volumeBtn) volumeBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+              showSoundHint();
+            })
+            .catch((err2) => console.warn("Autoplay totalmente bloqueado:", err2));
+        });
     };
   }
 
@@ -312,3 +359,5 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   loadVideo(current);
 });
+
+
