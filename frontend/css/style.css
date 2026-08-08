@@ -558,7 +558,7 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
 
 
     transform-origin: center center;
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
+    /*filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));*/
 
     animation: camionMove 5.5s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
@@ -580,7 +580,7 @@ main { max-width:1200px; margin:20px auto; padding:0 16px; }
         top: 22px;
         transform: scale(0.55);
         opacity: 0;
-        filter: drop-shadow(0 2px 3px rgba(0,0,0,0.15)) blur(0.5px);
+        /*filter: drop-shadow(0 2px 3px rgba(0,0,0,0.15)) blur(0.5px);*/
     }
     8% {
         opacity: 1;
