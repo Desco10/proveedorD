@@ -3697,7 +3697,7 @@ footer .mensaje-temporada.active {
     margin-bottom:12px;
 
     width:100%;
-    min-height:92px;
+    min-height:0px;
 
 }
 
