@@ -3965,3 +3965,29 @@ footer .mensaje-temporada.active {
     }
 
 }
+
+
+/* =========================================================
+   APP SHELL — FUERZA VISTA TIPO CELULAR EN CUALQUIER PANTALLA
+========================================================= */
+
+body {
+  background: #eef1f6;
+  margin: 0;
+}
+
+.app-shell {
+  max-width: 480px;
+  margin: 0 auto;
+  background: #ffffff;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+@media (min-width: 769px) {
+  .app-shell {
+    box-shadow: 0 0 70px rgba(0,0,0,0.15);
+    min-height: 100vh;
+  }
+}
