@@ -3968,9 +3968,8 @@ footer .mensaje-temporada.active {
 
 
 /* =========================================================
-   DESCOAPP - APP SHELL
-   Vista tipo aplicación en PC
-   No modifica la lógica interna
+   DESCOAPP
+   APP SHELL — EXPERIENCIA TIPO APP
 ========================================================= */
 
 html,
@@ -3982,21 +3981,21 @@ body {
 
 
 /* =========================================================
-   FONDO EXTERIOR DE LA PLATAFORMA
+   FONDO EXTERIOR
 ========================================================= */
 
 body {
     background:
         radial-gradient(
-            circle at 50% 15%,
-            rgba(3, 185, 245, 0.10),
-            transparent 35%
+            circle at 50% 12%,
+            rgba(3, 185, 245, 0.363),
+            transparent 32%
         ),
         linear-gradient(
             135deg,
             #eef3f8 0%,
-            #dfe8f1 50%,
-            #edf2f7 100%
+            #dce6ef 50%,
+            #f1f5f9 100%
         );
 
     background-attachment: fixed;
@@ -4004,10 +4003,11 @@ body {
 
 
 /* =========================================================
-   CONTENEDOR PRINCIPAL DE DESCOAPP
+   APP SHELL
 ========================================================= */
 
 .app-shell {
+
     width: 100%;
     max-width: 520px;
 
@@ -4015,33 +4015,62 @@ body {
 
     margin: 0 auto;
 
-    background: #ffffff;
-
     position: relative;
 
-    box-shadow:
-        0 0 35px rgba(0, 0, 0, 0.12),
-        0 0 80px rgba(3, 185, 245, 0.08);
+    background: #ffffff;
 
     overflow-x: hidden;
+
+    /*
+       Borde exterior muy sutil
+    */
+    border: 1px solid rgba(3, 185, 245, 0.10);
+
+    /*
+       Sombra principal
+    */
+    box-shadow:
+        0 20px 55px rgba(0, 0, 0, 0.16),
+        0 0 35px rgba(3, 185, 245, 0.08);
+
 }
 
 
 /* =========================================================
-   PC / ESCRITORIO
+   PC
+   FORMATO TIPO APP
 ========================================================= */
 
 @media (min-width: 769px) {
 
     .app-shell {
-        width: 520px;
 
-        min-height: 100vh;
+        width: 412px;
 
-        margin: 0 auto;
+        max-width: 412px;
 
-        border-left: 1px solid rgba(0, 0, 0, 0.05);
-        border-right: 1px solid rgba(0, 0, 0, 0.05);
+        min-height: calc(100vh - 36px);
+
+        margin: 18px auto;
+
+        border-radius: 20px;
+
+        /*
+           Borde premium
+        */
+        border: 1px solid rgba(3, 185, 245, 0.18);
+
+        /*
+           Sombra exterior
+        */
+        box-shadow:
+
+            0 22px 60px rgba(0, 0, 0, 0.18),
+
+            0 4px 20px rgba(0, 0, 0, 0.08),
+
+            0 0 45px rgba(3, 185, 245, 0.10);
+
     }
 
 }
@@ -4054,18 +4083,30 @@ body {
 @media (min-width: 1200px) {
 
     body {
-        padding-top: 20px;
-        padding-bottom: 20px;
+
+        padding-top: 18px;
+        padding-bottom: 18px;
+
     }
 
+
     .app-shell {
-        min-height: calc(100vh - 40px);
 
-        border-radius: 18px;
+        min-height: calc(100vh - 36px);
 
+        border-radius: 22px;
+
+        /*
+           Halo luminoso muy discreto
+        */
         box-shadow:
-            0 20px 60px rgba(0, 0, 0, 0.16),
-            0 0 80px rgba(3, 185, 245, 0.08);
+
+            0 25px 70px rgba(0, 0, 0, 0.20),
+
+            0 5px 25px rgba(0, 0, 0, 0.08),
+
+            0 0 60px rgba(3, 185, 245, 0.12);
+
     }
 
 }
@@ -4078,7 +4119,13 @@ body {
 @media (min-width: 769px) and (max-width: 1199px) {
 
     .app-shell {
-        max-width: 520px;
+
+        width: 412px;
+
+        max-width: 412px;
+
+        border-radius: 20px;
+
     }
 
 }
@@ -4086,26 +4133,36 @@ body {
 
 /* =========================================================
    CELULAR
-   La aplicación vuelve a ocupar todo el ancho
+   PANTALLA COMPLETA
 ========================================================= */
 
 @media (max-width: 768px) {
 
     body {
+
         background: #ffffff;
+
+        padding: 0;
+
     }
 
+
     .app-shell {
+
         width: 100%;
+
         max-width: none;
 
         min-height: 100vh;
 
         margin: 0;
 
+        border: none;
+
         border-radius: 0;
 
         box-shadow: none;
+
     }
 
 }
