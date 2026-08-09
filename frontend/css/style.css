@@ -3975,77 +3975,92 @@ footer .mensaje-temporada.active {
 /* =========================================================
    DESCOAPP — CONTENEDOR PRINCIPAL TIPO APP
    ESCRITORIO / PC
+   NO AFECTA CELULAR
    ========================================================= */
 
-.app-shell {
-    width: 445px;
-    max-width: 445px;
-    min-height: 100vh;
+@media (min-width: 769px) {
 
-    margin: 0 auto;
+    .app-shell {
+        width: 520px;
+        max-width: 520px;
+        min-height: 100vh;
 
-    background: #ffffff;
+        margin: 0 auto;
+
+        background: #ffffff;
+
+        /* =================================================
+           BORDE EXTERIOR PROFESIONAL
+           ================================================= */
+
+        border: 1px solid rgba(255, 255, 255, 0.95);
+
+        border-radius: 0 0 10px 10px;
+
+        /* =================================================
+           PROFUNDIDAD Y ELEVACIÓN
+           ================================================= */
+
+        box-shadow:
+            0 0 0 1px rgba(0, 0, 0, 0.035),
+            0 10px 30px rgba(0, 0, 0, 0.10),
+            0 25px 65px rgba(0, 0, 0, 0.09),
+            0 0 45px rgba(43, 124, 255, 0.06);
+
+        /* =================================================
+           EVITA DESBORDAMIENTOS
+           ================================================= */
+
+        overflow: hidden;
+
+        box-sizing: border-box;
+    }
+
 
     /* =====================================================
-       BORDE EXTERIOR
+       FONDO EXTERIOR DE LA PLATAFORMA
+       SOLO PC
        ===================================================== */
 
-    border-left: 1px solid rgba(255, 255, 255, 0.95);
-    border-right: 1px solid rgba(255, 255, 255, 0.95);
+    body {
+        margin: 0;
+        min-height: 100vh;
+
+        background:
+            radial-gradient(
+                circle at 50% 8%,
+                rgba(0, 174, 255, 0.12),
+                transparent 32%
+            ),
+            linear-gradient(
+                135deg,
+                #e9f0f5 0%,
+                #dce6ed 50%,
+                #f3f6f8 100%
+            );
+    }
+
 
     /* =====================================================
-       SOMBRA PROFESIONAL
-       Da profundidad y apariencia de aplicación
+       ACABADO VISUAL DEL ÁREA EXTERIOR
        ===================================================== */
 
-    box-shadow:
-        0 0 0 1px rgba(0, 0, 0, 0.035),
-        0 12px 35px rgba(0, 0, 0, 0.10),
-        0 30px 70px rgba(0, 0, 0, 0.08);
+    body::before {
+        content: "";
 
-    /* Evita que elementos internos se salgan */
-    overflow: hidden;
-}
+        position: fixed;
 
+        top: 0;
+        left: 0;
+        right: 0;
 
-/* =========================================================
-   FONDO EXTERIOR DE LA PLATAFORMA
-   ========================================================= */
+        height: 1px;
 
-body {
-    margin: 0;
+        background: rgba(255, 255, 255, 0.85);
 
-    background:
-        radial-gradient(
-            circle at 50% 10%,
-            rgba(0, 174, 255, 0.12),
-            transparent 32%
-        ),
-        linear-gradient(
-            135deg,
-            #e9f0f5 0%,
-            #dce6ed 50%,
-            #f3f6f8 100%
-        );
-}
+        pointer-events: none;
 
+        z-index: 9999;
+    }
 
-/* =========================================================
-   ACABADO VISUAL DEL ÁREA EXTERIOR
-   ========================================================= */
-
-body::before {
-    content: "";
-    position: fixed;
-
-    top: 0;
-    left: 0;
-    right: 0;
-
-    height: 1px;
-
-    background: rgba(255, 255, 255, 0.8);
-
-    pointer-events: none;
-    z-index: 9999;
 }
