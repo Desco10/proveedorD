@@ -3,10 +3,12 @@
 // =========================================================
 // - Autoplay inicialmente silenciado
 // - Activación de sonido mediante interacción del usuario
+// - Preferencia de sonido conservada durante la sesión
 // - Contador real de vistas
 // - Precarga del siguiente video
 // - Navegación anterior / siguiente
-// - Pausa automática al abandonar la sección de videos
+// - El video continúa reproduciéndose al salir de la sección
+// - Al salir de la sección se silencia, pero NO se pausa
 // - No modifica backend ni server.js
 // =========================================================
 
@@ -37,8 +39,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   let current = 0;
   let progressTimer = null;
 
-  // Indica que el video fue pausado desde fuera del reproductor
-  let isPausedExternally = false;
+  // =========================================================
+  // ESTADO DE SONIDO
+  // =========================================================
+  // false = el usuario todavía no ha tomado una decisión
+  // true  = el usuario decidió activar sonido
+  //
+  // Esta variable vive durante toda la sesión de la página.
+  // No usamos localStorage para no forzar sonido en futuras visitas.
+  // =========================================================
+
+  let soundDecisionMade = false;
+  let soundEnabled = false;
 
   // Evita registrar dos vistas durante la misma reproducción
   let countedThisLoad = false;
@@ -53,8 +65,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Volumen conservado
   videoEl.volume = 0.4;
 
-  // IMPORTANTE:
-  // El autoplay siempre comienza SILENCIADO.
+  // El primer autoplay siempre comienza SILENCIADO.
   // Nunca intentamos autoplay con sonido.
   videoEl.muted = true;
 
@@ -72,6 +83,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.body.appendChild(preloadEl);
 
   function preloadNextVideo(idx) {
+    if (!videos.length) return;
+
     const nextIdx = (idx + 1) % videos.length;
     const nextV = videos[nextIdx];
 
@@ -167,6 +180,22 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // =========================================================
+  // ACTUALIZAR ICONO DE VOLUMEN
+  // =========================================================
+
+  function updateVolumeButton() {
+    if (!volumeBtn) return;
+
+    if (videoEl.muted) {
+      volumeBtn.innerHTML =
+        '<i class="fas fa-volume-mute"></i>';
+    } else {
+      volumeBtn.innerHTML =
+        '<i class="fas fa-volume-up"></i>';
+    }
+  }
+
+  // =========================================================
   // CONTROLES DE VIDEO
   // =========================================================
 
@@ -181,7 +210,10 @@ document.addEventListener("DOMContentLoaded", async () => {
               '<i class="fas fa-pause"></i>';
           })
           .catch((err) => {
-            console.warn("No se pudo reproducir el video:", err);
+            console.warn(
+              "No se pudo reproducir el video:",
+              err
+            );
           });
 
       } else {
@@ -199,12 +231,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   // =========================================================
 
   if (volumeBtn) {
-
     volumeBtn.addEventListener("click", () => {
 
       if (videoEl.muted) {
 
-        // Esta acción ocurre por interacción real del usuario
+        // El usuario acaba de tomar una decisión explícita.
+        soundDecisionMade = true;
+        soundEnabled = true;
+
         videoEl.muted = false;
         videoEl.volume = 0.4;
 
@@ -213,15 +247,22 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         hideSoundHint();
 
-        // Si estuviera pausado, intentamos continuar
-        videoEl.play().catch((err) => {
-          console.warn(
-            "No se pudo reanudar el video con sonido:",
-            err
-          );
-        });
+        // El video normalmente ya está reproduciéndose.
+        // Si estuviera pausado manualmente, intentamos continuar.
+        if (videoEl.paused) {
+          videoEl.play().catch((err) => {
+            console.warn(
+              "No se pudo reanudar el video con sonido:",
+              err
+            );
+          });
+        }
 
       } else {
+
+        // El usuario decidió volver a silenciar.
+        soundDecisionMade = true;
+        soundEnabled = false;
 
         videoEl.muted = true;
 
@@ -346,76 +387,66 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // =========================================================
-  // PAUSAR VIDEO EXTERNAMENTE
+  // SALIDA EXTERNA DE LA SECCIÓN DE VIDEOS
+  // =========================================================
+  //
+  // IMPORTANTE:
+  // Esta función conserva el nombre pauseStory() para no romper
+  // código existente de la aplicación que pueda llamarla.
+  //
+  // PERO YA NO PAUSA EL VIDEO.
+  //
+  // Al abandonar la sección:
+  // - el video continúa reproduciéndose
+  // - se silencia
+  // - se conserva la decisión de sonido del usuario
+  //
+  // Esto evita que el audio se escuche debajo del catálogo.
   // =========================================================
 
   window.pauseStory = function () {
 
-    clearInterval(progressTimer);
+    // NO hacemos videoEl.pause()
+    // NO detenemos progressTimer
 
-    if (!videoEl.paused) {
-      videoEl.pause();
-    }
+    videoEl.muted = true;
 
-    isPausedExternally = true;
-
-    if (playPauseBtn) {
-      playPauseBtn.innerHTML =
-        '<i class="fas fa-play"></i>';
-    }
+    updateVolumeButton();
   };
 
   // =========================================================
-  // REANUDAR VIDEO EXTERNAMENTE
+  // REGRESAR A LA SECCIÓN DE VIDEOS
+  // =========================================================
+  //
+  // Si el usuario había activado sonido anteriormente,
+  // recuperamos ese estado.
+  //
+  // No llamamos play() automáticamente aquí porque el video
+  // nunca fue pausado por nuestra aplicación.
   // =========================================================
 
   window.resumeStory = function () {
 
-    if (!isPausedExternally) return;
+    if (!soundDecisionMade) {
 
-    // Conservamos el estado actual de mute.
-    // Nunca forzamos sonido durante una reanudación automática.
-    videoEl.play()
-      .then(() => {
+      videoEl.muted = true;
 
-        if (playPauseBtn) {
-          playPauseBtn.innerHTML =
-            '<i class="fas fa-pause"></i>';
-        }
+      updateVolumeButton();
 
-      })
-      .catch((err) => {
-
-        // Si el navegador bloquea la reproducción,
-        // dejamos el video silenciado y mostramos la indicación.
-        console.warn(
-          "No se pudo reanudar automáticamente:",
-          err
-        );
-
-        videoEl.muted = true;
-
-        if (volumeBtn) {
-          volumeBtn.innerHTML =
-            '<i class="fas fa-volume-mute"></i>';
-        }
-
-        showSoundHint();
-      });
-
-    const remaining =
-      (100 - parseFloat(progressBar.style.width || 0)) /
-      100 *
-      videoEl.duration;
-
-    startProgress(remaining);
-
-    isPausedExternally = false;
-
-    if (playPauseBtn) {
-      playPauseBtn.innerHTML =
-        '<i class="fas fa-pause"></i>';
+      return;
     }
+
+    if (soundEnabled) {
+
+      videoEl.volume = 0.4;
+      videoEl.muted = false;
+
+    } else {
+
+      videoEl.muted = true;
+    }
+
+    updateVolumeButton();
   };
 
   // =========================================================
@@ -427,6 +458,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   function showSoundHint() {
 
     if (!playerWrap) return;
+
+    // Una sola vez por sesión.
+    if (soundDecisionMade) return;
 
     if (!soundHintEl) {
 
@@ -442,7 +476,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         e.preventDefault();
         e.stopPropagation();
 
-        // Esta acción ocurre dentro del CLICK del usuario.
+        // El usuario acaba de tomar la decisión.
+        soundDecisionMade = true;
+        soundEnabled = true;
+
         videoEl.muted = false;
         videoEl.volume = 0.4;
 
@@ -454,7 +491,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         hideSoundHint();
 
         // El video normalmente ya está reproduciéndose.
-        // Si estuviera pausado, lo reanudamos.
+        // Si por alguna razón estaba pausado, intentamos
+        // reproducirlo dentro de la interacción del usuario.
         if (videoEl.paused) {
 
           videoEl.play()
@@ -473,16 +511,15 @@ document.addEventListener("DOMContentLoaded", async () => {
                 err
               );
 
-              // Seguridad: si el navegador rechaza la operación,
-              // volvemos a mute.
+              // Seguridad:
+              // volvemos a estado silencioso.
+              soundEnabled = false;
               videoEl.muted = true;
 
               if (volumeBtn) {
                 volumeBtn.innerHTML =
                   '<i class="fas fa-volume-mute"></i>';
               }
-
-              showSoundHint();
             });
         }
       });
@@ -501,10 +538,20 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // =========================================================
-  // PAUSA AUTOMÁTICA CUANDO EL REPRODUCTOR SALE DE PANTALLA
+  // VISIBILIDAD DEL REPRODUCTOR
   // =========================================================
-  // Esto es importante para evitar que el video continúe
-  // reproduciéndose debajo de los catálogos.
+  //
+  // YA NO PAUSAMOS EL VIDEO AL SALIR.
+  //
+  // Cuando el reproductor deja de estar visible:
+  // - mantenemos la reproducción
+  // - silenciamos el audio
+  //
+  // Cuando vuelve a estar visible:
+  // - recuperamos el sonido si el usuario lo había activado
+  //
+  // El video continúa por debajo del catálogo.
+  // =========================================================
 
   if (playerWrap && "IntersectionObserver" in window) {
 
@@ -518,12 +565,30 @@ document.addEventListener("DOMContentLoaded", async () => {
 
           if (!entry.isIntersecting) {
 
-            if (!videoEl.paused) {
-              window.pauseStory();
+            // NO PAUSAR.
+            // Solamente silenciar mientras el reproductor
+            // está fuera de la zona visible.
+
+            videoEl.muted = true;
+
+            updateVolumeButton();
+
+          } else {
+
+            // El reproductor volvió a estar visible.
+
+            if (soundDecisionMade && soundEnabled) {
+
+              videoEl.volume = 0.4;
+              videoEl.muted = false;
+
+            } else {
+
+              videoEl.muted = true;
             }
 
+            updateVolumeButton();
           }
-
         },
         {
           threshold: 0.1
@@ -534,7 +599,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // =========================================================
-  // PAUSAR SI EL USUARIO CAMBIA DE PESTAÑA
+  // VISIBILIDAD DE LA PÁGINA
+  // =========================================================
+  //
+  // NO pausamos el video al cambiar de pestaña.
+  //
+  // El navegador puede limitar la reproducción de fondo por
+  // sus propias políticas de ahorro de energía. Eso queda bajo
+  // control del navegador.
+  //
+  // Nuestra aplicación NO ejecutará videoEl.pause().
   // =========================================================
 
   document.addEventListener(
@@ -543,9 +617,31 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       if (document.hidden) {
 
-        if (!videoEl.paused) {
-          window.pauseStory();
+        // Silenciar mientras la pestaña no está visible.
+        // No detener la reproducción desde nuestro código.
+
+        videoEl.muted = true;
+
+        updateVolumeButton();
+
+      } else {
+
+        // Al regresar recuperamos la decisión del usuario.
+
+        if (
+          soundDecisionMade &&
+          soundEnabled
+        ) {
+
+          videoEl.volume = 0.4;
+          videoEl.muted = false;
+
+        } else {
+
+          videoEl.muted = true;
         }
+
+        updateVolumeButton();
       }
     }
   );
@@ -558,7 +654,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     clearInterval(progressTimer);
 
-    // Detener inmediatamente el video anterior
+    // Detener inmediatamente el video anterior.
+    //
+    // Esto NO representa salir de la sección.
+    // Es simplemente el cambio normal entre videos.
     videoEl.pause();
 
     progressBar.style.width = "0%";
@@ -573,8 +672,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     countedThisLoad = false;
 
-    isPausedExternally = false;
-
     // Mostrar conteo real
     showViewCount(v);
 
@@ -584,10 +681,40 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     videoEl.src = v.src;
 
-    // IMPORTANTE:
-    // Cada nuevo video comienza silenciado.
-    videoEl.muted = true;
-    videoEl.volume = 0.4;
+    // =======================================================
+    // RESTAURAR ESTADO DE SONIDO
+    // =======================================================
+    //
+    // PRIMER VIDEO:
+    // soundDecisionMade = false
+    // => muted
+    //
+    // DESPUÉS DE QUE EL USUARIO ACTIVE SONIDO:
+    // soundDecisionMade = true
+    // soundEnabled = true
+    // => sonido activado
+    //
+    // SI EL USUARIO LO SILENCIÓ:
+    // soundEnabled = false
+    // => muted
+    //
+    // Nunca forzamos silencio simplemente porque cambió
+    // el número del video.
+    // =======================================================
+
+    if (
+      soundDecisionMade &&
+      soundEnabled
+    ) {
+
+      videoEl.volume = 0.4;
+      videoEl.muted = false;
+
+    } else {
+
+      videoEl.muted = true;
+      videoEl.volume = 0.4;
+    }
 
     videoEl.load();
 
@@ -631,7 +758,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         typeof abrirProveedor !== "function"
       ) {
 
-        // Antes de abandonar el reproductor
+        // Conservamos el nombre de la función para
+        // compatibilidad, pero ahora NO pausa.
         window.pauseStory();
 
         window.location.href =
@@ -642,7 +770,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       requireLogin(() => {
 
-        // Pausar antes de cambiar al catálogo
+        // Al entrar al catálogo:
+        // NO pausamos.
+        // Solamente silenciamos.
         window.pauseStory();
 
         abrirProveedor(
@@ -730,18 +860,31 @@ document.addEventListener("DOMContentLoaded", async () => {
       startProgress(dur);
 
       // =====================================================
-      // AUTOPLAY SILENCIADO
+      // AUTOPLAY
       // =====================================================
-      // Nunca intentamos autoplay con sonido.
-      // Esto elimina el NotAllowedError que estabas viendo.
+      //
+      // Nunca intentamos autoplay con sonido si el usuario
+      // todavía no ha tomado una decisión.
+      //
+      // Si el usuario ya activó sonido anteriormente,
+      // respetamos su preferencia.
+      // =====================================================
 
-      videoEl.muted = true;
-      videoEl.volume = 0.4;
+      if (
+        soundDecisionMade &&
+        soundEnabled
+      ) {
 
-      if (volumeBtn) {
-        volumeBtn.innerHTML =
-          '<i class="fas fa-volume-mute"></i>';
+        videoEl.volume = 0.4;
+        videoEl.muted = false;
+
+      } else {
+
+        videoEl.muted = true;
+        videoEl.volume = 0.4;
       }
+
+      updateVolumeButton();
 
       videoEl
         .play()
@@ -752,14 +895,17 @@ document.addEventListener("DOMContentLoaded", async () => {
               '<i class="fas fa-pause"></i>';
           }
 
-          // Mostrar aviso para que el usuario
-          // pueda activar el sonido voluntariamente.
-          showSoundHint();
+          // Mostrar aviso únicamente si el usuario todavía
+          // no ha tomado una decisión de sonido.
+          if (!soundDecisionMade) {
+            showSoundHint();
+          }
+
         })
         .catch((err) => {
 
-          // Puede ocurrir si el navegador bloquea
-          // incluso el autoplay silenciado.
+          // Puede ocurrir si el navegador bloquea incluso
+          // el autoplay silenciado.
           console.warn(
             "Autoplay silenciado bloqueado:",
             err
@@ -770,7 +916,9 @@ document.addEventListener("DOMContentLoaded", async () => {
               '<i class="fas fa-play"></i>';
           }
 
-          showSoundHint();
+          if (!soundDecisionMade) {
+            showSoundHint();
+          }
         });
     };
   }
@@ -787,7 +935,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     progressTimer = setInterval(() => {
 
-      // Si el video ya no está reproduciéndose,
+      // Si el video está pausado manualmente,
       // no continuamos avanzando el progreso.
       if (videoEl.paused) {
         return;
@@ -849,6 +997,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // =========================================================
 
   if (nextBtn) {
+
     nextBtn.addEventListener(
       "click",
       nextVideo
@@ -856,6 +1005,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   if (prevBtn) {
+
     prevBtn.addEventListener(
       "click",
       prevVideo
