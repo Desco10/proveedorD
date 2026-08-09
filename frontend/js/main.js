@@ -2054,9 +2054,19 @@ if (!window._abandonoListenerActivo) {
     const idActivo = localStorage.getItem("carrito_backend_id");
     if (!carritoActivo.items.length || !idActivo) return;
     navigator.sendBeacon(
-      "/api/carritos/ping",
-      JSON.stringify({ carrito_id: idActivo, posible_abandono: true })
-    );
+    "/api/carritos/ping",
+    new Blob(
+        [
+            JSON.stringify({
+                carrito_id: idActivo,
+                posible_abandono: true
+            })
+        ],
+        {
+            type: "application/json"
+        }
+    )
+);
   });
 }
 
