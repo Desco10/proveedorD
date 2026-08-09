@@ -4064,3 +4064,158 @@ footer .mensaje-temporada.active {
     }
 
 }
+
+
+/* =========================================================
+   DESCOAPP — AJUSTE FINAL ESCRITORIO
+   NO MODIFICA EL DISEÑO MOBILE
+   ========================================================= */
+
+@media (min-width: 769px) {
+
+  /* =======================================================
+     1. CONTENEDOR PRINCIPAL TIPO APP
+     ======================================================= */
+
+  .app-shell {
+    width: 560px;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+
+  /* =======================================================
+     2. CARRUSEL DE OFERTAS
+     Más compacto y mejor distribuido
+     ======================================================= */
+
+  .carrusel-3d {
+    gap: 10px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .carrusel-3d .item {
+    width: 165px;
+    height: 265px;
+
+    flex: 0 0 165px;
+
+    transform: scale(0.96);
+  }
+
+  /* Imagen de la oferta */
+  .carrusel-3d .item img {
+    width: 100%;
+    height: 58%;
+    max-height: 58%;
+
+    padding: 6px;
+    object-fit: contain;
+  }
+
+  /* Información */
+  .carrusel-3d .info-oferta {
+    height: auto;
+    min-height: 42%;
+    padding: 8px 7px;
+
+    gap: 5px;
+
+    justify-content: center;
+  }
+
+  /* Nombre del producto */
+  .carrusel-3d .info-oferta h4 {
+    font-size: 0.88rem;
+    line-height: 1.2;
+
+    min-height: 34px;
+
+    margin: 0;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+  }
+
+  /* Precio */
+  .carrusel-3d .info-oferta p {
+    font-size: 1rem;
+    line-height: 1.2;
+
+    margin: 0;
+
+    white-space: normal;
+  }
+
+
+  /* =======================================================
+     3. EVITAR QUE EL HOVER AGRANDE DEMASIADO LAS CARDS
+     ======================================================= */
+
+  .carrusel-3d .item:hover,
+  .carrusel-3d .item:focus-within {
+    transform: scale(1.03) translateY(-5px);
+  }
+
+
+  /* =======================================================
+     4. PROVEEDORES
+     Separación limpia entre cards
+     ======================================================= */
+
+  .contenedor-proveedores {
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 16px;
+
+    padding: 10px 12px 20px;
+  }
+
+  .card-proveedor {
+    width: auto;
+    min-width: 0;
+
+    padding: 8px 6px 12px;
+
+    box-sizing: border-box;
+  }
+
+
+  /* =======================================================
+     5. LOGOS DE PROVEEDORES
+     ======================================================= */
+
+  .logo-wrapper {
+    width: 100%;
+    height: 105px;
+
+    margin-bottom: 5px;
+  }
+
+  .card-proveedor img {
+    max-width: 95px;
+    max-height: 95px;
+  }
+
+
+  /* =======================================================
+     6. TEXTO DE PROVEEDORES
+     Evita que una descripción empuje la siguiente card
+     ======================================================= */
+
+  .card-proveedor h3 {
+    width: 100%;
+
+    margin: 4px 0 0;
+
+    font-size: 0.72rem;
+    line-height: 1.25;
+
+    overflow: hidden;
+  }
+
+}
