@@ -649,11 +649,30 @@ document.addEventListener("DOMContentLoaded", async () => {
   // =========================================================
   // CARGAR Y REPRODUCIR VIDEO
   // =========================================================
+ 
+// =======================================================
+// POSICIONES DE REPRODUCCIÓN DE LOS VIDEOS
+// =======================================================
+
+window.videoPositions =
+  window.videoPositions || {};
+
 
   async function loadVideo(idx) {
 
     clearInterval(progressTimer);
-
+ 
+    // Guardar la posición del video anterior antes de cambiarlo
+if (
+  videoEl.src &&
+  videos[current] &&
+  !isNaN(videoEl.currentTime) &&
+  videoEl.currentTime > 0
+) {
+  window.videoPositions[
+    String(videos[current].id)
+  ] = videoEl.currentTime;
+}
     // Detener inmediatamente el video anterior.
     //
     // Esto NO representa salir de la sección.
@@ -718,8 +737,32 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     videoEl.load();
 
-    // Precargar siguiente
-    preloadNextVideo(idx);
+// =======================================================
+// RESTAURAR POSICIÓN DEL VIDEO
+// =======================================================
+
+const tiempoGuardado =
+  window.videoPositions &&
+  window.videoPositions[String(v.id)];
+
+videoEl.addEventListener(
+  "loadedmetadata",
+  () => {
+
+    if (
+      typeof tiempoGuardado === "number" &&
+      tiempoGuardado > 0 &&
+      tiempoGuardado < videoEl.duration
+    ) {
+      videoEl.currentTime = tiempoGuardado;
+    }
+
+  },
+  { once: true }
+);
+
+// Precargar siguiente
+preloadNextVideo(idx);
 
     // =======================================================
     // PROVEEDOR
