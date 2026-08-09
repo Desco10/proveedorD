@@ -3968,26 +3968,144 @@ footer .mensaje-temporada.active {
 
 
 /* =========================================================
-   APP SHELL — FUERZA VISTA TIPO CELULAR EN CUALQUIER PANTALLA
+   DESCOAPP - APP SHELL
+   Vista tipo aplicación en PC
+   No modifica la lógica interna
+========================================================= */
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+}
+
+
+/* =========================================================
+   FONDO EXTERIOR DE LA PLATAFORMA
 ========================================================= */
 
 body {
-  background: #eef1f6;
-  margin: 0;
+    background:
+        radial-gradient(
+            circle at 50% 15%,
+            rgba(3, 185, 245, 0.10),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #eef3f8 0%,
+            #dfe8f1 50%,
+            #edf2f7 100%
+        );
+
+    background-attachment: fixed;
 }
+
+
+/* =========================================================
+   CONTENEDOR PRINCIPAL DE DESCOAPP
+========================================================= */
 
 .app-shell {
-  max-width: 480px;
-  margin: 0 auto;
-  background: #ffffff;
-  min-height: 100vh;
-  position: relative;
-  overflow-x: hidden;
+    width: 100%;
+    max-width: 520px;
+
+    min-height: 100vh;
+
+    margin: 0 auto;
+
+    background: #ffffff;
+
+    position: relative;
+
+    box-shadow:
+        0 0 35px rgba(0, 0, 0, 0.12),
+        0 0 80px rgba(3, 185, 245, 0.08);
+
+    overflow-x: hidden;
 }
 
+
+/* =========================================================
+   PC / ESCRITORIO
+========================================================= */
+
 @media (min-width: 769px) {
-  .app-shell {
-    box-shadow: 0 0 70px rgba(0,0,0,0.15);
-    min-height: 100vh;
-  }
+
+    .app-shell {
+        width: 520px;
+
+        min-height: 100vh;
+
+        margin: 0 auto;
+
+        border-left: 1px solid rgba(0, 0, 0, 0.05);
+        border-right: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+}
+
+
+/* =========================================================
+   PANTALLAS GRANDES
+========================================================= */
+
+@media (min-width: 1200px) {
+
+    body {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .app-shell {
+        min-height: calc(100vh - 40px);
+
+        border-radius: 18px;
+
+        box-shadow:
+            0 20px 60px rgba(0, 0, 0, 0.16),
+            0 0 80px rgba(3, 185, 245, 0.08);
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (min-width: 769px) and (max-width: 1199px) {
+
+    .app-shell {
+        max-width: 520px;
+    }
+
+}
+
+
+/* =========================================================
+   CELULAR
+   La aplicación vuelve a ocupar todo el ancho
+========================================================= */
+
+@media (max-width: 768px) {
+
+    body {
+        background: #ffffff;
+    }
+
+    .app-shell {
+        width: 100%;
+        max-width: none;
+
+        min-height: 100vh;
+
+        margin: 0;
+
+        border-radius: 0;
+
+        box-shadow: none;
+    }
+
 }
