@@ -3972,197 +3972,80 @@ footer .mensaje-temporada.active {
    APP SHELL — EXPERIENCIA TIPO APP
 ========================================================= */
 
-html,
-body {
-    margin: 0;
-    padding: 0;
-    min-height: 100%;
-}
-
-
 /* =========================================================
-   FONDO EXTERIOR
-========================================================= */
-
-body {
-    background:
-        radial-gradient(
-            circle at 50% 12%,
-            rgba(3, 185, 245, 0.363),
-            transparent 32%
-        ),
-        linear-gradient(
-            135deg,
-            #eef3f8 0%,
-            #dce6ef 50%,
-            #f1f5f9 100%
-        );
-
-    background-attachment: fixed;
-}
-
-
-/* =========================================================
-   APP SHELL
-========================================================= */
+   DESCOAPP — CONTENEDOR PRINCIPAL TIPO APP
+   ESCRITORIO / PC
+   ========================================================= */
 
 .app-shell {
-
-    width: 100%;
-    max-width: 520px;
-
+    width: 445px;
+    max-width: 445px;
     min-height: 100vh;
 
     margin: 0 auto;
 
-    position: relative;
-
     background: #ffffff;
 
-    overflow-x: hidden;
+    /* =====================================================
+       BORDE EXTERIOR
+       ===================================================== */
 
-    /*
-       Borde exterior muy sutil
-    */
-    border: 1px solid rgba(3, 185, 245, 0.10);
+    border-left: 1px solid rgba(255, 255, 255, 0.95);
+    border-right: 1px solid rgba(255, 255, 255, 0.95);
 
-    /*
-       Sombra principal
-    */
+    /* =====================================================
+       SOMBRA PROFESIONAL
+       Da profundidad y apariencia de aplicación
+       ===================================================== */
+
     box-shadow:
-        0 20px 55px rgba(0, 0, 0, 0.16),
-        0 0 35px rgba(3, 185, 245, 0.08);
+        0 0 0 1px rgba(0, 0, 0, 0.035),
+        0 12px 35px rgba(0, 0, 0, 0.10),
+        0 30px 70px rgba(0, 0, 0, 0.08);
 
+    /* Evita que elementos internos se salgan */
+    overflow: hidden;
 }
 
 
 /* =========================================================
-   PC
-   FORMATO TIPO APP
-========================================================= */
+   FONDO EXTERIOR DE LA PLATAFORMA
+   ========================================================= */
 
-@media (min-width: 769px) {
+body {
+    margin: 0;
 
-    .app-shell {
-
-        width: 412px;
-
-        max-width: 412px;
-
-        min-height: calc(100vh - 36px);
-
-        margin: 18px auto;
-
-        border-radius: 20px;
-
-        /*
-           Borde premium
-        */
-        border: 1px solid rgba(3, 185, 245, 0.18);
-
-        /*
-           Sombra exterior
-        */
-        box-shadow:
-
-            0 22px 60px rgba(0, 0, 0, 0.18),
-
-            0 4px 20px rgba(0, 0, 0, 0.08),
-
-            0 0 45px rgba(3, 185, 245, 0.10);
-
-    }
-
+    background:
+        radial-gradient(
+            circle at 50% 10%,
+            rgba(0, 174, 255, 0.12),
+            transparent 32%
+        ),
+        linear-gradient(
+            135deg,
+            #e9f0f5 0%,
+            #dce6ed 50%,
+            #f3f6f8 100%
+        );
 }
 
 
 /* =========================================================
-   PANTALLAS GRANDES
-========================================================= */
+   ACABADO VISUAL DEL ÁREA EXTERIOR
+   ========================================================= */
 
-@media (min-width: 1200px) {
+body::before {
+    content: "";
+    position: fixed;
 
-    body {
+    top: 0;
+    left: 0;
+    right: 0;
 
-        padding-top: 18px;
-        padding-bottom: 18px;
+    height: 1px;
 
-    }
+    background: rgba(255, 255, 255, 0.8);
 
-
-    .app-shell {
-
-        min-height: calc(100vh - 36px);
-
-        border-radius: 22px;
-
-        /*
-           Halo luminoso muy discreto
-        */
-        box-shadow:
-
-            0 25px 70px rgba(0, 0, 0, 0.20),
-
-            0 5px 25px rgba(0, 0, 0, 0.08),
-
-            0 0 60px rgba(3, 185, 245, 0.12);
-
-    }
-
-}
-
-
-/* =========================================================
-   TABLET
-========================================================= */
-
-@media (min-width: 769px) and (max-width: 1199px) {
-
-    .app-shell {
-
-        width: 412px;
-
-        max-width: 412px;
-
-        border-radius: 20px;
-
-    }
-
-}
-
-
-/* =========================================================
-   CELULAR
-   PANTALLA COMPLETA
-========================================================= */
-
-@media (max-width: 768px) {
-
-    body {
-
-        background: #ffffff;
-
-        padding: 0;
-
-    }
-
-
-    .app-shell {
-
-        width: 100%;
-
-        max-width: none;
-
-        min-height: 100vh;
-
-        margin: 0;
-
-        border: none;
-
-        border-radius: 0;
-
-        box-shadow: none;
-
-    }
-
+    pointer-events: none;
+    z-index: 9999;
 }
