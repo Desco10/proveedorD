@@ -2207,7 +2207,7 @@ abrirWhatsApp(
   // 🔗 MARCAR CARRITO COMO ENVIADO EN BACKEND (si existe)
   const carritoId = localStorage.getItem("carrito_backend_id");
   if (carritoId) {
-    fetch("/api/carritos/enviar", {
+    fetch("/api/carrito/enviar", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ carrito_id: carritoId })
