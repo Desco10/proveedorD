@@ -1,43 +1,107 @@
 /* =========================================================
    DESCOAPP — CORPORATE SHOWCASE
+   =========================================================
    SOLO ESCRITORIO / PC
    NO MODIFICA LA EXPERIENCIA MOBILE
+   NO TOCA APP-SHELL
+   NO TOCA CARRUSEL
+   NO TOCA PROVEEDORES
    ========================================================= */
 
-/* Oculto por defecto: mobile y tablet quedan intactos */
+
+/* =========================================================
+   OCULTO POR DEFECTO
+   =========================================================
+   Celular + tablet:
+   el componente no existe visualmente.
+   ========================================================= */
+
 #desco-corporate-showcase {
     display: none;
 }
 
+
 /* =========================================================
-   SOLO PC
+   CORPORATE SHOWCASE
+   SOLO ESCRITORIO
    ========================================================= */
+
 @media (min-width: 1100px) {
 
     #desco-corporate-showcase {
+
         display: flex;
+
         position: fixed;
 
         /*
-         * El .app-shell actual mide 560px.
-         * Este panel queda a la izquierda con separación limpia.
+         * =================================================
+         * POSICIONAMIENTO
+         * =================================================
+         *
+         * .app-shell actual:
+         *
+         * width: 560px
+         *
+         * El centro de la aplicación está en:
+         *
+         * 50% de la pantalla
+         *
+         * El panel corporativo se coloca a la izquierda
+         * manteniendo una separación visual limpia.
          */
-        left: calc(50% - 524px);
+
+        left: calc(50% - 308px);
+
         top: 50%;
+
         transform: translateY(-50%);
 
+
+        /* =================================================
+           DIMENSIONES
+           ================================================= */
+
         width: 220px;
+
         max-height: calc(100vh - 40px);
+
+
+        /* =================================================
+           CAPA
+           ================================================= */
 
         z-index: 20;
 
+
+        /* =================================================
+           ESTRUCTURA
+           ================================================= */
+
         flex-direction: column;
+
         box-sizing: border-box;
+
+
+        /* =================================================
+           ESPACIADO
+           ================================================= */
 
         padding: 14px;
 
+
+        /* =================================================
+           BORDE PREMIUM
+           ================================================= */
+
         border: 1px solid rgba(255, 255, 255, 0.72);
+
         border-radius: 26px;
+
+
+        /* =================================================
+           FONDO GLASS CORPORATIVO
+           ================================================= */
 
         background:
             linear-gradient(
@@ -46,17 +110,49 @@
                 rgba(235, 247, 252, 0.48)
             );
 
+
+        /* =================================================
+           PROFUNDIDAD
+           ================================================= */
+
         box-shadow:
-            0 18px 55px rgba(18, 68, 94, 0.15),
-            0 2px 10px rgba(255, 255, 255, 0.70),
-            inset 0 1px 0 rgba(255, 255, 255, 0.90);
+
+            0 18px 55px
+            rgba(18, 68, 94, 0.15),
+
+            0 2px 10px
+            rgba(255, 255, 255, 0.70),
+
+            inset 0 1px 0
+            rgba(255, 255, 255, 0.90);
+
+
+        /* =================================================
+           EFECTO GLASS
+           ================================================= */
 
         backdrop-filter: blur(18px);
+
         -webkit-backdrop-filter: blur(18px);
+
+
+        /* =================================================
+           CONTROL DE CONTENIDO
+           ================================================= */
 
         overflow: hidden;
 
+
+        /* =================================================
+           COLOR
+           ================================================= */
+
         color: #172033;
+
+
+        /* =================================================
+           TIPOGRAFÍA
+           ================================================= */
 
         font-family:
             Inter,
@@ -67,79 +163,143 @@
             sans-serif;
     }
 
-    /* Luz ambiental */
+
+    /* =====================================================
+       LUZ AMBIENTAL
+       ===================================================== */
+
     #desco-corporate-showcase::before {
+
         content: "";
+
         position: absolute;
+
         width: 170px;
+
         height: 170px;
+
         left: 25px;
+
         top: -70px;
+
 
         border-radius: 50%;
 
-        background: rgba(0, 207, 255, 0.16);
+
+        background:
+            rgba(0, 207, 255, 0.16);
+
+
         filter: blur(35px);
+
 
         pointer-events: none;
     }
+
 
     /* =====================================================
        CABECERA CORPORATIVA
        ===================================================== */
 
     .dc-brand {
+
         position: relative;
+
         z-index: 1;
+
 
         text-align: center;
 
-        padding: 6px 4px 12px;
 
-        border-bottom: 1px solid rgba(80, 130, 155, 0.14);
+        padding:
+            6px
+            4px
+            12px;
+
+
+        border-bottom:
+            1px solid
+            rgba(80, 130, 155, 0.14);
     }
 
+
     .dc-brand img {
+
         display: block;
 
+
         width: 108px;
+
         height: 48px;
 
-        margin: 0 auto 2px;
+
+        margin:
+            0
+            auto
+            2px;
+
 
         object-fit: contain;
 
+
         filter:
-            drop-shadow(0 4px 7px rgba(0, 0, 0, 0.12));
+            drop-shadow(
+                0 4px 7px
+                rgba(0, 0, 0, 0.12)
+            );
     }
 
+
     .dc-brand-title {
+
         margin: 0;
 
+
         font-size: 0.76rem;
+
         font-weight: 800;
+
         letter-spacing: 0.16em;
+
 
         color: #1c3347;
     }
 
+
     .dc-brand-subtitle {
-        margin: 4px 0 0;
+
+        margin:
+            4px
+            0
+            0;
+
 
         font-size: 0.62rem;
+
         font-weight: 600;
+
         letter-spacing: 0.06em;
+
 
         color: #1689c4;
     }
 
+
     .dc-light-line {
+
         width: 72px;
+
         height: 2px;
 
-        margin: 8px auto 0;
+
+        margin:
+            8px
+            auto
+            0;
+
 
         border-radius: 999px;
+
 
         background:
             linear-gradient(
@@ -149,55 +309,99 @@
                 #7558ff
             );
 
+
         box-shadow:
-            0 0 10px rgba(24, 191, 255, 0.35);
+            0 0 10px
+            rgba(24, 191, 255, 0.35);
     }
+
 
     /* =====================================================
        ÁREA ANIMADA
        ===================================================== */
 
     .dc-stage {
+
         position: relative;
+
         z-index: 1;
+
 
         min-height: 268px;
 
-        padding: 12px 0 10px;
+
+        padding:
+            12px
+            0
+            10px;
     }
 
+
     .dc-section-label {
-        margin: 0 0 8px;
+
+        margin:
+            0
+            0
+            8px;
+
 
         text-align: center;
 
+
         font-size: 0.64rem;
+
         font-weight: 800;
+
         letter-spacing: 0.09em;
+
         text-transform: uppercase;
+
 
         color: #30465a;
     }
 
+
+    /* =====================================================
+       CARD CORPORATIVA
+       ===================================================== */
+
     .dc-card {
+
         position: relative;
 
+
         width: 100%;
+
         min-height: 168px;
+
 
         box-sizing: border-box;
 
-        padding: 14px 12px;
+
+        padding:
+            14px
+            12px;
+
 
         display: flex;
+
         flex-direction: column;
+
         align-items: center;
+
         justify-content: center;
+
 
         text-align: center;
 
-        border: 1px solid rgba(255, 255, 255, 0.80);
+
+        border:
+            1px solid
+            rgba(255, 255, 255, 0.80);
+
+
         border-radius: 18px;
+
 
         background:
             linear-gradient(
@@ -206,27 +410,50 @@
                 rgba(245, 250, 253, 0.64)
             );
 
+
         box-shadow:
-            0 10px 25px rgba(22, 72, 96, 0.09),
-            inset 0 1px 0 rgba(255, 255, 255, 0.90);
+
+            0 10px 25px
+            rgba(22, 72, 96, 0.09),
+
+            inset 0 1px 0
+            rgba(255, 255, 255, 0.90);
+
 
         overflow: hidden;
 
-        animation: dcCardIn 700ms cubic-bezier(.22,.8,.25,1);
+
+        animation:
+            dcCardIn
+            700ms
+            cubic-bezier(.22,.8,.25,1);
     }
 
+
+    /* =====================================================
+       BRILLO ANIMADO
+       ===================================================== */
+
     .dc-card::after {
+
         content: "";
 
         position: absolute;
 
+
         left: -40%;
+
         top: 0;
 
+
         width: 30%;
+
         height: 100%;
 
-        transform: skewX(-18deg);
+
+        transform:
+            skewX(-18deg);
+
 
         background:
             linear-gradient(
@@ -236,80 +463,156 @@
                 transparent
             );
 
-        animation: dcShine 5s ease-in-out infinite;
+
+        animation:
+            dcShine
+            5s
+            ease-in-out
+            infinite;
+
+
         pointer-events: none;
     }
 
+
+    /* =====================================================
+       LOGO DEL PROVEEDOR
+       ===================================================== */
+
     .dc-card-logo {
+
         width: 82px;
+
         height: 82px;
+
 
         margin-bottom: 8px;
 
+
         object-fit: contain;
+
 
         border-radius: 16px;
 
-        background: rgba(255,255,255,.65);
+
+        background:
+            rgba(255,255,255,.65);
+
 
         box-shadow:
-            0 7px 18px rgba(0,0,0,.08);
+            0 7px 18px
+            rgba(0,0,0,.08);
     }
 
+
+    /* =====================================================
+       IMAGEN DE OFERTA
+       ===================================================== */
+
     .dc-card-image {
+
         width: 96px;
+
         height: 82px;
+
 
         margin-bottom: 8px;
 
+
         object-fit: contain;
+
 
         border-radius: 14px;
     }
 
+
+    /* =====================================================
+       NOMBRE
+       ===================================================== */
+
     .dc-card-name {
+
         margin: 0;
 
+
         font-size: 0.78rem;
+
         line-height: 1.2;
+
         font-weight: 800;
+
 
         color: #172033;
     }
 
+
+    /* =====================================================
+       DESCRIPCIÓN
+       ===================================================== */
+
     .dc-card-description {
-        margin: 6px 0 0;
+
+        margin:
+            6px
+            0
+            0;
+
 
         font-size: 0.62rem;
+
         line-height: 1.3;
+
 
         color: #5b6875;
     }
 
+
+    /* =====================================================
+       INDICADORES
+       ===================================================== */
+
     .dc-dots {
+
         display: flex;
+
         justify-content: center;
+
         gap: 5px;
+
 
         margin-top: 10px;
     }
 
+
     .dc-dot {
+
         width: 5px;
+
         height: 5px;
+
 
         border-radius: 50%;
 
-        background: rgba(40, 91, 120, .20);
+
+        background:
+            rgba(40, 91, 120, .20);
+
 
         transition:
+
             transform .3s ease,
+
             background .3s ease;
     }
 
+
     .dc-dot.active {
+
         width: 16px;
+
+
         border-radius: 999px;
+
 
         background:
             linear-gradient(
@@ -318,164 +621,287 @@
                 #7558ff
             );
 
+
         box-shadow:
-            0 0 8px rgba(45, 172, 255, .30);
+            0 0 8px
+            rgba(45, 172, 255, .30);
     }
+
 
     /* =====================================================
        MENSAJE CORPORATIVO
        ===================================================== */
 
     .dc-message {
+
         position: relative;
+
         z-index: 1;
 
-        padding: 10px 9px 11px;
 
-        border-top: 1px solid rgba(80, 130, 155, 0.12);
-        border-bottom: 1px solid rgba(80, 130, 155, 0.12);
+        padding:
+            10px
+            9px
+            11px;
+
+
+        border-top:
+            1px solid
+            rgba(80, 130, 155, 0.12);
+
+
+        border-bottom:
+            1px solid
+            rgba(80, 130, 155, 0.12);
+
 
         text-align: center;
     }
 
+
     .dc-message strong {
+
         display: block;
+
 
         margin-bottom: 4px;
 
+
         font-size: 0.65rem;
+
         font-weight: 800;
+
         letter-spacing: 0.06em;
+
         text-transform: uppercase;
+
 
         color: #198ec8;
     }
 
+
     .dc-message span {
+
         display: block;
 
+
         font-size: 0.62rem;
+
         line-height: 1.35;
+
 
         color: #5a6874;
     }
+
 
     /* =====================================================
        VIDEO CORPORATIVO
        ===================================================== */
 
     .dc-video-wrap {
+
         position: relative;
+
         z-index: 1;
+
 
         margin-top: 12px;
 
+
         border-radius: 18px;
+
         overflow: hidden;
 
-        border: 1px solid rgba(255,255,255,.82);
+
+        border:
+            1px solid
+            rgba(255,255,255,.82);
+
 
         background: #dfe9ef;
 
+
         box-shadow:
-            0 9px 22px rgba(20, 64, 88, .10);
+            0 9px 22px
+            rgba(20, 64, 88, .10);
     }
 
+
     .dc-video {
+
         display: block;
 
+
         width: 100%;
+
         height: 112px;
 
+
         object-fit: cover;
+
 
         background: #dce7ed;
     }
 
+
     .dc-video-label {
+
         position: absolute;
 
+
         left: 9px;
+
         bottom: 8px;
 
-        padding: 4px 8px;
+
+        padding:
+            4px
+            8px;
+
 
         border-radius: 999px;
 
-        background: rgba(18, 25, 34, .72);
+
+        background:
+            rgba(18, 25, 34, .72);
+
+
         color: #fff;
 
+
         font-size: 0.54rem;
+
         font-weight: 700;
+
         letter-spacing: .03em;
 
+
         backdrop-filter: blur(8px);
+
         -webkit-backdrop-filter: blur(8px);
     }
+
 
     /* =====================================================
        ANIMACIONES
        ===================================================== */
 
     @keyframes dcCardIn {
+
         0% {
+
             opacity: 0;
-            transform: translateY(18px) scale(.96);
+
+            transform:
+                translateY(18px)
+                scale(.96);
+
             filter: blur(5px);
         }
 
+
         100% {
+
             opacity: 1;
-            transform: translateY(0) scale(1);
+
+            transform:
+                translateY(0)
+                scale(1);
+
             filter: blur(0);
         }
     }
 
+
     @keyframes dcShine {
-        0%, 45% {
+
+        0%,
+        45% {
+
             left: -45%;
         }
 
-        65%, 100% {
+
+        65%,
+        100% {
+
             left: 125%;
         }
     }
 
+
     @keyframes dcFloat {
-        0%, 100% {
-            transform: translateY(0);
+
+        0%,
+        100% {
+
+            transform:
+                translateY(0);
         }
+
 
         50% {
-            transform: translateY(-2px);
+
+            transform:
+                translateY(-2px);
         }
     }
 
+
+    /* =====================================================
+       ANIMACIÓN DEL LOGO
+       ===================================================== */
+
     .dc-brand img {
-        animation: dcFloat 4s ease-in-out infinite;
+
+        animation:
+            dcFloat
+            4s
+            ease-in-out
+            infinite;
     }
+
 
     /* =====================================================
        PANTALLAS MUY GRANDES
+       =====================================================
+       Mantiene el panel alineado con la aplicación
+       cuando aumenta considerablemente el ancho
+       del monitor.
        ===================================================== */
 
     @media (min-width: 1500px) {
+
         #desco-corporate-showcase {
+
             width: 235px;
-            left: calc(50% - 544px);
+
+
+            /*
+             * Mantiene la separación respecto
+             * al app-shell de 560px.
+             */
+
+            left:
+                calc(50% - 325px);
         }
     }
 
+
     /* =====================================================
-       REDUCIR ANIMACIÓN SI EL USUARIO LO SOLICITA
+       REDUCIR ANIMACIONES
        ===================================================== */
 
     @media (prefers-reduced-motion: reduce) {
+
         #desco-corporate-showcase *,
         #desco-corporate-showcase *::before,
         #desco-corporate-showcase *::after {
+
             animation: none !important;
+
             transition: none !important;
         }
     }
+
 }
