@@ -1,6 +1,6 @@
 /* =========================================================
    DESCOAPP — CORPORATE SHOWCASE
-   PC / ESCRITORIO ÚNICAMENTE
+   SOLO PC / ESCRITORIO
 
    Módulo independiente.
    NO modifica:
@@ -18,66 +18,43 @@
     "use strict";
 
     /* =====================================================
-       1. SOLO ESCRITORIO
+       SOLO PC
        ===================================================== */
 
-    const mediaPC = window.matchMedia("(min-width: 769px)");
+    const mediaPC = window.matchMedia("(min-width: 1100px)");
 
     if (!mediaPC.matches) {
         return;
     }
 
     /* =====================================================
-       2. CONFIGURACIÓN
+       CONFIGURACIÓN
        ===================================================== */
 
     const CONFIG = {
         video: "/videos/desco-corporativo.mp4",
-
-        intervaloActualizacion: 5000,
-
         maxAliados: 5,
         maxOfertas: 5,
-
-        proveedoresSelectors: [
-            ".card-proveedor",
-            ".proveedor-card",
-            ".cardProveedor",
-            "[data-proveedor]"
-        ],
-
-        ofertasSelectors: [
-            ".carrusel-3d .item",
-            ".item-oferta",
-            ".card-oferta",
-            "[data-oferta]"
-        ]
+        intervalo: 5000
     };
 
     /* =====================================================
-       3. EVITAR DUPLICADOS
+       EVITAR DUPLICADOS
        ===================================================== */
 
-    if (
-        document.getElementById(
-            "descoapp-corporate-showcase"
-        )
-    ) {
+    if (document.getElementById("descoapp-corporate-showcase")) {
         return;
     }
 
     /* =====================================================
-       4. OBTENER ELEMENTOS DEL DOM
+       BUSCAR ELEMENTOS EXISTENTES
        ===================================================== */
 
     function obtenerElementos(selectores) {
-
         for (const selector of selectores) {
+            const elementos = document.querySelectorAll(selector);
 
-            const elementos =
-                document.querySelectorAll(selector);
-
-            if (elementos.length) {
+            if (elementos.length > 0) {
                 return Array.from(elementos);
             }
         }
@@ -86,21 +63,14 @@
     }
 
     /* =====================================================
-       5. OBTENER TEXTO
+       OBTENER TEXTO
        ===================================================== */
 
-    function textoSeguro(elemento, selectores) {
-
+    function obtenerTexto(elemento, selectores) {
         for (const selector of selectores) {
+            const nodo = elemento.querySelector(selector);
 
-            const nodo =
-                elemento.querySelector(selector);
-
-            if (
-                nodo &&
-                nodo.textContent &&
-                nodo.textContent.trim()
-            ) {
+            if (nodo && nodo.textContent.trim()) {
                 return nodo.textContent.trim();
             }
         }
@@ -109,13 +79,11 @@
     }
 
     /* =====================================================
-       6. OBTENER IMAGEN
+       OBTENER IMAGEN
        ===================================================== */
 
-    function imagenSegura(elemento) {
-
-        const img =
-            elemento.querySelector("img");
+    function obtenerImagen(elemento) {
+        const img = elemento.querySelector("img");
 
         if (!img) {
             return "";
@@ -130,96 +98,76 @@
     }
 
     /* =====================================================
-       7. OBTENER PROVEEDORES EXISTENTES
+       OBTENER ALIADOS
        ===================================================== */
 
     function obtenerAliados() {
-
-        const elementos =
-            obtenerElementos(
-                CONFIG.proveedoresSelectors
-            );
+        const elementos = obtenerElementos([
+            ".card-proveedor",
+            ".proveedor-card",
+            ".cardProveedor",
+            "[data-proveedor]"
+        ]);
 
         return elementos
             .slice(0, CONFIG.maxAliados)
-            .map((elemento) => {
+            .map((elemento) => ({
+                nombre:
+                    obtenerTexto(elemento, [
+                        "h3",
+                        "h2",
+                        ".nombre-proveedor",
+                        ".proveedor-nombre",
+                        ".nombre"
+                    ]) || "Aliado DescoApp",
 
-                return {
-
-                    nombre:
-                        textoSeguro(elemento, [
-                            "h3",
-                            "h2",
-                            ".nombre-proveedor",
-                            ".proveedor-nombre",
-                            ".nombre"
-                        ]) ||
-                        "Aliado DescoApp",
-
-                    imagen:
-                        imagenSegura(elemento),
-
-                    elemento
-                };
-
-            });
+                imagen: obtenerImagen(elemento)
+            }));
     }
 
     /* =====================================================
-       8. OBTENER OFERTAS EXISTENTES
+       OBTENER OFERTAS
        ===================================================== */
 
     function obtenerOfertas() {
-
-        const elementos =
-            obtenerElementos(
-                CONFIG.ofertasSelectors
-            );
+        const elementos = obtenerElementos([
+            ".carrusel-3d .item",
+            ".item-oferta",
+            ".card-oferta",
+            "[data-oferta]"
+        ]);
 
         return elementos
             .slice(0, CONFIG.maxOfertas)
-            .map((elemento) => {
+            .map((elemento) => ({
+                nombre:
+                    obtenerTexto(elemento, [
+                        "h4",
+                        "h3",
+                        ".nombre-producto",
+                        ".producto-nombre",
+                        ".nombre"
+                    ]) || "Oferta DescoApp",
 
-                return {
-
-                    nombre:
-                        textoSeguro(elemento, [
-                            "h4",
-                            "h3",
-                            ".nombre-producto",
-                            ".producto-nombre",
-                            ".nombre"
-                        ]) ||
-                        "Oferta DescoApp",
-
-                    imagen:
-                        imagenSegura(elemento),
-
-                    elemento
-                };
-
-            });
+                imagen: obtenerImagen(elemento)
+            }));
     }
 
     /* =====================================================
-       9. CREAR SHOWCASE
+       CREAR SHOWCASE
        ===================================================== */
 
     function crearShowcase() {
+        const showcase = document.createElement("aside");
 
-        const showcase =
-            document.createElement("aside");
-
-        showcase.id =
-            "descoapp-corporate-showcase";
+        showcase.id = "descoapp-corporate-showcase";
 
         showcase.setAttribute(
             "aria-label",
-            "DescoApp corporativo"
+            "Información corporativa de DescoApp"
         );
 
         showcase.innerHTML = `
-
             <div class="desco-corporate-inner">
 
                 <!-- MARCA -->
@@ -227,10 +175,7 @@
                 <div class="desco-corporate-brand">
 
                     <div class="desco-corporate-logo">
-
-                        <span>Desco</span>
-                        <strong>App</strong>
-
+                        <span>Desco</span><strong>App</strong>
                     </div>
 
                     <div class="desco-corporate-line"></div>
@@ -254,24 +199,17 @@
                         playsinline
                         preload="metadata"
                     >
-
                         <source
                             src="${CONFIG.video}"
                             type="video/mp4"
                         >
-
                     </video>
-
 
                     <div class="desco-video-overlay"></div>
 
-
                     <div class="desco-video-label">
-
                         <span class="desco-live-dot"></span>
-
                         DESCOAPP
-
                     </div>
 
                 </div>
@@ -282,11 +220,8 @@
                 <div class="desco-corporate-section">
 
                     <div class="desco-section-title">
-
-                        <span>ALIADOS</span>
-
+                        ALIADOS
                     </div>
-
 
                     <div
                         class="desco-corporate-cards desco-aliados-list"
@@ -301,11 +236,8 @@
                 <div class="desco-corporate-section">
 
                     <div class="desco-section-title">
-
-                        <span>OFERTAS</span>
-
+                        OFERTAS
                     </div>
-
 
                     <div
                         class="desco-corporate-cards desco-ofertas-list"
@@ -336,215 +268,132 @@
     }
 
     /* =====================================================
-       10. MOSTRAR ALIADOS
+       CREAR CARD
+       ===================================================== */
+
+    function crearCard(item, tipo, index) {
+        const imagen = item.imagen
+            ? `
+                <img
+                    src="${item.imagen}"
+                    alt="${item.nombre}"
+                    loading="lazy"
+                >
+            `
+            : `
+                <span class="desco-card-placeholder">
+                    ${tipo === "oferta" ? "★" : "D"}
+                </span>
+            `;
+
+        const etiqueta =
+            tipo === "oferta"
+                ? "OFERTA"
+                : "ALIADO";
+
+        const claseEtiqueta =
+            tipo === "oferta"
+                ? "desco-card-tag oferta"
+                : "desco-card-tag";
+
+        return `
+            <div
+                class="desco-corporate-card"
+                style="--desco-delay:${index * 70}ms"
+            >
+
+                <div class="desco-card-image">
+                    ${imagen}
+                </div>
+
+                <div class="desco-card-name">
+                    ${item.nombre}
+                </div>
+
+                <div class="${claseEtiqueta}">
+                    ${etiqueta}
+                </div>
+
+            </div>
+        `;
+    }
+
+    /* =====================================================
+       RENDER ALIADOS
        ===================================================== */
 
     function renderAliados(showcase) {
-
-        const contenedor =
-            showcase.querySelector(
-                "#desco-aliados-list"
-            );
+        const contenedor = showcase.querySelector(
+            "#desco-aliados-list"
+        );
 
         if (!contenedor) {
             return;
         }
 
-        const aliados =
-            obtenerAliados();
-
+        const aliados = obtenerAliados();
 
         if (!aliados.length) {
-
             contenedor.innerHTML = `
-
                 <div class="desco-empty-card">
-
-                    <span class="desco-empty-icon">
-                        ✦
-                    </span>
-
-                    <strong>
-                        Aliados DescoApp
-                    </strong>
-
-                    <small>
-                        Siempre cerca de tu negocio
-                    </small>
-
+                    <strong>Aliados DescoApp</strong>
+                    <small>Siempre cerca de tu negocio</small>
                 </div>
-
             `;
 
             return;
         }
 
-
-        contenedor.innerHTML =
-            aliados
-                .map((aliado, index) => {
-
-                    return `
-
-                        <div
-                            class="desco-corporate-card desco-aliado-card"
-                            style="--desco-delay:${index * 90}ms"
-                        >
-
-                            <div class="desco-card-image">
-
-                                ${
-                                    aliado.imagen
-
-                                        ? `
-                                            <img
-                                                src="${aliado.imagen}"
-                                                alt="${aliado.nombre}"
-                                                loading="lazy"
-                                            >
-                                          `
-
-                                        : `
-                                            <span class="desco-card-placeholder">
-                                                D
-                                            </span>
-                                          `
-                                }
-
-                            </div>
-
-
-                            <div class="desco-card-name">
-
-                                ${aliado.nombre}
-
-                            </div>
-
-
-                            <div class="desco-card-tag">
-
-                                ALIADO
-
-                            </div>
-
-                        </div>
-
-                    `;
-
-                })
-                .join("");
+        contenedor.innerHTML = aliados
+            .map((aliado, index) =>
+                crearCard(aliado, "aliado", index)
+            )
+            .join("");
     }
 
     /* =====================================================
-       11. MOSTRAR OFERTAS
+       RENDER OFERTAS
        ===================================================== */
 
     function renderOfertas(showcase) {
-
-        const contenedor =
-            showcase.querySelector(
-                "#desco-ofertas-list"
-            );
+        const contenedor = showcase.querySelector(
+            "#desco-ofertas-list"
+        );
 
         if (!contenedor) {
             return;
         }
 
-        const ofertas =
-            obtenerOfertas();
-
+        const ofertas = obtenerOfertas();
 
         if (!ofertas.length) {
-
             contenedor.innerHTML = `
-
                 <div class="desco-empty-card">
-
-                    <span class="desco-empty-icon">
-                        ★
-                    </span>
-
-                    <strong>
-                        Ofertas DescoApp
-                    </strong>
-
+                    <strong>Ofertas DescoApp</strong>
                     <small>
                         Encuentra productos para tu negocio
                     </small>
-
                 </div>
-
             `;
 
             return;
         }
 
-
-        contenedor.innerHTML =
-            ofertas
-                .map((oferta, index) => {
-
-                    return `
-
-                        <div
-                            class="desco-corporate-card desco-oferta-card"
-                            style="--desco-delay:${index * 90}ms"
-                        >
-
-                            <div class="desco-card-image">
-
-                                ${
-                                    oferta.imagen
-
-                                        ? `
-                                            <img
-                                                src="${oferta.imagen}"
-                                                alt="${oferta.nombre}"
-                                                loading="lazy"
-                                            >
-                                          `
-
-                                        : `
-                                            <span class="desco-card-placeholder">
-                                                ★
-                                            </span>
-                                          `
-                                }
-
-                            </div>
-
-
-                            <div class="desco-card-name">
-
-                                ${oferta.nombre}
-
-                            </div>
-
-
-                            <div class="desco-card-tag oferta">
-
-                                OFERTA
-
-                            </div>
-
-                        </div>
-
-                    `;
-
-                })
-                .join("");
+        contenedor.innerHTML = ofertas
+            .map((oferta, index) =>
+                crearCard(oferta, "oferta", index)
+            )
+            .join("");
     }
 
     /* =====================================================
-       12. INICIAR SHOWCASE
+       INICIAR
        ===================================================== */
 
     function iniciarShowcase() {
-
         if (!mediaPC.matches) {
             return;
         }
-
 
         if (
             document.getElementById(
@@ -554,179 +403,107 @@
             return;
         }
 
-
-        const showcase =
-            crearShowcase();
-
+        const showcase = crearShowcase();
 
         if (!showcase) {
             return;
         }
 
-
-        /* Cargar información existente */
-
         renderAliados(showcase);
-
         renderOfertas(showcase);
-
 
         /* =================================================
            VIDEO
            ================================================= */
 
-        const video =
-            showcase.querySelector(
-                ".desco-corporate-video-element"
-            );
-
+        const video = showcase.querySelector(
+            ".desco-corporate-video-element"
+        );
 
         if (video) {
-
             video.muted = true;
 
-            video.setAttribute(
-                "playsinline",
-                ""
-            );
-
             video.play().catch(() => {
-
-                /*
-                 Algunos navegadores pueden bloquear
-                 autoplay. No generamos ningún error
-                 que afecte a DescoApp.
-                */
-
+                /* Autoplay bloqueado: no afecta DescoApp */
             });
-
         }
-
 
         /* =================================================
            SEGUNDA LECTURA
 
-           Esto permite que los proveedores/ofertas
-           que todavía estén cargando en el DOM puedan
-           aparecer posteriormente.
-
-           NO realiza ninguna petición.
+           Permite esperar a que el DOM principal
+           termine de cargar proveedores/ofertas.
            ================================================= */
 
         setTimeout(() => {
-
             renderAliados(showcase);
-
             renderOfertas(showcase);
-
         }, 1500);
-
     }
 
     /* =====================================================
-       13. ESPERAR DOM
+       ESPERAR DOM
        ===================================================== */
 
-    if (
-        document.readyState === "loading"
-    ) {
-
+    if (document.readyState === "loading") {
         document.addEventListener(
             "DOMContentLoaded",
             iniciarShowcase,
-            {
-                once: true
-            }
+            { once: true }
         );
-
     } else {
-
         iniciarShowcase();
-
     }
 
-
     /* =====================================================
-       14. ACTUALIZACIÓN SUAVE
-
-       No consulta backend.
-
-       Solo vuelve a leer elementos que ya existen
-       en la página.
+       ACTUALIZACIÓN SUAVE
        ===================================================== */
 
-    const intervalo =
-        setInterval(() => {
+    const intervalo = setInterval(() => {
+        const showcase = document.getElementById(
+            "descoapp-corporate-showcase"
+        );
 
-            const showcase =
-                document.getElementById(
-                    "descoapp-corporate-showcase"
-                );
-
-            if (!showcase) {
-                return;
-            }
-
-            renderAliados(showcase);
-
-            renderOfertas(showcase);
-
-        }, CONFIG.intervaloActualizacion);
-
-
-    /* =====================================================
-       15. CAMBIO PC / MOBILE
-
-       Si cambia el tamaño de pantalla y deja de ser PC,
-       eliminamos únicamente este módulo.
-
-       NO tocamos el resto de DescoApp.
-       ===================================================== */
-
-    mediaPC.addEventListener(
-        "change",
-        function (event) {
-
-            const existente =
-                document.getElementById(
-                    "descoapp-corporate-showcase"
-                );
-
-
-            if (!event.matches) {
-
-                if (existente) {
-                    existente.remove();
-                }
-
-                return;
-            }
-
-
-            if (!existente) {
-                iniciarShowcase();
-            }
-
+        if (!showcase) {
+            return;
         }
-    );
 
+        renderAliados(showcase);
+        renderOfertas(showcase);
+    }, CONFIG.intervalo);
 
     /* =====================================================
-       16. LIMPIEZA
+       CAMBIO DE TAMAÑO
+       ===================================================== */
 
-       Si el documento se descarga, detenemos el intervalo.
+    mediaPC.addEventListener("change", (event) => {
+        const existente = document.getElementById(
+            "descoapp-corporate-showcase"
+        );
+
+        if (!event.matches) {
+            if (existente) {
+                existente.remove();
+            }
+
+            return;
+        }
+
+        if (!existente) {
+            iniciarShowcase();
+        }
+    });
+
+    /* =====================================================
+       LIMPIEZA
        ===================================================== */
 
     window.addEventListener(
         "beforeunload",
-        function () {
-
+        () => {
             clearInterval(intervalo);
-
         },
-        {
-            once: true
-        }
+        { once: true }
     );
 
 })();
