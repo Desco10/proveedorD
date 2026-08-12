@@ -256,7 +256,7 @@
                     <div class="dc-logo-box">
 
                         <img
-                            src="/img/logo.png"
+                            src="/img/plataforma/newdescoappsinf.png"
                             alt="DescoApp"
                             class="dc-logo"
                         >
