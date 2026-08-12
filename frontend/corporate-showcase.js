@@ -18,8 +18,6 @@
 
    Lee información que ya existe en el DOM.
 
-   NO realiza peticiones al backend.
-
    ========================================================= */
 
 (function () {
@@ -36,7 +34,9 @@
 
 
     if (!mediaPC.matches) {
+
         return;
+
     }
 
 
@@ -57,6 +57,15 @@
 
         maxOfertas:
             6,
+
+        panelGap:
+            28,
+
+        panelMinWidth:
+            220,
+
+        panelMaxWidth:
+            320,
 
         proveedoresSelectors: [
 
@@ -86,7 +95,20 @@
 
 
     /* =====================================================
-       3. EVITAR DUPLICADOS
+       3. REFERENCIAS
+       ===================================================== */
+
+    let panelIzquierdo = null;
+
+    let panelDerecho = null;
+
+    let intervalo = null;
+
+    let timerPosicion = null;
+
+
+    /* =====================================================
+       4. EVITAR DUPLICADOS
        ===================================================== */
 
     if (
@@ -96,6 +118,7 @@
     ) {
 
         return;
+
     }
 
 
@@ -106,12 +129,47 @@
     ) {
 
         return;
+
     }
 
 
     /* =====================================================
-       4. OBTENER ELEMENTOS
+       5. UTILIDADES
        ===================================================== */
+
+    function escaparHTML(valor) {
+
+        return String(
+            valor || ""
+        )
+
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+
+            .replace(
+                /</g,
+                "&lt;"
+            )
+
+            .replace(
+                />/g,
+                "&gt;"
+            )
+
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
 
     function obtenerElementos(selectores) {
 
@@ -156,17 +214,15 @@
     }
 
 
-    /* =====================================================
-       5. TEXTO SEGURO
-       ===================================================== */
-
     function textoSeguro(
         elemento,
         selectores
     ) {
 
         if (!elemento) {
+
             return "";
+
         }
 
 
@@ -197,8 +253,7 @@
 
             } catch (error) {
 
-                /* Selector no válido:
-                   simplemente continuamos. */
+                /* Continuamos */
 
             }
 
@@ -206,76 +261,51 @@
 
 
         return "";
-    }
-
-
-    /* =====================================================
-       6. ESCAPAR HTML
-       ===================================================== */
-
-    function escaparHTML(valor) {
-
-        return String(
-            valor || ""
-        )
-            .replace(
-                /&/g,
-                "&amp;"
-            )
-            .replace(
-                /</g,
-                "&lt;"
-            )
-            .replace(
-                />/g,
-                "&gt;"
-            )
-            .replace(
-                /"/g,
-                "&quot;"
-            )
-            .replace(
-                /'/g,
-                "&#039;"
-            );
 
     }
 
-
-    /* =====================================================
-       7. OBTENER IMAGEN
-       ===================================================== */
 
     function imagenSegura(elemento) {
 
         if (!elemento) {
+
             return "";
+
         }
 
 
         const img =
-            elemento.querySelector("img");
+            elemento.querySelector(
+                "img"
+            );
 
 
         if (!img) {
+
             return "";
+
         }
 
 
         return (
+
             img.currentSrc ||
+
             img.src ||
+
             img.getAttribute(
                 "data-src"
             ) ||
+
             ""
+
         );
 
     }
 
 
     /* =====================================================
-       8. OBTENER ALIADOS
+       6. OBTENER ALIADOS
        ===================================================== */
 
     function obtenerAliados() {
@@ -299,6 +329,7 @@
                     return {
 
                         nombre:
+
                             textoSeguro(
                                 elemento,
                                 [
@@ -308,10 +339,15 @@
                                     ".proveedor-nombre",
                                     ".nombre"
                                 ]
-                            ) ||
+                            )
+
+                            ||
+
                             "Aliado DescoApp",
 
+
                         imagen:
+
                             imagenSegura(
                                 elemento
                             ),
@@ -328,7 +364,7 @@
 
 
     /* =====================================================
-       9. OBTENER OFERTAS
+       7. OBTENER OFERTAS
        ===================================================== */
 
     function obtenerOfertas() {
@@ -352,6 +388,7 @@
                     return {
 
                         nombre:
+
                             textoSeguro(
                                 elemento,
                                 [
@@ -361,10 +398,15 @@
                                     ".producto-nombre",
                                     ".nombre"
                                 ]
-                            ) ||
+                            )
+
+                            ||
+
                             "Oferta DescoApp",
 
+
                         imagen:
+
                             imagenSegura(
                                 elemento
                             ),
@@ -381,7 +423,7 @@
 
 
     /* =====================================================
-       10. CREAR PANEL IZQUIERDO
+       8. CREAR PANEL IZQUIERDO
        ===================================================== */
 
     function crearPanelIzquierdo() {
@@ -404,15 +446,15 @@
 
         showcase.innerHTML = `
 
-            <div class="desco-corporate-inner">
+            <div
+                class="desco-corporate-inner"
+            >
 
+                <!-- CABECERA -->
 
-                <!-- ===============================
-                     CABECERA
-                     =============================== -->
-
-                <div class="desco-corporate-brand">
-
+                <div
+                    class="desco-corporate-brand"
+                >
 
                     <img
                         class="desco-corporate-logo-image"
@@ -463,14 +505,11 @@
                 </div>
 
 
-                <!-- ===============================
-                     CONTENIDO SCROLL
-                     =============================== -->
+                <!-- CONTENIDO -->
 
                 <div
                     class="desco-corporate-scroll"
                 >
-
 
                     <!-- ALIADOS -->
 
@@ -492,11 +531,13 @@
                                     Ecosistema
                                 </span>
 
+
                                 <span
                                     class="desco-section-title"
                                 >
                                     Aliados estratégicos
                                 </span>
+
 
                                 <span
                                     class="desco-section-description"
@@ -544,11 +585,13 @@
                                     Oportunidades
                                 </span>
 
+
                                 <span
                                     class="desco-section-title"
                                 >
                                     Ofertas destacadas
                                 </span>
+
 
                                 <span
                                     class="desco-section-description"
@@ -575,13 +618,10 @@
 
                     </section>
 
-
                 </div>
 
 
-                <!-- ===============================
-                     FOOTER
-                     =============================== -->
+                <!-- FOOTER -->
 
                 <div
                     class="desco-corporate-footer"
@@ -591,9 +631,11 @@
                         class="desco-footer-line"
                     ></div>
 
+
                     <span>
                         DESCOAPP
                     </span>
+
 
                     <small>
                         Siempre cerca de tu negocio
@@ -601,8 +643,8 @@
 
                 </div>
 
-
             </div>
+
         `;
 
 
@@ -617,7 +659,7 @@
 
 
     /* =====================================================
-       11. CREAR PANEL DERECHO
+       9. CREAR PANEL DERECHO
        ===================================================== */
 
     function crearPanelDerecho() {
@@ -640,12 +682,11 @@
 
         panel.innerHTML = `
 
-            <div class="desco-right-inner">
+            <div
+                class="desco-right-inner"
+            >
 
-
-                <!-- ===============================
-                     CABECERA
-                     =============================== -->
+                <!-- CABECERA -->
 
                 <div
                     class="desco-right-header"
@@ -694,16 +735,13 @@
                 </div>
 
 
-                <!-- ===============================
-                     CONTENIDO
-                     =============================== -->
+                <!-- CONTENIDO -->
 
                 <div
                     class="desco-right-scroll"
                 >
 
-
-                    <!-- INTRODUCCIÓN -->
+                    <!-- INTRO -->
 
                     <div
                         class="desco-right-intro"
@@ -736,7 +774,7 @@
                     </div>
 
 
-                    <!-- ESTADÍSTICAS -->
+                    <!-- ESTADISTICAS -->
 
                     <div
                         class="desco-right-stats"
@@ -805,7 +843,6 @@
                     <div
                         class="desco-roadmap"
                     >
-
 
                         <div
                             class="desco-roadmap-item"
@@ -918,7 +955,6 @@
 
                         </div>
 
-
                     </div>
 
 
@@ -940,13 +976,10 @@
 
                     </div>
 
-
                 </div>
 
 
-                <!-- ===============================
-                     FOOTER
-                     =============================== -->
+                <!-- FOOTER -->
 
                 <div
                     class="desco-right-footer"
@@ -968,8 +1001,8 @@
 
                 </div>
 
-
             </div>
+
         `;
 
 
@@ -984,13 +1017,15 @@
 
 
     /* =====================================================
-       12. RENDER ALIADOS
+       10. RENDER ALIADOS
        ===================================================== */
 
     function renderAliados(showcase) {
 
         if (!showcase) {
+
             return;
+
         }
 
 
@@ -1001,7 +1036,9 @@
 
 
         if (!contenedor) {
+
             return;
+
         }
 
 
@@ -1023,9 +1060,11 @@
                         ✦
                     </span>
 
+
                     <strong>
                         Aliados DescoApp
                     </strong>
+
 
                     <small>
                         Siempre cerca de tu negocio
@@ -1036,6 +1075,7 @@
             `;
 
             return;
+
         }
 
 
@@ -1044,7 +1084,10 @@
             aliados
 
                 .map(
-                    function (aliado, index) {
+                    function (
+                        aliado,
+                        index
+                    ) {
 
                         const nombre =
                             escaparHTML(
@@ -1090,9 +1133,7 @@
                                         : `
 
                                             <span
-                                                class="
-                                                    desco-card-placeholder
-                                                "
+                                                class="desco-card-placeholder"
                                             >
                                                 D
                                             </span>
@@ -1142,13 +1183,15 @@
 
 
     /* =====================================================
-       13. RENDER OFERTAS
+       11. RENDER OFERTAS
        ===================================================== */
 
     function renderOfertas(showcase) {
 
         if (!showcase) {
+
             return;
+
         }
 
 
@@ -1159,7 +1202,9 @@
 
 
         if (!contenedor) {
+
             return;
+
         }
 
 
@@ -1181,9 +1226,11 @@
                         ★
                     </span>
 
+
                     <strong>
                         Ofertas DescoApp
                     </strong>
+
 
                     <small>
                         Encuentra productos para tu negocio
@@ -1194,6 +1241,7 @@
             `;
 
             return;
+
         }
 
 
@@ -1202,7 +1250,10 @@
             ofertas
 
                 .map(
-                    function (oferta, index) {
+                    function (
+                        oferta,
+                        index
+                    ) {
 
                         const nombre =
                             escaparHTML(
@@ -1248,9 +1299,7 @@
                                         : `
 
                                             <span
-                                                class="
-                                                    desco-card-placeholder
-                                                "
+                                                class="desco-card-placeholder"
                                             >
                                                 ★
                                             </span>
@@ -1303,7 +1352,7 @@
 
 
     /* =====================================================
-       14. ACTUALIZAR ESTADÍSTICAS
+       12. ACTUALIZAR ESTADISTICAS
        ===================================================== */
 
     function actualizarEstadisticas() {
@@ -1347,13 +1396,234 @@
 
 
     /* =====================================================
-       15. INICIAR
+       13. POSICIONAMIENTO PROFESIONAL
+       =====================================================
+
+       ESTA ES LA CORRECCIÓN PRINCIPAL.
+
+       No asumimos que .app-shell mide 560px,
+       670px, 680px ni ningún otro tamaño.
+
+       Medimos su posición REAL en pantalla.
+
+       ===================================================== */
+
+    function posicionarPaneles() {
+
+        if (!mediaPC.matches) {
+
+            return;
+
+        }
+
+
+        const appShell =
+            document.querySelector(
+                ".app-shell"
+            );
+
+
+        if (!appShell) {
+
+            return;
+
+        }
+
+
+        if (
+            !panelIzquierdo ||
+            !panelDerecho
+        ) {
+
+            return;
+
+        }
+
+
+        const rect =
+            appShell.getBoundingClientRect();
+
+
+        if (
+            !rect.width ||
+            !rect.height
+        ) {
+
+            return;
+
+        }
+
+
+        const viewportWidth =
+            window.innerWidth;
+
+
+        /*
+         * Espacio disponible a cada lado
+         * de la aplicación.
+         */
+
+        const espacioIzquierdo =
+            rect.left;
+
+
+        const espacioDerecho =
+            viewportWidth -
+            rect.right;
+
+
+        /*
+         * Determinamos el ancho máximo
+         * que realmente cabe.
+         */
+
+        const espacioUtilizable =
+            Math.min(
+                espacioIzquierdo,
+                espacioDerecho
+            );
+
+
+        let panelWidth =
+            espacioUtilizable -
+            CONFIG.panelGap;
+
+
+        panelWidth =
+            Math.min(
+                panelWidth,
+                CONFIG.panelMaxWidth
+            );
+
+
+        /*
+         * Nunca forzamos un panel que no cabe.
+         */
+
+        if (
+            panelWidth <
+            CONFIG.panelMinWidth
+        ) {
+
+            panelIzquierdo.style.display =
+                "none";
+
+            panelDerecho.style.display =
+                "none";
+
+            return;
+
+        }
+
+
+        panelIzquierdo.style.display =
+            "block";
+
+
+        panelDerecho.style.display =
+            "block";
+
+
+        /*
+         * Posición exacta.
+
+         * Panel izquierdo:
+         *
+         * app.left
+         * -
+         * gap
+         * -
+         * ancho panel
+         */
+
+        const left =
+            Math.max(
+                14,
+                rect.left -
+                CONFIG.panelGap -
+                panelWidth
+            );
+
+
+        /*
+         * Panel derecho:
+         *
+         * viewport
+         * -
+         * app.right
+         * -
+         * gap
+         * -
+         * ancho panel
+         */
+
+        const right =
+            Math.max(
+                14,
+                viewportWidth -
+                rect.right -
+                CONFIG.panelGap -
+                panelWidth
+            );
+
+
+        document.documentElement.style
+            .setProperty(
+                "--desco-corporate-panel-width",
+                `${panelWidth}px`
+            );
+
+
+        document.documentElement.style
+            .setProperty(
+                "--desco-corporate-left",
+                `${left}px`
+            );
+
+
+        document.documentElement.style
+            .setProperty(
+                "--desco-corporate-right",
+                `${right}px`
+            );
+
+    }
+
+
+    /* =====================================================
+       14. PROGRAMAR POSICIONAMIENTO
+       ===================================================== */
+
+    function programarPosicionamiento() {
+
+        clearTimeout(
+            timerPosicion
+        );
+
+
+        timerPosicion =
+            setTimeout(
+                function () {
+
+                    posicionarPaneles();
+
+                },
+                80
+            );
+
+    }
+
+
+    /* =====================================================
+       15. INICIAR SHOWCASE
        ===================================================== */
 
     function iniciarShowcase() {
 
         if (!mediaPC.matches) {
+
             return;
+
         }
 
 
@@ -1375,24 +1645,29 @@
         ) {
 
             return;
+
         }
 
 
-        const panelIzquierdo =
+        panelIzquierdo =
             crearPanelIzquierdo();
 
 
-        const panelDerecho =
+        panelDerecho =
             crearPanelDerecho();
 
 
         if (!panelIzquierdo) {
+
             return;
+
         }
 
 
         if (!panelDerecho) {
+
             return;
+
         }
 
 
@@ -1409,14 +1684,16 @@
         actualizarEstadisticas();
 
 
-        /* =================================================
-           SEGUNDA LECTURA
+        /*
+         * Primera posición.
+         */
 
-           Permite que los elementos que todavía
-           estén cargando aparezcan posteriormente.
+        posicionarPaneles();
 
-           NO realiza ninguna petición.
-           ================================================= */
+
+        /*
+         * Segunda lectura.
+         */
 
         setTimeout(
             function () {
@@ -1433,8 +1710,41 @@
 
                 actualizarEstadisticas();
 
+
+                posicionarPaneles();
+
             },
-            1500
+            800
+        );
+
+
+        /*
+         * Tercera lectura.
+         *
+         * Algunas partes de la aplicación
+         * pueden terminar de montar después.
+         */
+
+        setTimeout(
+            function () {
+
+                renderAliados(
+                    panelIzquierdo
+                );
+
+
+                renderOfertas(
+                    panelIzquierdo
+                );
+
+
+                actualizarEstadisticas();
+
+
+                posicionarPaneles();
+
+            },
+            1800
         );
 
     }
@@ -1465,12 +1775,21 @@
 
 
     /* =====================================================
-       17. ACTUALIZACIÓN SUAVE
+       17. ACTUALIZACION SUAVE
        ===================================================== */
 
-    const intervalo =
+    intervalo =
         setInterval(
             function () {
+
+                if (
+                    !mediaPC.matches
+                ) {
+
+                    return;
+
+                }
+
 
                 const showcase =
                     document.getElementById(
@@ -1479,7 +1798,9 @@
 
 
                 if (!showcase) {
+
                     return;
+
                 }
 
 
@@ -1495,16 +1816,118 @@
 
                 actualizarEstadisticas();
 
+
+                posicionarPaneles();
+
             },
             CONFIG.intervaloActualizacion
         );
 
 
     /* =====================================================
-       18. CAMBIO PC / MOBILE
+       18. OBSERVAR CAMBIOS DEL APP-SHELL
        ===================================================== */
 
-    function manejarCambioPantalla(event) {
+    let ultimoAncho = 0;
+
+    let ultimaAltura = 0;
+
+    let ultimaIzquierda = 0;
+
+
+    function vigilarAplicacion() {
+
+        const appShell =
+            document.querySelector(
+                ".app-shell"
+            );
+
+
+        if (!appShell) {
+
+            return;
+
+        }
+
+
+        const rect =
+            appShell.getBoundingClientRect();
+
+
+        if (
+            rect.width !== ultimoAncho ||
+
+            rect.height !== ultimaAltura ||
+
+            rect.left !== ultimaIzquierda
+        ) {
+
+            ultimoAncho =
+                rect.width;
+
+            ultimaAltura =
+                rect.height;
+
+            ultimaIzquierda =
+                rect.left;
+
+
+            programarPosicionamiento();
+
+        }
+
+    }
+
+
+    const observer =
+        new ResizeObserver(
+            function () {
+
+                vigilarAplicacion();
+
+            }
+        );
+
+
+    const appShell =
+        document.querySelector(
+            ".app-shell"
+        );
+
+
+    if (appShell) {
+
+        observer.observe(
+            appShell
+        );
+
+    }
+
+
+    /* =====================================================
+       19. RESIZE
+       ===================================================== */
+
+    window.addEventListener(
+        "resize",
+        function () {
+
+            programarPosicionamiento();
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    /* =====================================================
+       20. CAMBIO PC / MOBILE
+       ===================================================== */
+
+    function manejarCambioPantalla(
+        event
+    ) {
 
         const izquierdo =
             document.getElementById(
@@ -1521,16 +1944,28 @@
         if (!event.matches) {
 
             if (izquierdo) {
+
                 izquierdo.remove();
+
             }
 
 
             if (derecho) {
+
                 derecho.remove();
+
             }
 
 
+            panelIzquierdo =
+                null;
+
+            panelDerecho =
+                null;
+
+
             return;
+
         }
 
 
@@ -1566,7 +2001,7 @@
 
 
     /* =====================================================
-       19. LIMPIEZA
+       21. LIMPIEZA
        ===================================================== */
 
     window.addEventListener(
@@ -1576,6 +2011,18 @@
             clearInterval(
                 intervalo
             );
+
+
+            clearTimeout(
+                timerPosicion
+            );
+
+
+            if (observer) {
+
+                observer.disconnect();
+
+            }
 
         },
         {
