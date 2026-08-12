@@ -1,7 +1,19 @@
 /* =========================================================
    DESCOAPP — CORPORATE SHOWCASE
+   =========================================================
+
    SOLO PC / ESCRITORIO
-   NO AFECTA MOBILE
+
+   NO AFECTA:
+   - MOBILE
+   - TABLET
+   - APP-SHELL
+   - CARRUSEL
+   - PROVEEDORES
+   - CARRITO
+   - CHECKOUT
+
+   El módulo aparece únicamente desde 1100px.
    ========================================================= */
 
 
@@ -15,51 +27,46 @@
 
 
 /* =========================================================
-   SHOWCASE — SOLO PC
+   SOLO ESCRITORIO
    ========================================================= */
 
 @media (min-width: 1100px) {
 
+
+    /* =====================================================
+       CONTENEDOR PRINCIPAL
+       ===================================================== */
+
     #descoapp-corporate-showcase {
+
+        display: block;
+
         position: fixed;
 
-        left: calc(50% - 530px);
+        /*
+         * Tu app-shell mide aproximadamente 560px.
+         * Este panel queda separado a la izquierda.
+         */
+
+        left: calc(50% - 525px);
+
         top: 50%;
 
         transform: translateY(-50%);
 
-        width: 220px;
-        max-width: 220px;
+        width: 235px;
 
-        max-height: calc(100vh - 40px);
+        max-width: 235px;
 
-        display: block;
+        height: calc(100vh - 42px);
+
+        max-height: calc(100vh - 42px);
 
         box-sizing: border-box;
 
-        padding: 12px;
+        padding: 0;
 
-        z-index: 9990;
-
-        border: 1px solid rgba(255, 255, 255, 0.92);
-
-        border-radius: 24px;
-
-        background:
-            linear-gradient(
-                145deg,
-                rgba(255, 255, 255, 0.96),
-                rgba(232, 246, 252, 0.92)
-            );
-
-        box-shadow:
-            0 18px 50px rgba(20, 65, 90, 0.16),
-            0 4px 14px rgba(0, 0, 0, 0.07),
-            inset 0 1px 0 rgba(255, 255, 255, 1);
-
-        overflow: hidden;
-
-        color: #172033;
+        z-index: 9000;
 
         font-family:
             Inter,
@@ -68,199 +75,421 @@
             BlinkMacSystemFont,
             "Segoe UI",
             sans-serif;
+
+        color: #172033;
+
+        pointer-events: auto;
+
     }
 
 
     /* =====================================================
-       CONTENEDOR
+       PANEL
        ===================================================== */
 
-    #descoapp-corporate-showcase
-    .desco-corporate-inner {
-        width: 100%;
-        box-sizing: border-box;
-    }
+    #descoapp-corporate-showcase .dc-panel {
 
-
-    /* =====================================================
-       MARCA
-       ===================================================== */
-
-    #descoapp-corporate-showcase
-    .desco-corporate-brand {
-        width: 100%;
-
-        box-sizing: border-box;
-
-        padding: 4px 4px 9px;
-
-        text-align: center;
-    }
-
-
-    #descoapp-corporate-showcase
-    .desco-corporate-logo {
-        font-size: 1.05rem;
-
-        line-height: 1;
-
-        font-weight: 800;
-
-        white-space: nowrap;
-
-        text-align: center;
-    }
-
-
-    #descoapp-corporate-showcase
-    .desco-corporate-logo span {
-        color: #1689c4;
-    }
-
-
-    #descoapp-corporate-showcase
-    .desco-corporate-logo strong {
-        color: #263bff;
-    }
-
-
-    #descoapp-corporate-showcase
-    .desco-corporate-line {
-        width: 60px;
-        height: 2px;
-
-        margin: 7px auto 0;
-
-        border-radius: 999px;
-
-        background:
-            linear-gradient(
-                90deg,
-                #00d9c8,
-                #1ca9ff,
-                #7558ff
-            );
-    }
-
-
-    #descoapp-corporate-showcase
-    .desco-corporate-caption {
-        margin-top: 5px;
-
-        font-size: 0.56rem;
-
-        line-height: 1.2;
-
-        font-weight: 600;
-
-        color: #657582;
-
-        text-align: center;
-    }
-
-
-    /* =====================================================
-       VIDEO
-       ===================================================== */
-
-    #descoapp-corporate-showcase
-    .desco-corporate-video {
         position: relative;
 
         width: 100%;
 
-        height: 105px;
+        height: 100%;
 
-        margin: 8px 0 9px;
+        box-sizing: border-box;
+
+        display: flex;
+
+        flex-direction: column;
 
         overflow: hidden;
 
-        border-radius: 16px;
+        border-radius: 28px;
 
-        background: #dce7ed;
-
-        box-shadow:
-            0 7px 18px rgba(20, 64, 88, 0.10);
-    }
-
-
-    #descoapp-corporate-showcase
-    .desco-corporate-video-element {
-        display: block;
-
-        width: 100%;
-
-        height: 105px;
-
-        object-fit: cover;
-
-        object-position: center;
-
-        margin: 0;
-
-        padding: 0;
-    }
-
-
-    #descoapp-corporate-showcase
-    .desco-video-overlay {
-        position: absolute;
-
-        inset: 0;
+        border:
+            1px solid
+            rgba(255, 255, 255, 0.92);
 
         background:
+
             linear-gradient(
-                180deg,
-                rgba(0, 0, 0, 0.02),
-                rgba(0, 0, 0, 0.20)
+                160deg,
+                rgba(255,255,255,0.96),
+                rgba(240,248,252,0.91)
             );
 
-        pointer-events: none;
+        box-shadow:
+
+            0 25px 65px
+            rgba(17, 67, 92, 0.17),
+
+            0 8px 22px
+            rgba(0, 0, 0, 0.07),
+
+            inset 0 1px 0
+            rgba(255,255,255,1);
+
+        backdrop-filter: blur(18px);
+
+        -webkit-backdrop-filter: blur(18px);
+
     }
 
 
-    #descoapp-corporate-showcase
-    .desco-video-label {
+    /* =====================================================
+       LUZ AMBIENTAL
+       ===================================================== */
+
+    #descoapp-corporate-showcase .dc-panel::before {
+
+        content: "";
+
         position: absolute;
 
-        left: 8px;
-        bottom: 7px;
+        width: 190px;
+
+        height: 190px;
+
+        top: -115px;
+
+        left: 20px;
+
+        border-radius: 50%;
+
+        background:
+            radial-gradient(
+                circle,
+                rgba(0,210,255,0.18),
+                transparent 68%
+            );
+
+        filter: blur(8px);
+
+        pointer-events: none;
+
+    }
+
+
+    /* =====================================================
+       CABECERA
+       ===================================================== */
+
+    #descoapp-corporate-showcase .dc-header {
+
+        position: relative;
+
+        flex: 0 0 auto;
+
+        padding:
+            18px
+            15px
+            12px;
+
+        text-align: center;
+
+        border-bottom:
+            1px solid
+            rgba(67,111,135,0.10);
+
+    }
+
+
+    /* =====================================================
+       LOGO
+       ===================================================== */
+
+    #descoapp-corporate-showcase .dc-logo-box {
+
+        position: relative;
+
+        width: 82px;
+
+        height: 48px;
+
+        margin: 0 auto 5px;
 
         display: flex;
 
         align-items: center;
 
-        gap: 5px;
+        justify-content: center;
 
-        padding: 4px 7px;
-
-        border-radius: 999px;
-
-        background: rgba(20, 28, 36, 0.72);
-
-        color: #ffffff;
-
-        font-size: 0.48rem;
-
-        font-weight: 800;
-
-        letter-spacing: 0.04em;
-
-        backdrop-filter: blur(7px);
     }
 
 
-    #descoapp-corporate-showcase
-    .desco-live-dot {
+    #descoapp-corporate-showcase .dc-logo {
+
+        position: relative;
+
+        z-index: 2;
+
+        display: block;
+
+        width: 82px;
+
+        height: 48px;
+
+        object-fit: contain;
+
+        filter:
+            drop-shadow(
+                0 5px 8px
+                rgba(0,0,0,0.12)
+            );
+
+        animation:
+            dcLogoFloat
+            4s ease-in-out infinite;
+
+    }
+
+
+    /* =====================================================
+       HALO DEL LOGO
+       ===================================================== */
+
+    #descoapp-corporate-showcase .dc-logo-glow {
+
+        position: absolute;
+
+        width: 60px;
+
+        height: 28px;
+
+        border-radius: 50%;
+
+        background:
+            rgba(0,190,255,0.22);
+
+        filter: blur(15px);
+
+        animation:
+            dcLogoGlow
+            3s ease-in-out infinite;
+
+    }
+
+
+    /* =====================================================
+       TITULO
+       ===================================================== */
+
+    #descoapp-corporate-showcase .dc-header-title strong {
+
+        display: block;
+
+        margin: 0;
+
+        font-size: 0.66rem;
+
+        font-weight: 900;
+
+        letter-spacing: 0.15em;
+
+        color: #1c3347;
+
+    }
+
+
+    #descoapp-corporate-showcase .dc-header-title span {
+
+        display: block;
+
+        margin-top: 4px;
+
+        font-size: 0.47rem;
+
+        font-weight: 700;
+
+        letter-spacing: 0.08em;
+
+        color: #158cc5;
+
+    }
+
+
+    /* =====================================================
+       ESTADO ACTIVO
+       ===================================================== */
+
+    #descoapp-corporate-showcase .dc-status {
+
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 5px;
+
+        margin-top: 8px;
+
+        padding: 3px 8px;
+
+        border-radius: 999px;
+
+        font-size: 0.42rem;
+
+        font-weight: 800;
+
+        letter-spacing: 0.07em;
+
+        color: #1689c4;
+
+        background:
+            rgba(0,174,255,0.07);
+
+    }
+
+
+    #descoapp-corporate-showcase .dc-status-dot {
+
         width: 5px;
+
         height: 5px;
 
         border-radius: 50%;
 
-        background: #00d9c8;
+        background: #00cdbd;
 
         box-shadow:
-            0 0 7px rgba(0, 217, 200, 0.9);
+            0 0 8px
+            rgba(0,205,189,0.75);
+
+        animation:
+            dcPulse
+            2s ease-in-out infinite;
+
+    }
+
+
+    /* =====================================================
+       INTRO
+       ===================================================== */
+
+    #descoapp-corporate-showcase .dc-intro {
+
+        flex: 0 0 auto;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        gap: 7px;
+
+        padding:
+            10px
+            14px
+            9px;
+
+    }
+
+
+    #descoapp-corporate-showcase .dc-intro p {
+
+        margin: 0;
+
+        max-width: 145px;
+
+        text-align: center;
+
+        font-size: 0.52rem;
+
+        line-height: 1.35;
+
+        font-weight: 600;
+
+        color: #5a6d7b;
+
+    }
+
+
+    #descoapp-corporate-showcase .dc-intro-line {
+
+        width: 20px;
+
+        height: 1px;
+
+        flex: 0 0 20px;
+
+        background:
+            linear-gradient(
+                90deg,
+                transparent,
+                #22b9df
+            );
+
+    }
+
+
+    #descoapp-corporate-showcase
+    .dc-intro-line:last-child {
+
+        background:
+            linear-gradient(
+                90deg,
+                #7658ef,
+                transparent
+            );
+
+    }
+
+
+    /* =====================================================
+       CONTENIDO CON SCROLL
+       ===================================================== */
+
+    #descoapp-corporate-showcase .dc-content {
+
+        flex: 1 1 auto;
+
+        min-height: 0;
+
+        overflow-y: auto;
+
+        overflow-x: hidden;
+
+        padding:
+            2px
+            12px
+            8px;
+
+        scrollbar-width: thin;
+
+        scrollbar-color:
+            rgba(30,150,205,0.28)
+            transparent;
+
+    }
+
+
+    #descoapp-corporate-showcase
+    .dc-content::-webkit-scrollbar {
+
+        width: 4px;
+
+    }
+
+
+    #descoapp-corporate-showcase
+    .dc-content::-webkit-scrollbar-track {
+
+        background: transparent;
+
+    }
+
+
+    #descoapp-corporate-showcase
+    .dc-content::-webkit-scrollbar-thumb {
+
+        border-radius: 999px;
+
+        background:
+            linear-gradient(
+                180deg,
+                #18c8d5,
+                #7258e8
+            );
+
     }
 
 
@@ -268,57 +497,122 @@
        SECCIONES
        ===================================================== */
 
-    #descoapp-corporate-showcase
-    .desco-corporate-section {
-        width: 100%;
+    #descoapp-corporate-showcase .dc-section {
 
-        box-sizing: border-box;
+        margin: 0 0 15px;
 
-        margin: 0;
-
-        padding: 6px 0;
     }
 
 
     #descoapp-corporate-showcase
-    .desco-section-title {
-        width: 100%;
+    .dc-offers-section {
 
-        margin: 0 0 6px;
+        margin-bottom: 4px;
 
-        text-align: center;
-
-        font-size: 0.55rem;
-
-        line-height: 1.2;
-
-        font-weight: 800;
-
-        letter-spacing: 0.13em;
-
-        color: #385066;
     }
 
 
     /* =====================================================
-       CONTENEDOR CARDS
+       CABECERA DE SECCIÓN
        ===================================================== */
 
     #descoapp-corporate-showcase
-    .desco-corporate-cards {
+    .dc-section-header {
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        padding:
+            0 3px
+            7px;
+
+    }
+
+
+    #descoapp-corporate-showcase
+    .dc-kicker {
+
+        display: block;
+
+        margin-bottom: 2px;
+
+        font-size: 0.41rem;
+
+        line-height: 1;
+
+        font-weight: 900;
+
+        letter-spacing: 0.14em;
+
+        color: #19a2ca;
+
+    }
+
+
+    #descoapp-corporate-showcase
+    .dc-section-header h3 {
+
+        margin: 0;
+
+        font-size: 0.67rem;
+
+        line-height: 1.1;
+
+        font-weight: 800;
+
+        color: #263849;
+
+    }
+
+
+    #descoapp-corporate-showcase
+    .dc-section-icon {
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        width: 24px;
+
+        height: 24px;
+
+        border-radius: 8px;
+
+        font-size: 0.72rem;
+
+        color: #168ec8;
+
+        background:
+            linear-gradient(
+                145deg,
+                rgba(0,207,255,0.12),
+                rgba(116,85,235,0.09)
+            );
+
+        box-shadow:
+            inset 0 1px 0
+            rgba(255,255,255,0.9);
+
+    }
+
+
+    /* =====================================================
+       LISTA
+       ===================================================== */
+
+    #descoapp-corporate-showcase .dc-list {
+
         display: flex;
 
         flex-direction: column;
 
-        width: 100%;
+        gap: 7px;
 
-        gap: 5px;
-
-        box-sizing: border-box;
-
-        margin: 0;
-
-        padding: 0;
     }
 
 
@@ -326,171 +620,170 @@
        CARD
        ===================================================== */
 
-    #descoapp-corporate-showcase
-    .desco-corporate-card {
+    #descoapp-corporate-showcase .dc-card {
+
+        position: relative;
+
         display: flex;
 
         align-items: center;
 
         width: 100%;
 
-        height: 47px;
-
-        min-height: 47px;
-
-        max-height: 47px;
+        min-height: 56px;
 
         box-sizing: border-box;
 
-        padding: 5px 7px;
+        padding:
+            7px 8px;
 
-        margin: 0;
+        border-radius: 15px;
 
-        overflow: hidden;
-
-        border-radius: 12px;
-
-        border: 1px solid rgba(255, 255, 255, 0.95);
+        border:
+            1px solid
+            rgba(255,255,255,0.95);
 
         background:
             linear-gradient(
                 145deg,
-                rgba(255, 255, 255, 0.96),
-                rgba(244, 249, 252, 0.94)
+                rgba(255,255,255,0.94),
+                rgba(242,249,252,0.82)
             );
 
         box-shadow:
-            0 4px 10px rgba(25, 70, 90, 0.08);
+            0 5px 14px
+            rgba(25,75,98,0.07),
+
+            inset 0 1px 0
+            rgba(255,255,255,0.95);
+
+        overflow: hidden;
 
         animation:
-            dcCardIn 500ms
-            cubic-bezier(.22, .8, .25, 1)
+            dcCardIn
+            550ms
+            cubic-bezier(.22,.8,.25,1)
             both;
 
         animation-delay:
-            var(--desco-delay, 0ms);
+            var(--dc-delay, 0ms);
+
+        transition:
+            transform .25s ease,
+            box-shadow .25s ease;
+
+    }
+
+
+    #descoapp-corporate-showcase
+    .dc-card::before {
+
+        content: "";
+
+        position: absolute;
+
+        top: 0;
+
+        left: 0;
+
+        width: 3px;
+
+        height: 100%;
+
+        border-radius: 4px;
+
+        background:
+            linear-gradient(
+                180deg,
+                #00cfc5,
+                #239ff5
+            );
+
+        opacity: 0.65;
+
+    }
+
+
+    #descoapp-corporate-showcase
+    .dc-card-oferta::before {
+
+        background:
+            linear-gradient(
+                180deg,
+                #7658ee,
+                #a54be8
+            );
+
+    }
+
+
+    #descoapp-corporate-showcase
+    .dc-card:hover {
+
+        transform:
+            translateX(3px);
+
+        box-shadow:
+            0 9px 20px
+            rgba(25,75,98,0.11);
+
     }
 
 
     /* =====================================================
-       IMAGEN
+       LOGO DE CARD
        ===================================================== */
 
     #descoapp-corporate-showcase
-    .desco-card-image {
-        flex: 0 0 36px;
+    .dc-card-logo {
 
-        width: 36px;
-        height: 36px;
+        flex: 0 0 40px;
 
-        min-width: 36px;
-        min-height: 36px;
+        width: 40px;
 
-        margin-right: 8px;
-
-        padding: 3px;
-
-        box-sizing: border-box;
+        height: 40px;
 
         display: flex;
 
         align-items: center;
+
         justify-content: center;
 
-        border-radius: 9px;
+        margin-right: 9px;
+
+        border-radius: 11px;
+
+        background:
+            rgba(255,255,255,0.82);
 
         overflow: hidden;
 
-        background:
-            rgba(255, 255, 255, 0.82);
+        box-shadow:
+            inset 0 1px 0
+            rgba(255,255,255,1);
+
     }
 
 
     #descoapp-corporate-showcase
-    .desco-card-image img {
+    .dc-card-logo img {
+
         display: block;
 
         width: 100%;
+
         height: 100%;
 
         max-width: 100%;
+
         max-height: 100%;
+
+        padding: 5px;
+
+        box-sizing: border-box;
 
         object-fit: contain;
 
-        margin: 0;
-        padding: 0;
-    }
-
-
-    /* =====================================================
-       NOMBRE
-       ===================================================== */
-
-    #descoapp-corporate-showcase
-    .desco-card-name {
-        flex: 1 1 auto;
-
-        min-width: 0;
-
-        margin: 0;
-        padding: 0;
-
-        overflow: hidden;
-
-        text-overflow: ellipsis;
-
-        white-space: nowrap;
-
-        text-align: left;
-
-        font-size: 0.59rem;
-
-        line-height: 1.15;
-
-        font-weight: 700;
-
-        color: #172033;
-    }
-
-
-    /* =====================================================
-       ETIQUETA
-       ===================================================== */
-
-    #descoapp-corporate-showcase
-    .desco-card-tag {
-        flex: 0 0 auto;
-
-        margin-left: 5px;
-
-        padding: 3px 5px;
-
-        border-radius: 999px;
-
-        font-size: 0.40rem;
-
-        line-height: 1;
-
-        font-weight: 800;
-
-        letter-spacing: 0.03em;
-
-        color: #1689c4;
-
-        background:
-            rgba(0, 174, 255, 0.08);
-
-        white-space: nowrap;
-    }
-
-
-    #descoapp-corporate-showcase
-    .desco-card-tag.oferta {
-        color: #7057d8;
-
-        background:
-            rgba(112, 87, 216, 0.08);
     }
 
 
@@ -499,68 +792,164 @@
        ===================================================== */
 
     #descoapp-corporate-showcase
-    .desco-card-placeholder {
+    .dc-placeholder {
+
         display: flex;
 
         align-items: center;
+
         justify-content: center;
 
         width: 28px;
+
         height: 28px;
 
-        border-radius: 8px;
+        border-radius: 9px;
 
         font-size: 0.72rem;
 
-        font-weight: 800;
+        font-weight: 900;
 
-        color: #1689c4;
+        color: #168dc6;
 
         background:
-            rgba(0, 174, 255, 0.08);
+            rgba(0,174,255,0.08);
+
     }
 
 
     /* =====================================================
-       MENSAJE VACÍO
+       INFORMACIÓN
        ===================================================== */
 
     #descoapp-corporate-showcase
-    .desco-empty-card {
-        width: 100%;
+    .dc-card-info {
 
-        box-sizing: border-box;
+        min-width: 0;
 
-        padding: 9px 6px;
+        flex: 1 1 auto;
 
-        text-align: center;
-
-        border-radius: 11px;
-
-        background:
-            rgba(255, 255, 255, 0.70);
     }
 
 
     #descoapp-corporate-showcase
-    .desco-empty-card strong {
+    .dc-card-info strong {
+
         display: block;
 
-        font-size: 0.56rem;
+        overflow: hidden;
 
-        color: #1689c4;
+        text-overflow: ellipsis;
+
+        white-space: nowrap;
+
+        margin: 0;
+
+        font-size: 0.57rem;
+
+        line-height: 1.2;
+
+        font-weight: 800;
+
+        color: #243342;
+
     }
 
 
     #descoapp-corporate-showcase
-    .desco-empty-card small {
+    .dc-card-info span {
+
         display: block;
 
         margin-top: 3px;
 
-        font-size: 0.47rem;
+        font-size: 0.44rem;
 
-        color: #697783;
+        line-height: 1;
+
+        color: #84929c;
+
+    }
+
+
+    /* =====================================================
+       FLECHA
+       ===================================================== */
+
+    #descoapp-corporate-showcase
+    .dc-card-arrow {
+
+        flex: 0 0 20px;
+
+        width: 20px;
+
+        height: 20px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        margin-left: 5px;
+
+        border-radius: 50%;
+
+        font-size: 0.75rem;
+
+        font-weight: 700;
+
+        color: #1894c9;
+
+        background:
+            rgba(0,174,255,0.07);
+
+    }
+
+
+    .dc-card-oferta .dc-card-arrow {
+
+        color: #7658df;
+
+        background:
+            rgba(118,88,223,0.07);
+
+    }
+
+
+    /* =====================================================
+       VACÍO
+       ===================================================== */
+
+    #descoapp-corporate-showcase .dc-empty {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 8px;
+
+        padding: 12px;
+
+        border-radius: 13px;
+
+        background:
+            rgba(255,255,255,0.6);
+
+        color: #73828d;
+
+        font-size: 0.5rem;
+
+    }
+
+
+    #descoapp-corporate-showcase
+    .dc-empty span {
+
+        color: #18a9d0;
+
+        font-size: 0.8rem;
+
     }
 
 
@@ -568,70 +957,173 @@
        FOOTER
        ===================================================== */
 
-    #descoapp-corporate-showcase
-    .desco-corporate-footer {
-        width: 100%;
+    #descoapp-corporate-showcase .dc-footer {
 
-        box-sizing: border-box;
+        flex: 0 0 auto;
 
-        margin-top: 5px;
-
-        padding: 7px 4px 2px;
+        padding:
+            9px
+            14px
+            13px;
 
         text-align: center;
 
         border-top:
-            1px solid rgba(80, 130, 155, 0.12);
+            1px solid
+            rgba(67,111,135,0.10);
+
+        background:
+            rgba(255,255,255,0.24);
+
     }
 
 
     #descoapp-corporate-showcase
-    .desco-corporate-footer span {
+    .dc-footer-line {
+
+        width: 42px;
+
+        height: 2px;
+
+        margin: 0 auto 6px;
+
+        border-radius: 999px;
+
+        background:
+            linear-gradient(
+                90deg,
+                #00d8c7,
+                #239ff5,
+                #7658e8
+            );
+
+    }
+
+
+    #descoapp-corporate-showcase
+    .dc-footer strong {
+
         display: block;
 
-        font-size: 0.56rem;
+        font-size: 0.49rem;
 
-        font-weight: 800;
+        font-weight: 900;
 
-        letter-spacing: 0.12em;
+        letter-spacing: 0.15em;
 
-        color: #1689c4;
+        color: #168dc6;
+
     }
 
 
     #descoapp-corporate-showcase
-    .desco-corporate-footer small {
+    .dc-footer span {
+
         display: block;
 
         margin-top: 3px;
 
-        font-size: 0.46rem;
+        font-size: 0.42rem;
 
-        color: #697783;
+        color: #788792;
+
     }
 
 
     /* =====================================================
-       ANIMACIÓN
+       ANIMACIONES
        ===================================================== */
+
+    @keyframes dcLogoFloat {
+
+        0%,
+        100% {
+
+            transform:
+                translateY(0);
+
+        }
+
+        50% {
+
+            transform:
+                translateY(-2px);
+
+        }
+
+    }
+
+
+    @keyframes dcLogoGlow {
+
+        0%,
+        100% {
+
+            opacity: 0.55;
+
+            transform:
+                scale(0.9);
+
+        }
+
+        50% {
+
+            opacity: 1;
+
+            transform:
+                scale(1.08);
+
+        }
+
+    }
+
+
+    @keyframes dcPulse {
+
+        0%,
+        100% {
+
+            opacity: 0.55;
+
+            transform:
+                scale(0.85);
+
+        }
+
+        50% {
+
+            opacity: 1;
+
+            transform:
+                scale(1.15);
+
+        }
+
+    }
+
 
     @keyframes dcCardIn {
 
-        0% {
+        from {
+
             opacity: 0;
 
             transform:
                 translateY(8px)
-                scale(0.97);
+                scale(0.98);
+
         }
 
-        100% {
+        to {
+
             opacity: 1;
 
             transform:
                 translateY(0)
                 scale(1);
+
         }
+
     }
 
 }
@@ -644,25 +1136,49 @@
 @media (min-width: 1500px) {
 
     #descoapp-corporate-showcase {
-        left: calc(50% - 545px);
 
-        width: 230px;
+        left:
+            calc(50% - 540px);
 
-        max-width: 230px;
+        width: 245px;
+
+        max-width: 245px;
+
     }
 
 }
 
 
 /* =========================================================
-   MOBILE / TABLET
+   TABLET / MOBILE
    COMPLETAMENTE OCULTO
    ========================================================= */
 
 @media (max-width: 1099px) {
 
     #descoapp-corporate-showcase {
+
         display: none !important;
+
+    }
+
+}
+
+
+/* =========================================================
+   REDUCIR ANIMACIONES
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    #descoapp-corporate-showcase *,
+    #descoapp-corporate-showcase *::before,
+    #descoapp-corporate-showcase *::after {
+
+        animation: none !important;
+
+        transition: none !important;
+
     }
 
 }
