@@ -39,6 +39,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   let current = 0;
   let progressTimer = null;
 
+
+  const VISTAS_BASE = 1000; /*ajuste vistas nuevo pintadas*/
   // =========================================================
   // ESTADO DE SONIDO
   // =========================================================
@@ -125,7 +127,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function showViewCount(v) {
     if (viewCountEl) {
-      viewCountEl.textContent = formatViews(v.vistas || 0);
+      /*viewCountEl.textContent = formatViews(v.vistas || 0);   se comento para poner la de abajo vistas new*/
+      viewCountEl.textContent = formatViews(VISTAS_BASE + (v.vistas || 0));
     }
   }
 
@@ -157,7 +160,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   function animateViewCount(to) {
     if (!viewCountEl) return;
 
-    viewCountEl.textContent = formatViews(to);
+    /*viewCountEl.textContent = formatViews(to); se  comento y se puso la deabajovistas new videos*/
+    viewCountEl.textContent = formatViews(VISTAS_BASE + (to || 0));
 
     viewCountEl.classList.remove("bump");
 

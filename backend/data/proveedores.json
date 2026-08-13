@@ -47,7 +47,7 @@
     "banner":"/img/p3/banner/iniciobanner.jpg",
     "colorDetalles": "#42A5F5",
     "detalles": "Nuestro tope de pedido es de $ 100.000\nDescuentos hoy\nestamos ubicados  en POPAYAN ",
-    "visible": true,
+    "visible": false,
     "catalogoDisponible": false,
 
      "mensaje": "🚧 Estamos mejorando este catálogo. Muy pronto volverá a estar disponible. Mientras tanto te invitamos a visitar nuestros demás proveedores."
@@ -65,7 +65,7 @@
     "descripcion": "Snacks, bebidas y productos comestibles a toda hora .",
     "color": "#E3F2FD",
     "banner":"/img/plataforma/tiendafrente.jpg",
-    "colorDetalles": "#ff6f00",
+    "colorDetalles": "#1565C0",
     "detalles": "Tope de pedido $40.000\nDías de entrega: Lunes, Miércoles y Viernes\nPopayán\nPago contra entrega",
     "visible": true,
     "catalogoDisponible": true,
