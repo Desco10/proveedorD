@@ -89,50 +89,48 @@ const Compartir = (() => {
     // ==========================
     async function compartir(producto) {
 
-        const url = crearUrl(producto);
+    const url = crearUrl(producto);
 
-        if (!url) return;
+    if (!url) return;
 
-        const datos = {
+    const datos = {
 
-            title: producto.nombre,
+        title: producto.nombre,
 
-            text: producto.descripcion || producto.nombre,
+        url
 
-            url
+    };
 
-        };
+    if (navigator.share) {
 
-        if (navigator.share) {
+        try {
 
-            try {
+            await navigator.share(datos);
 
-                await navigator.share(datos);
+        } catch (e) {
 
-            } catch (e) {
-
-                console.log("Compartir cancelado");
-
-            }
-
-        } else {
-
-            copiar(producto);
+            console.log("Compartir cancelado");
 
         }
 
+    } else {
+
+        copiar(producto);
+
     }
 
-    return {
+}
+    
+return {
 
-        crearSlug,
+    crearSlug,
 
-        crearUrl,
+    crearUrl,
 
-        copiar,
+    copiar,
 
-        compartir
+    compartir
 
-    };
+};
 
 })();
