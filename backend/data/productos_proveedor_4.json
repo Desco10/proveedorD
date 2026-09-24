@@ -542,7 +542,7 @@
     "id": 56,
     "nombre": " Amoxicilina Suspencion 45mg ",
     "precio": "$6.500 (Unidad)",
-    "imagen": "img/p4/produc/55-amoxsuspencion.PNg",
+    "imagen": "img/p4/produc/55-amoxsuspencion.png",
     "descripcion": "Amoxicilina Suspensión 45 mg/ml: contiene amoxicilina (antibiótico del grupo de las penicilinas); sirve para tratar infecciones bacterianas en niños, incluyendo respiratorias, urinarias y de oído, en presentación líquida de fácil dosificación.",
     "oferta": true,
     "proveedorId": 4
@@ -836,7 +836,7 @@
     "id": 85,
     "nombre": "Cepillo Colgate",
     "precio": "$26.000 (display x 12)",
-    "imagen": "img/p4/produc/84-Cepillo COLGATE.jpg",
+    "imagen": "img/p4/produc/84-CEPILLO COLGATE.jpg",
     "descripcion": "Cepillo Colgate: producto de higiene bucal con cerdas suaves o medias y mango ergonómico; sirve para limpiar los dientes y encías removiendo placa y residuos.",
     "oferta": true,
     "proveedorId": 4
@@ -1959,20 +1959,9 @@
     "oferta": true,
     "proveedorId": 4
 
-  },
-  
-  {
-   "id": 186,
-    "nombre": " catalogo",
-    "oculto": true,
-    "precio": "$49.078 ( Paca x 24 )",
-    "imagen": "img/p4/produc/178-ponylata.png",
-    "descripcion": "Pony Malta (botella): bebida maltada sin alcohol con maltas y extractos de malta de cebada; sirve como bebida energética y nutritiva, ideal para hidratación y aporte de carbohidratos.",
-    "oferta": true,
-    "proveedorId": 4
-    
   }
-
+  
+  
 
 
 
