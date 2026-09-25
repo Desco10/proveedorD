@@ -299,7 +299,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   // =========================================================
 
   videoEl.addEventListener("timeupdate", () => {
-
+ 
+    
     if (videoEl.duration) {
 
       const percent =
@@ -309,13 +310,23 @@ document.addEventListener("DOMContentLoaded", async () => {
         timeBarFill.style.width = percent + "%";
       }
 
+      // AÑADIDO: ahora progressBar se sincroniza con el tiempo real del video
+    if (progressBar) {
+      progressBar.style.width = percent + "%";
+    }
+
       if (currentTimeEl) {
         currentTimeEl.textContent =
           formatTime(videoEl.currentTime);
       }
     }
   });
-
+  
+  // AÑADIDO: pasar al siguiente video solo cuando terminó realmente,
+// no cuando un cronómetro cree que ya pasó el tiempo.
+videoEl.addEventListener("ended", () => {
+  nextVideo();
+});
   // =========================================================
   // BUFFER
   // =========================================================
@@ -932,40 +943,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   // =========================================================
 
   function startProgress(duration) {
-
-    const start = performance.now();
-
-    clearInterval(progressTimer);
-
-    progressTimer = setInterval(() => {
-
-      // Si el video está pausado manualmente,
-      // no continuamos avanzando el progreso.
-      if (videoEl.paused) {
-        return;
-      }
-
-      const elapsed =
-        performance.now() - start;
-
-      const pct =
-        Math.min(
-          100,
-          (elapsed / (duration * 1000)) * 100
-        );
-
-      progressBar.style.width =
-        pct + "%";
-
-      if (pct >= 100) {
-
-        clearInterval(progressTimer);
-
-        nextVideo();
-      }
-
-    }, 100);
-  }
+  // Ya no usamos un cronómetro independiente para avanzar el video.
+  // El progreso real ahora lo maneja el listener de "timeupdate",
+  // y el cambio de video lo maneja el evento "ended" (más abajo).
+  // Se conserva esta función vacía para no romper la llamada
+  // que ya existe en onloadedmetadata: startProgress(dur);
+  clearInterval(progressTimer);
+}
 
   // =========================================================
   // SIGUIENTE VIDEO
