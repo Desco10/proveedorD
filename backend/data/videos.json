@@ -5,7 +5,7 @@
     "title": "Ofertas de DescoApp",
     "proveedorId": 1,
     "thumbnail": "./images/descoapp_thumb.jpg",
-    "vistas": 0
+    "vistas": 2
   },
   {
     "id": "v2",
@@ -13,7 +13,7 @@
     "title": "Auténtica Cosméticos - Catálogo",
     "proveedorId": 2,
     "thumbnail": "./images/autentica_thumb.jpg",
-    "vistas": 0
+    "vistas": 1
   },
   {
     "id": "v3",
@@ -21,7 +21,7 @@
     "title": "Bimbo Promociones para Tiendas",
     "proveedorId": 3,
     "thumbnail": "./img/apronax.jpg",
-    "vistas": 0
+    "vistas": 1
   },
   {
     "id": "v4",
@@ -29,7 +29,7 @@
     "title": "DESCO TIENDAS",
     "proveedorId": 4,
     "thumbnail": "./img/BONFIES.jpg",
-    "vistas": 0
+    "vistas": 1
   },
   {
     "id": "v5",
@@ -37,6 +37,6 @@
     "title": "DESCO TIENDAS",
     "proveedorId": 4,
     "thumbnail": "./img/advimax.jpg",
-    "vistas": 0
+    "vistas": 1
   }
 ]

@@ -4,7 +4,8 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const compression = require("compression");
-
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
 const app = express();
 
 
@@ -17,6 +18,9 @@ const ogMetaMiddleware = require("./og-meta"); // archivo que contiene la lógic
 app.disable("x-powered-by");
 app.set("trust proxy", 1);
 app.set("etag", "strong");
+app.use(helmet({
+  contentSecurityPolicy: false
+}));
 
 // =====================
 // MIDDLEWARES GLOBALES
@@ -40,6 +44,19 @@ app.use(compression({
   level: 6,
   threshold: 1024
 }));
+
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 300,
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+  message: {
+    ok: false,
+    message: "Demasiadas solicitudes. Intenta nuevamente más tarde."
+  }
+});
+
+app.use("/api", apiLimiter);
 
 // =====================
 // META TAGS OG (compartir productos)
